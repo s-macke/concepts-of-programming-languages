@@ -3,12 +3,10 @@ Concepts of Programming Languages
 31 Oct 2019
 Tags: go, programming, master
 
-Dr.-Ing. Florian Lautenschlager
+Bernhard Saumweber
 Rosenheim Technical University
-(florian.lautenschlager|johannes.weigend)@qaware.de
+bernhard.saumweber@qaware.de
 http://www.qaware.de
-
-
 
 * Focus of today's lecture: Practice your GO-Skills
 - on something new what is called _parsers_ (high level perspective - i am a parser-🐣)
