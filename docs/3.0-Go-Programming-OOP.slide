@@ -49,7 +49,7 @@ http://www.qaware.de
 - Implement the UML diagram with Go
 - The Paint() method should print the names and values of the fields to the console
 - Allocate an array of polymorph objects and call Paint() in a loop 
-.link https://github.com/jweigend/concepts-of-programming-languages/blob/master/docs/exercises/Exercise3.md 
+.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise3.md
 
 * Questions
 - What is the difference between inheritance in Java and embedding in Go?

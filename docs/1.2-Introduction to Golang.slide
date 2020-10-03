@@ -28,6 +28,7 @@ http://www.qaware.de
 
 * Introduction to Golang
 Rob Pike @ Google 2009 (60 Min)
+
 .link https://www.youtube.com/watch?v=rKnDgT73v8s
 .image img/01-go-programming-Language.png 450 700
 
@@ -37,12 +38,12 @@ Rob Pike @ Google 2009 (60 Min)
 - Discuss your personal opinions in a group of students!
 
 * Exercise 1
-.link https://github.com/jweigend/concepts-of-programming-languages/blob/master/docs/exercises/Exercise1.md
+.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise1.md
 .image img/01-exercise.png 500 700
 
 * See also
 
-.link https://github.com/jweigend/concepts-of-programming-languages
+.link https://github.com/0xqab/concepts-of-programming-languages
 .link https://golang.org/
 .link https://golang.org/doc/
 
