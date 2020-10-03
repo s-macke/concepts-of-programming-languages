@@ -12,7 +12,7 @@ http://www.qaware.de
 - Go is an open source programming language for distributed and parallel systems
 - Go addresses the problems of C ++ backend development at Google
 - The Go core team is prominent: Robert Griesheimer (Hotspot VM), Ken Thompson (UX / B) and Rob Pike (UTF-8)
-- Go is actively developed since 2008 (current version 1.11)
+- Go is actively developed since 2008 (current version 1.15)
 - Go is *THE* language behind the Cloud Native Stack
 .link https://www.cncf.io/
 .image ./img/01-cncf-projects.png 100 1024
