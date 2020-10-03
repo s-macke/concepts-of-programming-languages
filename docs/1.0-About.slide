@@ -73,6 +73,8 @@ Github: PDFs, Sources, Slides (Go Present Tool)
 * Semester Work
 15 Minutes presentation + 5-10 pages Asciidoc document (written in English)
 
+Examples:
+
 - Compare Go *OOP* (Object Oriented Programming) with:
     Smalltalk 
     C++ 
@@ -84,9 +86,7 @@ Github: PDFs, Sources, Slides (Go Present Tool)
 - Compare Go *FP* (Functional Programming) with:
     Haskell 
     Clojure 
-    F# 
-
-* Semester Work
+    F#
 
 - Compare Go *SP* (Systems Programming) with:
     C
@@ -100,9 +100,7 @@ Github: PDFs, Sources, Slides (Go Present Tool)
     Erlang 
     Scala Actors 
     D 
-    Occam 
-
-* Semester Work
+    Occam
 
 - Compare Go *Distributed* *Programming* with:
     JavaScript / NodeJS
