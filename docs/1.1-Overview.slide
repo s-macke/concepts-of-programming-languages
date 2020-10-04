@@ -23,7 +23,7 @@ http://www.qaware.de
 .link https://en.wikipedia.org/wiki/List_of_programming_languages_by_type More Languages
 
 : Imperativ = Skripte schreiben
-: Prozedural = Aufspalten in Teilprogramme, Daten und Routinen trennen
+: Prozedural = Aufspalten in Teilprogramme, Daten und Routinen trennen (auch: *Modular*)
 : OOP = Daten+Routinen sind Einheit! (Im Business machen wir zwar OOP, aber eigentlich nur prozedural)
 : Deklarativ = nicht WIE, sondern WAS (kein Lösungsweg, sondern Ergebnis)
 : Funktional = Funktion als First Order Type, Seiteneffektfrei
@@ -48,15 +48,15 @@ http://www.qaware.de
 - Platform Dependent Compiler vs. Cross Compiler
 
 : Folie noch mal auflegen und mit Video vergleichen!
-: Golang: strongly static typed, compiled, parallel, static linked
+: Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
 : Golang: platform dependent assembler & cross compiler
 
 * Some Thoughts
 - There are many solutions for a given problem
-- The "best" language is nothing without a proper ecosystem (Libraries, Examples, Community)
+- The "best" language is nothing without a proper ecosystem (Libraries, Examples, Community, Developers)
 - There are straight forward choices for a given platform (Mac: Swift + Objectiv-C, Linux: C + Python, Android: Java)
 - Don't expect "Magic" from programming Languages
 - Clean code and good programming is orthogonal to the language
 - Learn more than one programming language at a professional level
 
-: Ablehnung von Kotlin wegen mangelnden Entwicklern und Mächtigkeit
+: z.B. Ablehnung von Kotlin wegen mangelnden Entwicklern und Mächtigkeit
