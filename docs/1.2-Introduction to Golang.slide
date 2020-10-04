@@ -11,6 +11,8 @@ http://www.qaware.de
 * Gopher
 .image https://talks.golang.org/2012/10things/gopher.jpg
 
+: Taschenratte (heimisch in Mittel- und Nordamerika)
+
 * Why Go?
 - Go is the major language behind the Cloud Native Stack
 .link https://www.cncf.io/
@@ -18,6 +20,11 @@ http://www.qaware.de
 - The most important components are written in Go: Docker, Kubernetes, etcd, Prometheus, Grafana, ...
 - Go is Open Source and maintained by Google
 - Go is a distributed, parallel language designed for systems programming at Google to solve the problems of C++ code.
+
+: 2007: Start der Entwicklung: Robert Griesemer, Rob Pike und Ken Thompson
+: 2009: Präsentation (Video inc)
+: 2012: Version 1
+: 2014: Erste Gopher-Konferenz
 
 * Hello World
 .play ../basics/hello/main.go
@@ -36,6 +43,13 @@ Rob Pike @ Google 2009 (60 Min)
 - What makes Go different to other Languages? 
 - What makes Go similar to other Languages?
 - Discuss your personal opinions in a group of students!
+
+: Paradigmen: nebenläufig, imperativ, strukturiert, modular, objektorientiert
+: Ziele: Kompiliergeschwindigkeit, Nebenläufigkeit, Netzwerk- und Cloudcomputing
+: Keine dynamisch Typumwandlung, Typen müssen immer konvertiert werden
+: Zeiger, aber keine Zeigerarithmetik; Komposition statt Vererbung (Mixin)
+: OOP, aber nicht klassenbasiert; Polymorophie über Interfaces mit dynamische Bindung (zur Laufzeit passende Methode aufgerufen)
+: Nebenläufigkeit: Goroutinen, Channels
 
 * Exercise 1
 .link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise1.md

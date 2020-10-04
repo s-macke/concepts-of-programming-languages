@@ -14,13 +14,20 @@ http://www.qaware.de
 
 * Types of Programming Languages
 - *Imperative*: Assembler as root (Operations and Control Structures)
-- *Declarative:* Domain Specific Languages (HTML, XML, YAML, ...) => Limited in scope. Some are not Turing Complete. 
 - *Procedural* (Control Structures and Procedures): Fortran / Algol / Pascal / *C*
 - *Object* *Oriented* (Classes and Objects): Smalltalk / Objective C / C++ / Eifel / *Java* / C#
-- *Functional* (Lambdas + Closures): Haskell, Erlang, F# 
+- *Declarative:* Domain Specific Languages (HTML, XML, YAML, ...) => Limited in scope. Some are not Turing Complete.
+- *Functional* (Lambdas + Closures): Haskell, Erlang, F#
 - *Logic*: Prolog
 - *Best* *of* *Breed*: Kotlin, Scala, Rust, JS, *Go*
 .link https://en.wikipedia.org/wiki/List_of_programming_languages_by_type More Languages
+
+: Imperativ = Skripte schreiben
+: Prozedural = Aufspalten in Teilprogramme, Daten und Routinen trennen
+: OOP = Daten+Routinen sind Einheit! (Im Business machen wir zwar OOP, aber eigentlich nur prozedural)
+: Deklarativ = nicht WIE, sondern WAS (kein Lösungsweg, sondern Ergebnis)
+: Funktional = Funktion als First Order Type, Seiteneffektfrei
+: Logisch = Aufgabenstellung und Prämissen als logische Ausdrücke
 
 * Areas for Programming Languages
 - Application Programming (small / large scale, web, central, cloud)
@@ -38,7 +45,11 @@ http://www.qaware.de
 - Safe vs. Unsafe (Crash a process or even the system)
 - Simple vs. Complex
 - Platform Independent Bytecode vs. Platform Dependent Assemblercode
-- Plattform Dependent Compiler vs. Cross Compiler
+- Platform Dependent Compiler vs. Cross Compiler
+
+: Folie noch mal auflegen und mit Video vergleichen!
+: Golang: strongly static typed, compiled, parallel, static linked
+: Golang: platform dependent assembler & cross compiler
 
 * Some Thoughts
 - There are many solutions for a given problem
@@ -47,3 +58,5 @@ http://www.qaware.de
 - Don't expect "Magic" from programming Languages
 - Clean code and good programming is orthogonal to the language
 - Learn more than one programming language at a professional level
+
+: Ablehnung von Kotlin wegen mangelnden Entwicklern und Mächtigkeit
