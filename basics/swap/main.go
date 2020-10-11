@@ -21,7 +21,7 @@ func main() {
 	fmt.Printf("After swap2(&a,&b) : a=%d, b=%d\n", a, b)
 	pa, pb := &a, &b
 	swap3(&pa, &pb)
-	fmt.Printf("After swap3(&pa, &pb): a=%d, b=%d, pa=%p, pb, %p\n", a, b, pa, pb)
+	fmt.Printf("After swap3(&pa, &pb): a=%d, b=%d, *pa=%v, *pb=%v\n", a, b, *pa, *pb)
 }
 
 // END0 OMIT

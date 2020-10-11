@@ -47,7 +47,7 @@ http://www.qaware.de
     var ui32  uint32
     var ui64  uint64
     var uiptr uintptr
-    var bt byte          // alias for uint8
+    var bt byte         // alias for uint8
     var r rune          // alias for int32 // represents a Unicode code point
     var f32 float32     // float
     var f64 float64
@@ -55,6 +55,9 @@ http://www.qaware.de
     var c128 complex128
     var st struct {x,z,y int, struct {color int}}
 
+* Complex Numbers
+.play ../basics/complex/complex.go
+.image img/02-complex.png 200 _
 
 * Functions and Control Structures: Example Palindrome
 .code ../basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
@@ -73,9 +76,10 @@ http://www.qaware.de
 * Functions and Control Structures: Example Palindrome (UTF-8)
 .code ../basics/palindrome/palindrome.go /IsPalindrome2/,/END2 OMIT/
 - The rune type is an alias for int32 and can store all UTF-8 characters
-- rune (string) converts a string into a slice of runes
+- `[]rune(string)` converts a string into a slice of runes
 - The range operator has two return values: the position and the current value
-   pos, ch: = range runes
+
+    pos, ch := range runes
 
 * Functions and Control Structures: Example String Reverse (UTF-8)
 .code ../basics/types/strings/strings.go /Reverse/,/End OMIT/
@@ -83,20 +87,20 @@ http://www.qaware.de
 * Arrays and Slices
 - Arrays have a fixed length and can not resized
 - Slices are views to underlying arrays 
-- Slices can be resized (append()) 
+- Slices can be resized (`append()`)
 - The underlying array grows automatically (if needed)
 - Both have a length and a capacity
-  
+
     var array = [3]int{1, 2, 3}
-    fmt.Println(array) // -> [1 2 3]
+    fmt.Println(array)       // -> [1 2 3]
 
-    slice := array[:] // len(slice) == 3, cap(slice) == 4
+    slice := array[0:2]      // len(slice) == 3, cap(slice) == 3
 
-    slice = append(slice, 4) // len(slice) == 4, cap(slice) == 4 
-    slice = append(slice, 5) // len(slice) == 5, cap(slice) == 8 
+    slice = append(slice, 4) // len(slice) == 4, cap(slice) == 6
+    slice = append(slice, 5) // len(slice) == 5, cap(slice) == 6
 
-    fmt.Printf("%v\n", slice) // -> [1 2 3 4, 5]
-    fmt.Printf("%v\n", array) // -> [1 2 3]
+    fmt.Println(slice)       // -> [1 2 3 4 5]
+    fmt.Println(array)       // -> [1 2 3]
 
 * Functions and Control Structures: Example Palindrome (Reverse)
 .code ../basics/palindrome/palindrome.go /IsPalindrome3/,/END3 OMIT/
@@ -104,19 +108,19 @@ http://www.qaware.de
 - Slices, Maps are compared with cmp.Equal 
 
 * Special comparison with the cmp package
-    opt: = cmp.Comparer (func (x, y float64) bool {
-      delta: = math.Abs ​​(x - y)
-      mean: = math.Abs ​​(x + y) / 2.0
-      return delta / mean <0.00001
-    })
+    opt := cmp.Comparer (func (x, y float64) bool {
+      delta := math.Abs(x - y)
+      mean := math.Abs(x + y) / 2.0
+      return delta / mean < 0.00001
+    })
 
-    x: = [] float64 {1.0, 1.1, 1.2, math.Pi}
-    y: = [] float64 {1.0, 1.1, 1.2, 3.14159265359} // Accurate enough to Pi
-    z: = [] float64 {1.0, 1.1, 1.2, 3.1415} // Diverges too far from Pi
-    
-    fmt.Println (cmp.Equal (x, y, opt)) // -> true
-    fmt.Println (cmp.Equal (y, z, opt)) // -> false
-    fmt.Println (cmp.Equal (z, x, opt)) // -> false
+    x: = []float64 {1.0, 1.1, 1.2, math.Pi}
+    y: = []float64 {1.0, 1.1, 1.2, 3.14159265359} // Accurate enough to Pi
+    z: = []float64 {1.0, 1.1, 1.2, 3.1415} // Diverges too far from Pi
+
+    fmt.Println(cmp.Equal(x, y, opt)) // -> true
+    fmt.Println(cmp.Equal(y, z, opt)) // -> false
+    fmt.Println(cmp.Equal(z, x, opt)) // -> false
 
 - Comparator (Comparer) is optional (as in Java)
 
@@ -141,6 +145,12 @@ http://www.qaware.de
 .link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
 .image img/02-exercise.png 500 700
 
+: Unterschied Pointer <-> Java Reference
+: - Ref: Nicht notwendigerweise direkte Pointer (Garbage Collector Mechanik)
+: - Ref: Keine Pointerarithmetik, keine Referenz auf einen Referenz
+: - Ref: Normalerweise stark typisiert
+: - Ref: oft nicht <null>
+
 * public static void
 - Thoughts about language design:
 .link https://www.youtube.com/watch?v=5kj5ApnhPAE
@@ -151,21 +161,21 @@ http://www.qaware.de
 .code ../oop/rational/rational.go /Multiply/,/Multiply OMIT/
 .code ../oop/rational/rational.go /NewRational/,/END2 OMIT/
 
-* The typical OO Syntax (object.method ()) is supported in Go
+* The typical OO Syntax (object.method()) is supported in Go
 .code ../oop/rational/rational_test.go /TestRational/,/END OMIT/
 
 * "ToString" - The Stringer Interface
 .code ../oop/rational/rational.go /Stringer/,/Stringer OMIT/
-  r1: = NewRational (1, 2)
-  fmt.Println (r1) // -> (1/2)
+    r1 := NewRational(1, 2)
+    fmt.Println(r1) // -> (1/2)
 
 - Works for any type
-  type number int64
-  func (n Number) String () string {
-      return fmt.Sprintf (% x, n)
-  }
+    type number int64
+    func (n Number) String() string {
+      return fmt.Sprintf(% x, n)
+    }
 
-* The Base Type for Container is the Empty Interface (interface {})
+* The Base Type for Container is the Empty Interface (interface{})
 .code ../oop/stack/stack.go /Stack/,/END OMIT/
 
 * The Downcast Syntax is similar to a Function Call
