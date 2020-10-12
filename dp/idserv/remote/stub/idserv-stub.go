@@ -6,8 +6,8 @@ package stub
 import (
 	"context"
 
-	"github.com/jweigend/concepts-of-programming-languages/dp/idserv/core"
-	"github.com/jweigend/concepts-of-programming-languages/dp/idserv/remote/idserv"
+	"github.com/0xqab/concepts-of-programming-languages/dp/idserv/core"
+	"github.com/0xqab/concepts-of-programming-languages/dp/idserv/remote/idserv"
 )
 
 // Server is used to implement idserv.IdServer

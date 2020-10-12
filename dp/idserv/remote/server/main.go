@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/jweigend/concepts-of-programming-languages/dp/idserv/remote/idserv"
-	"github.com/jweigend/concepts-of-programming-languages/dp/idserv/remote/stub"
+	"github.com/0xqab/concepts-of-programming-languages/dp/idserv/remote/idserv"
+	"github.com/0xqab/concepts-of-programming-languages/dp/idserv/remote/stub"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

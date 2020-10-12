@@ -16,7 +16,7 @@
 package philosophers
 
 import (
-	"github.com/jweigend/concepts-of-programming-languages/cp/locks/resourcemanager"
+	"github.com/0xqab/concepts-of-programming-languages/cp/locks/resourcemanager"
 )
 
 // =====================================================================================================================

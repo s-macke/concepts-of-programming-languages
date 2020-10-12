@@ -5,8 +5,8 @@
 package client
 
 import (
-	"github.com/jweigend/concepts-of-programming-languages/oop/mail"
-	"github.com/jweigend/concepts-of-programming-languages/oop/mail/util"
+	"github.com/0xqab/concepts-of-programming-languages/oop/mail"
+	"github.com/0xqab/concepts-of-programming-languages/oop/mail/util"
 )
 
 // Registry is the central configration for the service locator

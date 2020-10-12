@@ -10,7 +10,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/jweigend/concepts-of-programming-languages/dp/idserv/remote/idserv"
+	"github.com/0xqab/concepts-of-programming-languages/dp/idserv/remote/idserv"
 	"google.golang.org/grpc"
 )
 

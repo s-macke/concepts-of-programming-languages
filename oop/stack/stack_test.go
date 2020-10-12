@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jweigend/concepts-of-programming-languages/oop/rational"
+	"github.com/0xqab/concepts-of-programming-languages/oop/rational"
 )
 
 func TestStack(t *testing.T) {

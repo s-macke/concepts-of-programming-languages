@@ -20,7 +20,7 @@ package parser
 import (
 	"testing"
 
-	. "github.com/jweigend/concepts-of-programming-languages/oop/boolparser/ast"
+	. "github.com/0xqab/concepts-of-programming-languages/oop/boolparser/ast"
 )
 
 func TestMakeOr(t *testing.T) {
