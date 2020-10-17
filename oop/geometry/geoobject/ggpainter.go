@@ -34,7 +34,6 @@ func GGPaint() {
 	context.SetLineWidth(3)
 
 	objects := []GGPainter{
-		// or with named identifiers
 		Circle{
 			GeoObject: GeoObject{
 				pos:   Position{x: 50, y: 50},
