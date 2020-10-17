@@ -5,10 +5,7 @@
 package mail
 
 type Email struct {
-	From    string
 	To      string
-	Cc      string
-	Bcc     string
 	Subject string
 	Message string
 }

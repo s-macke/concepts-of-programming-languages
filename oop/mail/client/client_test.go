@@ -14,7 +14,7 @@ func init() {
 }
 
 func TestMail(t *testing.T) {
-	err := SendMail("johannes.weigend@qaware.de", "Hello from Go!")
+	err := SendMail("johannes.weigend@qaware.de", "Hello", "Hello from Go!")
 	if err != nil {
 		t.Error("err should have been nil")
 	}
