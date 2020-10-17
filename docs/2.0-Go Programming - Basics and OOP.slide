@@ -148,8 +148,10 @@ http://www.qaware.de
 : Unterschied Pointer <-> Java Reference
 : - Ref: Nicht notwendigerweise direkte Pointer (Garbage Collector Mechanik)
 : - Ref: Keine Pointerarithmetik, keine Referenz auf einen Referenz
+: - Ref: kein Dereferenzieren mit * notwendig
 : - Ref: Normalerweise stark typisiert
 : - Ref: oft nicht <null>
+: - In Go, nil is the zero value for pointers, interfaces, maps, slices, channels and function types, representing an uninitialized value.
 
 * public static void
 - Thoughts about language design:
