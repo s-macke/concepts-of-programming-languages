@@ -9,17 +9,17 @@ import (
 	"github.com/0xqab/concepts-of-programming-languages/oop/mail/util"
 )
 
-// Registry is the central configration for the service locator
+// Registry is the central configuration for the service locator
 var Registry = util.NewRegistry()
 
 // SendMail sends a mail to a receiver.
-func SendMail(address, message string) {
+func SendMail(address, message string) error {
 
 	// Create an implementation for the mail.Sender interface.
 	var sender = Registry.Get("mail.Sender").(mail.Sender)
 
-	mailaddrs := mail.Address{Address: address}
-	sender.SendMail(mailaddrs, message)
+	email := mail.Email{To: address, Message: message}
+	return sender.Send(email)
 }
 
 // EOF OMIT
