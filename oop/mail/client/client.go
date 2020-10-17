@@ -13,12 +13,12 @@ import (
 var Registry = util.NewRegistry()
 
 // SendMail sends a mail to a receiver.
-func SendMail(address, subject, message string) error {
+func SendMail(to, subject, text string) error {
 
 	// Create an implementation for the mail.Sender interface.
 	var sender = Registry.Get("mail.Sender").(mail.Sender)
 
-	email := mail.Email{To: address, Subject: subject, Message: message}
+	email := mail.Message{To: to, Subject: subject, Text: text}
 	return sender.Send(email)
 }
 

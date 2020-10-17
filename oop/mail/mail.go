@@ -4,17 +4,17 @@
 // Package mail contains the Mail API interfaces and datatypes for sending Emails.
 package mail
 
-type Email struct {
+type Message struct {
 	To      string
 	Subject string
-	Message string
+	Text    string
 }
 
 // Sender is a interface to send mails.
 type Sender interface {
 
-	// Send an email to a given address with a subject and message.
-	Send(email Email) error
+	// Send a mail to a given address with a subject and text.
+	Send(message Message) error
 }
 
 // END OMIT

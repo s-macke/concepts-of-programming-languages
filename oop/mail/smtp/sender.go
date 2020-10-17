@@ -15,9 +15,9 @@ type MailSenderImpl struct {
 }
 
 // SendMail sends a mail to a receiver.
-func (m *MailSenderImpl) Send(email mail.Email) error {
-	log.Printf("Sending message with SMTP:\n  To: %v\n  Subject: %v\n  Message: %v\n",
-		email.To, email.Subject, email.Message)
+func (m *MailSenderImpl) Send(message mail.Message) error {
+	log.Printf("Sending message with SMTP:\n  To: %v\n  Subject: %v\n  Text: %v\n",
+		message.To, message.Subject, message.Text)
 	return nil
 }
 

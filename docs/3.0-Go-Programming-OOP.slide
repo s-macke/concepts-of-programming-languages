@@ -25,7 +25,7 @@ http://www.qaware.de
 .play ../oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
 
 * Send Mail with Go: A minimal Interface
-.code ../oop/mail/mail.go /Address/,/END OMIT/
+.code ../oop/mail/mail.go /Message/,/END OMIT/
 - A example interface for a service-oriented component
 
 * A type implements an interface when providing the required methods
