@@ -8,6 +8,36 @@ Rosenheim Technical University
 bernhard.saumweber@qaware.de
 http://www.qaware.de
 
+* Last lecture
+- Types (string, int, bool, float64, ...)
+- Functions and Control Structures
+- Unit Tests
+- Arrays, Slices and Maps
+- Comparison
+- Pointer
+- Type Conversion and Downcast
+- Flag API
+- Stringer Interface
+- OOP: Types, Functions and Interfaces
+- OOP: Receiver
+
+* OOP
+- Classes: data and procedures
+- Objects: instances of classes
+- Class-based vs. Prototype-based
+- Encapsulation
+- Polymorphism
+- Composition, inheritance, and delegation
+- Delegation vs. Consultation or Forwarding
+
+: Class-based: Classes first, e.g. Java. Objects are instantiated based on classes
+: Prototype-based: Objects first, e.g. Javascript. Classes do not exist, but exactly one link to a prototype exists
+: Encapsulation: via upper-/lowercase in Go
+: Polymorphism: implicit in Go
+: Composition: Objects can contain other objects in their instance variables
+: Inheritance: not supported in Go
+: Delegation: evaluating a member of one object (the receiver) in the context of another original object (the sender)
+
 * Embedding
 - Go does not support inheritance: Go supports embedding of other structs.
 .code ../oop/polymorphism/polymorphism.go /Point/,8
@@ -20,6 +50,17 @@ http://www.qaware.de
 - Syntactically it is similar to inheritance in Java
 - Access to embedded field is identical to a normal field inside a struct
 - Overriding of methods is supported, overloading is not!
+: Overloading is generally not possible in Go
+
+* Polymorphism
+.code ../oop/polymorphism/polymorphism.go /ColorPoint/,/END1 OMIT/
+
+    type Stringer interface {
+        String() string
+    }
+
+- Interfaces are implemented implicitly
+- Go supports polymorphism only via interfaces, not through classes
 
 * Interfaces and Polymorphism
 .play ../oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
@@ -35,12 +76,34 @@ http://www.qaware.de
 * The Go interface can be used as in Java
 .code ../oop/mail/client/client.go /Package/,/EOF OMIT/
 
+* Delegation vs. Consultation or Forwarding
+.play ../oop/delegation/delegation.go /A/,/EOF OMIT/
+: prints "a.bar"
+: real delegation should print "b.bar", because delegation means
+: evaluating the receiver member method Foo() of A in the context of the sender object B
+
 * Summary
 - Several interfaces can be put together to form an interface
 - Go does not support inheritance but type embedding (delegation without syntactic ballast)
 - Go supports polymorphism only via interfaces, not through classes
 - Interfaces with one method end with the ending "er" (Stringer, Writer, Reader...)
+
+* Video
 .link https://youtu.be/Ng8m5VXsn8Q?t=414
+: Start at 6:54 (Object orientation in Go)
+: Stop at 32:06 (Concurrency)
+
+* Embedding
+.code ../oop/embedding/embedding.go /Introducer/,/EOE OMIT/
+
+* Embedding (cont.)
+.code ../oop/embedding/embedding.go /Employee/,/EOF OMIT/
+
+* Takeaways
+- Implicit polymorphism means fewer dependencies and no type hierarchy
+- Inheritance can cause weak encapsulation, tight coupling and surprising bugs
+- Struct embedding is still composition, but makes life easier
+- Interface embedding makes mocking easy
 
 * Exercise 3
 .image img/03-exercise.png 600 800
@@ -54,3 +117,9 @@ http://www.qaware.de
 * Questions
 - What is the difference between inheritance in Java and embedding in Go?
 - How does Go support multiple inheritance? Is is supported for interfaces and types?
+
+* Multiple inheritance
+.code ../oop/multi/multi.go /Fooer/,/END1 OMIT/
+
+* Multiple inheritance (cont.)
+.play ../oop/multi/multi.go /END1 OMIT/,/EOF OMIT/

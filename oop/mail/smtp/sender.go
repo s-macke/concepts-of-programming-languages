@@ -5,9 +5,8 @@
 package smtp
 
 import (
-	"log"
-
 	"github.com/0xqab/concepts-of-programming-languages/oop/mail"
+	"log"
 )
 
 // MailSenderImpl is a sender object.

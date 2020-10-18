@@ -14,7 +14,7 @@ func (p Point) String() string {
 
 // ColorPoint extends Point by adding a color field.
 type ColorPoint struct {
-	Point // Embedding simulates inheritance but it is delegation!
+	Point // Embedding simulates inheritance but it is (sort-of) delegation!
 	c     int
 }
 
