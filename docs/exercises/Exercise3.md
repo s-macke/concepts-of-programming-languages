@@ -20,8 +20,8 @@ Implement the following interface:
 ```go
 type Sender interface {
 
-    // Send an email to a given address with a  message.
-    SendMail(address Address, message string)
+	// Send a mail to a given address with a subject and text.
+	Send(message Message) error
 }
 ```
 
@@ -32,8 +32,8 @@ a simple self made service locator registry:
 // Create an implementation for the mail.Sender interface
 var sender = Registry.Get("mail.Sender").(mail.Sender)
 
-mailaddrs := mail.Address{Address:"test@test.com"}
-sender.SendMail(mailaddrs, message)
+email := mail.Message{To: to, Subject: subject, Text: text}
+return sender.Send(email)
 ```
 
 Interface, client and implementation should be in separate packages.
