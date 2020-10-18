@@ -19,9 +19,8 @@ Implement the following interface:
 
 ```go
 type Sender interface {
-
-	// Send a mail to a given address with a subject and text.
-	Send(message Message) error
+  // Send a mail to a given address with a subject and text.
+  Send(message Message) error
 }
 ```
 
