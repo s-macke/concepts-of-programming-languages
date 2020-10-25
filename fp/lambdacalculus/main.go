@@ -86,9 +86,18 @@ func main() {
 		return x(y)(FALSE)
 	}
 
+	OR := func(x fnf, y fnf) fnf {
+		return x(TRUE)(y)
+	}
+
 	fmt.Printf("AND(true, true) = %p\n", AND(TRUE, TRUE))
 	fmt.Printf("AND(true, false) = %p\n", AND(TRUE, FALSE))
 	fmt.Printf("AND(false, true) = %p\n", AND(FALSE, TRUE))
+
+	fmt.Printf("OR(true, true) = %p\n", OR(TRUE, TRUE))
+	fmt.Printf("OR(true, false) = %p\n", OR(TRUE, FALSE))
+	fmt.Printf("OR(false, true) = %p\n", OR(FALSE, TRUE))
+	fmt.Printf("OR(false, false) = %p\n", OR(FALSE, FALSE))
 
 	fmt.Printf("Id = %p\n", ID)
 	fmt.Printf("True = %p\n", TRUE)

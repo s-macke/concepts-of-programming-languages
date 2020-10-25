@@ -11,7 +11,7 @@ Write a Go Programm which shows the following concepts:
 - High Order Functions (functions as parameters or return values)
 - Clojures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
 
-Compare the Syntax with Java and discuss this in a group of students.
+Compare the Syntax with Java.
 
 ## Exercise 5.2 - Functional Composition (g◦f)(x)
 
