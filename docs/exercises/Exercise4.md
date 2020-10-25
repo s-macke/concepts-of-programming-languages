@@ -21,7 +21,7 @@ Use the following grammar definition:
 <or>  ::= '|'
 <and> ::= '&'
 <not> ::= '!'
-<var> ::= '[a-zA-Z0-9]*'
+<var> ::= '[a-zA-Z0-9]+'
 ```
 
 _Note:_ A lexer only uses the lexer rules from the grammar.
@@ -60,7 +60,7 @@ _Reminder:_ Use the following grammar definition:
 <or>  ::= '|'
 <and> ::= '&'
 <not> ::= '!'
-<var> ::= '[a-zA-Z0-9]*'
+<var> ::= '[a-zA-Z0-9]+'
 ```
 
 ### Exercise 4.2.1 - Abstract Syntax Tree (AST)

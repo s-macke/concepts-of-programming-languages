@@ -3,6 +3,7 @@ module github.com/0xqab/concepts-of-programming-languages
 go 1.13
 
 require (
+	github.com/antlr/antlr4 v0.0.0-20201022163248-67e49703c3b3
 	github.com/coreos/etcd v3.3.18+incompatible
 	github.com/fogleman/gg v1.3.0
 	github.com/gogo/protobuf v1.3.1 // indirect

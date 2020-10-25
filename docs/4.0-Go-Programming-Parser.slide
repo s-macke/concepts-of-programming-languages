@@ -33,7 +33,7 @@ http://www.qaware.de
     <or> ::= ‘|’
     <and> ::= ‘&’
     <not> ::= ‘!’
-    <var> ::= ‘[a-zA-Z0-9]*’
+    <var> ::= ‘[a-zA-Z0-9]+’
 - Parser rules: Defines how the _Abstract_ _Syntax_ _Tree_ or _Parse_ _Tree_ is build
     expression ::= <term> {<or> <term>}
     term ::= <factor> {<and> <factor>}
@@ -42,7 +42,7 @@ http://www.qaware.de
     <or> ::= ‘|’
     <and> ::= ‘&’
     <not> ::= ‘!’
-    <var> ::= ‘[a-zA-Z0-9]*’
+    <var> ::= ‘[a-zA-Z0-9]+’
 
 
 

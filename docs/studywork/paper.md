@@ -54,7 +54,7 @@ The resulting parser parses Boolean expressions of the following EBNF grammar.
 <or>  ::= '|'
 <and> ::= '&'
 <not> ::= '!'
-<var> ::= '[a-zA-Z0-9]*'
+<var> ::= '[a-zA-Z0-9]+'
 ```
 
 `A & B | !C` is an example of an expression, that can be parsed by the parser.

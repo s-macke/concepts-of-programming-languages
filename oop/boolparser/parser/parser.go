@@ -22,7 +22,7 @@ import (
 // 	<or>  ::= '|'
 // 	<and> ::= '&'
 // 	<not> ::= '!'
-//  <var> ::= '[a-zA-Z0-9]*'
+//  <var> ::= '[a-zA-Z0-9]+'
 //  ---------------------------------------------------------
 
 // Parser is a recursive decent parser for boolean expressions.
@@ -108,4 +108,4 @@ func isVar(token string) bool {
 }
 
 // Regex for vars.
-var validVar = regexp.MustCompile("[a-zA-Z0-9]*")
+var validVar = regexp.MustCompile("[a-zA-Z0-9]+")
