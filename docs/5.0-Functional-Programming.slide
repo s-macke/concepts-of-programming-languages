@@ -51,6 +51,19 @@ Functional programming supports distributed computing
 
 .play ../fp/functions/main.go /START OMIT/,/EOF OMIT/
 
+* Exercise 5.1 - Warm Up
+Write a Go Programm which shows the following concepts:
+
+- Functions as Variables
+- Anonymous Lambda Functions
+- High Order Functions (functions as parameters or return values)
+- Clojures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
+
+: Clojure/Funktionsabschluss: Eine anonyme Funktion, die Zugriffe auf ihren Erstellungskontext enthält. Beim Aufruf greift die Funktion dann auf diesen Erstellungskontext zu. Dieser Kontext (Speicherbereich, Zustand) ist außerhalb der Funktion nicht referenzierbar, d. h. nicht sichtbar.
+
+* Clojures (Only impure if you modify the closed-over variable)
+.play ../fp/clojures/main.go /intSeq/,/EOF OMIT/
+
 * Many Functional Languages only support Single Argument Functions 
 - Currying : Converting a function with n arguments in n functions with one argument
 
@@ -69,26 +82,44 @@ Functional programming supports distributed computing
 	}
     ADDC(1)(2) -> 3
 
+: Benannt nach Haskell Brooks Curry (1900-1982, USA)
+
 * Functional Composition
 Functions can be composed to new functions
-    g(f(x)) -> (g ◦ f)(x) 
+    g(f(x)) -> (g ◦ f)(x)
 
-        // Function f()
-        f := func(x int) int { 
-            return x * x 
-        }
+    // Function f()
+    f := func(x int) int {
+        return x * x
+    }
 
-        // Function g()
-        g := func(x int) int { 
-            return x + 1 
-        }
+    // Function g()
+    g := func(x int) int {
+        return x + 1
+    }
 
-        // Functional Composition: (g◦f)(x)
-        gf := func(x int) int { 
-            return g(f(x)) 
-        }
-        
-        fmt.Printf("%v\n", gf(2)) // --> 5
+    // Functional Composition: (g◦f)(x)
+    gf := func(x int) int {
+        return g(f(x))
+    }
+
+    fmt.Printf("%v\n", gf(2)) // --> 5
+
+* Exercise 5.2 - Functional Composition (g◦f)(x)
+- Write a Go function to compose two unknown unary functions (one argument and one return value)
+- The functions to compose should be arguments
+- Write a Unit Test for that function
+
+    // Type any makes the code readable
+    type any interface{}
+    type function func(any) any
+
+    compose := ???
+
+    square := func(x any) any { return x.(int) * x.(int) }
+
+    fmt.Printf("%v\n", compose(square, square)(2)) // --> 4*4 = 16
+    fmt.Printf("%v\n", compose(compose(square, square), square)(2)) // --> 256
 
 * Functional Composition (2)
 Functions can be composed with functions as parameters
@@ -98,20 +129,20 @@ Functions can be composed with functions as parameters
     type any interface{}
     type function func(any) any
 
-	compose := func(g, f function) function {
-		return func(x any) any {
-			return g(f(x))
-		}
-	}
+    compose := func(g, f function) function {
+        return func(x any) any {
+    	    return g(f(x))
+        }
+    }
 
     square := func(x any) any { return x.(int) * x.(int) }
-          
+
     fmt.Printf("%v\n", compose(square, square)(2)) // --> 4*4 = 16
-    
     fmt.Printf("%v\n", compose(compose(square, square), square)(2)) // --> 256
-  
-* Clojures (Only impure if you modify the closed-over variable)
-.play ../fp/clojures/main.go /intSeq/,/EOF OMIT/
+
+
+
+
 
 * History: The Lambda Calculus
 .image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
@@ -126,7 +157,7 @@ Hint: To understand this video you will watch it at least three times :-)
 - Pure Functions have no internal state
 - The Lambda Calculus is very different to the Turing Machine in this way
 - The lambda calculus knows only three primitives: Variables (x,y,z), building functions λx.x, applying functions "(λx.x) 5" with values
-- There are no datatypes (number, logical values) - values can be functions, No build in recursion!
+- There are no datatypes (number, logical values) - values can be functions, no built-in recursion!
 - It can encode any computation (Church-Turing thesis)
 - Lambda Calculus is present in most major programming languages
 
@@ -154,6 +185,9 @@ Hint: To understand this video you will watch it at least three times :-)
                 return y
             }
         }
+
+: TRUE is also called Kestrel or Const function (because if called with one argument)
+: FALSE is also called Kite, can be derived from TRUE(ID)
 
 * Application
         fmt.Printf("Id = %p\n", ID)
@@ -198,20 +232,20 @@ Hint: To understand this video you will watch it at least three times :-)
             return f(x)
         }
     }
-  
+
     // Functional Numbers 2
     TWICE := func(f fnf) fnf {
         return func(x fnf) fnf {
             return f(f(x))
         }
     }
- 
-	// Function Numbers 3
-	THRICE := func(f fnf) fnf {
-		return func(x fnf) fnf {
-			return f(f(f(x)))
- 		}
-	}
+
+    // Function Numbers 3
+    THRICE := func(f fnf) fnf {
+        return func(x fnf) fnf {
+            return f(f(f(x)))
+        }
+    }
 
 * Functional Numbers
 	// Functional Numbers SUCCESSOR(N) = N + 1
@@ -259,24 +293,30 @@ Hint: To understand this video you will watch it at least three times :-)
 * Palindrome Problem in Functional (pure) Languages
 
 - Haskell
-   is_palindrome x = x == reverse x
+
+    is_palindrome x = x == reverse x
 
 - Clojure
+
     (defn palindrome? [x]
         (= x (clojure.string/reverse x)))
 
 * Palindrome Problem in Functional (impure) Languages
 
 - F#
+
     let isPalindrome (x: string) =
         let arr = x.ToCharArray()
         arr = Array.rev arr
 
 - Scala
+
     def isPalindrome[A](l: List[A]):Boolean = {
         l == l.reverse
     }
+
 - Go
+
     func IsPalindrome3(x string) bool {
         return x == strings.Reverse(x)
     }
@@ -290,12 +330,14 @@ Hint: To understand this video you will watch it at least three times :-)
 
 * Sample from the Go Standard Library
 - strings.map
+
     // Map returns a copy of the string s with all its characters modified
     // according to the mapping function. If mapping returns a negative value, the character is
     // dropped from the string with no replacement.
     func Map(mapping func(rune) rune, s string) string
 
 - Usage
+
     s := "Hello, world!"
     s = strings.Map(func(r rune) rune {
         return r + 1
@@ -305,6 +347,40 @@ Hint: To understand this video you will watch it at least three times :-)
 * Go does not have an API similar to Java Streams
 - It is possible to build such an API in Go
 .code ../fp/streams/streams_test.go /array/,/lambda/
+
+* Exercise 5.3 - Map / Filter / Reduce
+
+.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-53---map--filter--reduce Exercise 5.3
+Map/Reduce is a famous functional construct implemented in many parallel and distributed collection frameworks like Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq
+
+- Implement a custom M/R API with the following interface:
+
+    type Stream interface {
+        Map(m Mapper) Stream
+        Filter(p Predicate) Stream
+        Reduce(a Accumulator) Any
+    }
+
+- What is the type of Mapper, Predicate and Accumulator?
+- How can you make the types generic, so they work for any type, not only for string?
+
+* Generic Mapper, Predicate and Accumulator
+
+.code ../fp/streams/streams.go /EXERCISE 5.3 START OMIT/,/EXERCISE 5.3 END OMIT/
+
+* Exercise 5.4 - Word Count (WC)
+
+Word Count is a famous algorithm for demonstrating the power of distributed collections and functional programming. Word Count counts how often a word (string) occurs in a collection. It is easy to address that problem with shared state (a map), but this solution does not scale well. The question here is how to use a pure functional algorithm to enable parallel and distributed execution.
+
+After running Word Count, you should get the following result:
+
+    INPUT:  []Any{"a", "a", "b", "b", "D", "a"}
+    OUTPUT: "a:3, b:2, D:1, "
+
+Questions
+
+- How can you implement the problem with the already built Map()/Filter()/Reduce() functions?
+- Write an Unit Test to prove that your solution works as expected!
 
 * Classic Word Count Sample
 .code ../fp/streams/streams_test.go /wordcount/,/ENDWC OMIT/

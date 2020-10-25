@@ -86,7 +86,7 @@ func TestWordCount(t *testing.T) {
 		Reduce(sumInts).([]Pair)
 
 	for _, e := range result {
-		fmt.Printf("%v:%v, ", e.k, e.v)
+		fmt.Printf("%v:%v, ", e.k, e.v) // "a:3, b:2, D:1, "
 	}
 }
 

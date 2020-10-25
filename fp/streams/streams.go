@@ -14,6 +14,7 @@
 // This is a very first draft with no lazy or parallel support.
 package streams
 
+// EXERCISE 5.3 START OMIT
 // Any is a shortcut for the empty interface{}.
 type Any interface{}
 
@@ -26,6 +27,7 @@ type Mapper func(o1 Any) Any
 // Accumulator function returns a combined element.
 type Accumulator func(Any, Any) Any
 
+// EXERCISE 5.3 END OMIT
 // Pair of two values.
 type Pair struct {
 	k Any
