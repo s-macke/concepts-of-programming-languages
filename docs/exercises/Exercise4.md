@@ -42,7 +42,7 @@ that iterates over the tokens.
 
 **Disclaimer:** Feel free you use your very own software design.
 
-🤥 **Write tests! Otherwise it does not happened!** 🤥
+🤥 **Write tests! Otherwise it does not happen!** 🤥
 
 ## Exercise 4.2 - Parser
 
@@ -97,7 +97,7 @@ Notes that might help:
 - Nodes are different but what are the commonalities?
 - Simply follow the rules
 
-🤥 **Write tests! Otherwise it does not happened!** 🤥
+🤥 **Write tests! Otherwise it does not happen!** 🤥
 
 Write a unit test which builds the AST and evaluate the expression with given boolean values for the variables A, B, C.
 
@@ -105,7 +105,7 @@ Write a unit test which builds the AST and evaluate the expression with given bo
 
 Write a recursive descent parser. The parser must implement the grammar rules  (that was enough hint).
 
-🤥 **Write tests! Otherwise it does not happened!** 🤥
+🤥 **Write tests! Otherwise it does not happen!** 🤥
 
 ### Exercise 4.3 Antlr
 
