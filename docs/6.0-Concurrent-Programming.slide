@@ -1,6 +1,6 @@
 Concurrent Programming with Go
 Concepts of Programming Languages
-16 Nov 2020
+2 Nov 2020
 Tags: go, programming, concurrent, go routines, channels
 
 Bernhard Saumweber
@@ -45,25 +45,27 @@ Like launching a function with shell's `&` notation.
 
 * Goroutines are not threads 
 
-(They're a bit like threads, but they're much cheaper.)
-
-Goroutines are multiplexed onto OS threads as required.
-
-When a goroutine blocks the thread will execute other goroutines
-
-IO Calls and calls calls to the Go Standard Library trigger the scheduler
-
--> There are no thread local variables in Go
+- (They're a bit like threads, but they're much cheaper)
+- Goroutines are multiplexed onto OS threads as required
+- When a goroutine blocks the thread will execute other goroutines
+- IO Calls and calls calls to the Go Standard Library trigger the scheduler
+- There are no thread local variables in Go
 
 * Channels
 - Go routines can use channels for safe communication
 - Construct a channel
+
     c := make(chan int)     // buffer size = 0
     c := make(chan int, 10) // buffer size = 10
+
 - Send to channel
+
     c <- 1
+
 - Read from channel
+
     x = <- c
+
 - size = 0 (=default): Sender blocks until a reader requests a value from the channel
 - size = n: Sender is not blocked until the buffer size is reached
 
@@ -78,28 +80,36 @@ Channels are typed values that allow goroutines to synchronize and exchange info
 
 * Channel and Errors
 - Channel can be closed. Readers will return immediately. Successive writes will cause panic.
+
     close(c)
+
 - If a channel was closed, the reader gets "false" as return code (second return value)
+
     x, rc := <-c
+
 - Reading from a channel until closed
-            for {
-                x, ok := <-c
-                if !ok {
-                    break
-                }
-                // do something with x
-            }
-            // channel closed
+
+    for {
+        x, ok := <-c
+        if !ok {
+            break
+        }
+        // do something with x
+    }
+    // channel closed
 
 
 * Fan Out
 - Read tasks from a channel and start parallel processing. Results will be written in a result channel.
 .code ../cp/channels/fan/fanout.go /FanOut/,/EOF OMIT/
 
+: auffächern
+
 * Fan In
 - Merge n channels into one
 .code ../cp/channels/fan/fanin.go /FanIn/,/FanIn OMIT/
 
+: einfächern, zusammenführen
 
 * Select
 
@@ -112,13 +122,14 @@ The `select` statement is like a `switch`, but the decision is based on ability 
 Really.
 
 It's routine to create thousands of goroutines in one program.
-(Once debugged a program after it had created 1.3 million.)
+(not unusual to debug a program after it had created even millions goroutines)
 
 Stacks start small, but grow and shrink as required.
 
 Goroutines aren't free, but they're very cheap.
 
-More information about Go and concurrency
+More information about Go and concurrency:
+
 .link https://youtu.be/f6kdp27TYZs?t=1
 
 
@@ -149,6 +160,7 @@ More information about Go and concurrency
 - If you cant get the second fork, you should immediately release the first one.
 - The table itself should be a Go Routine and return the forks to a requesting philosopher, this makes synchronization easy (the table is single threaded)
 - The philosopher loop looks like this:
+
     // Main loop
     func (p *Philosopher) run() {
         for {
@@ -158,11 +170,13 @@ More information about Go and concurrency
             p.think()
         }
     }
+
 * Wrong Solutions
-There are many wrong solution on the web. 
-Most of them share the problem that the Philosopher picks up the left fork (implemented with channels or locks) and immediately the right fork. 
-The problem arises, when the second fork is in use. There is a potential deadlock, when all Philosophers wait on the second fork. 
-In theory a deadlock occurs if there is a cycle in the Resource Allocation Graph.
+- There are many wrong solution on the web.
+- Most of them share the problem that the Philosopher picks up the left fork (implemented with channels or locks) and immediately the right fork.
+- The problem arises, when the second fork is in use. There is a potential deadlock, when all Philosophers wait on the second fork.
+- In theory a deadlock occurs if there is a cycle in the Resource Allocation Graph.
+
 .link https://play.golang.org/p/rXCotNNY24
 
 * Summary

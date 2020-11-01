@@ -45,6 +45,7 @@ func (p *Philosopher) run() {
 
 // Take forks by channeling our id to the table and wait until the table returns true on the reserved channel.
 func (p *Philosopher) takeForks() {
+	fmt.Printf("Philosopher #%d is getting hungry\n", p.id)
 	// try to get forks from table
 	gotForks := false
 	for !gotForks {
@@ -55,19 +56,18 @@ func (p *Philosopher) takeForks() {
 
 // Put forks by channeling our id to the table. The table is responsible for the put logic.
 func (p *Philosopher) putForks() {
+	fmt.Printf("Philosopher #%d puts down forks\n", p.id)
 	p.table.getPutChannel() <- p.id
 }
 
 // Eating.
 func (p *Philosopher) eat() {
-	fmt.Printf("[->]: Philosopher #%d eats ...\n", p.id)
-	time.Sleep(2 * time.Millisecond)
-	fmt.Printf("[<-]: Philosopher #%d  eat ends.\n", p.id)
+	fmt.Printf("Philosopher #%d starts eating\n", p.id)
+	time.Sleep(2 * time.Second)
 }
 
 // Thinking.
 func (p *Philosopher) think() {
-	fmt.Printf("[->]: Philosopher #%d thinks ...\n", p.id)
-	time.Sleep(3 * time.Millisecond)
-	fmt.Printf("[<-]: Philosopher #%d thinking ends\n", p.id)
+	fmt.Printf("Philosopher #%d is thinking\n", p.id)
+	time.Sleep(3 * time.Second)
 }

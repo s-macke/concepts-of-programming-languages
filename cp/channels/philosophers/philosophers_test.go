@@ -37,5 +37,5 @@ func TestPhilosophers(t *testing.T) {
 	go table.run()
 
 	// wait 1 millisecond --> check output
-	time.Sleep(10 * time.Millisecond)
+	time.Sleep(10 * time.Second)
 }
