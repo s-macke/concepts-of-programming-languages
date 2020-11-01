@@ -43,13 +43,27 @@ A goroutine is a function running independently  in the same address space as ot
 
 Like launching a function with shell's `&` notation.
 
-* Goroutines are not threads 
+* Goroutines are not threads
 
 - (They're a bit like threads, but they're much cheaper)
 - Goroutines are multiplexed onto OS threads as required
 - When a goroutine blocks the thread will execute other goroutines
 - IO Calls and calls calls to the Go Standard Library trigger the scheduler
 - There are no thread local variables in Go
+
+* Lecturer 1: A simple example
+No Goroutine used yet:
+
+.play ../cp/channels/lecturer/lecturer1/main.go /lecturer/,/EOF/
+
+What output do you expect?
+
+* Lecturer 2: First Goroutine
+Let's call `lecturer()` in a Goroutine:
+
+.play ../cp/channels/lecturer/lecturer2/main.go /lecturer/,/EOF/
+
+What output do you expect?
 
 * Channels
 - Go routines can use channels for safe communication
@@ -75,9 +89,6 @@ Channels are typed values that allow goroutines to synchronize and exchange info
 
 .code snippets/cp /make.*chan/,/completedAt/
 
-* Ping Pong 
-.play ../cp/channels/pingpong/pingpong.go /Ball/,/EOF/
-
 * Channel and Errors
 - Channel can be closed. Readers will return immediately. Successive writes will cause panic.
 
@@ -85,7 +96,7 @@ Channels are typed values that allow goroutines to synchronize and exchange info
 
 - If a channel was closed, the reader gets "false" as return code (second return value)
 
-    x, rc := <-c
+    value, ok := <-c
 
 - Reading from a channel until closed
 
@@ -98,12 +109,43 @@ Channels are typed values that allow goroutines to synchronize and exchange info
     }
     // channel closed
 
+* Channels: Deadlocks
+The following code might look good at first sight, but causes a deadlock:
 
-* Fan Out
-- Read tasks from a channel and start parallel processing. Results will be written in a result channel.
-.code ../cp/channels/fan/fanout.go /FanOut/,/EOF OMIT/
+.play ../cp/channels/deadlock/main.go
 
-: auffächern
+Expected output?
+
+* Lecturer 3: Channels
+Let's use channels for communication:
+
+.play ../cp/channels/lecturer/lecturer3/main.go /lecturer/,/EOF/
+
+* Lecturer 4: Channels
+We can also return an (outgoing) channel instead of passing it as parameter:
+
+.play ../cp/channels/lecturer/lecturer4/main.go /lecturer/,/EOF/
+
+* Lecturer 5: Anne & Bart
+We're adding another (slower) lecturer to make it more interesting:
+
+.play ../cp/channels/lecturer/lecturer5/main.go /lecturer/,/EOF/
+
+#* Ping Pong
+#.play ../cp/channels/pingpong/pingpong.go /Ball/,/EOF/
+
+* Lecturer 6: Fan In
+.play ../cp/channels/lecturer/lecturer6/main.go /START/,/EOF/
+
+* Lecturer 7: Select
+.play ../cp/channels/lecturer/lecturer7/main.go /lecturer/,/EOF/
+
+* Select
+The `select` statement is like a `switch`, but the decision is based on ability to communicate rather than equal values.
+
+.code snippets/cp /select/,/}/
+
+Without default case, the select blocks until a message is received on one of the channels.
 
 * Fan In
 - Merge n channels into one
@@ -111,11 +153,11 @@ Channels are typed values that allow goroutines to synchronize and exchange info
 
 : einfächern, zusammenführen
 
-* Select
+* Fan Out
+- Read tasks from a channel and start parallel processing. Results will be written in a result channel.
+.code ../cp/channels/fan/fanout.go /FanOut/,/EOF OMIT/
 
-The `select` statement is like a `switch`, but the decision is based on ability to communicate rather than equal values.
-
-.code snippets/cp /select/,/}/
+: auffächern
 
 * Go really supports concurrency
 
