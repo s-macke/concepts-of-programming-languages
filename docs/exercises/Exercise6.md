@@ -2,13 +2,37 @@
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 6.1 - Warm Up
+## Exercise 6.1 - Generator
 
-Test the Ping-Pong Programm (see slides)
+Write a generator for Fibonacci numbers, i.e. a function that returns a channel where the next Fibonacci number can be read.
+```go
+func main() {
+    fibChan := fib() // <- write func fib
+    for n := 1; n <= 10; n++ {
+        fmt.Printf("The %dth Fibonacci number is %d\n", n, <-fibChan)
+    }
+}
+```
+Also write a test for the `fib()` function.
 
-## Exercise 6.2 - Fan-Out / Fan-In
+## Exercise 6.2 - Timeout
 
-Write tests for the FanOut and FanIn functions (see slides)
+Write a function `setTimeout()` that times out an operation after a given amount of time. Hint: Have a look at the built-in `time.After()` function and make use of the `select` statement.
+```go
+func main() {
+    res, err := setTimeout(func() int {
+        time.Sleep(2000 * time.Millisecond)
+        return 1
+    }, 1*time.Second)
+
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Printf("operation returned %d", res)
+    }
+}
+```
+Also write a test for the `setTimeout()` function.
 
 ## Exercise 6.3 - Dining Philosophers
 

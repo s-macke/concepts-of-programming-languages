@@ -126,6 +126,14 @@ We can also return an (outgoing) channel instead of passing it as parameter:
 
 .play ../cp/channels/lecturer/lecturer4/main.go /lecturer/,/EOF/
 
+
+* Exercise 1: Generator
+Write a generator for Fibonacci numbers, i.e. a function that returns a channel where the next Fibonacci number can be read.
+
+.play ../cp/channels/fibonacci/main.go /MAIN/,/EOF/
+
+Also write a test for the `fib()` function.
+
 * Lecturer 5: Anne & Bart
 We're adding another (slower) lecturer to make it more interesting:
 
@@ -146,6 +154,13 @@ The `select` statement is like a `switch`, but the decision is based on ability 
 .code snippets/cp /select/,/}/
 
 Without default case, the select blocks until a message is received on one of the channels.
+
+* Exercise 2: Timeout
+Write a function `setTimeout()` that times out an operation after a given amount of time. Hint: Have a look at the built-in `time.After()` function and make use of the `select` statement.
+
+.play ../cp/channels/timeout/main.go /MAIN/,/EOF/
+
+Also write a test for the `setTimeout()` function.
 
 * Fan In
 - Merge n channels into one
@@ -188,7 +203,7 @@ More information about Go and concurrency:
 .code ../cp/locks/blockingqueue/blockingqueue.go /Put/,/A2/
 
 
-* Dining Philosophers
+* Exercise 3: Dining Philosophers
 
 .image img/06-dining-philosophers.png 500 600
 
