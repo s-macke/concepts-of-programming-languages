@@ -11,13 +11,11 @@ func setTimeout(task func() int, timeout time.Duration) (int, error) {
 		taskChan <- task()
 	}()
 	timerChan := time.After(timeout)
-	for {
-		select {
-		case result := <-taskChan:
-			return result, nil
-		case <-timerChan:
-			return 0, fmt.Errorf("operation timed out")
-		}
+	select {
+	case result := <-taskChan:
+		return result, nil
+	case <-timerChan:
+		return 0, fmt.Errorf("operation timed out")
 	}
 }
 
