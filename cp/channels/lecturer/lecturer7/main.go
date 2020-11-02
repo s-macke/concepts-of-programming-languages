@@ -22,10 +22,8 @@ func main() {
 	b := lecturer("Bart", 2)
 	for i := 0; i < 10; i++ {
 		select {
-		case msgFromAnne := <-a:
-			fmt.Printf(msgFromAnne)
-		case msgFromBart := <-b:
-			fmt.Printf(msgFromBart)
+		case msgFromAnne := <-a: fmt.Printf(msgFromAnne)
+		case msgFromBart := <-b: fmt.Printf(msgFromBart)
 		}
 	}
 }
