@@ -33,19 +33,23 @@ In a distributed system the following requirements can be met:
 Pick Two: Only two requirements can be met -> CP, AP are typical (CA does not exists)
 .link https://codahale.com/you-cant-sacrifice-partition-tolerance/
 
+: AP = DNS, Cloud Computing
+: CP = Geldautomat
+: CA = RDBMS?
+
 * Securing C and P
 - All known algorithms use the concept of a quorum to detect network partition problems
 - Only the partition with the majority of nodes stay alive to ensure consistency
 - All known algorithms use the concept of a Master or Leader node to control replication
 - All known algorithms use a replicated log and implement a two phase commit
 
+: Consistency & Partition Tolerance
+
 * Two Phase Commit
 Phases:
 
 - Prepare Phase - Data is persisted on all members. Data is not visible but stored.
-
 - Commit Phase - Persisted data will be loaded into memory. Data gets visible.
-
 - This is typically implemented with an append only log (transaction log) and a state machine which reads the log entries and loads them into memory.
 
 * What is Raft?
@@ -93,13 +97,14 @@ The most prominent implementation is the Raft implementation of Etcd (Part of Ku
 This implementation is highly optimized and abstracts from the Raft paper
 
 Other implementations
+
 .link https://github.com/hashicorp/raft
-.link https://github.com/cloudflare/go-raft
-.link https://github.com/peterbourgon/raft
+.link https://github.com/search?q=go-raft
 .link https://raft.github.io/raft.pdf Read the Raft paper for specification
 
 * Is it possible to build your own Raft implementation?
 Requirements and Decisions
+
 - We want to stay as close a possible on the original specification
 - We want to make a Raft cluster local testable (as single process)
 - We want to use gRPC as middleware
