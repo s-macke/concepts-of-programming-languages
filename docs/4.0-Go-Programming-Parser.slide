@@ -18,6 +18,13 @@ http://www.qaware.de
 .image img/04-parsers/02-parsers-for-what.png _ 900
 - Could you describe or name the things? How are these things connected?
 
+: 1 - A boolean expression with placeholders (A, B, C)
+: 2 - Grammatik (Token & Rules)
+: 3 - Tokenizer
+: 4 - Boolscher Wert
+: 5 - Syntaxbaum
+: 6 - Variablenbelegung
+: 7 - Parser Übersetzt Eingabe in neue Struktur (Syntaxbaum)
 
 
 * What we want to achieve: Evaluating boolean expressions with GO
@@ -57,7 +64,7 @@ http://www.qaware.de
     lexer.tokenize("A & B | !C") ->  ["A", "&", "B", "|", "!", "C" ]
 
 - _Tokens_ are based on the grammar and are consumed by the _parser_
-- Simple lexer example: (Can you spot the extension? 👀)
+- Simple lexer example:
 .code ../oop/boolparser/lexer/lexer.go /START OMIT/,/END OMIT/
 
 
@@ -99,12 +106,13 @@ http://www.qaware.de
 - Top-Down: identity root first, move down the subtrees, until leaves are found
 - LL-Parser: Left-to-right (input); Leftmost derivation (replace left most non-terminal (leaf))
 - Usually one method for each rule of the grammar -> structure of the parser mirrors the structure of the grammar
-- Algorithm (high level):
 
-  1. Implement methods, one for each rule
-  2. Start from the main top rule of the grammar (_expression_)
-  3. Call rules (_term_, _factor_) as defined in the grammar until we have a _var_ token.
-  4. Step back to 3. and analyze the next token
+Algorithm (high level):
+
+- Implement methods, one for each rule
+- Start from the main top rule of the grammar (_expression_)
+- Call rules (_term_, _factor_) as defined in the grammar until we have a _var_ token.
+- Step back to 3. and analyze the next token
 
 
 
