@@ -1,0 +1,41 @@
+syntax = "proto3";
+option go_package = ".;node";
+
+package raft;
+
+service Node {
+    rpc RequestVote(RequestVoteRequest) returns (RequestVoteResponse);
+    rpc AppendEntries(AppendEntriesRequest) returns (AppendEntriesResponse);
+}
+
+message RequestVoteRequest {
+    int64 term = 1;
+    int64 candidateId = 2;
+    int64 lastLogIndex = 3;
+    int64 lastLogTerm = 4;
+}
+
+message RequestVoteResponse {
+    bool success = 1;
+    int64 term = 2;
+}
+
+message AppendEntriesRequest {
+    int64 term = 1;
+    int64 leaderId = 2;
+    int64 prevLogIndex = 3;
+    int64 prevLogTerm = 4;
+    repeated LogEntry entries = 5;
+    int64 leaderCommit = 6;
+}
+
+message LogEntry {
+    int64 term = 1;
+    int64 index = 2;
+    bytes data = 3;
+}
+
+message AppendEntriesResponse {
+    bool success = 1;
+    int64 term = 2;
+}
