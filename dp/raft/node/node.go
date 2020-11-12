@@ -1,6 +1,7 @@
 package node
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
@@ -22,6 +23,8 @@ const (
 	leader
 )
 
+const httpPortShift = 1000
+
 const (
 	electionTimeoutMinMs = 1500                    // min. milliseconds to wait for a heartbeat (starts election when timing out)
 	electionTimeoutMaxMs = 3000                    // max. milliseconds to wait for a heartbeat (starts election when timing out)
@@ -29,6 +32,7 @@ const (
 	voteTimeout          = 1500 * time.Millisecond // time to wait for votes from other clients
 	heartbeatTimeout     = 500 * time.Millisecond  // time to wait for a client to accept a heartbeat
 	heartbeatTicker      = 1000 * time.Millisecond // time between two heartbeats
+	dataTimeout          = 1000 * time.Millisecond // time to wait when passing requests to the leader
 )
 
 type Entry struct {
@@ -42,11 +46,13 @@ type Node struct {
 	basePort    int          // port of node with id 0
 	nodeCount   int          // total number of nodes
 	nodeClients []NodeClient // clients to reach other nodes
+	httpClient  *http.Client // HTTP client for passing requests to leader
 	mode        mode         // current mode of this node
 
 	currentTerm   int         // current term
+	currentLeader int         // id of the current leader
 	votedFor      int         // node we voted for in the current election; set to -1 if not yet voted
-	log           []Entry     // log entries
+	logEntries    []Entry     // log entries
 	commitIndex   int         // index of highest log entry known to be committed
 	lastApplied   int         // index of highest log entry applied to state machine
 	electionTimer *time.Timer // when timeout is reached, a new election begins
@@ -66,14 +72,15 @@ func NewNode(id int, basePort int, nodeCount int) *Node {
 		votedFor:    -1,
 		commitIndex: 0,
 		lastApplied: 0,
-		log:         []Entry{},
+		logEntries:  []Entry{},
+		httpClient:  &http.Client{Timeout: dataTimeout},
 	}
 }
 
-// Starts an HTTP server that listens for data requests, send by e.g. curl -d 'hello' ':11000'
+// Starts an HTTP server that listens for data requests, send by e.g. curl -d 'hello' 'localhost:11000/data'
 func (n *Node) startDataServer() {
-	http.HandleFunc("/", n.acceptData)
-	port := n.basePort + 1000 + n.id
+	http.HandleFunc("/data", n.acceptData)
+	port := n.basePort + httpPortShift + n.id
 	log.Printf("[%d] starting HTTP listener at port %d\n", n.id, port)
 	go func() {
 		err := http.ListenAndServe(fmt.Sprintf("localhost:%d", port), nil)
@@ -188,15 +195,17 @@ func (n *Node) runForLeader() {
 func (n *Node) becomeLeader() {
 	log.Printf("[%d] becoming leader", n.id)
 	n.mode = leader
+	n.currentLeader = n.id
 	n.electionTimer.Stop()
 	n.heartbeatTicker.Reset(heartbeatTicker)
 	n.sendHeartbeat() // immediately send heartbeat because the ticker waits for the first tick
 }
 
 // Switch to follower mode by stopping the heartbeat timer and starting the election timer
-func (n *Node) resignFromLeader() {
-	log.Printf("[%d] resigning from being leader", n.id)
+func (n *Node) resignFromLeader(inFavorOfId int) {
+	log.Printf("[%d] resigning from being leader in favor of node %d", n.id, inFavorOfId)
 	n.mode = follower
+	n.currentLeader = inFavorOfId
 	n.electionTimer.Reset(n.randomElectionTimeout())
 	n.heartbeatTicker.Stop()
 }
@@ -217,29 +226,50 @@ func (n *Node) sendHeartbeat() {
 		})
 		if err != nil {
 			log.Printf("[%d] could not send heartbeat to %d: %v", n.id, i, err)
+			return
 		}
 		if !r.Success && int(r.Term) > n.currentTerm {
 			log.Printf("[%d] node %d is already in term %d but we are still in %d", n.id, i, r.Term, n.currentTerm)
-			n.resignFromLeader()
+			n.resignFromLeader(i)
 		}
 	})
 }
 
 func (n *Node) acceptData(w http.ResponseWriter, r *http.Request) {
-	bytes, err := ioutil.ReadAll(r.Body)
+	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	log.Printf("[%d] received %d bytes of data\n", n.id, len(bytes))
-	if n.mode == leader {
-		// save data and pass to followers
-	} else {
-		// forward data to leader
-		// TODO what if we are candidate?
-
+	log.Printf("[%d] received %d bytes of data", n.id, len(b))
+	switch n.mode {
+	case leader: // save data and pass to followers
+		// TODO implement adding data to the log
+		http.Error(w, "receiving data in leader mode is not yet implemented", http.StatusNotImplemented)
+	case candidate: // save for later
+		// TODO implement saving data for later while in candidate mode
+		http.Error(w, "receiving data in candidate mode is not yet implemented", http.StatusNotImplemented)
+		log.Fatalf("[%d] receiving data in candidate mode is not yet implemented", n.id)
+	case follower: // forward data to leader
+		go n.passDataToLeader(b)
+		w.WriteHeader(http.StatusNoContent)
+	default:
+		http.Error(w, "invalid state", http.StatusInternalServerError)
+		log.Fatalf("[%d] invalid state", n.id)
 	}
-	w.WriteHeader(http.StatusNoContent)
+}
+
+func (n *Node) passDataToLeader(b []byte) {
+	port := n.basePort + httpPortShift + n.currentLeader
+	log.Printf("[%d] forwarding %d bytes of data to leader %d on port %d", n.id, len(b), n.currentLeader, port)
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("http://localhost:%d/data", port), bytes.NewBuffer(b))
+	if err != nil {
+		log.Printf("[%d] failed to create request: %v", n.id, err)
+	}
+	_, err = n.httpClient.Do(req)
+	if err != nil {
+		log.Printf("[%d] failed to pass data to the leader: %v", n.id, err)
+	}
 }
 
 func (n *Node) RequestVote(ctx context.Context, request *RequestVoteRequest) (*RequestVoteResponse, error) {
@@ -265,18 +295,19 @@ func (n *Node) AppendEntries(ctx context.Context, request *AppendEntriesRequest)
 	}
 	// TODO reply false if log doesn’t contain an entry at prevLogIndex whose currentTerm matches prevLogTerm
 	if request.Entries == nil {
-		log.Printf("[%d] received heartbeat from leader", n.id)
+		log.Printf("[%d] received heartbeat from leader %d", n.id, request.LeaderId)
+		n.currentLeader = int(request.LeaderId)
 		n.electionTimer.Reset(n.randomElectionTimeout())
+		n.votedFor = -1
 		if n.mode != follower {
 			n.mode = follower // this will also stop a running election
-			n.votedFor = -1
 			if n.heartbeatTicker != nil {
 				n.heartbeatTicker.Stop()
 			}
 		}
 		return &AppendEntriesResponse{Success: true, Term: int64(n.currentTerm)}, nil
 	} else {
-		log.Printf("[%d] received new entries from leader", n.id)
+		log.Printf("[%d] received new entries from leader %d", n.id, request.LeaderId)
 		// TODO if an existing entry conflicts with a new one (same index but different terms), delete the existing entry and all that follow it
 		// TODO append new entries not already in the log
 		// TODO if leaderCommit > commitIndex, set commitIndex = min(leaderCommit, index of last new entry)

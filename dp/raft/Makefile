@@ -20,30 +20,30 @@ proto:
 
 run2:
 	go build
-	./raft -id 0 -count 2 &
-	./raft -id 1 -count 2 &
+	./raft -id 0 -count 2 & echo $$!
+	./raft -id 1 -count 2 & echo $$!
 	@echo "Use 'killall raft' to terminate instances"
 
 run3:
 	go build
-	./raft -id 0 -count 3 &
-	./raft -id 1 -count 3 &
-	./raft -id 2 -count 3 &
+	./raft -id 0 -count 3 & echo $$!
+	./raft -id 1 -count 3 & echo $$!
+	./raft -id 2 -count 3 & echo $$!
 	@echo "Use 'killall raft' to terminate instances"
 
 run4:
 	go build
-	./raft -id 0 -count 4 &
-	./raft -id 1 -count 4 &
-	./raft -id 2 -count 4 &
-	./raft -id 3 -count 4 &
+	./raft -id 0 -count 4 & echo $$!
+	./raft -id 1 -count 4 & echo $$!
+	./raft -id 2 -count 4 & echo $$!
+	./raft -id 3 -count 4 & echo $$!
 	@echo "Use 'killall raft' to terminate instances"
 
 run5:
 	go build
-	./raft -id 0 -count 5 &
-	./raft -id 1 -count 5 &
-	./raft -id 2 -count 5 &
-	./raft -id 3 -count 5 &
-	./raft -id 4 -count 5 &
+	./raft -id 0 -count 5 & echo $$!
+	./raft -id 1 -count 5 & echo $$!
+	./raft -id 2 -count 5 & echo $$!
+	./raft -id 3 -count 5 & echo $$!
+	./raft -id 4 -count 5 & echo $$!
 	@echo "Use 'killall raft' to terminate instances"
