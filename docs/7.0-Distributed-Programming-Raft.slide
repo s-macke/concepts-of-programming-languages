@@ -8,13 +8,41 @@ Rosenheim Technical University
 bernhard.saumweber@qaware.de
 http://www.qaware.de
 
-* About this Lecture: Some Thoughts 
+* About this Lecture: Some Thoughts
 - Goal of this lecture is to look at a non trivial example in Go.
-- The problem we look at, is language agnostic. 
+- The problem we look at, is language agnostic.
 - It can be implemented in almost every language.
 - It combines concurrent programming and network programming.
 - It contains non trivial logic.
 - It is a real world example with high relevance.
+
+* Distributed Programming
+- Concurrent System - multiple execution points (threads, processes or via network)
+- Distributed System - processes are running on different networked processors
+- Parallel System - like a distributed system, but more closely coupled (shared memory or fast bus)
+
+Terms are not always used consistently.
+
+: Nebenläufiges System: es gibt mehrere separate Ausführungspunkte (egal ob Threads/Prozess oder über Netzwerk)
+: Verteiltes System: Prozesse laufen auf unterschiedlichen Prozessoren, die oft weit auseinderliegen, aber verbunden sind
+: Paralleles System: wie verteiltes System, aber enger gekoppelt (gemeinsamer Speicher, schneller Bus)
+
+*
+.background ./img/07-parallel-distributed.png 600 _
+
+* Message Passing
+Message Passing is invoking behavior on a separate process (not necessarily on the same computer) by sending messages.
+
+Models for exchanging messages:
+
+- point to point (symmetric/asymmetric, synchronous/asynchronous)
+- remote procedure calls (RPC, RMI)
+- broadcasting and multicasting
+
+: Sender schickt Nachricht an Empfänger
+: symmetrisch: beide kennen sich / asymmetrisch: nur ein eine Richtung
+: synchron: blockiert bis Nachricht gelesen
+: RPI: wie lokaler Prozeduraufruf
 
 * What is Distributed Consensus?
 Distributed consensus is the problem how to achieve consistency in distributed systems. Distributed consensus protocols can be used for distributed databases which should stay consistent:
@@ -109,6 +137,7 @@ Requirements and Decisions
 - We want to make a Raft cluster local testable (as single process)
 - We want to use gRPC as middleware
 .link https://github.com/0xqab/concepts-of-programming-languages/tree/master/dp/kvstore/core/raft
+.link https://github.com/0xqab/concepts-of-programming-languages/tree/master/dp/raft
 
 * Step I - Defining a KV Business API 
 .code ../dp/kvstore/kvstore-api.go
