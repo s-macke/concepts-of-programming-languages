@@ -66,5 +66,5 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - Introduction into Consensus Protocols
 - Raft
 - Implementing Raft with Go 
-- <a href="docs/7.0-Distributed-Programming.pdf">Slides</a>
-
+- <a href="docs/7.0-Distributed-Programming-Raft.pdf">Slides</a>
+- <a href="docs/exercises/Exercise7.md">Exercise 7</a>
