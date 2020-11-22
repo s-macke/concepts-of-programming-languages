@@ -14,7 +14,7 @@ http://www.qaware.de
 - Design
 - Demo in WAT and C
 - Hello world in Go
-- Exercise, prerequisitee
+- Exercise
 - Calls from and to WebAssembly
 - Exercise
 - Future of WebAssembly
@@ -55,24 +55,24 @@ http://www.qaware.de
 .image ./img/0a-webassembly/0a-webassembly-compilation.png
 
 * Design
-- Binärformat
-  - kleine Größe und einfach zu interpretieren
--  Stack Maschine (mit lokalen und globalen Variablen)
-  - Effiziente Dekodierung und Kompilierung
-- Strukturierter Kontrollfluss und strukturierte Benutzung des Stack
-  - One-Pass-Verifizierung
-- Einfache Typen: i32, i64, f32, f64
-  - Repräsentation heutiger CPU Architektur.
--  Linearer Speicher mit Load/Store Addressierung
+- Binary format
+  - small size and easy to interpret
+-  Stack Machine with local and global variables
+  - Efficient decoding and compilation
+- Structured control flow and structured use of the stack
+  - One-Pass Verification
+- Simple types: i32, i64, f32, f64
+  - Representation of today's CPU architecture
+-  Linear memory with load/store addressing
   - Sandboxed
-  - 64kB Segmente. Ermöglicht hardwareunterstützten Boundary Check
-  - Größe zur Laufzeit anpassbar
+  - 64kB segmentt. Enables hardware-supported boundary check
+  - Size adaptable at runtime
 
 * Design
-- Interface über definierte Schnittstelle.
-  - Export/Import von Funktionen, globalen Variablen und sog. Tabellen
-- Assembler-Textformat
-  - Offen und Möglichkeit zu Debuggen
+- Interface via defined interface
+  - Export/import of functions, global variables and so-called tables
+- Assembler text format
+  - Open and possibility for debugging
 
 * Stackmachine in Detail
 
@@ -82,8 +82,11 @@ http://www.qaware.de
 * Demo in WebAssembly Text Format
 - Example in `webassembly/wat` folder
 add.wat
+
 .code ../webassembly/wat/add.wat
+
 add.js
+
 .code ../webassembly/wat/add.js
 
 * Supported languages in 2020
@@ -109,13 +112,19 @@ add.js
 * Demo in C
 - Example in `webassembly/C` folder
 add.c
+
 .code ../webassembly/C/add/add.c
+
 add.js
+
 .code ../webassembly/C/add/add.js
 
 * Demo in Go
+
 .code ../webassembly/go/hello/main.go
+
 index.html
+
 .code ../webassembly/go/hello/index.html
 
 
@@ -157,10 +166,13 @@ index.html
 - Generic Plugins for your software.
 
 * Calls from and to Go
+
 .code ../webassembly/go/call/main.go
 
 * Calls from and to Go
+
 index.html
+
 .code ../webassembly/go/call/index.html /const/,/script/
 
 * Exercise
@@ -237,10 +249,4 @@ index.html
 
 # Wird Concurrency im Browser funktionieren?
 # Ja, Nein
-
-
-
-
-
-
 

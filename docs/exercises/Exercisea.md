@@ -54,5 +54,6 @@ func GetImageAsBase64() string {
 * Add coordinates and zoom level as parameters to your function.
 * Don't return the string, but use Go to call a JavaScript functions to create the image object inside the Go function. 
 
+## Exercise 9.3 - Concurrency
 
-
+* Try to run two or more goroutines in parallel. Does it work?
