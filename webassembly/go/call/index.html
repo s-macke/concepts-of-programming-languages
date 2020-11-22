@@ -1,0 +1,29 @@
+<html>
+<body>
+<!------------------------------------->
+    <p>
+        Hello from HTML!
+    </p>
+<!------------------------------------->
+    <script>
+        let p = document.createElement("p");
+        p.innerHTML = "Hello from JavaScript!"
+        document.body.appendChild(p);
+    </script>
+<!------------------------------------->
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+
+        fetch('lib.wasm')
+            .then(response => response.arrayBuffer())
+            .then(bytes =>WebAssembly.instantiate(bytes, go.importObject))
+            .then(result => {
+                go.run(result.instance)
+                document.body.innerHTML += add(41, 1);
+            }
+        );
+    </script>
+<!------------------------------------->
+</body>
+</html>

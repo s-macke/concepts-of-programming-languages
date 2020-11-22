@@ -1,0 +1,246 @@
+WebAssembly
+Concepts of Programming Languages
+23 Nov 2020
+Tags: go, programming, master, webassembly,  cross-compilation
+
+
+Sebastian Macke
+Rosenheim Technical University
+sebastian.macke@qaware.de
+http://www.qaware.de
+
+* Content
+- What is WebAssembly?
+- Design
+- Demo in WAT and C
+- Hello world in Go
+- Exercise, prerequisitee
+- Calls from and to WebAssembly
+- Exercise
+- Future of WebAssembly
+
+.image ./img/0a-webassembly/01-04-js-interop-00-A-768x432.png _ 200
+
+* What is WebAssembly?
+
+.link https://webassembly.org
+
+- WebAssembly is a portable binary-code format for executable programs.
+- Timeline
+ - 1995: JavaScript is developed within 10 days by Brendan Eich
+
+ - ... Java Applets, Flash, ActiveX, Silverlight
+ - ... JavaScript improvements, ...
+
+ - 2015: First presentation of WebAssembly from the W3C WebAssembly Working Group
+ - 2016: Google, Microsoft and Mozilla show their first implementations
+ - 2017: WebAssembly is offically supported by all Web Browsers
+ - 2019: A WebAssembly system interface is specified for portable applications outside the browser
+ - Now:  WebAssembly is constantly enhanced (https://webassembly.org/roadmap/)
+
+*After* *the* *introduction* *of* *JavaScript* *in* *the* *90s,* *it* *is* *the* *second* *language* *supported* *directly* *by* *web* *browsers*
+
+
+* What is WebAssembly?
+
+- WebAssembly is designed as a portable target for compiling high-level languages
+.image ./img/0a-webassembly/0a-portability.png 450 _
+
+* JavaScript vs. WebAssembly?
+
+- JavaScript requires a complex optimization
+.image ./img/0a-webassembly/0a-javascript-compilation.png
+
+- WebAssembly simplifies processing
+.image ./img/0a-webassembly/0a-webassembly-compilation.png
+
+* Design
+- Binärformat
+  - kleine Größe und einfach zu interpretieren
+-  Stack Maschine (mit lokalen und globalen Variablen)
+  - Effiziente Dekodierung und Kompilierung
+- Strukturierter Kontrollfluss und strukturierte Benutzung des Stack
+  - One-Pass-Verifizierung
+- Einfache Typen: i32, i64, f32, f64
+  - Repräsentation heutiger CPU Architektur.
+-  Linearer Speicher mit Load/Store Addressierung
+  - Sandboxed
+  - 64kB Segmente. Ermöglicht hardwareunterstützten Boundary Check
+  - Größe zur Laufzeit anpassbar
+
+* Design
+- Interface über definierte Schnittstelle.
+  - Export/Import von Funktionen, globalen Variablen und sog. Tabellen
+- Assembler-Textformat
+  - Offen und Möglichkeit zu Debuggen
+
+* Stackmachine in Detail
+
+.image ./img/0a-webassembly/0a-bytecode.png _ 1000
+
+
+* Demo in WebAssembly Text Format
+- Example in `webassembly/wat` folder
+add.wat
+.code ../webassembly/wat/add.wat
+add.js
+.code ../webassembly/wat/add.js
+
+* Supported languages in 2020
+
+- Source:
+.link https://github.com/appcypher/awesome-wasm-langs
+
+    .Net 🐥              AssemblyScript 🐥   Astro 🥚
+    Brainfuck 🐥         C 🐥                C# 🐥
+    C++ 🐥               D 🐣                Elixir 🐣
+    F# 🐣                Faust 🥚            Forest 🥚
+    Forth 🐥             Go 🐥               Grain 🥚
+    Haskell 🥚           Java 🐣             JavaScript 🐣
+    Julia 🥚             Idris 🐣            Kotlin/Native 🐣
+    Kou 🥚               Lua 🐥              Nim 🥚
+    Ocaml 🥚             Perl 🐣             PHP 🐣
+    Plorth 🥚            Poetry 🐣           Python 🐣
+    Prolog 🐣            Ruby 🐣             Rust 🐥
+    Scheme 🐣            Speedy.js 🐣        Turboscript 🐣
+    Wah 🐥               Walt 🐣             Wam 🐣
+    Wracket 🥚           Xlang 🥚            Zig 🐥
+
+* Demo in C
+- Example in `webassembly/C` folder
+add.c
+.code ../webassembly/C/add/add.c
+add.js
+.code ../webassembly/C/add/add.js
+
+* Demo in Go
+.code ../webassembly/go/hello/main.go
+index.html
+.code ../webassembly/go/hello/index.html
+
+
+* Exercise
+- Write Hello world in Go and execute as node app or in the browser.
+
+* Applications
+.link https://webassembly.org/docs/use-cases/
+
+- Better execution for languages and toolkits that are currently cross-compiled to the Web (C/C++, GWT, …).
+- Image / video editing.
+- Games:
+ - Casual games that need to start quickly.
+ - AAA games that have heavy assets.
+ - Game portals (mixed-party/origin content).
+- Peer-to-peer applications (games, collaborative editing, decentralized and centralized).
+-  Music applications (streaming, caching).
+-  Image recognition.
+-  Live video augmentation (e.g. putting hats on people’s heads).
+
+* Applications
+-  VR and augmented reality (very low latency).
+-  CAD applications.
+-  Scientific visualization and simulation.
+-  Interactive educational software, and news articles.
+-  Platform simulation / emulation (ARC, DOSBox, QEMU, MAME, …).
+-  Language interpreters and virtual machines.
+-  POSIX user-space environment, allowing porting of existing POSIX applications.
+-  Developer tooling (editors, compilers, debuggers, …).
+-  Remote desktop.
+-  VPN.
+-  Encryption.
+
+* Outside the browser
+- Game distribution service (portable and secure).
+- Server-side compute of untrusted code.
+- Server-side application.
+- Hybrid native apps on mobile devices.
+- Generic Plugins for your software.
+
+* Calls from and to Go
+.code ../webassembly/go/call/main.go
+
+* Calls from and to Go
+index.html
+.code ../webassembly/go/call/index.html /const/,/script/
+
+* Exercise
+
+- Show generated image in the browser
+
+
+* WebAssembly and Go Routines
+- Demo
+
+* Future - The Skill Tree
+.image ./img/0a-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 800
+
+* Future - MVP
+.image ./img/0a-webassembly/01-01-mvp-03-final-e1539905426663-768x664.png _ 600
+
+* Future
+.image ./img/0a-webassembly/01-02-heavyweight-03-P-07-e1540219610872-768x551.png _ 700
+
+* Future
+.image ./img/0a-webassembly/01-02-heavyweight-04-final-e1540219657102-768x696.png _ 500
+
+* Future
+.image ./img/0a-webassembly/01-04-js-interop-02-P-05-e1540220264112-768x395.png _ 700
+
+* Future
+
+.image ./img/0a-webassembly/01-04-js-interop-03-final-e1540220313636-768x415.png _ 900
+
+* Future
+
+.image ./img/0a-webassembly/01-05-high-level-03-P-04-e1540220662110-768x240.png _ 800
+
+* Future
+
+.image ./img/0a-webassembly/01-05-high-level-04-final-e1540220704600-768x621.png _ 700
+
+* Future
+
+.image ./img/0a-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 900
+
+
+
+* Links
+
+- Awesome-wasm, Curated list of awesome things regarding WebAssembly
+.link https://github.com/mbasso/awesome-wasm
+
+- WasmWeekly, WebAssembly Today, Newletter
+.link https://wasmweekly.news/
+.link https://webassemblytoday.substack.com/
+
+- Webassembly Binary Toolkit
+.link https://github.com/WebAssembly/wabt
+
+- Binaryen, Compiler infrastructure and toolchain library
+.link https://github.com/WebAssembly/binaryen
+
+* Links
+
+- WebAssembly Studio
+.link https://webassembly.studio/
+
+- WebAssembly Roadmap
+.link https://webassembly.org/roadmap/
+
+
+# Polls
+# Ist euch WebAssembly ein Begriff?
+# Ja, Nein
+
+# Habt Ihr in JavaScript bereits programmiert?
+# Ja, Nein
+
+# Wird Concurrency im Browser funktionieren?
+# Ja, Nein
+
+
+
+
+
+
+

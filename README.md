@@ -68,3 +68,10 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - Implementing Raft with Go 
 - <a href="docs/7.0-Distributed-Programming-Raft.pdf">Slides</a>
 - <a href="docs/exercises/Exercise7.md">Exercise 7</a>
+
+## Lecture 8 - Cross Compiling with WebAssembly 
+- Introduction to WebAssembly
+- WebAssembly implementation of Go
+- <a href="docs/a.0-WebAssembly.pdf">Slides</a>
+- <a href="docs/exercises/Exercisea.md">Exercise 7</a>
+ 
