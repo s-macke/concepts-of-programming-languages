@@ -18,11 +18,12 @@ leading to the effective execution of application software on the computer syste
 Typical programs include the operating system and firmware, programming tools such as compilers, assemblers, I/O routines, interpreters, scheduler, loaders and linkers as well as the runtime libraries of the computer programming languages."
 
 * Systems Programming Today
-Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32) 
+Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
 This includes the Kernel, Drivers, Graphics Subsystem, HAL ...
 The higher layers are built in languages with good support to call C or Assembler code (C, C++, Objective C)
 Tools and Low Level Applications on top are typically written in languages like Python, Perl, C++, Go
 Highlevel Applications are written in any Programming Language like Java, Ruby, JS ...
+
 .image https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Priv_rings.svg/2560px-Priv_rings.svg.png 300 400
  
 * Calling C Code from Go with cgo
@@ -47,6 +48,9 @@ Import the pseudo package C in your Go source and include the corresponding C he
 
 To build cgo packages, just use go build or go install as usual. The go tool recognizes the special "C" import and automatically uses cgo for those files.
 
+* Calling C Code from Go with cgo
+.play ../sp/samples/random/main.go
+
 * Controlling Linking with Build Flags
 Build flags for the cgo command can be set in the Go source file as comments:
 
@@ -70,6 +74,7 @@ This can be done by adding cgo build flags to the comment section.
 * Conversion between C and Go strings
 The C package contains conversion functions to convert Go to C strings and vice versa
 Also: opaque data (behind void *) to []byte
+
     // Go string to C string; result must be freed with C.free()
     func C.CString(string) *C.char
 
@@ -92,17 +97,25 @@ The packages os and runtime encapsulate platform dependent APIs
 .play ../sp/samples/os/pid.go
 
 * The OS Package
-- Access to the standard I/O streams 
+Access to the standard I/O streams
+
     os.Stdin
     os.Stdout
     os.Stderr
-- Functions for executing processes (os/exec)
+
+Functions for executing processes (os/exec)
+
     cmd := exec.Command(path, args)
-- Access to the environment 
+
+Access to the environment
+
     os.Getenv("FOO")
     os.Setenv("FOO", "1")
-- Access to files, directories, pipes, ...
+
+Access to files, directories, pipes, ...
+
     f, err := os.Open("/tmp/dat") // f.Read() / f.Write() / f.Seek()
+
 .link https://golang.org/pkg/os/
 
 * The Runtime Package
@@ -228,19 +241,19 @@ The child() function function is called in the new process and configures the ne
     }
 
 * Clone flags
-- CLONE_NEWNS (since Linux 2.4.19)
+- CLONE_NEWNS (since Linux 2.4.19):
     If CLONE_NEWNS is set, the cloned child is started in a new
     mount namespace, initialized with a copy of the namespace of
     the parent.  If CLONE_NEWNS is not set, the child lives in the
     same mount namespace as the parent.
-- CLONE_NEWUTS (since Linux 2.6.19)
+- CLONE_NEWUTS (since Linux 2.6.19):
     If CLONE_NEWUTS is set, then create the process in a new UTS
     namespace, whose identifiers are initialized by duplicating
     the identifiers from the UTS namespace of the calling process.
     If this flag is not set, then (as with fork(2)) the process is
     created in the same UTS namespace as the calling process.
     This flag is intended for the implementation of containers.
-- CLONE_NEWPID (since Linux 2.6.24)
+- CLONE_NEWPID (since Linux 2.6.24):
     If CLONE_NEWPID is set, then create the process in a new PID
     namespace.  If this flag is not set, then (as with fork(2))
     the process is created in the same PID namespace as the
