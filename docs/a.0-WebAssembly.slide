@@ -63,12 +63,12 @@ http://www.qaware.de
   - One-Pass Verification
 - Simple types: i32, i64, f32, f64
   - Representation of today's CPU architecture
+
+* Design
 -  Linear memory with load/store addressing
   - Sandboxed
   - 64kB segmentt. Enables hardware-supported boundary check
   - Size adaptable at runtime
-
-* Design
 - Interface via defined interface
   - Export/import of functions, global variables and so-called tables
 - Assembler text format

@@ -9,6 +9,12 @@
 ---
 * Write a Hello World program in Go
 * Compile with `GOARCH=wasm GOOS=js go build -o lib.wasm main.go` The result will be a file called `lib.wasm`
+* In case you run Windows command shell you have to execute three commands
+```
+set GOARCH=wasm 
+set GOOS=js 
+go build -o lib.wasm main.go`
+```
 * Copy the wasm javascript runtime from the GOROOT directory. You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec file: `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .`. Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`-
 * Execute via `node wasm_exec.js lib.wasm`
 ---
