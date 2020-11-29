@@ -74,4 +74,9 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - WebAssembly implementation of Go
 - <a href="docs/a.0-WebAssembly.pdf">Slides</a>
 - <a href="docs/exercises/Exercisea.md">Exercise 7</a>
- 
+
+## Lecture 9 - Systems Programming
+- Introduction to WebAssembly
+- WebAssembly implementation of Go
+- <a href="docs/8.0-Systems-Programming.pdf">Slides</a>
+- <a href="docs/exercises/Exercise8.md">Exercise 9</a>
