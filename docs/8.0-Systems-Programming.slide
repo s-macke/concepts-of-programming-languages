@@ -18,13 +18,13 @@ leading to the effective execution of application software on the computer syste
 Typical programs include the operating system and firmware, programming tools such as compilers, assemblers, I/O routines, interpreters, scheduler, loaders and linkers as well as the runtime libraries of the computer programming languages."
 
 * Systems Programming Today
-Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
-This includes the Kernel, Drivers, Graphics Subsystem, HAL ...
-The higher layers are built in languages with good support to call C or Assembler code (C, C++, Objective C)
-Tools and Low Level Applications on top are typically written in languages like Python, Perl, C++, Go
-Highlevel Applications are written in any Programming Language like Java, Ruby, JS ...
+- Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
+- This includes the Kernel, Drivers, Graphics Subsystem, HAL ...
+- The higher layers are built in languages with good support to call C or Assembler code (C, C++, Objective C)
+- Tools and Low Level Applications on top are typically written in languages like Python, Perl, C++, Go
+- Highlevel Applications are written in any Programming Language like Java, Ruby, JS ...
 
-.image https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Priv_rings.svg/2560px-Priv_rings.svg.png 300 400
+.image https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Priv_rings.svg/2560px-Priv_rings.svg.png 192 256
  
 * Calling C Code from Go with cgo
 
@@ -33,9 +33,7 @@ Import the pseudo package C in your Go source and include the corresponding C he
     
     package rand
 
-    //
     // #include <stdlib.h>
-    //
     import "C"
     func Random() int {
         var r C.long = C.random() // calls "int rand(void)" from the C std library
