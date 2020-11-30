@@ -13,6 +13,11 @@ insert into students (name) values ('Another Name');
 Do not use any GitHub libraries, but write your own Cgo wrapper.
 Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or https://sqlitebrowser.org/).
 
+Windows users can use the Windows Subsystem for Linux and install the following packages:
+```shell script
+sudo apt install gcc golang sqlite3 libsqlite3-dev
+```
+
 ## Exercise 8.2 - Containerization
 
 ### Try out chroot
