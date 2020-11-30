@@ -19,7 +19,7 @@ var columnNamesPrinted bool
 //export callback
 func callback(_ unsafe.Pointer, columnCount C.int, columnTexts **C.char, columnNames **C.char) C.int {
 	if !columnNamesPrinted {
-		names := goSlice(columnCount, columnNames)
+		names := goStringSlice(columnCount, columnNames)
 		separator := ""
 		for i := 0; i < int(columnCount); i++ {
 			fmt.Printf("| %-20s ", names[i])
@@ -29,7 +29,7 @@ func callback(_ unsafe.Pointer, columnCount C.int, columnTexts **C.char, columnN
 		fmt.Printf("%s|\n", separator)
 		columnNamesPrinted = true
 	}
-	texts := goSlice(columnCount, columnTexts)
+	texts := goStringSlice(columnCount, columnTexts)
 	for i := 0; i < int(columnCount); i++ {
 		fmt.Printf("| %-20s ", texts[i])
 	}
@@ -77,7 +77,8 @@ func main() {
 	}
 }
 
-func goSlice(argc C.int, argv **C.char) []string {
+// converts a C string array of known length to a Golang string slice
+func goStringSlice(argc C.int, argv **C.char) []string {
 	length := int(argc)
 	temp := (*[1 << 30]*C.char)(unsafe.Pointer(argv))[:length:length]
 	slice := make([]string, length)
