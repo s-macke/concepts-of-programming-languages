@@ -12,8 +12,7 @@ http://www.qaware.de
 
 *Definition*
 
-"Systems programming involves designing and writing computer programs that allow the computer hardware to interface with the programmer and the user, 
-leading to the effective execution of application software on the computer system. 
+"Systems programming involves designing and writing computer programs that allow the computer hardware to interface with the programmer and the user, leading to the effective execution of application software on the computer system.
 
 Typical programs include the operating system and firmware, programming tools such as compilers, assemblers, I/O routines, interpreters, scheduler, loaders and linkers as well as the runtime libraries of the computer programming languages."
 
@@ -64,10 +63,10 @@ This can be done by adding cgo build flags to the comment section.
 
 * Mapping the C namespace to Go
 - Everything declared in the C code is available in the C pseudo-package
-- Fundamental C data types have their counterpart, e.g. int → C.int, unsigned short → C.ushort, etc.
-- The Go equivalent to void * is unsafe.Pointer
+- Fundamental C data types have their counterpart, e.g. `int` → `C.int`, `unsigned` `short` → `C.ushort`, etc.
+- The Go equivalent to `void*` is `unsafe.Pointer`
 - typedefs are available under their own name
-- structs are available with a struct_ prefix, e.g. struct foo → C.struct_foo, same goes for unions and enums
+- structs are available with a `struct_` prefix, e.g. `struct` `foo` → `C.struct_foo`, same goes for unions and enums
 
 * Conversion between C and Go strings
 The C package contains conversion functions to convert Go to C strings and vice versa
@@ -85,7 +84,19 @@ Also: opaque data (behind void *) to []byte
     // C pointer, length to Go []byte
     func C.GoBytes(unsafe.Pointer, C.int) []byte
 
-.link https://golang.org/cmd/cgo/ 
+.link https://golang.org/cmd/cgo/
+
+* Exercise 1
+
+Write a Cgo program that creates a new SQLITE database file and executes the following statements:
+
+    create table if not exists students (id integer not null primary key autoincrement, name text);
+    insert into students (name) values ('Your Name');
+    insert into students (name) values ('Another Name');
+
+Do not use any GitHub libraries, but write your own Cgo wrapper.
+Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or https://sqlitebrowser.org/).
+
 
 * Platform/OS Programming with Go 
 

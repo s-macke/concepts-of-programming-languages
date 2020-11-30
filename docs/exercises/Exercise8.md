@@ -10,7 +10,8 @@ create table if not exists students (id integer not null primary key autoincreme
 insert into students (name) values ('Your Name');
 insert into students (name) values ('Another Name');
 ```
-Verify the content of the database using any SQLITE inspector (e.g. IntelliJ).
+Do not use any GitHub libraries, but write your own Cgo wrapper.
+Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or https://sqlitebrowser.org/).
 
 ## Exercise 8.2 - Containerization
 
