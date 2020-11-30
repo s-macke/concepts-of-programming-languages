@@ -49,7 +49,7 @@ http://www.qaware.de
 - Modules can be exchanged without affecting the whole system
 
 * Versioning 
-- Modules should be versionized to guarantee stable dependencies 
+- Modules should be versioned to guarantee stable dependencies
 - The version should make the module immutable, so a module can be clearly identified by its version
 - Languages differ greatly on that issue (From support of naming conventions to build tools (maven))
 
@@ -62,6 +62,12 @@ http://www.qaware.de
 - Java need 3rd party tools to implement versionized dependencies (Maven, Gradle ...)
 
 .link https://www.sigs-datacom.de/uploads/tx_dmjournals/weigend_JS_05_16_6n6J.pdf
+
+* Modules in other programming languages
+- Rust: Cargo
+- Javascript: NPM
+- Ruby: Gems
+- ...
 
 * The Go Module System
 .image http://www.futureanalytics.ie/wp-content/uploads/2016/12/Modules-i3.jpg
@@ -185,7 +191,7 @@ If your code is already under version control (e.g. git), you may simply run
 - Old versions of Go used `git` `clone` to install dependencies
 - Now the `go.mod` file and a zip package of that version is downloaded
 - This means modules are effectively immutable
-- Hence we can use a CDN or proxy for retrieving modules
+- Hence a CDN or proxy for retrieving modules can be used
 - Useful in corporate builds
 
 * Hands On
