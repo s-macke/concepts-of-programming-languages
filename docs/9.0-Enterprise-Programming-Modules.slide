@@ -23,7 +23,20 @@ http://www.qaware.de
 
 .link https://www.win.tue.nl/~wstomv/edu/2ip30/references/criteria_for_modularization.pdf On the Criteria To Be Used in Decomposing Systems into Modules, David Parnas 1972
 
-* Visibility
+* History
+- Originally because of technical limitations
+- Compile time was long and expensive
+- Memory was limited
+- Solution: compile smaller separate modules and link them together
+
+* Today
+- Large codebases
+- Many developers on a single project
+- Often even different companies involved
+- Re-using code, libraries
+- Structuring code into functional modules
+
+* Visibility / Information Hiding Principle
 - Makes sure that certain content of a module is private and can not be accessed be other modules
 - The benefits are the same like OO encapsulation but at larger scale 
 - Other modules can only depend on the public (API) part of a module
