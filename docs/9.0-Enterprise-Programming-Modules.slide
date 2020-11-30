@@ -19,13 +19,8 @@ http://www.qaware.de
 - Languages have diffent interpretations and focus
 - Decomposition into modules is a well understood
 
-"The major advancement in the area of modular
-programming has been the development of coding
-techniques and assemblers which (l) allow one module
-to be written with little knowledge of the code in
-another module, and (2) allow modules to be reassembled
-and replaced without reassembly of the whole
-system." 
+"The major advancement in the area of modular programming has been the development of coding techniques and assemblers which (1) allow one module to be written with little knowledge of the code in another module, and (2) allow modules to be reassembled and replaced without reassembly of the whole system."
+
 .link https://www.win.tue.nl/~wstomv/edu/2ip30/references/criteria_for_modularization.pdf On the Criteria To Be Used in Decomposing Systems into Modules, David Parnas 1972
 
 * Visibility
@@ -52,13 +47,25 @@ system."
 - Java knows Modules since Java SE 9 (Project Jigsaw)
 - Java Modules focus on Distribution and Visibility but not on Versioning!
 - Java need 3rd party tools to implement versionized dependencies (Maven, Gradle ...)
+
 .link https://www.sigs-datacom.de/uploads/tx_dmjournals/weigend_JS_05_16_6n6J.pdf
 
 * The Go Module System
+.image http://www.futureanalytics.ie/wp-content/uploads/2016/12/Modules-i3.jpg
+.link https://www.youtube.com/watch?v=F8nrpe0XWRg
+.link https://youtu.be/V8FQNen4WAA
+.link https://youtu.be/aeF3l-zmPsY
+
+* The Go Module System
 - There is an evolution in the Go module systems
-- Before 1.11: Go dep was the tool of choice to implement safe, versionized dependencies
+- Before 1.11: Go dep was the tool of choice to implement safe, versioned dependencies
 - Since 1.11: Go modules is the concept for the future
-.link https://github.com/golang/go/wiki/Modules The Go Module System
+- Can be controlled by `$GO111MODULE` environment variable
+- No need to develop on the `$GOPATH` anymore
+- Usually one repository = one module, but also multiple modules possible
+
+.link https://github.com/golang/go/wiki/Modules Go Module System
+.link https://golang.org/ref/mod Go Module Reference
 
 * The Principles of Versioning in Go
 *Repeatability*
@@ -74,19 +81,99 @@ Make sure your code ist stable with the latest minor version of a dependent libr
 - Distinguish MAJOR, MINOR and PATCH version numbers
 - A version number is of the form: <MAJOR>.<MINOR>.<PATCH> (e.g 1.2.0, 0.9.0-alpha)
 - Semantic versioning defines several rules how and when to change the version number
-.link https://semver.org/ 
 
-* The Design of the Go Module System
-Russ Cox (@_rsc, rsc@swtch.com)
-c/o Google
-5 Cambridge Center
-Cambridge, MA 02142
-.link https://www.youtube.com/watch?v=F8nrpe0XWRg
+.link https://semver.org
 
-* The Go Module System in Action
-.image http://www.futureanalytics.ie/wp-content/uploads/2016/12/Modules-i3.jpg
-.link https://youtu.be/V8FQNen4WAA
-.link https://youtu.be/aeF3l-zmPsY
+Change ...
+
+- MAJOR version when you make incompatible API changes,
+- MINOR version when you add functionality in a backwards compatible manner, and
+- PATCH version when you make backwards compatible bug fixes.
+
+* The go.mod File
+Go module: a tree (directory) of source files with a go.mod file in the root directory
+
+Example `go.mod` file:
+
+    module github.com/my/module/v3
+
+    go 1.14
+
+    require (
+        github.com/some/dependency v1.2.3
+        github.com/another/dependency v0.1.0
+        github.com/additional/dependency/v4 v4.0.0
+    )
+
+* How to create a new module
+A module can be created with a simple command:
+
+    mkdir module
+    cd module
+    go mod init example.com/my/module
+
+If your code is already under version control (e.g. git), you may simply run
+
+    go mod init
+
+* Managing Dependencies
+
+    require (
+        github.com/some/dependency v1.2.3
+        github.com/another/dependency v0.1.0
+        github.com/additional/dependency/v4 v4.0.0
+    )
+
+- go.mod is automatically updated on `go` `get` and `go` `build`
+- Semantic version numbers
+- Version is part of the module path!
+- Allows other versions to be used in the same build
+- Code sharing between versions is possible
+- `v1` is implied
+
+* Exclude and Replace Modules
+
+    exclude (
+        golang.org/x/crypto v1.4.5
+        golang.org/x/text v1.6.7
+    )
+
+- Useful to load the next higher non-excluded version instead
+- Both release and pre-release versions are considered for this purpose
+
+    replace (
+        golang.org/x/net v1.2.3 => example.com/fork/net v1.4.5
+        golang.org/x/net => example.com/fork/net v1.4.5
+        golang.org/x/net v1.2.3 => ../fork/net
+        golang.org/x/net => ../fork/net
+    )
+
+- Useful to specify a fork with a fixed bug
+- Also possible to refer to a relative or absolute path on your file system
+- `gohack` tool automates this process: github.com/rogpeppe/gohack
+
+* Minimal Version Selection
+.image img/09-buildlist.svg 500 _
+
+* The go.sum File
+
+    github.com/golang/protobuf v1.3.2 h1:6nsPYzhq5kReh6QImI3k5qWzO4PEbvbIW2cwSfR/6xs=
+    github.com/golang/protobuf v1.3.2/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
+    golang.org/x/image v0.0.0-20200927104501-e162460cd6b5 h1:QelT11PB4FXiDEXucrfNckHoFxwt8USGY1ajP1ZF5lM=
+    golang.org/x/image v0.0.0-20200927104501-e162460cd6b5/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
+
+- Contains the cryptographic checksums of the module's dependencies
+- Hashes of the module version's file tree and of the go.mod file
+- h1 means sha256 (only hashing algorithm at the moment)
+- Untagged revisions can be referred to using a "pseudo-version" like `v0.0.0-yyyymmddhhmmss-abcdefabcdef`,
+  where the time is the commit time in UTC and the final suffix is the prefix of the commit hash
+
+* Module Downloads
+- Old versions of Go used `git` `clone` to install dependencies
+- Now the `go.mod` file and a zip package of that version is downloaded
+- This means modules are effectively immutable
+- Hence we can use a CDN or proxy for retrieving modules
+- Useful in corporate builds
 
 * Hands On
 - Write a Go module mail with API and impl
@@ -94,4 +181,3 @@ Cambridge, MA 02142
 - Change your module dependency to a former logrus version
 - Write a second Go module client which uses the mail module
 - Make a incompatible change to your mail API and increase the major version number
-
