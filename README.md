@@ -72,11 +72,21 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 ## Lecture 8 - Cross Compiling with WebAssembly 
 - Introduction to WebAssembly
 - WebAssembly implementation of Go
-- <a href="docs/a.0-WebAssembly.pdf">Slides</a>
-- <a href="docs/exercises/Exercisea.md">Exercise 7</a>
+- <a href="docs/8.0-WebAssembly.pdf">Slides</a>
+- <a href="docs/exercises/Exercise8.md">Exercise 8</a>
 
 ## Lecture 9 - Systems Programming
 - Introduction to WebAssembly
 - WebAssembly implementation of Go
-- <a href="docs/8.0-Systems-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise8.md">Exercise 9</a>
+- <a href="docs/9.0-Systems-Programming.pdf">Slides</a>
+- <a href="docs/exercises/Exercise9.md">Exercise 9</a>
+
+## Lecture 10 - Enterprise Programming
+- Large Scale Programming with Modules
+- <a href="docs/10.0-Enterprise-Programming-Modules.pdf">Slides</a>
+- <a href="docs/exercises/Exercise10.md">Exercise 10</a>
+
+## Lecture 11 - Logic Programming
+- Introduction to Prolog
+- <a href="docs/11.0-Logic-Programming.pdf">Slides</a>
+- <a href="docs/exercises/Exercise11.md">Exercise 11</a>

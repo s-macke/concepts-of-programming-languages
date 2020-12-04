@@ -19,7 +19,7 @@ http://www.qaware.de
 - Exercise
 - Future of WebAssembly
 
-.image ./img/0a-webassembly/01-04-js-interop-00-A-768x432.png _ 200
+.image ./img/08-webassembly/01-04-js-interop-00-A-768x432.png _ 200
 
 * What is WebAssembly?
 
@@ -44,15 +44,15 @@ http://www.qaware.de
 * What is WebAssembly?
 
 - WebAssembly is designed as a portable target for compiling high-level languages
-.image ./img/0a-webassembly/0a-portability.png 450 _
+.image ./img/08-webassembly/0a-portability.png 450 _
 
 * JavaScript vs. WebAssembly?
 
 - JavaScript requires a complex optimization
-.image ./img/0a-webassembly/0a-javascript-compilation.png
+.image ./img/08-webassembly/0a-javascript-compilation.png
 
 - WebAssembly simplifies processing
-.image ./img/0a-webassembly/0a-webassembly-compilation.png
+.image ./img/08-webassembly/08-webassembly-compilation.png
 
 * Design
 - Binary format
@@ -76,7 +76,7 @@ http://www.qaware.de
 
 * Stackmachine in Detail
 
-.image ./img/0a-webassembly/0a-bytecode.png _ 1000
+.image ./img/08-webassembly/0a-bytecode.png _ 1000
 
 
 * Demo in WebAssembly Text Format
@@ -184,35 +184,35 @@ index.html
 - Demo
 
 * Future - The Skill Tree
-.image ./img/0a-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 800
+.image ./img/08-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 800
 
 * Future - MVP
-.image ./img/0a-webassembly/01-01-mvp-03-final-e1539905426663-768x664.png _ 600
+.image ./img/08-webassembly/01-01-mvp-03-final-e1539905426663-768x664.png _ 600
 
 * Future
-.image ./img/0a-webassembly/01-02-heavyweight-03-P-07-e1540219610872-768x551.png _ 700
+.image ./img/08-webassembly/01-02-heavyweight-03-P-07-e1540219610872-768x551.png _ 700
 
 * Future
-.image ./img/0a-webassembly/01-02-heavyweight-04-final-e1540219657102-768x696.png _ 500
+.image ./img/08-webassembly/01-02-heavyweight-04-final-e1540219657102-768x696.png _ 500
 
 * Future
-.image ./img/0a-webassembly/01-04-js-interop-02-P-05-e1540220264112-768x395.png _ 700
-
-* Future
-
-.image ./img/0a-webassembly/01-04-js-interop-03-final-e1540220313636-768x415.png _ 900
+.image ./img/08-webassembly/01-04-js-interop-02-P-05-e1540220264112-768x395.png _ 700
 
 * Future
 
-.image ./img/0a-webassembly/01-05-high-level-03-P-04-e1540220662110-768x240.png _ 800
+.image ./img/08-webassembly/01-04-js-interop-03-final-e1540220313636-768x415.png _ 900
 
 * Future
 
-.image ./img/0a-webassembly/01-05-high-level-04-final-e1540220704600-768x621.png _ 700
+.image ./img/08-webassembly/01-05-high-level-03-P-04-e1540220662110-768x240.png _ 800
 
 * Future
 
-.image ./img/0a-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 900
+.image ./img/08-webassembly/01-05-high-level-04-final-e1540220704600-768x621.png _ 700
+
+* Future
+
+.image ./img/08-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 900
 
 
 

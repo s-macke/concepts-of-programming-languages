@@ -54,7 +54,7 @@ http://www.qaware.de
 - Languages differ greatly on that issue (From support of naming conventions to build tools (maven))
 
 * Versions and Conflicts
-.image img/09-conflicting-versions.png 500 800
+.image img/10-conflicting-versions.png 500 800
 
 * Module System in Java
 - Java knows Modules since Java SE 9 (Project Jigsaw)
@@ -172,7 +172,7 @@ If your code is already under version control (e.g. git), you may simply run
 - `gohack` tool automates this process: github.com/rogpeppe/gohack
 
 * Minimal Version Selection
-.image img/09-buildlist.svg 500 _
+.image img/10-buildlist.svg 500 _
 
 * The go.sum File
 
