@@ -203,7 +203,7 @@ If your code is already under version control (e.g. git), you may simply run
 
 * Plugins
 
-* Golang and Plugins
+* Golang and Libraries
 - Go uses static linking (output is a single binary containing all libraries)
 - Go support static and dynamic linking of C libraries
 - Go supports dynamic loading of plugins
