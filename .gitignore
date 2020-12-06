@@ -8,3 +8,8 @@ docs/exercises/StudyWork.xlsx
 plugin/plugin.so
 plugin/master
 plugin/master.exe
+
+library/libmylib.so
+library/libmylib.a
+library/mylib.o
+library/main
