@@ -280,6 +280,6 @@ Looking up a variable:
 - The Mail implementation should log a message with logrus (https://github.com/sirupsen/logrus)
 - Write a third Go module client which uses the mail plugin and also logrus
 - Make an incompatible change to your mail API and increase the major version number
-- Try to use a different logrus version in the plugin and the client
+- Try to use a different logrus version in the plugin (e.g. v1.7.0) and the client (e.g. v1.4.2)
 
 Windows users: use Golang in your Windows Subsystem for Linux or a Docker container.
