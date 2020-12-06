@@ -200,3 +200,86 @@ If your code is already under version control (e.g. git), you may simply run
 - Change your module dependency to a former logrus version
 - Write a second Go module client which uses the mail module
 - Make a incompatible change to your mail API and increase the major version number
+
+* Plugins
+
+* Golang and Plugins
+- Go uses static linking (output is a single binary containing all libraries)
+- Go support static and dynamic linking of C libraries
+- Go supports dynamic loading of plugins
+
+* Linking of C libraries
+.code ../library/mylib.h
+.code ../library/mylib.c
+.code ../library/main.go
+
+* Dynamic linking of C libraries
+.code ../library/Makefile /dynamic:/,/dynamic OMIT/
+
+Deleting the `libmylib.so` throws error:
+
+    ./main
+    dyld: Library not loaded: libmylib.so
+      Referenced from: ./main
+      Reason: image not found
+    zsh: abort      ./main
+
+* Static linking of C libraries
+.code ../library/Makefile /static:/,/static OMIT/
+
+Deleting the `libmylib.a` is fine:
+
+    ./main
+    You said: Hello Lib!
+
+* Plugins
+- Available since Go 1.8
+- Before: launch separate programs and use e.g. OS exec calls, sockets or gRPC
+- Plugins are shared objects (.so) library files
+- Can be built using `-buildmode=plugin` directive
+- Public functions and variables are exposed as ELF symbols that can be looked up and be bound to at runtime using the `plugin` package
+
+ELF = Executable and Linkable Format: common standard file format for shared libraries
+
+* Golang Plugin Example
+
+Plugins can be opened using `Open()` provided in package `plugin`:
+
+    p, err := plugin.Open(os.Args[1])
+
+`Lookup` searches for a symbol named `MyFunc` in plugin p. A `Symbol` is any exported variable or function.
+
+Looking up a function:
+
+    // Code in plugin: func MyFunc() { return "Hello!" }
+    myFuncSymbol, err := p.Lookup("MyFunc")
+    var myFunc func() := myFuncSymbol.(func())
+    myFunc()
+
+Looking up a variable:
+
+    // Code in plugin: var MyVar int
+    myVarSymbol, err := p.Lookup("MyVar")
+    var myVar *int = v.(*int)
+    *myVar = 42
+
+* Golang Plugins Caveats
+- Must be built with the exact same Golang version
+- Must be built with the exact same libraries
+- Only Linux, FreeBSD and macOS are supported at the moment
+- Building inside a Docker container is recommended for reproducible builds
+- Rather large size (static linking)
+
+* Golang Plugin Examples
+- KrakenD: fast API gateway
+- Gosh: a pluggable command shell
+- ...
+
+* Hands On
+- Export your Go mail module from the previous exercise to a mail plugin
+- The Mail implementation should log a message with logrus (https://github.com/sirupsen/logrus)
+- Write a third Go module client which uses the mail plugin and also logrus
+- Make an incompatible change to your mail API and increase the major version number
+- Try to use a different logrus version in the plugin and the client
+
+Windows users: use Golang in your Windows Subsystem for Linux or a Docker container.
