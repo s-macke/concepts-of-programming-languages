@@ -5,4 +5,6 @@ docs/exercises/StudyWork.xlsx
 .vscode/
 **/.DS_Store
 
-
+plugin/plugin.so
+plugin/master
+plugin/master.exe
