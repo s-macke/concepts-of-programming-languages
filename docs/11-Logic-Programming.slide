@@ -1,4 +1,4 @@
-Logic Programming
+Logic Programming with Prolog
 Concepts of Programming Languages
 14 Dec 2020
 Tags: go, programming, logic
@@ -7,3 +7,258 @@ Bernhard Saumweber
 Rosenheim Technical University
 bernhard.saumweber@qaware.de
 http://www.qaware.de
+
+* Prolog
+- « _programmation_ _en_ _logique_ »
+- Developed by French programmer Alain Colmerauer (1941-2017)
+- First version from 1972
+- Turing complete
+- Programs consist of a knowledge base containing facts and rules
+- You cannot give "steps" how to solve the problem
+- User posts a goal (query)
+- Prolog interpreter uses rules and facts to find a solution
+
+
+* Terms
+The single data type in prolog is a *term*. Terms can be either
+
+- Atoms
+- Numbers
+- Variables
+- Compound terms
+
+
+* Atoms
+- Atoms are general purpose names without any inherent meaning
+- Start with a lower case letter or are quoted
+
+Examples:
+
+- x
+- red
+- romeo
+- pizza
+- 'Pizza'
+- 'foo bar'
+
+
+* Variables
+- Variables are placeholders for arbitrary terms
+- Can be bound in terms
+- Start with an upper case letter or an underscore
+
+Examples:
+
+- X
+- Foo
+- Romeo
+
+
+* Facts
+Clauses without body are called *facts*.
+
+The fact "Romeo loves Juliet" can be expressed as:
+
+    loves(romeo, juliet).
+
+where `loves` is a *predicate* and `romeo` and `juliet` are called *atoms*.
+Facts end with a dot (just like a semicolon in Java).
+
+
+* Rules
+Clauses with a body are called *rules* and expressed as Horn clauses.
+
+The rule "Juliet loves Romeo as long as Romeo loves Juliet." can be expressed as:
+
+    loves(juliet, romeo) :- loves(romeo, juliet).
+
+- :- denotes logic implication (similar to an `if`)
+- Left side is true if right side is true
+- You can read it as an reversed implication arrow
+
+Rules end with a dot (just like a semicolon in Java).
+
+
+* Facts are Rules
+The fact from the previous slide
+
+    loves(romeo, juliet).
+
+can also be written as a rule:
+
+    loves(romeo, juliet) :- true.
+
+
+* Loading a knowledge base
+In Prolog, loading code is referred to as *consulting*.
+
+One can load a knowledge base by either running (here shown with SWI Prolog):
+
+    swipl filename.pl
+
+Or by loading interactively using:
+
+    [filename.pl].
+
+
+* Interactive Prompt
+- Prolog can be used interactively by entering queries at the Prolog prompt ?-
+- If there is no solution, Prolog writes `no` or `false`
+- If a solution exists then it is printed, followed by `yes` or `true`
+- If there are multiple solutions to the query, then these can be requested by entering a semi-colon ;
+
+
+* Conjunction and Disjunction
+Multiple predicates in the body of an expression can be composed as
+
+- conjunction (logical and) using `,` (comma)
+- disjunction (logical or) using `;` (semicolon)
+
+Note: usually it is better to write separate rules instead of a disjunction.
+
+Example:
+
+    happy(juliet).
+    with_romeo(juliet).
+    dances(juliet) :- happy(juliet), with_romeo(juliet).
+
+
+* Playing with variables
+Given some facts:
+
+    loves(romeo, juliet).
+    loves(william, juliet).
+
+Variables can be used to get everyone that loves Juliet:
+
+    ?- loves(X, juliet).
+    X = romeo ;
+    X = william.
+
+Or to express general rules:
+
+    grandparent(X, Y) :-
+        parent(X, Z),
+        parent(Z, Y).
+
+
+* Exercise 1
+
+
+* Lists
+Denoted in brackets
+
+    [a,b,c]
+
+`length(List,L)` gives you the length of a list.
+More list operations:
+
+.link https://www.swi-prolog.org/pldoc/man?section=builtinlist SWI Prolog built-in list operations
+
+
+* Arithmetic
+
+TODO
+
+
+* Hello World
+Prolog supports printing values:
+
+    write('Hello World!'), nl.
+
+Can also be used in rules for printing intermediate results.
+
+Or to print the actual results in a nicer way:
+
+    get_loves_juliet :-
+        loves(X, juliet),
+        write(X), write(' loves Juliet'), nl.
+
+    ?- get_loves_juliet.
+    romeo loves Juliet
+    true ;
+    william loves Juliet
+    true.
+
+
+* Solution by side effects
+Sometimes `write` can be used for printing the actual solution as a side effect:
+
+    % Towers of Hanoi
+
+    move(1,X,Y,_) :- write('Move top disk from '), write(X), write(' to '), write(Y), nl.
+    move(N,X,Y,Z) :-
+    	N > 1,
+    	M is N-1,
+    	move(M,X,Z,Y),
+    	move(1,X,Y,_),
+    	move(M,Z,Y,X).
+
+    run :- move(3,left,right,center).
+
+
+* Debugging Tools
+Trace/1 enables tracing of a given predicate, very useful for debugging:
+
+    trace(loves).
+
+Trace/0 traces everything:
+
+    trace.
+
+Listing gives you a list of all known facts:
+
+    listing(loves).
+
+You may also simply print intermediate results:
+
+    loves(X, Y) :- write(X), write(Y), nl.
+
+
+* Naming Conventions
+- When referring to facts, the notion `loves/2` refers to the predicate `loves` with two "parameters"
+- More examples: `true/0`, `length/2`, `,/2`, `call/1`, `call/2`, ...
+- It is possible to define facts with a different number of "parameters"
+
+
+* Execution
+- Logically, the Prolog engine tries to find a resolution refutation of the negated query.
+- The resolution method used by Prolog is called SLD resolution.
+- If the negated query can be refuted, it follows that the query, with the appropriate variable bindings in place, is a logical consequence of the program.
+- In that case, all generated variable bindings are reported to the user, and the query is said to have succeeded.
+- If there is no solution, Prolog writes `no` or `false`
+: Prolog versucht die Ngeation der Aussage zu widerlegen
+: Selective Linear Definite clause resolution
+
+
+* Execution
+- Operationally, Prolog's execution strategy can be thought of as a generalization of function calls in other languages, one difference being that multiple clause heads can match a given call.
+- In that case, the system creates a choice-point, unifies the goal with the clause head of the first alternative, and continues with the goals of that first alternative.
+- If any goal fails in the course of executing the program, all variable bindings that were made since the most recent choice-point was created are undone, and execution continues with the next alternative of that choice-point.
+- This execution strategy is called chronological *backtracking*.
+
+
+* Live Coding
+Three missionaries and three cannibals want to cross a river with a boat.
+However, the small boat only carries at most two people.
+On both banks, the missionaries may not be outnumbered by the cannibals, otherwise
+it is to be feared that the cannibals overpower the missionaries and eat them alive.
+Find a solution for the six people to safely cross the river.
+
+
+* Exercise 2
+Once upon a time a farmer went to a market and purchased a wolf, a goat, and a cabbage. On his way home, the farmer came to the bank of a river and rented a boat. But crossing the river by boat, the farmer could carry only himself and a single one of his purchases: the wolf, the goat, or the cabbage.
+
+If left unattended together, the wolf would eat the goat, or the goat would eat the cabbage.
+
+The farmer's challenge was to carry himself and his purchases to the far bank of the river, leaving each purchase intact. How did he do it?
+
+.link https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem Wikipedia
+
+* There is more to Prolog
+- IO, Meta Predicates, Unit Tests, ...
+- Tail Recursion, Hashing, Tabling, ...
+- Many libraries, e.g. Unicode, YAML, HTTP, C-Bindings, ...
+- Paxos: replicating key-value store (remember it from distributed computing?)
+
+.link https://www.swi-prolog.org/pldoc/man?section=builtin SWI Prolog Manual

@@ -9,38 +9,46 @@ Install SWI Prolog from [swi-prolog.org](https://www.swi-prolog.org/).
 * Windows users: simply download a [nightly build](https://www.swi-prolog.org/download/daily/bin/) or use the docker container
 * Mac users: run `brew install swi-prolog`
 
-Create a new file named `food.pl` and put the following content:
+Create a new file named `family.pl` and put the following content:
 ```prolog
-likes(sam,Food) :- indian(Food), mild(Food).
-likes(sam,Food) :- italian(Food).
-likes(sam,chips).
+male(albert).
+male(bob).
+male(bill).
+male(carl).
+male(charlie).
+male(dan).
+male(edward).
 
-indian(curry).
-indian(dahl).
-indian(tandoori).
+female(alice).
+female(betsy).
+female(diana).
 
-mild(dahl).
-mild(tandoori).
+parent(albert, bob).
+parent(albert, betsy).
+parent(albert, bill).
 
-italian(pizza).
-italian(spaghetti).
+parent(alice, bob).
+parent(alice, betsy).
+parent(alice, bill).
+
+parent(bob, carl).
+parent(bob, charlie).
+parent(diana, charlie).
 ```
 
-Run `swipl food.pl` and play with the interactive promt:
+Run `swipl family.pl` and play with the interactive promt:
 
-* `likes(sam,pizza).`
-* `likes(sam,chips).`
-* `likes(sam,curry).`
-* `likes(sam,fish).`
-* `likes(sam,X)` (press n for next result)
-* `trace. likes(sam,curry).`
+* `male(charlie).`
+* `female(charlie).`
+* `parent(X, charlie).` (press ; or n for next result)
+* Write a query to find all grandparents of Charlie
+* Write a query to find only grandmothers of Charlie
+* Write a query to find all siblings of Bob
+* `trace.`, then repeat the last query
 * `halt.`
 
+
 ## Exercise 11.2
-
-
-
-## Exercise 11.3
 Write a prolog program that calculates a solution for the following problem.
 
 ```prolog
