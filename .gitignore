@@ -5,11 +5,15 @@ docs/exercises/StudyWork.xlsx
 .vscode/
 **/.DS_Store
 
-plugin/plugin.so
-plugin/master
-plugin/master.exe
+/plugin/plugin.so
+/plugin/master
+/plugin/master.exe
 
-library/libmylib.so
-library/libmylib.a
-library/mylib.o
-library/main
+/library/libmylib.so
+/library/libmylib.a
+/library/mylib.o
+/library/main
+
+/modules/**/client
+/modules/**/client.exe
+/modules/**/plugin.so
