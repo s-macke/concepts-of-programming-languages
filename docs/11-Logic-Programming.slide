@@ -98,14 +98,14 @@ One can load a knowledge base by either running (here shown with SWI Prolog):
 
 Or by loading interactively using:
 
-    [filename.pl].
+    [filename].
 
 
 * Interactive Prompt
 - Prolog can be used interactively by entering queries at the Prolog prompt ?-
 - If there is no solution, Prolog writes `no` or `false`
 - If a solution exists then it is printed, followed by `yes` or `true`
-- If there are multiple solutions to the query, then these can be requested by entering a semi-colon ;
+- If there are multiple solutions to the query, then these can be requested by entering a semicolon ; or n
 
 
 * Conjunction and Disjunction
