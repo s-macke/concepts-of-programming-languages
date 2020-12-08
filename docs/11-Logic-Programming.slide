@@ -145,20 +145,10 @@ Or to express general rules:
 * Exercise 1
 
 
-* Lists
-Denoted in brackets
-
-    [a,b,c]
-
-`length(List,L)` gives you the length of a list.
-More list operations:
-
-.link https://www.swi-prolog.org/pldoc/man?section=builtinlist SWI Prolog built-in list operations
-
-
-* Arithmetic
-
-TODO
+* Naming Conventions
+- When referring to facts, the notion `loves/2` refers to the predicate `loves` with two arguments
+- More examples: `true/0`, `length/2`, `,/2`, `call/1`, `call/2`, ...
+- It is possible to define facts with a different number of arguments (differnt *arity*)
 
 
 * Hello World
@@ -175,10 +165,133 @@ Or to print the actual results in a nicer way:
         write(X), write(' loves Juliet'), nl.
 
     ?- get_loves_juliet.
-    romeo loves Juliet
-    true ;
-    william loves Juliet
+    romeo loves Juliet ;
+    william loves Juliet .
+
+There is also `format/2`.
+
+
+* Atoms vs Strings
+Atoms do not have quotes or are single quoted:
+
+    bob
+    'this is an atom'
+    'AlsoAtomNotVariable'
+
+Strings are double quoted (only in modern Prolog interpreters):
+
+    "this is a string"
+
+Usually it is fine to use atoms only. However, they have restrictions on length.
+
+
+* Lists
+Denoted in brackets
+
+    L = [a,b,c].
+
+`length/2` gives you the length of a list:
+
+    ?- length([1,2,3], X).
+    X = 3.
+
+Split into head and tail:
+
+    ?- [Head|Tail] = [1,2,a].
+    Head = 1,
+    Tail = [2, a].
+
+There is also `reverse/2`, `append/2` and many more.
+
+.link https://www.swi-prolog.org/pldoc/man?section=builtinlist SWI Prolog built-in list operations
+
+
+* Arithmetic
+- Standard operators +, -, *, /, >, <, =<, >=, =\=, =:= and `is` can be used
+- Support for rational numbers as well as floats
+
+Examples:
+
+    ?- X is 1, Y is X+1.
+    X = 1,
+    Y = 2.
+
+    ?- 3 =< 5.
     true.
+
+    get_age(BirthYear) :-
+        Age is 2020-BirthYear,
+        format('Someone born in ~w is age ~w in ~w.~n', [Age, BirthYear, 2020]).
+
+.link https://www.swi-prolog.org/pldoc/man?section=arithpreds SWI Prolog General purpose arithmetic
+
+
+* Difference between is, =, == and =:=
+Number *is* Expr evaluates to true when Number is the *value* to which Expr evaluates
+
+    ?- 1 is 1+1-1.
+    true.
+
+Term1 *=* Term2 is true if Term1 *unifies* with Term2
+
+    ?- 1 = 1+1-1.
+    false.
+
+Term1 *==* Term2 is true if Term1 is *equivalent* to Term2
+
+    ?- 1 == 1+1-1.
+    false.
+
+Expr1 *=:=* Expr2 is to true if expression Expr1 evaluates to a number *equal* to Expr2, i.e. float 1.0 =:= integer 1.
+
+    ?- 1 =:= 1+1-1.
+    true.
+
+: There are even more equality operators!
+
+
+* Unification
+Unification is mostly done implicitly while matching the head of a predicate. However, it is also provided by the `=/2` predicate that tests if its two arguments *unify*. It is usually written infix.
+
+Two terms unify if they are the same term or if they contain variables that can be uniformly instantiated with terms in such a way that the resulting terms are equal.
+
+    ?- bob = bob.
+    true.
+
+    ?- X = 2.
+    X = 2.
+
+    ?- 2 = X.
+    X = 2.
+
+    ?- X = 2*3.
+    X = 2*3.
+
+    ?- loves(X,X) = loves(romeo,juliet).
+    false.
+
+
+* Exercise 2
+
+
+* Not in Prolog
+\+ Goal (same as `not/1`) is true if Goal _cannot_ _be_ _proven_.
+
+    ?- \+ (2 = 4).
+    true.
+
+This is *not* the same as logical not!!
+
+Logical negation in Prolog is problematic:
+
+- The only way to tell if a proposition is false is to prove it.
+- If the attempt fails, Prolog concludes that the proposition is false.
+- This may take very long or forever if not all relevant facts or rules have been given.
+- This concept is known as _negation_ _as_ _failure_.
+
+Try to avoid negative terms. Think positive!
+
+: Side note: arithmetic =\= is fine
 
 
 * Solution by side effects
@@ -195,6 +308,8 @@ Sometimes `write` can be used for printing the actual solution as a side effect:
     	move(M,Z,Y,X).
 
     run :- move(3,left,right,center).
+
+Loops are done with recursion just like in functional programming.
 
 
 * Debugging Tools
@@ -215,19 +330,13 @@ You may also simply print intermediate results:
     loves(X, Y) :- write(X), write(Y), nl.
 
 
-* Naming Conventions
-- When referring to facts, the notion `loves/2` refers to the predicate `loves` with two "parameters"
-- More examples: `true/0`, `length/2`, `,/2`, `call/1`, `call/2`, ...
-- It is possible to define facts with a different number of "parameters"
-
-
 * Execution
 - Logically, the Prolog engine tries to find a resolution refutation of the negated query.
 - The resolution method used by Prolog is called SLD resolution.
 - If the negated query can be refuted, it follows that the query, with the appropriate variable bindings in place, is a logical consequence of the program.
 - In that case, all generated variable bindings are reported to the user, and the query is said to have succeeded.
 - If there is no solution, Prolog writes `no` or `false`
-: Prolog versucht die Ngeation der Aussage zu widerlegen
+
 : Selective Linear Definite clause resolution
 
 
@@ -246,17 +355,11 @@ it is to be feared that the cannibals overpower the missionaries and eat them al
 Find a solution for the six people to safely cross the river.
 
 
-* Exercise 2
-Once upon a time a farmer went to a market and purchased a wolf, a goat, and a cabbage. On his way home, the farmer came to the bank of a river and rented a boat. But crossing the river by boat, the farmer could carry only himself and a single one of his purchases: the wolf, the goat, or the cabbage.
+* Exercise 3
 
-If left unattended together, the wolf would eat the goat, or the goat would eat the cabbage.
-
-The farmer's challenge was to carry himself and his purchases to the far bank of the river, leaving each purchase intact. How did he do it?
-
-.link https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem Wikipedia
 
 * There is more to Prolog
-- IO, Meta Predicates, Unit Tests, ...
+- IO, Structures, Meta Predicates, Unit Tests, ...
 - Tail Recursion, Hashing, Tabling, ...
 - Many libraries, e.g. Unicode, YAML, HTTP, C-Bindings, ...
 - Paxos: replicating key-value store (remember it from distributed computing?)
