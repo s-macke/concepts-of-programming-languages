@@ -66,7 +66,7 @@ Write a prolog program that derives a solution for the following logical:
 >
 > The farmer's challenge was to carry himself and his purchases to the far bank of the river, leaving each purchase intact. How did he do it?
 >
-> [Source](https://en.wikipedia.org/wiki/)
+> [Source](https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem)
 
 Hint 1: The problem is very similar to the one in [cannibals.pl](../../logic/cannibals.pl).  
 Hint 2: Only 7 river crossings are needed for solving the puzzle.
