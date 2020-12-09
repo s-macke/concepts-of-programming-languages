@@ -1,5 +1,5 @@
 # Concepts of Programming Languages
-Master Course: Concepts of Programming Languages - Rosenheim Technical University - 2019/2020
+Master Course: Concepts of Programming Languages - Rosenheim Technical University - 2020/2021
 
 <img src="docs/img/go.png" width="10%">
 
@@ -19,7 +19,7 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 ## Lecture 1 - Introduction
 
 - Overview of Programming Languages, Why Go?
-- Setup, HelloWorld, Swap, Basic Types and Variables, Programm Arguments, Working with Go Flags, CLI Libraries 
+- Setup, HelloWorld, Swap, Basic Types and Variables, Program Arguments, Working with Go Flags, CLI Libraries 
 - <a href="docs/01-1-About.pdf">About</a>
 - <a href="docs/01-2-Overview.pdf">Overview</a>
 - <a href="docs/01-3-Introduction to Golang.pdf">Introduction to Golang</a>
@@ -29,7 +29,7 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 
 - Pointer, Arrays, Maps and Object Oriented Programming
 - Reasons for Go https://www.youtube.com/watch?v=5kj5ApnhPAE
-- <a href="docs/-2-Go Programming - Basics and OOP.pdf">Slides</a>
+- <a href="docs/02-Go Programming - Basics and OOP.pdf">Slides</a>
 - <a href="docs/exercises/Exercise2.1.md">Exercise 2.1</a>
 - <a href="docs/exercises/Exercise2.2.md">Exercise 2.2</a>
 
@@ -37,25 +37,18 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 
 - Structs, Interfaces, Embedding, Polymorphism
 - <a href="docs/03-Go-Programming-OOP.pdf">Slides</a>
-- <a href="docs/exercises/Exercise3.md">Exercise 3.1 - Interfaces, Polymorphism and Embedding</a>
-- <a href="docs/exercises/Exercise3.md">Exercise 3.2 - Mail Component and Service Locator</a>
+- <a href="docs/exercises/Exercise3.md">Exercise 3</a>
 
 ## Lecture 4 - Building Parsers
 
 - Practicing Go using the example of parsers for boolean expressions
 - <a href="docs/04-Go-Programming-Parser.pdf">Slides</a>
-- <a href="docs/exercises/Exercise4.md">Exercise 4.1 - Lexer for boolean expressions
-- <a href="docs/exercises/Exercise4.md">Exercise 4.2.1 - Abstract Syntax Tree (AST)
-- <a href="docs/exercises/Exercise4.md">Exercise 4.2.2 Recursive Descent Parser
-- <a href="docs/exercises/Exercise4.md">Exercise 4.3 Antlr
+- <a href="docs/exercises/Exercise4.md">Exercise 4</a>
 
 ## Lecture 5 - Functional Programming
 - Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
 - <a href="docs/05-Functional-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise5.md">Exercise 5.1 - Warm Up with functional Programming in Go</a>
-- <a href="docs/exercises/Exercise5.md">Exercise 5.2 - Functional Composition</a>
-- <a href="docs/exercises/Exercise5.md">Exercise 5.3 - Map, Filter, Reduce with Streams</a>
-- <a href="docs/exercises/Exercise5.md">Exercise 5.4 - Functional Word Count</a>
+- <a href="docs/exercises/Exercise5.md">Exercise 5</a>
 
 ## Lecture 6 - Concurrent Programming
 - Why concurrent programming matters! Go routines and channels, Go concurrency patterns, The dining philosophers problem
