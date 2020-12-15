@@ -6,7 +6,9 @@ If you do not finish during the lecture period, please finish it as homework.
 ## Exercise 11.1 - Warmup
 Install SWI Prolog from [swi-prolog.org](https://www.swi-prolog.org/).
 
-* Windows users: simply download a [nightly build](https://www.swi-prolog.org/download/daily/bin/) or use the docker container
+* Windows users: download the [installer](https://www.swi-prolog.org/download/stable)
+  or use the [Docker container](https://hub.docker.com/_/swipl);
+  see also [swi-prolog page about Docker](https://www.swi-prolog.org/Docker.html).
 * Mac users: run `brew install swi-prolog`
 
 Create a new file named `family.pl` and put the following content:
