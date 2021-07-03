@@ -3,9 +3,9 @@ Concepts of Programming Languages
 12 Oct 2020
 Tags: go, programming, master
 
-Bernhard Saumweber
+Sebastian Macke
 Rosenheim Technical University
-bernhard.saumweber@qaware.de
+sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Golang
@@ -142,7 +142,7 @@ http://www.qaware.de
 .code ../basics/index/index.go /Page/,/Stringer/
 
 * Exercise 2.1
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
 .image img/02-exercise.png 500 700
 
 : Unterschied Pointer <-> Java Reference
@@ -188,5 +188,5 @@ http://www.qaware.de
 - No dereference (*s) is needed to call a method
 
 * Exercise 2.2
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.2.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.2.md
 .image img/02-exercise.png 500 700

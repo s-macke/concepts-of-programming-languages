@@ -1,7 +1,7 @@
 package main
 
 import (
-	mail "github.com/0xqab/concepts-of-programming-languages/modules/mail/v2"
+	mail "github.com/s-macke/concepts-of-programming-languages/modules/mail/v2"
 )
 
 var MailSender mail.SenderImpl

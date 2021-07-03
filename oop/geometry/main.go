@@ -1,6 +1,6 @@
 package main
 
-import "github.com/0xqab/concepts-of-programming-languages/oop/geometry/geoobject"
+import "github.com/s-macke/concepts-of-programming-languages/oop/geometry/geoobject"
 
 func main() {
 	geoobject.Paint()

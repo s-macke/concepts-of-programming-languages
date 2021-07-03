@@ -5,7 +5,7 @@
 package smtp
 
 import (
-	"github.com/0xqab/concepts-of-programming-languages/oop/mail"
+	"github.com/s-macke/concepts-of-programming-languages/oop/mail"
 	"log"
 )
 

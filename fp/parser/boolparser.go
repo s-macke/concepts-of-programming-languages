@@ -26,7 +26,7 @@ package parser
 import (
 	"container/list"
 
-	"github.com/0xqab/concepts-of-programming-languages/oop/boolparser/ast"
+	"github.com/s-macke/concepts-of-programming-languages/oop/boolparser/ast"
 )
 
 /** parseExpression parses the following grammar:

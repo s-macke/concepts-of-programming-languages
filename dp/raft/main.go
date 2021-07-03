@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/0xqab/concepts-of-programming-languages/dp/raft/node"
+	"github.com/s-macke/concepts-of-programming-languages/dp/raft/node"
 )
 
 var (

@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"github.com/0xqab/concepts-of-programming-languages/bp/lexer"
+	"github.com/s-macke/concepts-of-programming-languages/bp/lexer"
 	"strings"
 	"testing"
 )

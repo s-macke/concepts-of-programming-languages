@@ -3,9 +3,9 @@ Concepts of Programming Languages
 05 Oct 2020
 Tags: go, programming, master
 
-Bernhard Saumweber
+Sebastian Macke
 Rosenheim Technical University
-bernhard.saumweber@qaware.de
+sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Gopher
@@ -52,12 +52,12 @@ Rob Pike @ Google 2009 (60 Min)
 : Nebenläufigkeit: Goroutinen, Channels
 
 * Exercise 1
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise1.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise1.md
 .image img/01-exercise.png 500 700
 
 * See also
 
-.link https://github.com/0xqab/concepts-of-programming-languages
+.link https://github.com/s-macke/concepts-of-programming-languages
 .link https://golang.org/
 .link https://golang.org/doc/
 

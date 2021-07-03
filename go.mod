@@ -1,4 +1,4 @@
-module github.com/0xqab/concepts-of-programming-languages
+module github.com/s-macke/concepts-of-programming-languages
 
 go 1.13
 

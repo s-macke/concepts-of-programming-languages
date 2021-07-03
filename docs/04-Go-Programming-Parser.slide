@@ -3,9 +3,9 @@ Concepts of Programming Languages
 26 Oct 2020
 Tags: go, programming, master
 
-Bernhard Saumweber
+Sebastian Macke
 Rosenheim Technical University
-bernhard.saumweber@qaware.de
+sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Focus of today's lecture: Practice your GO-Skills
@@ -70,7 +70,7 @@ http://www.qaware.de
 
 
 * Implement a lexer for boolean expressions
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise4.md (see Exercise4.md)
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise4.md (see Exercise4.md)
 .background img/04-parsers/programming.png
 
 
@@ -181,7 +181,7 @@ Algorithm (high level):
 
 * Implement a parser for boolean expressions
 .background img/04-parsers/programming.png
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise4.md (see Exercise4.md)
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise4.md (see Exercise4.md)
 
 
 * Check

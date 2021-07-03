@@ -23,8 +23,8 @@ func TestLexer_AllTokens_MultiChar(t *testing.T) {
 		t.Fatal(err)
 	}
 	joined := strings.Join(tokens, ",")
-	if joined != "Bernhard,|,!,Bernhard" {
-		t.Fatalf("Expected 'Bernhard,|,!,Bernhard', but got '%s'", joined)
+	if joined != "Sebastian,|,!,Sebastian" {
+		t.Fatalf("Expected 'Sebastian,|,!,Sebastian', but got '%s'", joined)
 	}
 }
 

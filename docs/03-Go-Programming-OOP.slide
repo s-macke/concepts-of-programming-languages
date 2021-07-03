@@ -3,9 +3,9 @@ Concepts of Programming Languages
 19 Oct 2020
 Tags: go, programming, master
 
-Bernhard Saumweber
+Sebastian Macke
 Rosenheim Technical University
-bernhard.saumweber@qaware.de
+sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Last lecture
@@ -112,7 +112,7 @@ http://www.qaware.de
 - Implement the UML diagram with Go
 - The Paint() method should print the names and values of the fields to the console
 - Allocate an array of polymorph objects and call Paint() in a loop 
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise3.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise3.md
 
 * Questions
 - What is the difference between inheritance in Java and embedding in Go?

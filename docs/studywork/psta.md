@@ -28,9 +28,9 @@ Alexander Hennecke
 
 ## Goals
 This paper compares object orientated programming in Go with Ruby and is part of the 
-[University of Applied Sciences Rosenheim](https://th-rosenheim.de) master course [*Concepts of Programming Languages*](https://github.com/0xqab/concepts-of-programming-languages). 
+[University of Applied Sciences Rosenheim](https://th-rosenheim.de) master course [*Concepts of Programming Languages*](https://github.com/s-macke/concepts-of-programming-languages). 
 Furthermore a Boolparser is being developed that is based on the Johannes Weigend 
-implementation that is also available in the [GitHub repository](https://github.com/0xqab/concepts-of-programming-languages/tree/master/oop/boolparser). 
+implementation that is also available in the [GitHub repository](https://github.com/s-macke/concepts-of-programming-languages/tree/master/oop/boolparser). 
 
 
 ### Ruby
@@ -379,7 +379,7 @@ Since Go doesn't support inheritance, the language only supports polymorphism th
 ## Comparison OOP
 In this chapter both languages abilities for object orientated programming will be compared with the help of some 
 examples of the boolparser implementation. The Ruby implementation can be found in this repository. The Go 
-implementation can be found in the [GitHub repository](https://github.com/0xqab/concepts-of-programming-languages/tree/master/oop/boolparser) of 
+implementation can be found in the [GitHub repository](https://github.com/s-macke/concepts-of-programming-languages/tree/master/oop/boolparser) of 
 Johannes Weigend.
 
 ### Inheritance
@@ -507,5 +507,5 @@ style is different, but both can achieve object oriented programming.
 1.  R. Olsen, Eloquent Ruby, 2011
 1.  [YARV: Yet Another RubyVM](http://www.atdot.net/yarv/oopsla2005eabstract-rc1.pdf)
 1.  [OOP and Go… Sorta](https://medium.com/behancetech/oop-and-go-sorta-c6682359a41b)
-1.  [Concepts of Programming Languages](https://github.com/0xqab/concepts-of-programming-languages)
+1.  [Concepts of Programming Languages](https://github.com/s-macke/concepts-of-programming-languages)
 1.  [stackoverflow Developer Survey Results 2019](https://insights.stackoverflow.com/survey/2019#most-popular-technologies)

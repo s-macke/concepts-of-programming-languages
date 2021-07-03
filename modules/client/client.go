@@ -1,7 +1,7 @@
 package main
 
 import (
-	mail "github.com/0xqab/concepts-of-programming-languages/modules/mail/v2"
+	mail "github.com/s-macke/concepts-of-programming-languages/modules/mail/v2"
 	log "github.com/sirupsen/logrus"
 	"plugin"
 	"time"
@@ -23,7 +23,7 @@ func main() {
 
 	log.Info("sending mail")
 	err = sender.Send(mail.Message{
-		From:    "bernhard.saumweber@qaware.de",
+		From:    "sebastian.macke@qaware.de",
 		To:      "johannes.weigend@qaware.de",
 		Subject: "KP",
 		Message: "Hallo Welt!",

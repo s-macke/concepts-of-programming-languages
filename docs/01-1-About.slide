@@ -3,9 +3,9 @@ Concepts of Programming Languages - TH Rosenheim - WS 2020/2021
 05 Oct 2020
 Tags: go, programming, master
 
-Bernhard Saumweber
+Sebastian Macke
 Rosenheim Technical University
-bernhard.saumweber@qaware.de
+sebastian.macke@qaware.de
 http://www.qaware.de
 
 : Selbst vorstellen
@@ -71,7 +71,7 @@ Learning Campus: PDFs only
 .link https://learning-campus.fh-rosenheim.de/course/view.php?id=1412
 
 Github: PDFs, Sources, Slides (Go Present Tool)
-.link https://github.com/0xqab/concepts-of-programming-languages
+.link https://github.com/s-macke/concepts-of-programming-languages
 
 
 * Semester Work

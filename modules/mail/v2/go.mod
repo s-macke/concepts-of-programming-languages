@@ -1,4 +1,4 @@
-module github.com/0xqab/concepts-of-programming-languages/modules/mail/v2
+module github.com/s-macke/concepts-of-programming-languages/modules/mail/v2
 
 go 1.15
 

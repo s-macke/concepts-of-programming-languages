@@ -4,7 +4,7 @@
 // Package palindrome implements multiple functions for palindromes.
 package palindrome
 
-import "github.com/0xqab/concepts-of-programming-languages/basics/types/strings"
+import "github.com/s-macke/concepts-of-programming-languages/basics/types/strings"
 
 // IsPalindrome implementation. Does only work for 1-Byte UTF-8 chars (ASCII).
 func IsPalindrome(word string) bool {

@@ -3,9 +3,9 @@ Concepts of Programming Languages
 26 Oct 2020
 Tags: go, programming, master
 
-Bernhard Saumweber
+Sebastian Macke
 Rosenheim Technical University
-bernhard.saumweber@qaware.de
+sebastian.macke@qaware.de
 http://www.qaware.de
 
 * What is Functional Programming?
@@ -271,7 +271,7 @@ Hint: To understand this video you will watch it at least three times :-)
 
 * Exercise 5.3 - Map / Filter / Reduce
 
-.link https://github.com/0xqab/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-53---map--filter--reduce Exercise 5.3
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-53---map--filter--reduce Exercise 5.3
 Map/Reduce is a famous functional construct implemented in many parallel and distributed collection frameworks like Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq
 
 - Implement a custom M/R API with the following interface:

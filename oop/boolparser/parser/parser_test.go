@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/0xqab/concepts-of-programming-languages/oop/boolparser/lexer"
+	"github.com/s-macke/concepts-of-programming-languages/oop/boolparser/lexer"
 )
 
 func TestParser_Eval(t *testing.T) {

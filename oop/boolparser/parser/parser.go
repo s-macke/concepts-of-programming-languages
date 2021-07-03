@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/0xqab/concepts-of-programming-languages/oop/boolparser/ast"
-	"github.com/0xqab/concepts-of-programming-languages/oop/boolparser/lexer"
+	"github.com/s-macke/concepts-of-programming-languages/oop/boolparser/ast"
+	"github.com/s-macke/concepts-of-programming-languages/oop/boolparser/lexer"
 )
 
 //  ---------------------------------------------------------
