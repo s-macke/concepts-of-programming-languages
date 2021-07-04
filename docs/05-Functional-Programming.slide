@@ -49,7 +49,7 @@ Functional programming supports distributed computing
 
 * Functions are Values
 
-.play ../fp/functions/main.go /START OMIT/,/EOF OMIT/
+.play ../src/functional/functions/main.go /START OMIT/,/EOF OMIT/
 
 * Exercise 5.1 - Warm Up
 Write a Go Programm which shows the following concepts:
@@ -62,7 +62,7 @@ Write a Go Programm which shows the following concepts:
 : Clojure/Funktionsabschluss: Eine anonyme Funktion, die Zugriffe auf ihren Erstellungskontext enthält. Beim Aufruf greift die Funktion dann auf diesen Erstellungskontext zu. Dieser Kontext (Speicherbereich, Zustand) ist außerhalb der Funktion nicht referenzierbar, d. h. nicht sichtbar.
 
 * Clojures (Only impure if you modify the closed-over variable)
-.play ../fp/clojures/main.go /intSeq/,/EOF OMIT/
+.play ../src/functional/clojures/main.go /intSeq/,/EOF OMIT/
 
 * Many Functional Languages only support Single Argument Functions 
 - Currying : Converting a function with n arguments in n functions with one argument
@@ -167,24 +167,24 @@ Hint: To understand this video you will watch it at least three times :-)
     // This is the key: A Recursive function definition for all functions!!!
     type fnf func(fnf) fnf
 
-.code ../fp/mockingbird/main.go /Combinators/,/COMB OMIT/
-.play ../fp/mockingbird/main.go /TEST COMB START OMIT/,/TEST COMB END OMIT/
+.code ../src/functional/mockingbird/main.go /Combinators/,/COMB OMIT/
+.play ../src/functional/mockingbird/main.go /TEST COMB START OMIT/,/TEST COMB END OMIT/
 
 * Lambda Calculus in Go: Helper for printing
-.code ../fp/mockingbird/main.go /NAMER START OMIT/,/NAMER END OMIT/
+.code ../src/functional/mockingbird/main.go /NAMER START OMIT/,/NAMER END OMIT/
 
 * Lambda Calculus in Go: Boolean Logic
-.code ../fp/mockingbird/main.go /Boolean/,/BOOL OMIT/
-.play ../fp/mockingbird/main.go /TEST BOOL START OMIT/,/TEST BOOL END OMIT/
+.code ../src/functional/mockingbird/main.go /Boolean/,/BOOL OMIT/
+.play ../src/functional/mockingbird/main.go /TEST BOOL START OMIT/,/TEST BOOL END OMIT/
 
 * Lambda Calculus in Go: Helper (2)
-.play ../fp/mockingbird/main.go /Debugging/,/DEBUG END OMIT/
+.play ../src/functional/mockingbird/main.go /Debugging/,/DEBUG END OMIT/
 
 * Functional Numbers
-.code ../fp/successor/main.go /Functional Numbers 1/,/NUMBER END OMIT/
+.code ../src/functional/successor/main.go /Functional Numbers 1/,/NUMBER END OMIT/
 
 * Functional Numbers
-.play ../fp/successor/main.go /Functional Numbers SUCCESSOR/,/EOF OMIT/
+.play ../src/functional/successor/main.go /Functional Numbers SUCCESSOR/,/EOF OMIT/
 
 * Lambda Calculus in JavaScript
         TRUE = a => b => a; 
@@ -267,7 +267,7 @@ Hint: To understand this video you will watch it at least three times :-)
 
 * Go does not have an API similar to Java Streams
 - It is possible to build such an API in Go
-.code ../fp/streams/streams_test.go /array/,/lambda/
+.code ../src/functional/streams/streams_test.go /array/,/lambda/
 
 * Exercise 5.3 - Map / Filter / Reduce
 
@@ -287,7 +287,7 @@ Map/Reduce is a famous functional construct implemented in many parallel and dis
 
 * Generic Mapper, Predicate and Accumulator
 
-.code ../fp/streams/streams.go /EXERCISE 5.3 START OMIT/,/EXERCISE 5.3 END OMIT/
+.code ../src/functional/streams/streams.go /EXERCISE 5.3 START OMIT/,/EXERCISE 5.3 END OMIT/
 
 * Exercise 5.4 - Word Count (WC)
 
@@ -304,7 +304,7 @@ Questions
 - Write an Unit Test to prove that your solution works as expected!
 
 * Classic Word Count Sample
-.code ../fp/streams/streams_test.go /wordcount/,/ENDWC OMIT/
+.code ../src/functional/streams/streams_test.go /wordcount/,/ENDWC OMIT/
 
 * Questions
 - How can you implement parallel execution for our API?

@@ -46,7 +46,7 @@ Import the pseudo package C in your Go source and include the corresponding C he
 To build cgo packages, just use go build or go install as usual. The go tool recognizes the special "C" import and automatically uses cgo for those files.
 
 * Calling C Code from Go with cgo
-.play ../sp/samples/random/main.go
+.play ../src/system/samples/random/main.go
 
 * Controlling Linking with Build Flags
 Build flags for the cgo command can be set in the Go source file as comments:
@@ -103,7 +103,7 @@ Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or 
 * Platform independent programming with Go 
 The packages os and runtime encapsulate platform dependent APIs
 
-.play ../sp/samples/os/pid.go
+.play ../src/system/samples/os/pid.go
 
 * The OS Package
 Access to the standard I/O streams
@@ -136,7 +136,7 @@ Package runtime contains operations that interact with Go's runtime system, such
 - The Go syscall package has platform dependent functionality which is different per OS
 - Go has a wrapper package to use the C syscall function (#include<sys/syscall>)  
 
-.play ../sp/samples/syscall/pid.go
+.play ../src/system/samples/syscall/pid.go
 
 .link https://golang.org/pkg/syscall/
 .link https://godoc.org/golang.org/x/sys

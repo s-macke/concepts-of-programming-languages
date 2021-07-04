@@ -40,11 +40,11 @@ http://www.qaware.de
 
 * Embedding
 - Go does not support inheritance: Go supports embedding of other structs.
-.code ../oop/polymorphism/polymorphism.go /Point/,8
+.code ../src/oop/polymorphism/polymorphism.go /Point/,8
 
-.code ../oop/polymorphism/polymorphism.go /ColorPoint/,19
+.code ../src/oop/polymorphism/polymorphism.go /ColorPoint/,19
 
-.code ../oop/polymorphism/polymorphism.go /cp.x/,35
+.code ../src/oop/polymorphism/polymorphism.go /cp.x/,35
 
 - In Java this can be done with delegation.
 - Syntactically it is similar to inheritance in Java
@@ -53,7 +53,7 @@ http://www.qaware.de
 : Overloading is generally not possible in Go
 
 * Polymorphism
-.code ../oop/polymorphism/polymorphism.go /ColorPoint/,/END1 OMIT/
+.code ../src/oop/polymorphism/polymorphism.go /ColorPoint/,/END1 OMIT/
 
     type Stringer interface {
         String() string
@@ -63,21 +63,21 @@ http://www.qaware.de
 - Go supports polymorphism only via interfaces, not through classes
 
 * Interfaces and Polymorphism
-.play ../oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
+.play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
 
 * Send Mail with Go: A minimal Interface
-.code ../oop/mail/mail.go /Message/,/END OMIT/
+.code ../src/oop/mail/mail.go /Message/,/END OMIT/
 - A example interface for a service-oriented component
 
 * A type implements an interface when providing the required methods
-.code ../oop/mail/smtp/sender.go /Package/,/END OMIT/
+.code ../src/oop/mail/smtp/sender.go /Package/,/END OMIT/
 - Import references fully qualified VC directories in $GOPATH/src
 
 * The Go interface can be used as in Java
-.code ../oop/mail/client/client.go /Package/,/EOF OMIT/
+.code ../src/oop/mail/client/client.go /Package/,/EOF OMIT/
 
 * Delegation vs. Consultation or Forwarding
-.play ../oop/delegation/delegation.go /A/,/EOF OMIT/
+.play ../src/oop/delegation/delegation.go /A/,/EOF OMIT/
 : prints "a.bar"
 : real delegation should print "b.bar", because delegation means
 : evaluating the receiver member method Foo() of A in the context of the sender object B
@@ -94,10 +94,10 @@ http://www.qaware.de
 : Stop at 32:06 (Concurrency)
 
 * Embedding
-.code ../oop/embedding/embedding.go /Introducer/,/EOE OMIT/
+.code ../src/oop/embedding/embedding.go /Introducer/,/EOE OMIT/
 
 * Embedding (cont.)
-.code ../oop/embedding/embedding.go /Employee/,/EOF OMIT/
+.code ../src/oop/embedding/embedding.go /Employee/,/EOF OMIT/
 
 * Takeaways
 - Implicit polymorphism means fewer dependencies and no type hierarchy
@@ -119,7 +119,7 @@ http://www.qaware.de
 - How does Go support multiple inheritance? Is is supported for interfaces and types?
 
 * Multiple inheritance
-.code ../oop/multi/multi.go /Fooer/,/END1 OMIT/
+.code ../src/oop/multi/multi.go /Fooer/,/END1 OMIT/
 
 * Multiple inheritance (cont.)
-.play ../oop/multi/multi.go /END1 OMIT/,/EOF OMIT/
+.play ../src/oop/multi/multi.go /END1 OMIT/,/EOF OMIT/

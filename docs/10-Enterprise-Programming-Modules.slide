@@ -209,12 +209,12 @@ If your code is already under version control (e.g. git), you may simply run
 - Go supports dynamic loading of plugins
 
 * Linking of C libraries
-.code ../library/mylib.h
-.code ../library/mylib.c
-.code ../library/main.go
+.code ../src/library/mylib.h
+.code ../src/library/mylib.c
+.code ../src/library/main.go
 
 * Dynamic linking of C libraries
-.code ../library/Makefile /dynamic:/,/dynamic OMIT/
+.code ../src/library/Makefile /dynamic:/,/dynamic OMIT/
 
 Deleting the `libmylib.so` throws error:
 
@@ -225,7 +225,7 @@ Deleting the `libmylib.so` throws error:
     zsh: abort      ./main
 
 * Static linking of C libraries
-.code ../library/Makefile /static:/,/static OMIT/
+.code ../src/library/Makefile /static:/,/static OMIT/
 
 Deleting the `libmylib.a` is fine:
 

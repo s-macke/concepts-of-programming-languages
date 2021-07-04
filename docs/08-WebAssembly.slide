@@ -83,11 +83,11 @@ http://www.qaware.de
 - Example in `webassembly/wat` folder
 add.wat
 
-.code ../webassembly/wat/add.wat
+.code ../src/webassembly/wat/add.wat
 
 add.js
 
-.code ../webassembly/wat/add.js
+.code ../src/webassembly/wat/add.js
 
 * Supported languages in 2020
 
@@ -113,19 +113,19 @@ add.js
 - Example in `webassembly/C` folder
 add.c
 
-.code ../webassembly/C/add/add.c
+.code ../src/webassembly/C/add/add.c
 
 add.js
 
-.code ../webassembly/C/add/add.js
+.code ../src/webassembly/C/add/add.js
 
 * Demo in Go
 
-.code ../webassembly/go/hello/main.go
+.code ../src/webassembly/go/hello/main.go
 
 index.html
 
-.code ../webassembly/go/hello/index.html
+.code ../src/webassembly/go/hello/index.html
 
 
 * Exercise
@@ -167,13 +167,13 @@ index.html
 
 * Calls from and to Go
 
-.code ../webassembly/go/call/main.go
+.code ../src/webassembly/go/call/main.go
 
 * Calls from and to Go
 
 index.html
 
-.code ../webassembly/go/call/index.html /const/,/script/
+.code ../src/webassembly/go/call/index.html /const/,/script/
 
 * Exercise
 

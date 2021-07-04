@@ -140,24 +140,24 @@ Requirements and Decisions
 .link https://github.com/s-macke/concepts-of-programming-languages/tree/master/dp/raft
 
 * Step I - Defining a KV Business API 
-.code ../dp/kvstore/kvstore-api.go
+.code ../src/distributed/kvstore/kvstore-api.go
 
 - This is the business API for setting and getting data in/out or Raft cluster
 
 * Step II - The Raft Interface : AppendEntries
-.code ../dp/kvstore/core/raft/noderpc.go /type NodeRPC/
-.code ../dp/kvstore/core/raft/noderpc.go /AppendEntries/,23
+.code ../src/distributed/kvstore/core/raft/noderpc.go /type NodeRPC/
+.code ../src/distributed/kvstore/core/raft/noderpc.go /AppendEntries/,23
 - The interface could be easily proxied with gRPC or run locally without proxy
 
 * Step II - The Raft Interface : RequestVote
-.code ../dp/kvstore/core/raft/noderpc.go /type NodeRPC/
-.code ../dp/kvstore/core/raft/noderpc.go /RequestVote/,37
+.code ../src/distributed/kvstore/core/raft/noderpc.go /type NodeRPC/
+.code ../src/distributed/kvstore/core/raft/noderpc.go /RequestVote/,37
 
 * Step III - Implement the Raft Interfaces in a Server/Node
-.code ../dp/kvstore/core/raft/node.go /type Node/,28
+.code ../src/distributed/kvstore/core/raft/node.go /type Node/,28
 
 * Step IV - Write Tests 
-.code ../dp/kvstore/core/raft/node_test.go /TestElection/,33
+.code ../src/distributed/kvstore/core/raft/node_test.go /TestElection/,33
 
 * Interesting Parts
 - Statemachine 

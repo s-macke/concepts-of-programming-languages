@@ -54,14 +54,14 @@ Like launching a function with shell's `&` notation.
 * Lecturer 1: A simple example
 No Goroutine used yet:
 
-.play ../cp/channels/lecturer/lecturer1/main.go /lecturer/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer1/main.go /lecturer/,/EOF/
 
 What output do you expect?
 
 * Lecturer 2: First Goroutine
 Let's call `lecturer()` in a Goroutine:
 
-.play ../cp/channels/lecturer/lecturer2/main.go /lecturer/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer2/main.go /lecturer/,/EOF/
 
 What output do you expect?
 
@@ -112,41 +112,41 @@ Channels are typed values that allow goroutines to synchronize and exchange info
 * Channels: Deadlocks
 The following code might look good at first sight, but causes a deadlock:
 
-.play ../cp/channels/deadlock/main.go
+.play ../src/concurrent/channels/deadlock/main.go
 
 Expected output?
 
 * Lecturer 3: Channels
 Let's use channels for communication:
 
-.play ../cp/channels/lecturer/lecturer3/main.go /lecturer/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer3/main.go /lecturer/,/EOF/
 
 * Lecturer 4: Channels
 We can also return an (outgoing) channel instead of passing it as parameter:
 
-.play ../cp/channels/lecturer/lecturer4/main.go /lecturer/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer4/main.go /lecturer/,/EOF/
 
 
 * Exercise 1: Generator
 Write a generator for Fibonacci numbers, i.e. a function that returns a channel where the next Fibonacci number can be read.
 
-.play ../cp/channels/fibonacci/main.go /MAIN/,/EOF/
+.play ../src/concurrent/channels/fibonacci/main.go /MAIN/,/EOF/
 
 Also write a test for the `fib()` function.
 
 * Lecturer 5: Anne & Bart
 We're adding another (slower) lecturer to make it more interesting:
 
-.play ../cp/channels/lecturer/lecturer5/main.go /lecturer/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer5/main.go /lecturer/,/EOF/
 
 #* Ping Pong
-#.play ../cp/channels/pingpong/pingpong.go /Ball/,/EOF/
+#.play ../src/concurrent/channels/pingpong/pingpong.go /Ball/,/EOF/
 
 * Lecturer 6: Fan In
-.play ../cp/channels/lecturer/lecturer6/main.go /START/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer6/main.go /START/,/EOF/
 
 * Lecturer 7: Select
-.play ../cp/channels/lecturer/lecturer7/main.go /lecturer/,/EOF/
+.play ../src/concurrent/channels/lecturer/lecturer7/main.go /lecturer/,/EOF/
 
 * Select
 The `select` statement is like a `switch`, but the decision is based on ability to communicate rather than equal values.
@@ -158,19 +158,19 @@ Without default case, the select blocks until a message is received on one of th
 * Exercise 2: Timeout
 Write a function `setTimeout()` that times out an operation after a given amount of time. Hint: Have a look at the built-in `time.After()` function and make use of the `select` statement.
 
-.play ../cp/channels/timeout/main.go /MAIN/,/EOF/
+.play ../src/concurrent/channels/timeout/main.go /MAIN/,/EOF/
 
 Also write a test for the `setTimeout()` function.
 
 * Fan In
 - Merge n channels into one
-.code ../cp/channels/fan/fanin.go /FanIn/,/FanIn OMIT/
+.code ../src/concurrent/channels/fan/fanin.go /FanIn/,/FanIn OMIT/
 
 : einfächern, zusammenführen
 
 * Fan Out
 - Read tasks from a channel and start parallel processing. Results will be written in a result channel.
-.code ../cp/channels/fan/fanout.go /FanOut/,/EOF OMIT/
+.code ../src/concurrent/channels/fan/fanout.go /FanOut/,/EOF OMIT/
 
 : auffächern
 
@@ -191,16 +191,16 @@ More information about Go and concurrency:
 
 
 * Java like BlockingQueue with Channels
-.code ../cp/channels/blockingqueue/blockingqueue.go /BlockingQueue/,/EOF/
+.code ../src/concurrent/channels/blockingqueue/blockingqueue.go /BlockingQueue/,/EOF/
 
 * Java like BlockingQueue - Test
-.code ../cp/channels/blockingqueue/blockingqueue_test.go /TestBlockingQueue/,/EOF OMIT/
+.code ../src/concurrent/channels/blockingqueue/blockingqueue_test.go /TestBlockingQueue/,/EOF OMIT/
 
 * Java like BlockingQueue with Locks (Low Level)
-.code ../cp/locks/blockingqueue/blockingqueue.go /BlockingQueue/,/A1/
+.code ../src/concurrent/locks/blockingqueue/blockingqueue.go /BlockingQueue/,/A1/
 
 * Java like BlockingQueue with Locks (Low Level)
-.code ../cp/locks/blockingqueue/blockingqueue.go /Put/,/A2/
+.code ../src/concurrent/locks/blockingqueue/blockingqueue.go /Put/,/A2/
 
 
 * Exercise 3: Dining Philosophers

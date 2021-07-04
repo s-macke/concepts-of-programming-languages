@@ -65,7 +65,7 @@ http://www.qaware.de
 
 - _Tokens_ are based on the grammar and are consumed by the _parser_
 - Simple lexer example:
-.code ../oop/boolparser/lexer/lexer.go /START OMIT/,/END OMIT/
+.code ../src/oop/boolparser/lexer/lexer.go /START OMIT/,/END OMIT/
 
 
 

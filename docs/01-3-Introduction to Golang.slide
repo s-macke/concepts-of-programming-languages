@@ -27,11 +27,11 @@ http://www.qaware.de
 : 2014: Erste Gopher-Konferenz
 
 * Hello World
-.play ../basics/hello/main.go
+.play ../src/basics/hello/main.go
 
 * Palindrome
-.code ../basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
-.code ../basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
+.code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
+.code ../src/basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
 
 * Introduction to Golang
 Rob Pike @ Google 2009 (60 Min)

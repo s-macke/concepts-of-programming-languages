@@ -27,7 +27,7 @@ http://www.qaware.de
 - Object-oriented, Functional, Parallel, Modular (vgo) and Versioned
 
 * Hello World
-.play ../basics/hello/main.go
+.play ../src/basics/hello/main.go
 - Go source files are UTF-8 encoded
 - Package names are not hierarchical!
 - Package import names are hierarchical!
@@ -56,11 +56,11 @@ http://www.qaware.de
     var st struct {x,z,y int, struct {color int}}
 
 * Complex Numbers
-.play ../basics/complex/complex.go
+.play ../src/basics/complex/complex.go
 .image img/02-complex.png 200 _
 
 * Functions and Control Structures: Example Palindrome
-.code ../basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
+.code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
 - The type of a variable is behind the name!
 - The return type of a function is behind the parameter list
 - Conditions (if, for) are not clipped with ()
@@ -68,13 +68,13 @@ http://www.qaware.de
 - semicolons are omitted
 
 * Go directly supports Unit Tests via "go test"
-.code ../basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
+.code ../src/basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
 - The unit test for a file is located in a _test.go file of the same name
 - TestXY functions are called automatically
 - The test context testing.T controls the execution
 
 * Functions and Control Structures: Example Palindrome (UTF-8)
-.code ../basics/palindrome/palindrome.go /IsPalindrome2/,/END2 OMIT/
+.code ../src/basics/palindrome/palindrome.go /IsPalindrome2/,/END2 OMIT/
 - The rune type is an alias for int32 and can store all UTF-8 characters
 - `[]rune(string)` converts a string into a slice of runes
 - The range operator has two return values: the position and the current value
@@ -82,7 +82,7 @@ http://www.qaware.de
     pos, ch := range runes
 
 * Functions and Control Structures: Example String Reverse (UTF-8)
-.code ../basics/types/strings/strings.go /Reverse/,/End OMIT/
+.code ../src/basics/types/strings/strings.go /Reverse/,/End OMIT/
 
 * Arrays and Slices
 - Arrays have a fixed length and can not resized
@@ -103,7 +103,7 @@ http://www.qaware.de
     fmt.Println(array)       // -> [1 2 3]
 
 * Functions and Control Structures: Example Palindrome (Reverse)
-.code ../basics/palindrome/palindrome.go /IsPalindrome3/,/END3 OMIT/
+.code ../src/basics/palindrome/palindrome.go /IsPalindrome3/,/END3 OMIT/
 - Strings, arrays are compared in Go with ==
 - Slices, Maps are compared with cmp.Equal 
 
@@ -125,21 +125,21 @@ http://www.qaware.de
 - Comparator (Comparer) is optional (as in Java)
 
 * Pointer I
-.code ../basics/swap/main.go /func swap1/,/END1 OMIT/
-.code ../basics/swap/main.go /func swap2/,/END2 OMIT/
-.code ../basics/swap/main.go /func swap3/,/END3 OMIT/
+.code ../src/basics/swap/main.go /func swap1/,/END1 OMIT/
+.code ../src/basics/swap/main.go /func swap2/,/END2 OMIT/
+.code ../src/basics/swap/main.go /func swap3/,/END3 OMIT/
 - The double assignment saves a variable (tmp)!
 - Pointers are transferred as well as values ​​by copy
 - There is no pointer arithmetic (p ++) as in C / C ++
 
 * Pointer II
-.play ../basics/swap/main.go /func main/,/END0 OMIT/
+.play ../src/basics/swap/main.go /func main/,/END0 OMIT/
 
 * The Flag API simplifies Command Line Utilities
-.play ../basics/flags/main.go /func main/,/END OMIT/
+.play ../src/basics/flags/main.go /func main/,/END OMIT/
 
 * Maps and Slices - Example Book Index
-.code ../basics/index/index.go /Page/,/Stringer/
+.code ../src/basics/index/index.go /Page/,/Stringer/
 
 * Exercise 2.1
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
@@ -159,15 +159,15 @@ http://www.qaware.de
 
 * Object Oriented Programming - Custom Types
 * Go has no classes but types and functions
-.code ../oop/rational/rational.go /Rational/,/END1 OMIT/
-.code ../oop/rational/rational.go /Multiply/,/Multiply OMIT/
-.code ../oop/rational/rational.go /NewRational/,/END2 OMIT/
+.code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
+.code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
+.code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
 
 * The typical OO Syntax (object.method()) is supported in Go
-.code ../oop/rational/rational_test.go /TestRational/,/END OMIT/
+.code ../src/oop/rational/rational_test.go /TestRational/,/END OMIT/
 
 * "ToString" - The Stringer Interface
-.code ../oop/rational/rational.go /Stringer/,/Stringer OMIT/
+.code ../src/oop/rational/rational.go /Stringer/,/Stringer OMIT/
     r1 := NewRational(1, 2)
     fmt.Println(r1) // -> (1/2)
 
@@ -178,10 +178,10 @@ http://www.qaware.de
     }
 
 * The Base Type for Container is the Empty Interface (interface{})
-.code ../oop/stack/stack.go /Stack/,/END OMIT/
+.code ../src/oop/stack/stack.go /Stack/,/END OMIT/
 
 * The Downcast Syntax is similar to a Function Call
-.code ../oop/stack/stack_test.go /TestCasting/,/END OMIT/
+.code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
 - Object types (e.g., Containers) are used by pointers (no copies)
 - Data types (e.g., Money, Date, ...) are used by value (copies)
 - The downcast is safe (== dynamic_cast in C ++ or cast in Java)
