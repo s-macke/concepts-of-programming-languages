@@ -34,34 +34,37 @@ http://www.qaware.de
 - Public functions begin with a capital letter
 
 * Basic Types
-    var b bool
-    var s string
-    var i   int         // int
-    var i8  int8
-    var i16 int16
-    var i32 int32
-    var i64 int64
-    var ui    uint      // unsigned int
+    var b     bool
+    var s     string
+    var i     int          // int
+    var i8    int8
+    var i16   int16
+    var i32   int32
+    var i64   int64
+    var ui    uint         // unsigned int
     var ui8   uint8
     var ui16  uint16
     var ui32  uint32
     var ui64  uint64
     var uiptr uintptr
-    var bt byte         // alias for uint8
-    var r rune          // alias for int32 // represents a Unicode code point
-    var f32 float32     // float
-    var f64 float64
-    var c64 complex64   // complex
-    var c128 complex128
-    var st struct {x,z,y int, struct {color int}}
+    var bt    byte         // alias for uint8
+    var r     rune         // alias for int32 // represents a Unicode code point
+    var f32   float32      // float
+    var f64   float64
+    var c64   complex64    // complex
+    var c128  complex128
+    var st    struct {x,z,y int, struct {color int}}
+
+- The type of a variable is behind the name!
 
 * Complex Numbers
 .play ../src/basics/complex/complex.go
-.image img/02-complex.png 200 _
+- The assignment ':=' is used for short variable declarations. The type is deduced implicitly
+.image img/02-complex.png 150 _
+
 
 * Functions and Control Structures: Example Palindrome
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
-- The type of a variable is behind the name!
 - The return type of a function is behind the parameter list
 - Conditions (if, for) are not clipped with ()
 - if, for ... statements need curly braces {}
@@ -124,7 +127,14 @@ http://www.qaware.de
 
 - Comparator (Comparer) is optional (as in Java)
 
+* Pass by value I
+.code ../src/basics/pass_by_value/main.go
+
+* Pass by value II
+.html snippets/pass_by_value_table.html
+
 * Pointer I
+.code ../src/basics/swap/main.go /func swap0/,/END0 OMIT/
 .code ../src/basics/swap/main.go /func swap1/,/END1 OMIT/
 .code ../src/basics/swap/main.go /func swap2/,/END2 OMIT/
 .code ../src/basics/swap/main.go /func swap3/,/END3 OMIT/

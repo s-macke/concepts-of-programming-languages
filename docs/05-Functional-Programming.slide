@@ -8,6 +8,9 @@ Rosenheim Technical University
 sebastian.macke@qaware.de
 http://www.qaware.de
 
+: https://www.digicomp.ch/blog/2015/10/20/einfuehrung-in-die-funktionale-programmierung
+
+
 * What is Functional Programming?
 .image ./img/04-lambda.png 200 350
 - the combination of pure functions;

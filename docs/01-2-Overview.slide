@@ -9,8 +9,18 @@ sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Evolution of Programming Languages
-.link img/01-Languages.png
-.image img/01-Languages.png 500 1000
+.link img/01-languages.png
+.image img/01-languages.png 500 _
+
+* Fortran I looks familiar
+
+.image img/01-fortran0.png 500 _
+
+* But not all used equal
+.image img/01_redmonk_2021.png 600 _
+
+: Umfrage, welche Sprachen kennt ihr?
+
 
 * Types of Programming Languages
 - *Imperative*: Assembler as root (Operations and Control Structures)
@@ -37,7 +47,7 @@ http://www.qaware.de
 - User Interface Programming
 - Embedded Systems 
 
-* Orthogonal Classifications
+* Orthogonal Classifications I
 - Static vs. Dynamic Typed
 - Compiled vs. Interpreted
 - Sequential vs. Parallel
@@ -50,6 +60,21 @@ http://www.qaware.de
 : Folie noch mal auflegen und mit Video vergleichen!
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
 : Golang: platform dependent assembler & cross compiler
+
+* Orthogonal classification II
+.html snippets/classification.html
+
+**** Depends on standard or version
+****** Depends on standard or version
+******** interpreted languages are not linked
+Not all classifications are
+
+: Folie noch mal auflegen und mit Video vergleichen!
+: Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
+: Golang: platform dependent assembler & cross compiler
+
+
+
 
 * Some Thoughts
 - There are many solutions for a given problem
