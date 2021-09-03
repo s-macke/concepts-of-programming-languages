@@ -14,10 +14,10 @@ http://www.qaware.de
 .image ./img/00-programming-languages.jpeg 550 1000
 
 * Course Requirements
-- The course is designed as a master course. 
-- Solid programming skills in Java/C/C++ are required. 
-- It is assumed that students have some skills in Scala, Python or Ruby.
-- For all code examples, we will use Go (Golang) as language.
+- The course is designed as a master course.
+- Solid programming skills in Java/C/C++ are required.
+- It is assumed that students have some skills in other programming languages such as Scala, Python or Ruby.
+- For most of the code examples, we will use Go (Golang) as language.
 
 * Goal of the Course
 
@@ -45,19 +45,21 @@ Lecture 7 - *Distributed* *Programming*
 
 Lecture 8 - *Systems* *Programming*
 
-Lecture 9 - *Enterprise* *Programming* *and* *Modules*
+Lecture 9 - *Webassembly* *Programming*
 
-Lecture 10 - *Microservices*
+Lecture 10 - *Enterprise* *Programming* *and* *Modules*
+
+Lecture 11 - *Microservices*
 
 * Lectures
 
-Lecture 11 - *Plugins*
+Lecture 12 - *Plugins*
 
-Lecture 12 - *Summary*
+Lecture 13 - *Summary*
 
 
 * Structure of this course
-- Recap - 15 min 
+- Recap - 15 min
 - Lecture - 30 min
 - Online Tutorials (Video) - 45 min
 - Student Discussions - 30 min
@@ -68,7 +70,7 @@ Lecture 12 - *Summary*
 
 * Material
 Learning Campus: PDFs only
-.link https://learning-campus.fh-rosenheim.de/course/view.php?id=1412
+.link https://learning-campus.fh-rosenheim.de/course/view.php?id=2993
 
 Github: PDFs, Sources, Slides (Go Present Tool)
 .link https://github.com/s-macke/concepts-of-programming-languages

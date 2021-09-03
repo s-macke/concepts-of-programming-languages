@@ -1,0 +1,65 @@
+Lisp and Forth - Languages from the Past
+Concepts of Programming Languages
+14 Dec 2020
+Tags: go, programming, logic
+
+Sebastian Macke
+Rosenheim Technical University
+sebastian.macke@qaware.de
+http://www.qaware.de
+
+* Lisp
+
+* Lisp Cheat Sheet
+
+    (+ [number] [number] ...)         add math operations
+    (- [number] [number] ...)         subtract from the first number
+    (< [number1] [number2])           returns true if number1 < number2
+
+    (print [number])                  prints the value
+    (if [condition] [then] [else])    if condition
+
+    `([elem1] [elem2] [elem3] ...)     list if quoted and hence not executed
+    (setq [name] [elem])               assigns variable
+    (eval `([code]))                   evaluate code
+    (car [elem1] [elem2] ...)          return elem1
+    (cdr [elem1] [elem2] ...)          return elem2 and all subsequent elements
+    (defun [name] ([params]) [code] [code] ...)   define function
+
+    (defun fib (n)
+      (if (< n 2) n
+          (+ (fib (1- n)) (fib (- n 2)))))
+
+* Forth
+
+Forth is a compiled and interpreted language at the same time
+
+* Forth Cheat Sheet
+    words           lists all word in the dictionary
+    .s              show the stack
+
+    +, -, *, /     math operations
+    <, >, =        test if the numbers are smaller, larger, equal
+
+    .               pops the top element from the stack and prints its number
+    drop            drop a stack item
+    dup             duplicate a stack item
+    rot             rotate the top 3 elements in the stack
+
+    ( and \         Comments
+
+    : [name] ... ;  Function declaration
+    ." ..."         Print the string
+    .S" ..."
+    type            prints the string on the stack
+    cr              prints a new line
+
+    variable [name] defines a int variable
+    [variable]      puts the memory position of the variable onto the stack
+    @               receives the content from the memory location
+    !               stores the content into the memory location
+
+
+* Forth Examples
+https://skilldrick.github.io/easyforth/#conditionals-and-loops
+https://www.tutorialspoint.com/execute_forth_online.php

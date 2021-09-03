@@ -29,6 +29,31 @@ http://www.qaware.de
 * Hello World
 .play ../src/basics/hello/main.go
 
+* Motivation behind Google
+
+- No new major systems language in a decade
+
+- But much has changed
+  - sprawling libraries & depdencies chains
+  - dominance of networking
+  - client / server focus
+  - massive clusters
+  - the rise of multi-core CPUs
+
+- Major systems languges were not designed with all these factors in mind.
+
+* Construction speed
+- It takes too long to build software for
+- The tools are slow and are getting sqlitebrowser
+- Dependencies are uncontrolled
+- Machines have stopped getting faster
+- Yet software still grows and grows
+
+If we stay as we are, before long software construction wil be unbearably slow
+
+TODO: Bild einfügen xkcd.com/303/
+
+
 * Palindrome
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
 .code ../src/basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
@@ -38,6 +63,22 @@ Rob Pike @ Google 2009 (60 Min)
 
 .link https://www.youtube.com/watch?v=rKnDgT73v8s
 .image img/01-go-programming-Language.png 450 700
+
+* Type system tyranny
+....
+
+* Why a new language?
+
+- These problems are endemic and linguistic
+- New libraries won't help (Adding anything is going in the wrong direction)
+- Need to start over, thinking about the way programs a re written and constructed
+
+* Goals
+- The efficiency of a statically-typed compiled language with the ease of programming of a dynamic language
+- Safety: type-safe and memory-safe
+- Good support for concurrency and communication
+- Efficient, latency-free garbage collection
+- High-spee compilation
 
 * Some Questions 
 - What makes Go different to other Languages? 

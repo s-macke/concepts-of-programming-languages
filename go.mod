@@ -1,6 +1,6 @@
 module github.com/s-macke/concepts-of-programming-languages
 
-go 1.13
+go 1.16
 
 require (
 	github.com/antlr/antlr4 v0.0.0-20201022163248-67e49703c3b3

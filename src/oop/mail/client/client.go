@@ -5,8 +5,8 @@
 package client
 
 import (
-	"github.com/s-macke/concepts-of-programming-languages/oop/mail"
-	"github.com/s-macke/concepts-of-programming-languages/oop/mail/util"
+	"github.com/s-macke/concepts-of-programming-languages/src/oop/mail"
+	"github.com/s-macke/concepts-of-programming-languages/src/oop/mail/util"
 )
 
 // Registry is the central configuration for the service locator

@@ -13,11 +13,14 @@ If you do not finish during the lecture period, please finish it as homework.
 - Create a Go workspace on the disk in the <<DISK>>/codebase/gopath directory
   - <https://www.youtube.com/watch?v=XCsL89YtqCs>
 - Create a shell script (.sh / .cmd) to make your changes to the `GOPATH` and PATH environment variables persistent.
+  - Check the configuration with `go env`
 - Create a Github project with your personal account containing a `HelloWorld.go` program
 - Use go get github.com/\<\<YOUR REPO\>\> to copy the repository into your local `GOPATH`.
 - Add `HelloWorld.go` to the checkout path and `commit / push` the file.
 - Test the `HelloWorld` program with "go run HelloWorld"
-- Optional: Install Visual Studio Code, IntelliJ or any other Editor with Go support inside your virtual disk.
+- Optional, but desirable: Install Visual Studio Code, IntelliJ or any other Editor with Go support inside your virtual disk.
+- Try to compile simple go code inside <https://play.golang.org/>
+
 
 ## After this Exercise
 
@@ -25,3 +28,5 @@ If you do not finish during the lecture period, please finish it as homework.
 - You should know about the meaning of the `GOPATH` and PATH variables
 - You should have a portable Go installation inside a separate disk or directory on your computer
 - Your personal Github project is cloned into your workspace. You are able to add, remove and commit files.
+
+## Write a small game "Zahlenraten"
