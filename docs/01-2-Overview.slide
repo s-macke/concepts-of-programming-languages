@@ -8,6 +8,19 @@ Rosenheim Technical University
 sebastian.macke@qaware.de
 http://www.qaware.de
 
+* Categorization of programming languages
+- Programming languages can be categorized in many ways
+  - Chronologically
+  - Popularity
+  - Language Paradigma
+  - Usage
+  - Orthogonal Properties of the language (e. g. compiled vs. interpreted)
+  - Features
+
+.link https://en.wikipedia.org/wiki/List_of_official_languages  Languages Alphabetically
+.link https://en.wikipedia.org/wiki/List_of_programming_languages_by_type Languages By Type
+
+
 * Evolution of Programming Languages
 .link img/01-languages.png
 .image img/01-languages.png 500 _
@@ -25,14 +38,14 @@ http://www.qaware.de
 
 * Types of Programming Languages
 * Programming language Paradigms
-- *Imperative*: Assembler as root (Operations and Control Structures)
-- *Procedural* (Control Structures and Procedures): Fortran / Algol / Pascal / *C*
+- *Non-structured*: Assembler, First Programming languages with goto
+- *Structured* *or* *Imperative*: conditionals, repetition, blocks, functions
+- *Procedural* (Control Structures and Procedures, functions with side effects): Fortran / Algol / Pascal / *C*
 - *Object* *Oriented* (Classes and Objects): Smalltalk / Objective C / C++ / Eifel / *Java* / C#
-- *Declarative: *Domain Specific Languages, HTML, SQL, ...* => Limited in scope. Some are not Turing Complete.
+- *Declarative*: (Tell what to do, not how): Domain Specific Languages, HTML, SQL, ... (A more general concept, See next slides)
 - *Functional* (Lambdas + Closures): Haskell, Erlang, F#
-- *Logic*: Prolog
+- *Logic*: (facts/statements): Prolog
 - *Best* *of* *Breed*: Kotlin, Scala, Rust, JS, *Go*
-.link https://en.wikipedia.org/wiki/List_of_programming_languages_by_type More Languages
 
 : Game Of Live ist nicht in der Liste.
 : TODO: Read https://dev.to/tamerlang/the-simple-guide-to-programming-paradigms-36o#structured-programming
@@ -50,40 +63,48 @@ http://www.qaware.de
 
 : express what the function must do without defining how to achieve it
 
-<html>
-    <body>
-        <script>
-            let btn = document.createElement("button");
-            btn.innerHTML = "Click Me";
-            document.body.appendChild(btn);
-        </script>
-    </body>
-</html>
+- Imperative
 
-<html>
-    <body>
-        <button>Click Me</button>
-    </body>
-</html>
+    <html>
+        <body>
+            <script>
+                let btn = document.createElement("button");
+                btn.innerHTML = "Click Me";
+                document.body.appendChild(btn);
+            </script>
+        </body>
+    </html>
+
+- Declarative
+
+    <html>
+        <body>
+            <button>Click Me</button>
+        </body>
+    </html>
 
 * Degress of Declarative Code
 
-List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+- A list is given. Calculate the sum.
 
-    // fully imperative
+    List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+
+- Imperative
+
     int sum = 0;
     for(int i = 0; i < integers.size(); i++) {
         sum += integers.get(i);
     }
-    ---
-     sum = 0;
-    integers.forEach(n -> {sum += n;});
-    ---
-    sum = integers.stream().mapToInt(Integer::intValue).sum();
-    ---
-    int sum = sum(integers);  // fully declarative
+- Imperative / Declarative: A little bit of both
 
-TODO
+    sum = 0;
+    integers.forEach(n -> {sum += n;});
+
+    sum = integers.stream().mapToInt(Integer::intValue).sum();
+
+- Declarative
+
+    int sum = math.sum(integers);
 
 * Areas for Programming Languages
 - Application Programming (small / large scale, web, central, cloud)
@@ -110,10 +131,9 @@ TODO
 * Orthogonal classification II
 .html snippets/classification.html
 
-**** Depends on standard or version
-****** Depends on standard or version
-******** interpreted languages are not linked
-Not all classifications are
+  **** Depends on standard or version
+  ****** Depends on standard or version
+  ******** interpreted languages are not linked
 
 : Folie noch mal auflegen und mit Video vergleichen!
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
