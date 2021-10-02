@@ -13,10 +13,13 @@ http://www.qaware.de
 * There are so many Languages ...
 .image ./img/00-programming-languages.jpeg 550 1000
 
+: Fragen, welche Sprachen ihr so alle kennt.
+: https://en.wikipedia.org/wiki/List_of_programming_languages
+
 * Course Requirements
 - The course is designed as a master course.
 - Solid programming skills in Java/C/C++ are required.
-- It is assumed that students have some skills in other programming languages such as Scala, Python or Ruby.
+- It is assumed that students have some skills in other programming languages.
 - For most of the code examples, we will use Go (Golang) as language.
 
 * Goal of the Course
@@ -39,36 +42,33 @@ Lecture 4 - *Functional* *Programming*
 
 Lecture 5 - *Concurrent* *Programming*
 
-Lecture 7 - *Distributed* *Programming*. How to Write a Service
+Lecture 6 - *Distributed* *Programming*.
 
-Lecture 8 - *Systems* *Programming*
+Lecture 8 - *The* *Road* *not* *taken*. *Lisp* *and* *Forth*
 
-Lecture 9 - *The* *Road* *not* *taken*. *Lisp* *and* *Forth*
+Lecture 9 - *Cross* *Compiling* *with* *Webassembly*
 
-Lecture 10 - *Cross* *Compiling* *with* *Webassembly*
+Lecture 10 - *Systems* *Programming*
 
-Lecture 11 - *Enterprise* *Programming* *and* *Modules*
+Lecture xx - *Enterprise* *Programming* *and* *Modules*
 
 * Lectures
 
-Lecture 12 - *Logic* *Programming*
+Lecture xx - *Logic* *Programming*
 
 Lecture xx - Other Ideas:
  - Memory (Garbage Collector, Smart Pointers, Compile Time Memory Handling)
+ - Strong Typing vs. Weak Typing
  - Annotations
  - Reflection
- - Templates
- - Strong Typing vs. Weak Typing
  - Preprocessor
+ - Templates vs. Generics
+ - Execution Order
  - Lexer / Parser / Compiler
  - Operator Overloading
  - Coroutines
- - async functions
  - Fortran Arrays
- - Parallel Computing
- - Partitioned global address space
- - Javascript Worker Threads
- - Reactive Programming
+ - Reactive Programming or async functions
 
 Lecture xx - Summary
 
@@ -86,8 +86,9 @@ Lecture xx - Summary
 Learning Campus: PDFs only
 .link https://learning-campus.fh-rosenheim.de/course/view.php?id=2993
 
-Github: PDFs, Sources, Slides (Go Present Tool)
-.link https://github.com/s-macke/concepts-of-programming-languages
+Github: Sources, Slides (Go Present Tool)
+
+.link https://github.com/s-macke/concepts-of-programming-languages https://github.com/s-macke/concepts-of-programming-languages
 
 
 * Semester Work
@@ -96,72 +97,69 @@ Github: PDFs, Sources, Slides (Go Present Tool)
 Examples:
 
 - Compare Go *Object* *Oriented* *Programming* with:
-    Ada
-    Smalltalk
-    Pascal
-    Ruby
-    C++
-    Swift
-    Eiffel
-    Objective C
-    Modula
-    Lua
-    TypeScript
-    Fortran
+    Ada,
+    Smalltalk,
+    Pascal,
+    Ruby,
+    C++,
+    Swift,
+    Eiffel,
+    Objective C,
+    Modula,
+    Lua,
+    TypeScript,
+    Fortran,
+    Kotlin
 
 - Compare Go *Functional* *Programming* with:
-    Elixir
-    Haskell
-    Clojure
-    F#
+    Elixir,
+    Haskell,
+    Clojure,
+    F#,
     Javascript
 
 - Compare Go *Concurrency* with:
-    C++
-    Fortran
-    Erlang
-    Python
-    Scala
-    D
-    Occam
-
-- Concurrency and Parallel Computing in:
-    C with OpenMP
-    Fortran
+    C via OpenMP,
+    C++,
+    Fortran,
+    Erlang,
+    Python,
+    Scala,
+    D,
+    Occam,
     CUDA
-    Compute Shader
 
 - Compare Go *Systems* *Programming* with:
-    C / C++
-    Rust
-    Ada
-    D
+    C / C++,
+    Rust,
+    Ada,
+    D,
     Swift
 
 - Compare Go *Distributed* *Programming* with:
-    NodeJs / JavaScript
-    C++
-    Java / Quarkus
-    Python
+    NodeJs / JavaScript,
+    Java / Quarkus,
+    Python,
+    Kotlin
 
 - Compare *Go* with:
-    Typescript
-    Ruby
-    Python
-    Kotlin
-    Elm
-    Elixir
-    Crystal
+    Typescript,
+    Ruby,
+    Python,
+    Kotlin,
+    Elm,
+    Elixir,
+    Crystal,
+    C#
 
 : Zettel ziehen Anfang November, Tauschen möglich, Anmeldung für Prüfung nicht vergessen
-: Abgabe der Arbeiten Januar (18. Januar?)
-: Präsentation 11.1. und 18.1.
-: (23.11. entfällt eventuell)
+: Abgabe der Arbeiten Januar
+: Präsentation 17.1. und 24.1
+: 01.11. Allerheiligen
 
 * Administration
-- COVID-19 rules apply (use same place, wear mask if < 1.5m, ventilation, ...)
+- COVID-19 rules apply. See https://www.th-rosenheim.de/index.php?id=16926
 - All participants *must* be signed up to the lecture on the Learning Campus platform
-- Attendance check for contact tracking
 
 * Books
 Donovan, Kernigham: The Go Programming Language 

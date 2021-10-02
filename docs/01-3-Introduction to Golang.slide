@@ -34,11 +34,11 @@ http://www.qaware.de
 - No new major systems language in a decade
 
 - But much has changed
-  - sprawling libraries & depdencies chains
-  - dominance of networking
-  - client / server focus
-  - massive clusters
-  - the rise of multi-core CPUs
+- sprawling libraries & dependency chains
+- dominance of networking
+- client / server focus
+- massive clusters
+- the rise of multi-core CPUs
 
 - Major systems languges were not designed with all these factors in mind.
 
@@ -65,7 +65,7 @@ Rob Pike @ Google 2009 (60 Min)
 .image img/01-go-programming-Language.png 450 700
 
 * Type system tyranny
-....
+   ....
 
 * Why a new language?
 
