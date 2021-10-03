@@ -40,4 +40,4 @@ coverage:
 	go tool cover -html=coverage.out
 
 slideshow:
-	cd docs; present -notes
+	cd docs; present -notes -use_playground

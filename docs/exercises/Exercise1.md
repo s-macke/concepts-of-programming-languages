@@ -23,6 +23,7 @@ If you do not finish during the lecture period, please finish it as homework.
 - Try to run the hello world example code inside <https://goplay.tools/>
   Alternative: https://play.golang.org/
   Alternative: https://go-playground-wasm.vercel.app/
+- Optional: Get familiar with the community. Look what others have done: <https://github.com/avelino/awesome-go>
 
 ## After this Exercise
 

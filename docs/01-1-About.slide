@@ -61,6 +61,7 @@ Lecture xx - Other Ideas:
  - Strong Typing vs. Weak Typing
  - Annotations
  - Reflection
+ - Dependency Injection
  - Preprocessor
  - Templates vs. Generics
  - Execution Order
