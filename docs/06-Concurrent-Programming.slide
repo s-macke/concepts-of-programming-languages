@@ -212,10 +212,13 @@ More information about Go and concurrency:
 
 .image img/06-philosophers-channel.jpeg 600 800
 
+: TODO, ohne Erklärung sinnlos.
+
 * Dining Philosophers - Hints
+- The table itself should be a Go Routine and should handle all forks in a single thread. This makes synchronization easy.
+- The philosopher itself should be kept simple. It uses mainly the API of the table
 - Never grab one fork and wait for the other. This is a deadlock situation.
-- If you cant get the second fork, you should immediately release the first one.
-- The table itself should be a Go Routine and return the forks to a requesting philosopher, this makes synchronization easy (the table is single threaded)
+- If you can't get the second fork, you should immediately release the first one.
 - The philosopher loop looks like this:
 
     // Main loop
@@ -241,3 +244,5 @@ More information about Go and concurrency:
 - Channels use Message Passing instead of locks
 - Go has a low level lock API, but this is seldom needed
 - It is possible to port all classes from java.util.locking easily
+
+: TODO Parallel For Loop, Performance

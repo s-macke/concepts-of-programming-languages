@@ -16,7 +16,7 @@
 package philosophers
 
 import (
-	"github.com/s-macke/concepts-of-programming-languages/cp/locks/resourcemanager"
+	"github.com/s-macke/concepts-of-programming-languages/src/concurrent/locks/resourcemanager"
 )
 
 // =====================================================================================================================

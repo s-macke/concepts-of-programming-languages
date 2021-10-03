@@ -3,6 +3,8 @@ syntax = "proto3";
 
 package idserv;
 
+option go_package = "./idserv";
+
 // The IDService definition
 service IDService {
   // NewUUID generates a globally unique ID

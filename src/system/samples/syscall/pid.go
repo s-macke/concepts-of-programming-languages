@@ -1,9 +1,11 @@
+//go:build linux || darwin
 // +build linux darwin
 
 // Copyright 2018 Johannes Weigend, Johannes  Siedersleben
 // Licensed under the Apache License, Version 2.0
 package main
 
+import "C"
 import (
 	"fmt"
 
@@ -11,6 +13,6 @@ import (
 )
 
 func main() {
-	pid, _, _ := unix.Syscall(39, 0, 0, 0)
+	pid, _, _ := unix.Syscall(unix.SYS_GETPID, 0, 0, 0)
 	fmt.Println("process id: ", pid)
 }

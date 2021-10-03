@@ -41,9 +41,9 @@ func TryCatch(t func(), c func(ex Exception), f func()) {
 
 // Test exception handling.
 func main() {
-	
+
 	fmt.Println("Starting ...")
-	
+
 	TryCatch(
 		func() {
 			fmt.Println("Trying ...")

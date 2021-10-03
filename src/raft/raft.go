@@ -16,7 +16,11 @@ import (
 )
 
 func main() {
-	peers := []raft.Peer{{ID: 1, Context: nil}, {ID: 2, Context: nil}, {ID: 3, Context: nil},}
+	peers := []raft.Peer{
+		{ID: 1, Context: nil},
+		{ID: 2, Context: nil},
+		{ID: 3, Context: nil},
+	}
 	nt := newRaftNetwork(1, 2, 3)
 
 	nodes := make([]*node, 0)
@@ -42,7 +46,6 @@ func main() {
 		n.stop()
 	}
 }
-
 
 func waitLeader(ns []*node) int {
 	var l map[uint64]struct{}
@@ -109,12 +112,12 @@ func startNode(id uint64, peers []raft.Peer, iface iface) *node {
 	st := raft.NewMemoryStorage()
 
 	c := &raft.Config{
-		ID:                        id,
-		ElectionTick:              10,
-		HeartbeatTick:             1,
-		Storage:                   st,
-		MaxSizePerMsg:             1024 * 1024,
-		MaxInflightMsgs:           256,
+		ID:              id,
+		ElectionTick:    10,
+		HeartbeatTick:   1,
+		Storage:         st,
+		MaxSizePerMsg:   1024 * 1024,
+		MaxInflightMsgs: 256,
 		//MaxUncommittedEntriesSize: 1 << 30,
 	}
 	rn := raft.StartNode(c, peers)
