@@ -16,28 +16,74 @@ http://www.qaware.de
 
 .image img/01-fortran0.png 500 _
 
+: Zeige vielleicht https://www.youtube.com/watch?v=dUKWDxKAlk4
+
 * But not all used equal
 .image img/01_redmonk_2021.png 600 _
 
 : Umfrage, welche Sprachen kennt ihr?
 
-
 * Types of Programming Languages
+* Programming language Paradigms
 - *Imperative*: Assembler as root (Operations and Control Structures)
 - *Procedural* (Control Structures and Procedures): Fortran / Algol / Pascal / *C*
 - *Object* *Oriented* (Classes and Objects): Smalltalk / Objective C / C++ / Eifel / *Java* / C#
-- *Declarative:* Domain Specific Languages (HTML, XML, YAML, ...) => Limited in scope. Some are not Turing Complete.
+- *Declarative: *Domain Specific Languages, HTML, SQL, ...* => Limited in scope. Some are not Turing Complete.
 - *Functional* (Lambdas + Closures): Haskell, Erlang, F#
 - *Logic*: Prolog
 - *Best* *of* *Breed*: Kotlin, Scala, Rust, JS, *Go*
 .link https://en.wikipedia.org/wiki/List_of_programming_languages_by_type More Languages
 
+: Game Of Live ist nicht in der Liste.
+: TODO: Read https://dev.to/tamerlang/the-simple-guide-to-programming-paradigms-36o#structured-programming
+
 : Imperativ = Skripte schreiben
 : Prozedural = Aufspalten in Teilprogramme, Daten und Routinen trennen (auch: *Modular*)
 : OOP = Daten+Routinen sind Einheit! (Im Business machen wir zwar OOP, aber eigentlich nur prozedural)
 : Deklarativ = nicht WIE, sondern WAS (kein Lösungsweg, sondern Ergebnis)
+: Deklarativ: expresses the logic of a computation without describing its control flow.
 : Funktional = Funktion als First Order Type, Seiteneffektfrei
 : Logisch = Aufgabenstellung und Prämissen als logische Ausdrücke
+: Es gibt so viele Ausprägungen, dass man Sprachen oder Features nicht eindeutig den Paradigmen zuordnen kann.
+
+* Imperative vs Declarative I
+
+: express what the function must do without defining how to achieve it
+
+<html>
+    <body>
+        <script>
+            let btn = document.createElement("button");
+            btn.innerHTML = "Click Me";
+            document.body.appendChild(btn);
+        </script>
+    </body>
+</html>
+
+<html>
+    <body>
+        <button>Click Me</button>
+    </body>
+</html>
+
+* Degress of Declarative Code
+
+List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+
+    // fully imperative
+    int sum = 0;
+    for(int i = 0; i < integers.size(); i++) {
+        sum += integers.get(i);
+    }
+    ---
+     sum = 0;
+    integers.forEach(n -> {sum += n;});
+    ---
+    sum = integers.stream().mapToInt(Integer::intValue).sum();
+    ---
+    int sum = sum(integers);  // fully declarative
+
+TODO
 
 * Areas for Programming Languages
 - Application Programming (small / large scale, web, central, cloud)
@@ -73,9 +119,6 @@ Not all classifications are
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
 : Golang: platform dependent assembler & cross compiler
 
-
-
-
 * Some Thoughts
 - There are many solutions for a given problem
 - The "best" language is nothing without a proper ecosystem (Libraries, Examples, Community, Developers)
@@ -83,5 +126,7 @@ Not all classifications are
 - Don't expect "Magic" from programming Languages
 - Clean code and good programming is orthogonal to the language
 - Learn more than one programming language at a professional level
+- “There are only two kinds of languages: the ones people complain about and the ones nobody uses.”
+  Bjarne Stroustrup, The C++ Programming Language
 
 : z.B. Ablehnung von Kotlin wegen mangelnden Entwicklern und Mächtigkeit

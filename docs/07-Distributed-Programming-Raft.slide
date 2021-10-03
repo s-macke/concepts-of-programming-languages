@@ -175,3 +175,8 @@ Requirements and Decisions
 - You can implement the Raft specification with ca 1000-2000 Loc 
 - You can learn from the Etcd implementation, which is on Github
 - Building a production safe implementation is hard in any language anyway!
+
+: TODO: Exersice: Distributed calculation of the Collatz Conjecture
+: TODO Use TCP Stream, HTTP with JSON, HTTP with XML, GRPC
+: https://www.youtube.com/watch?v=094y1Z2wpJg
+: Extends to blocks to optimize

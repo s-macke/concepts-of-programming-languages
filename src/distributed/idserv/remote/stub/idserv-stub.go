@@ -6,8 +6,8 @@ package stub
 import (
 	"context"
 
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/core"
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/remote/idserv"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/core"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/remote/idserv"
 )
 
 // Server is used to implement idserv.IdServer

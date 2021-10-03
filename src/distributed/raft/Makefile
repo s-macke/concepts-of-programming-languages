@@ -10,13 +10,13 @@ help:
 
 install:
 	go get -u google.golang.org/grpc
-	go get -u github.com/golang/protobuf/protoc-gen-go
+	go get -u google.golang.org/protobuf
 	@echo "Make sure that protoc is installed for your platform"
 	@echo "    macOS: brew install protoc-gen-go protoc-gen-go-grpc"
 	@echo "  Windows: https://github.com/protocolbuffers/protobuf/releases/latest"
 
 proto:
-	protoc --go_out=./node --go-grpc_out=./node ./node/node.proto
+	protoc  -I node/ ./node/node.proto --go_out=plugins=grpc:node
 
 run2:
 	go build

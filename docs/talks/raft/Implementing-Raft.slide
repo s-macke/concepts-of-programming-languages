@@ -122,7 +122,7 @@ Other implementations
 * Interesting Parts to look at ...
 - Statemachine
 - Transaction log
-- Behavoir and Concurrency of remote calls, election and heartbeat timers
+- Behavior and Concurrency of remote calls, election and heartbeat timers
 - Timer implementation
 - Clean Architecture - Separation of Raft and remote APIs (Transport) -> Hexagonal Model
 - Clean Code: Testability

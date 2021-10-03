@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	antp "github.com/s-macke/concepts-of-programming-languages/bp/antlr"
-	"github.com/s-macke/concepts-of-programming-languages/bp/lexer"
-	"github.com/s-macke/concepts-of-programming-languages/bp/parser"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
+	antp "github.com/s-macke/concepts-of-programming-languages/src/bp/antlr"
+	"github.com/s-macke/concepts-of-programming-languages/src/bp/lexer"
+	"github.com/s-macke/concepts-of-programming-languages/src/bp/parser"
 	"strings"
 )
 

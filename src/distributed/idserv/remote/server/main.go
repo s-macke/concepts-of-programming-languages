@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/remote/idserv"
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/remote/stub"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/remote/idserv"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/remote/stub"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

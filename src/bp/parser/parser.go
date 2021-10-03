@@ -2,7 +2,7 @@ package parser
 
 import (
 	"fmt"
-	"github.com/s-macke/concepts-of-programming-languages/bp/ast"
+	"github.com/s-macke/concepts-of-programming-languages/src/bp/ast"
 	"io"
 )
 

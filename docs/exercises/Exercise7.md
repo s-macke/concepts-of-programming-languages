@@ -18,10 +18,10 @@ Be creative and write your own Raft Implementation!
 **Examples:**
 
 * Testable key value store using interfaces and goroutines:  
-  https://github.com/s-macke/concepts-of-programming-languages/tree/master/dp/kvstore/core/raft
+  https://github.com/s-macke/concepts-of-programming-languages/tree/master/src/distributed/kvstore/core/raft
 * Networkable implementation using gRPC (voting only):  
-  https://github.com/s-macke/concepts-of-programming-languages/tree/master/dp/raft
-* Highly abstracted from the paper:  
-  https://github.com/hashicorp/raft
-* More implementations:  
+  https://github.com/s-macke/concepts-of-programming-languages/tree/master/src/distributed/raft
+* Highly abstracted from the paper:
+  https://github.com/hashicorp/src/raft
+* More implementations:
   github.com/search?q=go-raft

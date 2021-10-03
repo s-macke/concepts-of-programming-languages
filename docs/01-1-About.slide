@@ -33,38 +33,52 @@ Lecture 1 - *About* *Overview* *Introduction*
 
 Lecture 2 - *Introduction* *to* *Golang*
 
-Lecture 3 - *OOP* *with* *Go* - Part I
+Lecture 3 - *Object* *Oriented* *Programming* *with* *Go*
 
-Lecture 4 - *OOP* *with* *Go* - Part II
+Lecture 4 - *Functional* *Programming*
 
-Lecture 5 - *Functional* *Programming*
+Lecture 5 - *Concurrent* *Programming*
 
-Lecture 6 - *Concurrent* *Programming*
-
-Lecture 7 - *Distributed* *Programming*
+Lecture 7 - *Distributed* *Programming*. How to Write a Service
 
 Lecture 8 - *Systems* *Programming*
 
-Lecture 9 - *Webassembly* *Programming*
+Lecture 9 - *The* *Road* *not* *taken*. *Lisp* *and* *Forth*
 
-Lecture 10 - *Enterprise* *Programming* *and* *Modules*
+Lecture 10 - *Cross* *Compiling* *with* *Webassembly*
 
-Lecture 11 - *Microservices*
+Lecture 11 - *Enterprise* *Programming* *and* *Modules*
 
 * Lectures
 
-Lecture 12 - *Plugins*
+Lecture 12 - *Logic* *Programming*
 
-Lecture 13 - *Summary*
+Lecture xx - Other Ideas:
+ - Memory (Garbage Collector, Smart Pointers, Compile Time Memory Handling)
+ - Annotations
+ - Reflection
+ - Templates
+ - Strong Typing vs. Weak Typing
+ - Preprocessor
+ - Lexer / Parser / Compiler
+ - Operator Overloading
+ - Coroutines
+ - async functions
+ - Fortran Arrays
+ - Parallel Computing
+ - Partitioned global address space
+ - Javascript Worker Threads
+ - Reactive Programming
 
+Lecture xx - Summary
 
 * Structure of this course
-- Recap - 15 min
-- Lecture - 30 min
-- Online Tutorials (Video) - 45 min
-- Student Discussions - 30 min
-- Introduction to Exercises -  15 min
-- Exercises - 45 min (+ Homework)
+- Recap
+- Lecture
+- Online Tutorials (Video)
+- Student Discussions
+- Introduction to Exercises
+- Exercises
 
 : Pause in der Mitte?
 
@@ -81,45 +95,61 @@ Github: PDFs, Sources, Slides (Go Present Tool)
 
 Examples:
 
-- Compare Go *OOP* (Object Oriented Programming) with:
-    Smalltalk 
-    C++ 
-    Eiffel 
+- Compare Go *Object* *Oriented* *Programming* with:
+    Ada
+    Smalltalk
+    Pascal
+    Ruby
+    C++
+    Swift
+    Eiffel
     Objective C
     Modula
-    Lua 
+    Lua
+    TypeScript
+    Fortran
 
-- Compare Go *FP* (Functional Programming) with:
-    Haskell 
-    Clojure 
+- Compare Go *Functional* *Programming* with:
+    Elixir
+    Haskell
+    Clojure
     F#
+    Javascript
 
-- Compare Go *SP* (Systems Programming) with:
-    C
-    C++ 
-    Rust 
+- Compare Go *Concurrency* with:
+    C++
+    Fortran
+    Erlang
+    Python
+    Scala
+    D
+    Occam
+
+- Concurrency and Parallel Computing in:
+    C with OpenMP
+    Fortran
+    CUDA
+    Compute Shader
+
+- Compare Go *Systems* *Programming* with:
+    C / C++
+    Rust
     Ada
     D
     Swift
 
-- Compare Go *Concurrency* with:
-    Erlang 
-    Scala Actors 
-    D 
-    Occam
-
 - Compare Go *Distributed* *Programming* with:
-    JavaScript / NodeJS
+    NodeJs / JavaScript
     C++
     Java / Quarkus
     Python
 
 - Compare *Go* with:
-    Typescript 
-    Ruby 
-    Python 
-    Kotlin 
-    Elm 
+    Typescript
+    Ruby
+    Python
+    Kotlin
+    Elm
     Elixir
     Crystal
 
@@ -128,12 +158,10 @@ Examples:
 : Präsentation 11.1. und 18.1.
 : (23.11. entfällt eventuell)
 
-
 * Administration
 - COVID-19 rules apply (use same place, wear mask if < 1.5m, ventilation, ...)
 - All participants *must* be signed up to the lecture on the Learning Campus platform
 - Attendance check for contact tracking
-
 
 * Books
 Donovan, Kernigham: The Go Programming Language 
@@ -141,3 +169,5 @@ Donovan, Kernigham: The Go Programming Language
 
 Sebesta: Concepts of Programming Languages 
 .image https://img.yumpu.com/59461192/1/358x441/concepts-of-programming-languages-robert-w-sebesta.jpg?quality=85 200 200
+
+Watt: Programming Language Design Concepts

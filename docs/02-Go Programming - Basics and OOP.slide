@@ -34,27 +34,7 @@ http://www.qaware.de
 - Public functions begin with a capital letter
 
 * Basic Types
-    var b     bool
-    var s     string
-    var i     int          // int
-    var i8    int8
-    var i16   int16
-    var i32   int32
-    var i64   int64
-    var ui    uint         // unsigned int
-    var ui8   uint8
-    var ui16  uint16
-    var ui32  uint32
-    var ui64  uint64
-    var uiptr uintptr
-    var bt    byte         // alias for uint8
-    var r     rune         // alias for int32 // represents a Unicode code point
-    var f32   float32      // float
-    var f64   float64
-    var c64   complex64    // complex
-    var c128  complex128
-    var st    struct {x,z,y int, struct {color int}}
-
+.html snippets/basic_types.html
 - The type of a variable is behind the name!
 
 * Complex Numbers
@@ -166,6 +146,13 @@ http://www.qaware.de
 * public static void
 - Thoughts about language design:
 .link https://www.youtube.com/watch?v=5kj5ApnhPAE
+
+* Generics
+
+- Go is either type safe + use-case specific or type-unsafe + use-case agnostic.
+- This changes with Go 1.18
+
+: https://www.linkedin.com/pulse/functional-programming-go-118-generics-ani-channarasappa
 
 * Object Oriented Programming - Custom Types
 * Go has no classes but types and functions

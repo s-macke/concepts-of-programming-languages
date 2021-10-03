@@ -5,9 +5,9 @@ package main
 import (
 	"log"
 
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv"
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/core"
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/remote/proxy"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/core"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/remote/proxy"
 )
 
 // GenerateIds calls n-times NewUUID() in a loop and returns the result as slice.

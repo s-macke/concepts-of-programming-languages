@@ -10,13 +10,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/s-macke/concepts-of-programming-languages/dp/idserv/remote/idserv"
+	"github.com/s-macke/concepts-of-programming-languages/src/distributed/idserv/remote/idserv"
 	"google.golang.org/grpc"
 )
 
 const (
-	address     = "localhost:50051"
-	defaultName = "client"
+	address = "localhost:50051"
 )
 
 // Proxy is a client side proxy which encapsulates the RPC logic. It implements the IDService interface.
