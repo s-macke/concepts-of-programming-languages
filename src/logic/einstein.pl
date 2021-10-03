@@ -45,7 +45,7 @@ run :-
     member([_,daene,tee,_,_], X),                   % Der Däne trinkt gern Tee
     links([gruen,_,_,_,_], [weiss,_,_,_,_], X),     % Das grüne Haus steht links vom weißen Haus
     member([gruen, _, kaffee, _, _], X),            % Der Besitzer des grünen Hauses trinkt Kaffee
-    member([_,_,_,pallmall,vogel], X),              % Die Person, die Pall Mall raucht, hält einen Vogel
+    member([_,_,,pallmall,vogel], X),              % Die Person, die Pall Mall raucht, hält einen Vogel
     mittleres([_,_,milch,_,_], X),                  % Der Mann, der im mittleren Haus wohnt, trinkt Milch
     member([gelb,_,_,dunhill,_], X),                % Der Besitzer des gelben Hauses raucht Dunhill
     erstes([_,norweger,_,_,_], X),                  % Der Norweger wohnt im 1. Haus

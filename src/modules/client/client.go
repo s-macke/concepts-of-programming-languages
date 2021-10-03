@@ -1,7 +1,7 @@
 package main
 
 import (
-	mail "github.com/s-macke/concepts-of-programming-languages/modules/mail/v2"
+	mail "github.com/s-macke/concepts-of-programming-languages/src/modules/mail/v2"
 	log "github.com/sirupsen/logrus"
 	"plugin"
 	"time"

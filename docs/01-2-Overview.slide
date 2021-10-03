@@ -9,17 +9,17 @@ sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Categorization of programming languages
-- Programming languages can be categorized in many ways
-  - Chronologically
-  - Popularity
-  - Language Paradigma
-  - Usage
-  - Orthogonal Properties of the language (e. g. compiled vs. interpreted)
-  - Features
 
-.link https://en.wikipedia.org/wiki/List_of_official_languages  Languages Alphabetically
-.link https://en.wikipedia.org/wiki/List_of_programming_languages_by_type Languages By Type
+Programming languages can be categorized in many ways
 
+- Chronologically
+- Popularity
+- Language Paradigma
+- Usage
+- Orthogonal Properties of the language (e. g. compiled vs. interpreted)
+- Features
+
+.link https://en.wikipedia.org/wiki/Category:Lists_of_programming_languages List of Programming Languages Categorization Lists
 
 * Evolution of Programming Languages
 .link img/01-languages.png
@@ -106,6 +106,12 @@ http://www.qaware.de
 
     int sum = math.sum(integers);
 
+* Declarative
+
+- Fully Declarative.
+
+    Sum the integer array.
+
 * Areas for Programming Languages
 - Application Programming (small / large scale, web, central, cloud)
 - Systems Programming
@@ -131,9 +137,9 @@ http://www.qaware.de
 * Orthogonal classification II
 .html snippets/classification.html
 
-  **** Depends on standard or version
-  ****** Depends on standard or version
-  ******** interpreted languages are not linked
+  * But uses just in time compiler
+  ** Depends on standard or version
+  *** interpreted languages are not linked
 
 : Folie noch mal auflegen und mit Video vergleichen!
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)

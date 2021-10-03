@@ -9,9 +9,17 @@ sebastian.macke@qaware.de
 http://www.qaware.de
 
 * Gopher
-.image https://talks.golang.org/2012/10things/gopher.jpg
+.image https://talks.golang.org/2012/10things/gopher.jpg 500 _
+- German: Taschenratte
 
 : Taschenratte (heimisch in Mittel- und Nordamerika)
+
+* Google Trend von "golang"
+.image img/01-trend.png 250 _
+- 2007: Development Start: Robert Griesemer, Rob Pike und Ken Thompson
+- 2009: First Presentation
+- 2012: Version 1
+- 2014: First Gopher conference
 
 * Why Go?
 - Go is the major language behind the Cloud Native Stack
@@ -21,64 +29,20 @@ http://www.qaware.de
 - Go is Open Source and maintained by Google
 - Go is a distributed, parallel language designed for systems programming at Google to solve the problems of C++ code.
 
-: 2007: Start der Entwicklung: Robert Griesemer, Rob Pike und Ken Thompson
-: 2009: Präsentation (Video inc)
-: 2012: Version 1
-: 2014: Erste Gopher-Konferenz
+* Introduction to Golang
+Rob Pike @ Google 2009 (60 Min)
+
+.link https://talks.golang.org/2009/go_talk-20091030.pdf go_talk_2009.pdf
+.link https://www.youtube.com/watch?v=rKnDgT73v8s
+.image img/01-go-programming-Language.png 300 _
 
 * Hello World
 .play ../src/basics/hello/main.go
-
-* Motivation behind Google
-
-- No new major systems language in a decade
-
-- But much has changed
-- sprawling libraries & dependency chains
-- dominance of networking
-- client / server focus
-- massive clusters
-- the rise of multi-core CPUs
-
-- Major systems languges were not designed with all these factors in mind.
-
-* Construction speed
-- It takes too long to build software for
-- The tools are slow and are getting sqlitebrowser
-- Dependencies are uncontrolled
-- Machines have stopped getting faster
-- Yet software still grows and grows
-
-If we stay as we are, before long software construction wil be unbearably slow
-
-TODO: Bild einfügen xkcd.com/303/
-
 
 * Palindrome
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
 .code ../src/basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
 
-* Introduction to Golang
-Rob Pike @ Google 2009 (60 Min)
-
-.link https://www.youtube.com/watch?v=rKnDgT73v8s
-.image img/01-go-programming-Language.png 450 700
-
-* Type system tyranny
-   ....
-
-* Why a new language?
-
-- These problems are endemic and linguistic
-- New libraries won't help (Adding anything is going in the wrong direction)
-- Need to start over, thinking about the way programs a re written and constructed
-
-* Goals
-- The efficiency of a statically-typed compiled language with the ease of programming of a dynamic language
-- Safety: type-safe and memory-safe
-- Good support for concurrency and communication
-- Efficient, latency-free garbage collection
-- High-spee compilation
 
 * Some Questions 
 - What makes Go different to other Languages? 
@@ -101,6 +65,8 @@ Rob Pike @ Google 2009 (60 Min)
 .link https://github.com/s-macke/concepts-of-programming-languages
 .link https://golang.org/
 .link https://golang.org/doc/
+.link https://github.com/avelino/awesome-go
+
 
 
 
