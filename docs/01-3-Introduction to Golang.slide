@@ -1,6 +1,6 @@
 Introduction to Golang
 Concepts of Programming Languages
-05 Oct 2020
+04 Oct 2021
 Tags: go, programming, master
 
 Sebastian Macke
@@ -39,12 +39,10 @@ Rob Pike @ Google 2009 (60 Min)
 * Hello World
 .play ../src/basics/hello/main.go
 
-* Palindrome
-.code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
-.code ../src/basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
+* Orthogonal classification II
+.html snippets/classification_go.html
 
-
-* Some Questions 
+* Some Questions
 - What makes Go different to other Languages? 
 - What makes Go similar to other Languages?
 - Discuss your personal opinions in a group of students!

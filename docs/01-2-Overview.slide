@@ -1,6 +1,6 @@
 Concepts of Programming Languages
 Overview
-05 Oct 2020
+04 Oct 2021
 Tags: go, programming, master
 
 Sebastian Macke
@@ -36,7 +36,6 @@ Programming languages can be categorized in many ways
 
 : Umfrage, welche Sprachen kennt ihr?
 
-* Types of Programming Languages
 * Programming language Paradigms
 - *Non-structured*: Assembler, First Programming languages with goto
 - *Structured* *or* *Imperative*: conditionals, repetition, blocks, functions

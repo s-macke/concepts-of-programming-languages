@@ -7,27 +7,20 @@ import (
 
 // TODO
 func main() {
-	var x = 10
-	var y = &x
+	//var x = 10
+	//var y = &x
 
-	fmt.Println(x, *y)
+	//fmt.Println(x, *y)
 
-	x = 20
-	fmt.Println(x, *y)
+	//x = 20
+	//fmt.Println(x, *y)
 
-	fmt.Printf("%p %p\n", &x, &y)
+	//fmt.Printf("%p %p\n", &x, &y)
 
-	z := []int{40, 50}
-
-	y = &z[0]
-	y = (*int)(unsafe.Add(unsafe.Pointer(y), 8))
-
-	p := (*int)(unsafe.Pointer(uintptr(10) + 0))
-	*p = 10
-
-	//p := unsafe.Pointer(9)
-	//reflect.N
-
-	fmt.Println(p)
+	z := []int64{10, 20}
+	y := &z[0]
+	y = (*int64)(unsafe.Add(unsafe.Pointer(y), 8)) // 64 Bit it has 8 bytes
+	*y = 30
+	fmt.Println(z)
 
 }

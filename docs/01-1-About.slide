@@ -1,6 +1,6 @@
 Welcome
 Concepts of Programming Languages - TH Rosenheim - WS 2020/2021
-05 Oct 2020
+04 Oct 2021
 Tags: go, programming, master
 
 Sebastian Macke
@@ -26,8 +26,8 @@ http://www.qaware.de
 
 .image img/go.png
 - Learn how Go differs from other languages conceptually 
-- Gain skills to pick the right language for a given problem
 - Knowledge about the concepts of existing programming languages
+- Gain skills to pick the right language for a given problem
 - Learn how to write professional code with Golang
 
 * Lectures
@@ -164,9 +164,9 @@ Examples:
 
 * Books
 Donovan, Kernigham: The Go Programming Language 
-.image https://d3by36x8sj6cra.cloudfront.net/assets/images/book/large/9780/1341/9780134190440.jpg 200 200
+.image https://d3by36x8sj6cra.cloudfront.net/assets/images/book/large/9780/1341/9780134190440.jpg 150 _
 
 Sebesta: Concepts of Programming Languages 
-.image https://img.yumpu.com/59461192/1/358x441/concepts-of-programming-languages-robert-w-sebesta.jpg?quality=85 200 200
+.image https://img.yumpu.com/59461192/1/358x441/concepts-of-programming-languages-robert-w-sebesta.jpg?quality=85 150 _
 
 Watt: Programming Language Design Concepts
