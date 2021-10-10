@@ -1,6 +1,6 @@
 Go Programming - OOP Part II
 Concepts of Programming Languages
-19 Oct 2020
+18 Oct 2021
 Tags: go, programming, master
 
 Sebastian Macke
@@ -16,10 +16,71 @@ http://www.qaware.de
 - Comparison
 - Pointer
 - Type Conversion and Downcast
-- Flag API
+- Flag API, File API
 - Stringer Interface
-- OOP: Types, Functions and Interfaces
-- OOP: Receiver
+
+* Discussion Exception Pro and Cons
+
+: Also defer erwähnen, anstatt finally
+
+* Go does support a dynamic type
+
+.play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
+
+- interface act a little like "Object" in Java or "void" in C
+
+* Generics
+
+- Go is either type safe + use-case specific or type-unsafe + use-case agnostic.
+- This changes with Go 1.18
+
+    type comparable interface {
+        type int, int8, int16, int32, int64,
+        uint, uint8, uint16, uint32, uint64,
+        float32, float64
+    }
+
+    func max[T comparable](x T, y T) T {
+        if (x > y) {
+            return x;
+        }
+        return y;
+    }
+
+: https://stackoverflow.com/questions/62147158/operator-not-defined-for-t
+: https://go2goplay.golang.org/p/XF6wM3JF2QM
+: https://www.linkedin.com/pulse/functional-programming-go-118-generics-ani-channarasappa
+
+* Object Oriented Programming - Custom Types
+* Go has no classes but types and functions
+.code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
+.code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
+.code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
+
+* The typical OO Syntax (object.method()) is supported in Go
+.code ../src/oop/rational/rational_test.go /TestRational/,/END OMIT/
+
+* "ToString" - The Stringer Interface
+.code ../src/oop/rational/rational.go /Stringer/,/Stringer OMIT/
+    r1 := NewRational(1, 2)
+    fmt.Println(r1) // -> (1/2)
+
+- Works for any type
+    type number int64
+    func (n Number) String() string {
+      return fmt.Sprintf(% x, n)
+    }
+
+* The Base Type for Container is the Empty Interface (interface{})
+.code ../src/oop/stack/stack.go /Stack/,/END OMIT/
+
+* The Downcast Syntax is similar to a Function Call
+.code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
+- Object types (e.g., Containers) are used by pointers (no copies)
+- Data types (e.g., Money, Date, ...) are used by value (copies)
+- The downcast is safe (== dynamic_cast in C ++ or cast in Java)
+- No dereference (*s) is needed to call a method
+
 
 * OOP
 - Classes: data and procedures

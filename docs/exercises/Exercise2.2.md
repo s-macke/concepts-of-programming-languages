@@ -1,36 +1,39 @@
-# Exercise 2.2 - Basic OOP
+# Exercise 2.2 - Basics
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Rational Numbers (Datatypes)
+## Book Index (Working with maps, arrays and slices)
 
-Write a type for rational numbers (a/b). Implement a constructor, methods for adding and multiplying rational numbers.
+A Book Index is an inverted index which lists all pages a word occurs in a book.
+Write a program which generates an inverted index out of an array of book pages.
+Each Page contains an array of words.
 
-- Implement the euclidean algorithm for reducing rational numbers. Make sure the == and != operators work correct for 1/2 and 2/4  
-- Write a constructor function to create rational numbers
-- The type should be immutable
-- Make sure to implement the Stringer() interface
-- Write an unit test to test the rational numbers
-- Check the test coverage. It should be greater than 80%
-
-### Questions
-
-- What type has the receiver (pointer or value). Why?
-- What does immutable mean? Why is it good design to make Rational immutable?
-
-## Stack (Containers)
-
-Write a generic LIFO container (stack) for all types. The stack should have at least four methods:
-
-- Push(object)
-- Pop()
-- Size()
-- GetAt(index)
-- Write a unit test which uses build in types and object types (Rational) inside the stack. Calculate the sum of all elements in the stack.
+- Define custom types for Book, Page and Index
+- Make sure the Stringer() interface is implemented for Book and Index to make them printable
+  More details about the Stringer interface: https://tour.golang.org/methods/17
+- Write an unit test which generates a book and calculates the index and prints it to Stdout
 
 ## After this Exercise
+- You know the basic Go container types: string, map, array, slice
+- You know how to make custom types printable
 
-- You should know how to write OO code in Go
-- You should how to reference other packages in your codebase
-- You should know the difference between object and data types
-- You should know how generic containers are built with Go
+# Usage of the Library functions and error handling
+Write a program "find" that searches the filesystem recursively from a given path and regex expression. 
+
+1. Use the flag library to provide the following parameters 
+```
+   Usage of find:
+   -path string
+       path to search (default ".")
+   -regex string
+       path (default ".*")
+```
+
+3. Use the ioutil.ReadDir (https://pkg.go.dev/io/ioutil@go1.17.2#ReadDir) function to list the contents of a given directory. Check each file for the given regex with the 
+   "regexp.MatchString" (https://pkg.go.dev/regexp#MatchString) function and print its path+name on the screen.
+4. Either use "panic" or "log.Fatal" for error handling.
+5. Run through directories recursively
+ 
+#Question
+Go doesn't support Exceptions but uses multiple return values of which one can be the error information.
+Discuss the pro and cons about both approaches.
