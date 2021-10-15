@@ -5,7 +5,7 @@ package client
 import (
 	"testing"
 
-	"github.com/s-macke/concepts-of-programming-languages/oop/mail/smtp"
+	"github.com/s-macke/concepts-of-programming-languages/src/oop/mail/smtp"
 )
 
 // configure Registry to know which mail implementation is used.

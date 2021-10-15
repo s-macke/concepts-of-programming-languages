@@ -1,4 +1,4 @@
-Go Programming - OOP Part II
+Go Programming - OOP
 Concepts of Programming Languages
 18 Oct 2021
 Tags: go, programming, master
@@ -17,17 +17,73 @@ http://www.qaware.de
 - Pointer
 - Type Conversion and Downcast
 - Flag API, File API
-- Stringer Interface
 
-* Discussion Exception Pro and Cons
+: Ergebnisse der Übungen zeigen.
 
-: Also defer erwähnen, anstatt finally
+* Exception Pro and Cons
+
+Pro Exceptions:
+
+- Separate error handling code from the normal program flow
+- Exceptions are harder to ignore
+- Exceptions can carry a lot of extra information
+- Exceptions are easily propagated through the system
+
+Contra Exceptions:
+
+- Difficult to analyze if stack unwinding lead to further errors. E. g. Exceptions in Exceptions. Unexpected resource leaks
+- Exceptions can have more side effects
+- Exceptions are expensive
+
+* Return values Pro and Cons
+
+Pro error return code:
+
+- Easier to understand
+- Multiple return values are a good fit. It does not overload the return value
+- Better controllable than Exceptions.
+
+Contra error return code:
+
+- Handling errors is verbose and repetitive (4x more Code in average)
+- you have to propagate the error through your call stack yourself
+
+: Hier die Begrüundung von Google: https://golang.org/doc/faq#exceptions
+
+
+* Errors in Go
+
+Go distinguishes between recoverable and unrecoverable errors
+
+recoverable e. g. file not found
+
+- Go returns the error as one of return values
+
+	err := ioutil.WriteFile(src.Name(), []byte("hello"), 0644)
+	if err != nil {
+		log.Error(err)
+	}
+
+unrecoverable: array access outside its boundaries, out of memory
+
+* TODO: defer als Alternative zu finally
+
+* panic and recover
+.play ../src/basics/panic/panic.go  /func getElement/,/EOF OMIT/
 
 * Go does support a dynamic type
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
 
-- interface act a little like "Object" in Java or "void" in C
+- interface{} act a little like "Object" in Java or "void" in C
+
+* The Downcast Syntax is similar to a Function Call
+.code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
+- Object types (e.g., Containers) are used by pointers (no copies)
+- Data types (e.g., Money, Date, ...) are used by value (copies)
+- The downcast is safe (== dynamic_cast in C ++ or cast in Java)
+- No dereference (*s) is needed to call a method
+
 
 * Generics
 
@@ -51,38 +107,42 @@ http://www.qaware.de
 : https://go2goplay.golang.org/p/XF6wM3JF2QM
 : https://www.linkedin.com/pulse/functional-programming-go-118-generics-ani-channarasappa
 
-* Object Oriented Programming - Custom Types
-* Go has no classes but types and functions
-.code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
-.code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
-.code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
+: "ToString" - The Stringer Interface
+: .code ../src/oop/rational/rational.go /Stringer/,/Stringer OMIT/
+:    r1 := NewRational(1, 2)
+:    fmt.Println(r1) // -> (1/2)
+: - Works for any type
+:    type number int64
+:    func (n Number) String() string {
+:      return fmt.Sprintf(% x, n)
+:    }
 
-* The typical OO Syntax (object.method()) is supported in Go
-.code ../src/oop/rational/rational_test.go /TestRational/,/END OMIT/
+: * The Base Type for Container is the Empty Interface (interface{})
+: .code ../src/oop/stack/stack.go /Stack/,/END OMIT/
 
-* "ToString" - The Stringer Interface
-.code ../src/oop/rational/rational.go /Stringer/,/Stringer OMIT/
-    r1 := NewRational(1, 2)
-    fmt.Println(r1) // -> (1/2)
+* Structure of object oriented programming
 
-- Works for any type
-    type number int64
-    func (n Number) String() string {
-      return fmt.Sprintf(% x, n)
-    }
+classes: Data and procedures which acts on the data. Blueprint for objects
 
-* The Base Type for Container is the Empty Interface (interface{})
-.code ../src/oop/stack/stack.go /Stack/,/END OMIT/
+Attributes: State of the object
 
-* The Downcast Syntax is similar to a Function Call
-.code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
-- Object types (e.g., Containers) are used by pointers (no copies)
-- Data types (e.g., Money, Date, ...) are used by value (copies)
-- The downcast is safe (== dynamic_cast in C ++ or cast in Java)
-- No dereference (*s) is needed to call a method
+Methods:
 
+objects: instances of classes
 
-* OOP
+* Principles of Object Oriented Programming
+
+- Encapsulation: Bundling of data with the methods that operate on that data
+- Inheritance: Based class upon another class
+- Polymorphism: function overloading, overriding, and virtual functions
+- Abstraction: Provide abstraction of a class without the implementation
+
+Go is not a pure object oriented programming language but
+allows an object-oriented style of programming
+
+: No inheritance in Go, but embedding
+
+* Object Oriented Programming
 - Classes: data and procedures
 - Objects: instances of classes
 - Class-based vs. Prototype-based
@@ -98,6 +158,23 @@ http://www.qaware.de
 : Composition: Objects can contain other objects in their instance variables
 : Inheritance: not supported in Go
 : Delegation: evaluating a member of one object (the receiver) in the context of another original object (the sender)
+
+: https://flaviocopes.com/golang-is-go-object-oriented/
+: https://code.egym.de/introduction-to-oop-in-golang-e4841a9c4e3e
+
+* Encapsulation
+
+- mechanism that binds together code and the data it manipulates
+
+.code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
+.code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
+.code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
+
+* The typical OO Syntax (object.method()) is supported in Go
+.code ../src/oop/rational/rational_test.go /TestRational/,/END OMIT/
+
+:Object Oriented Programming - Custom Types
+:Go has no classes but types and functions
 
 * Embedding
 - Go does not support inheritance: Go supports embedding of other structs.

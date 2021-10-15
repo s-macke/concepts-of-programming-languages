@@ -22,3 +22,8 @@ func (s *stack) Pop() int {
 	*s = (*s)[:index]      // Remove it from the stack by slicing it off.
 	return element
 }
+
+// Get returns the n-th element in the Stack
+func (s *stack) Get(idx int) int {
+	return (*s)[len(*s)-idx-1]
+}

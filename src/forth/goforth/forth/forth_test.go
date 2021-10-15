@@ -98,10 +98,18 @@ func TestIfThen(t *testing.T) {
 	if result != "3 " {
 		t.Fail()
 	}
+
 	result, _ = f.Exec("0 if 2 . then")
 	if result != "" {
 		t.Fail()
 	}
+
+	result, _ = f.Exec(": test 1 if 2 . then 3 . ;")
+	result, _ = f.Exec("test")
+	if result != "2 3 " {
+		t.Fail()
+	}
+
 }
 
 func TestComment(t *testing.T) {
@@ -121,17 +129,27 @@ func TestRecurse(t *testing.T) {
 	}
 }
 
+func TestLoop(t *testing.T) {
+	f := NewForth()
+	result, _ := f.Exec(": iter 5 0 do i . loop ;")
+	result, _ = f.Exec("iter")
+
+	if result != "0 1 2 3 4 " {
+		t.Fail()
+	}
+}
+
 /*
 func TestFaculty(t *testing.T) {
-	f := NewForth()
-	result := f.Exec(`
-		: fac2
-		dup 0> if
-		dup 1- recurse *
-		else
-		drop 1
-		endif ;
-		8 fac2 .
-	`)
+    f := NewForth()
+    result := f.Exec(`
+        : fac2
+        dup 0> if
+        dup 1- recurse *
+        else
+        drop 1
+        endif ;
+        8 fac2 .
+    `)
 }
 */

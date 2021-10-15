@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/antlr/antlr4/runtime/Go/antlr"
-	antp "github.com/s-macke/concepts-of-programming-languages/src/binary_parser/antlr"
-	"github.com/s-macke/concepts-of-programming-languages/src/binary_parser/lexer"
-	"github.com/s-macke/concepts-of-programming-languages/src/binary_parser/parser"
+	antp "github.com/s-macke/concepts-of-programming-languages/src/boolean_parser/antlr"
+	"github.com/s-macke/concepts-of-programming-languages/src/boolean_parser/lexer"
+	"github.com/s-macke/concepts-of-programming-languages/src/boolean_parser/parser"
 	"strings"
 )
 

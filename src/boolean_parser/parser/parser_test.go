@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"github.com/s-macke/concepts-of-programming-languages/src/binary_parser/lexer"
+	"github.com/s-macke/concepts-of-programming-languages/src/boolean_parser/lexer"
 	"strings"
 	"testing"
 )

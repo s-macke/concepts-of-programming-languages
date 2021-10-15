@@ -2,7 +2,7 @@ package parser
 
 import (
 	"fmt"
-	"github.com/s-macke/concepts-of-programming-languages/src/binary_parser/ast"
+	"github.com/s-macke/concepts-of-programming-languages/src/boolean_parser/ast"
 	"io"
 )
 

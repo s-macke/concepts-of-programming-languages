@@ -4,7 +4,6 @@ import (
 	"fmt"
 )
 
-type Introducer interface{ Introduce() }
 type Worker interface{ Work() }
 
 type Person struct {

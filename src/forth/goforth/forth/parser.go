@@ -17,7 +17,7 @@ func (lexedWords lexedWords) Parser() parsedWords {
 
 	parsedID := 0
 	for i := 0; i < len(lexedWords); i++ {
-		word := parsedWord{name: lexedWords[i], parameterInt: -1, parameterString: ""}
+		word := parsedWord{name: lexedWords[i], parameterInt: 0, parameterString: ""}
 
 		switch lexedWords[i] {
 
@@ -34,7 +34,7 @@ func (lexedWords lexedWords) Parser() parsedWords {
 			if words[id].name != "do" {
 				panic("loop without do")
 			}
-			word.parameterInt = id
+			word.parameterInt = id - parsedID
 
 		case "if":
 			controlStructureStack.Push(parsedID)
@@ -44,7 +44,7 @@ func (lexedWords lexedWords) Parser() parsedWords {
 			if words[id].name != "if" {
 				panic("then without if")
 			}
-			words[id].parameterInt = parsedID
+			words[id].parameterInt = parsedID - id
 
 		case "variable", "constant":
 			word.parameterString = lexedWords[i+1]

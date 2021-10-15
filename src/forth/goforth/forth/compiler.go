@@ -14,18 +14,18 @@ func (parsedWords parsedWords) compile(forth *Forth) *programState {
 		case "variable":
 			address := len(forth.heap)
 			forth.heap = append(forth.heap, 0)
-			forth.dictionary[parsedWords[i].parameterString] = func() { forth.stack.Push(address) }
+			forth.dict[parsedWords[i].parameterString] = func() { forth.stack.Push(address) }
 
 		case "constant":
 			parameter := parsedWords[i].parameterString
 			s.funcs[i] = func() {
 				value := forth.stack.Pop()
-				forth.dictionary[parameter] = func() { forth.stack.Push(value) }
+				forth.dict[parameter] = func() { forth.stack.Push(value) }
 			}
 
 		case ":":
 			newFunc := parsedWords[i+1 : parsedWords[i].parameterInt+1].compile(forth)
-			forth.dictionary[parsedWords[i].parameterString] = newFunc.Execute
+			forth.dict[parsedWords[i].parameterString] = newFunc.Execute
 			i = parsedWords[i].parameterInt // skip the whole function
 		case ";": // do nothing
 
@@ -36,10 +36,25 @@ func (parsedWords parsedWords) compile(forth *Forth) *programState {
 			parameter := parsedWords[i].parameterInt
 			s.funcs[i] = func() {
 				if forth.stack.Pop() == 0 {
-					s.instructionPointer = parameter - 1
+					s.instructionPointer += parameter
 				}
 			}
-		case "do", "then": // do nothing
+
+		case "loop":
+			parameter := parsedWords[i].parameterInt
+			s.funcs[i] = func() {
+				index := forth.returnStack.Pop() + 1
+				end := forth.returnStack.Get(0)
+
+				if index < end {
+					forth.returnStack.Push(index)
+					s.instructionPointer += parameter
+				} else {
+					forth.returnStack.Pop()
+				}
+			}
+
+		case "then": // do nothing
 
 		default:
 			s.funcs[i] = forth.getWordFromDictionary(parsedWords[i].name)
