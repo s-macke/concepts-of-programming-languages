@@ -1,4 +1,4 @@
-Go Programming - Basics and OOP
+Go Programming - Basics
 Concepts of Programming Languages
 09 Oct 2021
 Tags: go, programming, master
@@ -188,9 +188,9 @@ Go uses a more strong typing system. But Why?
     var array = [3]int{1, 2, 3}
     fmt.Println(array)       // -> [1 2 3]
 
-    slice := array[0:2]      // len(slice) == 3, cap(slice) == 3
+    slice := array[0:3]      // len(slice) == 3, cap(slice) == 3
 
-    slice = append(slice, 4) // len(slice) == 4, cap(slice) == 6
+    slice = append(slice, 4) // len(slice) == 4, cap(slice) == 3
     slice = append(slice, 5) // len(slice) == 5, cap(slice) == 6
 
     fmt.Println(slice)       // -> [1 2 3 4 5]

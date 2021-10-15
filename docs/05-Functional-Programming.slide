@@ -186,6 +186,8 @@ Functions can be composed to new functions
 
     fmt.Printf("%v\n", gf(2)) // --> 5
 
+: TODO LogToFile
+
 * Exercise 5.2 - Functional Composition (g◦f)(x)
 - Write a Go function to compose two unknown unary functions (one argument and one return value)
 - The functions to compose should be arguments
@@ -220,10 +222,6 @@ Functions can be composed with functions as parameters
 
     fmt.Printf("%v\n", compose(square, square)(2)) // --> 4*4 = 16
     fmt.Printf("%v\n", compose(compose(square, square), square)(2)) // --> 256
-
-
-
-
 
 * History: The Lambda Calculus
 .image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
@@ -290,6 +288,26 @@ Hint: To understand this video you will watch it at least three times :-)
 - F#
 - Scala
 - JavaScript
+
+* Haskell Demos
+
+- fibonacci
+- partial application (dot product)
+- Monads
+
+:import Data.Time.Clock
+:import Control.Concurrent
+
+:main = do {
+:    x <- getCurrentTime;
+:    print x;
+:    threadDelay 1000000;
+:    x <- getCurrentTime;
+:    print x
+:}
+
+
+
 
 * Palindrome Problem in Functional (pure) Languages
 

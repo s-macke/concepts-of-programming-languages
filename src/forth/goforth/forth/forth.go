@@ -5,17 +5,17 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 var debug = false
 
 // Forth contains the forth environment
 type Forth struct {
-	stack      stack
-	dictionary map[string]func()
-	heap       []int
-	output     string
+	stack       stack
+	returnStack stack // not used for the return addresses but for specific features like >r r> and loop parameters
+	dict        dictionary
+	heap        []int
+	output      string
 }
 
 type programState struct {
@@ -33,7 +33,7 @@ func SetDebug(value bool) {
 // NewForth creates the Forth environment
 func NewForth() *Forth {
 	var f = new(Forth)
-	f.dictionary = make(map[string]func())
+	f.dict = make(map[string]func())
 	f.fillDictionary()
 	return f
 }
@@ -44,53 +44,6 @@ func (f *Forth) booleanPush(result bool) {
 	} else {
 		f.stack.Push(0)
 	}
-}
-
-func (f *Forth) fillDictionary() {
-	f.dictionary["+"] = func() { f.stack.Push(f.stack.Pop() + f.stack.Pop()) }
-	f.dictionary["*"] = func() { f.stack.Push(f.stack.Pop() * f.stack.Pop()) }
-	f.dictionary["-"] = func() { temp := f.stack.Pop(); f.stack.Push(f.stack.Pop() - temp) }
-	f.dictionary["/"] = func() { temp := f.stack.Pop(); f.stack.Push(f.stack.Pop() / temp) }
-
-	f.dictionary[">"] = func() { temp := f.stack.Pop(); f.booleanPush(f.stack.Pop() > temp) }
-	f.dictionary["<"] = func() { temp := f.stack.Pop(); f.booleanPush(f.stack.Pop() < temp) }
-	f.dictionary["="] = func() { f.booleanPush(f.stack.Pop() == f.stack.Pop()) }
-	f.dictionary["<>"] = func() { f.booleanPush(f.stack.Pop() == f.stack.Pop()) }
-
-	f.dictionary["."] = func() { f.output += fmt.Sprintf("%d ", f.stack.Pop()) }
-	f.dictionary["cr"] = func() { f.output += fmt.Sprintln() }
-	f.dictionary["drop"] = func() { f.stack.Pop() }
-	f.dictionary["dup"] = func() { temp := f.stack.Pop(); f.stack.Push(temp); f.stack.Push(temp) }
-	f.dictionary["@"] = func() { f.stack.Push(f.heap[f.stack.Pop()]) }
-	f.dictionary["!"] = func() { address := f.stack.Pop(); f.heap[address] = f.stack.Pop() }
-	f.dictionary["bye"] = func() { panic("Program stopped") }
-
-	f.dictionary["words"] = func() {
-		for k := range f.dictionary {
-			f.output += fmt.Sprint(k, " ")
-		}
-		f.output += fmt.Sprintln("")
-	}
-
-	f.dictionary[".s"] = func() {
-		f.output += fmt.Sprintf("<%d> ", len(f.stack))
-		for _, e := range f.stack {
-			f.output += fmt.Sprint(e, " ")
-		}
-	}
-}
-
-func (f *Forth) getWordFromDictionary(w string) func() {
-	if f.dictionary[w] == nil {
-		i, err := strconv.Atoi(w)
-		if err != nil {
-			panic("Word '" + w + "' is neither a valid word nor a number")
-		}
-		return func() {
-			f.stack.Push(i)
-		}
-	}
-	return f.dictionary[w]
 }
 
 func (s *programState) Execute() {

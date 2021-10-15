@@ -1,0 +1,58 @@
+* Details semester work
+
+The topic of the work is given and is a comparison of
+Go with specific features of programming languages
+
+Submission of the work in January.
+Presentation in January.
+Dates will be announced
+
+* Document
+- 5-10 pages Asciidoc document, written in English (15000 - 25000 Chars)
+- Github Repo Style with Readme
+- Must have table of contents
+- Must include references
+
+* Code Project
+- Write a non-trivial program which exemplifies the major topic of the semester work
+- Must have input and output
+- Should not crash on wrong input
+- Must have tests
+- Readme with a short description of what the program does and how to run it
+
+- Functional Programming and Object Oriented Programming: Implement Reverse Polish Calculator
+- Object Oriented Programming: Implement Reverse Polish Calculator
+- Concurrent Programming: Parallel filesystem find command (Except Cuda and OpenMP)
+- Distributed Programming: Server who manages clients to calculate a mathematical problem.
+
+- Detailed description can be part of the document and the presentation
+- (> 80 code lines)
+- ask in case of doubt
+
+: Kopiere nicht einfach http://www.rosettacode.org/wiki/Rosetta_Code
+: Ideas: https://projecteuler.net/archives. Be creative!
+
+Presentation
+- 15 Minutes presentation
+- slides must be handed as well before the presentation
+
+Compare Functional Programming in Go with Haskell
+Compare Functional Programming in Go with F#
+Compare Functional Programming in Go with Elixir
+Compare Functional Programming in Go with JavaScript
+Compare Go Parallel Programming with Erlang
+Compare Go Parallel Programming with CUDA
+Compare Go Parallel Programming with OpenMP in C or Fortran
+Compare Go Parallel Programming with Rust
+Compare Go Parallel Programming with Julia
+Compare Go Parallel Programming in Go with Scala
+Compare Object Oriented Programming in Go with TypeScript
+Compare Object Oriented Programming in Go with Swift
+Compare Object Oriented Programming in Go with Objective-C
+Compare Object Oriented Programming Go with *Smalltalk*
+Compare Object Oriented Programming Go with Ada
+Compare Object Oriented Programming Go with Ruby
+Compare Go Distributed Programming with Node.JS
+Compare Go Distributed Programming with Ruby
+Compare Go Distributed Programming with Kotlin
+Compare Go Distributed Programming with Rust

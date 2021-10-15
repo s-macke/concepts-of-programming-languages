@@ -10,7 +10,7 @@ func (a A) Foo() {
 }
 
 func (a A) Bar() {
-	fmt.Print("a.bar")
+	fmt.Println("a.bar")
 }
 
 type B struct {
@@ -18,7 +18,11 @@ type B struct {
 }
 
 func (b B) Bar() {
-	fmt.Print("b.bar")
+	fmt.Println("b.bar")
+}
+
+func (b B) Foo() {
+	b.Bar()
 }
 
 func main() {

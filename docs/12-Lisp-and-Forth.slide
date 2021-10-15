@@ -10,6 +10,8 @@ http://www.qaware.de
 
 * Lisp - List processing
 
+https://www.tutorialspoint.com/execute_lisp_online.php
+
 * Lisp Cheat Sheet
 
     (+ [number] [number] ...)         add math operations
@@ -26,11 +28,9 @@ http://www.qaware.de
     (cdr [elem1] [elem2] ...)          return elem2 and all subsequent elements
     (defun [name] ([params]) [code] [code] ...)   define function
 
-    (defun fib (n)
-      (if (< n 2) n
-          (+ (fib (1- n)) (fib (- n 2)))))
-
 * Forth - Easier than Assembler
+
+https://www.tutorialspoint.com/execute_forth_online.php
 
 * Postfix notation or Reverse Polish Notation
 
