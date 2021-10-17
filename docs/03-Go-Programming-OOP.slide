@@ -10,12 +10,12 @@ http://www.qaware.de
 
 * Last lecture
 - Types (string, int, bool, float64, ...)
+- weak vs. strong typing
 - Functions and Control Structures
 - Unit Tests
 - Arrays, Slices and Maps
 - Comparison
 - Pointer
-- Type Conversion and Downcast
 - Flag API, File API
 
 : Ergebnisse der Übungen zeigen.
@@ -48,7 +48,7 @@ Contra error return code:
 - Handling errors is verbose and repetitive (4x more Code in average)
 - you have to propagate the error through your call stack yourself
 
-: Hier die Begrüundung von Google: https://golang.org/doc/faq#exceptions
+: Hier die Begründung von Google: https://golang.org/doc/faq#exceptions
 
 
 * Errors in Go
@@ -66,42 +66,53 @@ recoverable e. g. file not found
 
 unrecoverable: array access outside its boundaries, out of memory
 
-* TODO: defer als Alternative zu finally
+* Go defer: run code before function exists
 
-* panic and recover
+The "defer" statement lets us ensure that code runs before a function exits
+
+    f, err := os.Open("myfile.txt")
+    if err != nil {
+        return err
+    }
+    defer f.Close() // will be executed on function exit
+    ....
+    // read, write
+
+* unrecoverable error: panic and recover by using defer
 .play ../src/basics/panic/panic.go  /func getElement/,/EOF OMIT/
 
-* Go does support a dynamic type
+* Prerequisites to OOP: Go does support a dynamic type
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
 
-- interface{} act a little like "Object" in Java or "void" in C
-
-* The Downcast Syntax is similar to a Function Call
-.code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
-- Object types (e.g., Containers) are used by pointers (no copies)
-- Data types (e.g., Money, Date, ...) are used by value (copies)
 - The downcast is safe (== dynamic_cast in C ++ or cast in Java)
-- No dereference (*s) is needed to call a method
 
 
-* Generics
+: * The Downcast Syntax is similar to a Function Call
+: .code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
+: - Object types (e.g., Containers) are used by pointers (no copies)
+: - Data types (e.g., Money, Date, ...) are used by value (copies)
+: - The downcast is safe (== dynamic_cast in C ++ or cast in Java)
+: - No dereference (*s) is needed to call a method
 
-- Go is either type safe + use-case specific or type-unsafe + use-case agnostic.
-- This changes with Go 1.18
 
-    type comparable interface {
-        type int, int8, int16, int32, int64,
-        uint, uint8, uint16, uint32, uint64,
-        float32, float64
-    }
+: * Generics
+:
+: - Go is either type safe + use-case specific or type-unsafe + use-case agnostic.
+: - This changes with Go 1.18
 
-    func max[T comparable](x T, y T) T {
-        if (x > y) {
-            return x;
-        }
-        return y;
-    }
+:    type comparable interface {
+:        type int, int8, int16, int32, int64,
+:        uint, uint8, uint16, uint32, uint64,
+:        float32, float64
+:    }
+
+:    func max[T comparable](x T, y T) T {
+:        if (x > y) {
+:            return x;
+:        }
+:        return y;
+:    }
 
 : https://stackoverflow.com/questions/62147158/operator-not-defined-for-t
 : https://go2goplay.golang.org/p/XF6wM3JF2QM
@@ -122,34 +133,39 @@ unrecoverable: array access outside its boundaries, out of memory
 
 * Structure of object oriented programming
 
-classes: Data and procedures which acts on the data. Blueprint for objects
+*Wikipedia*: Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain data and code: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).
 
-Attributes: State of the object
+- *Classes*: Data and methods which acts on the data. Blueprint for objects
 
-Methods:
+- *Objects*: instances of classes
 
-objects: instances of classes
+- *Fields*, *attributes*, *properties*: State of the object
+
+- *Procedure*, *Methods*: Associated to an object.
+
+: Deutsche Wikipedia vorher zeigen https://de.wikipedia.org/wiki/Objektorientierte_Programmierung
 
 * Principles of Object Oriented Programming
 
-- Encapsulation: Bundling of data with the methods that operate on that data
+- Encapsulation: Bundling of data with the methods that operate on that data. Select what is public accessible and what is private
 - Inheritance: Based class upon another class
-- Polymorphism: function overloading, overriding, and virtual functions
+- Polymorphism: Objects of different types can be accessed through the same interface
 - Abstraction: Provide abstraction of a class without the implementation
 
 Go is not a pure object oriented programming language but
 allows an object-oriented style of programming
 
-: No inheritance in Go, but embedding
+: No inheritance in Go, but embedding and delegation
+: Polymorphism: implicit in Go
 
-* Object Oriented Programming
-- Classes: data and procedures
-- Objects: instances of classes
-- Class-based vs. Prototype-based
-- Encapsulation
-- Polymorphism
-- Composition, inheritance, and delegation
-- Delegation vs. Consultation or Forwarding
+: * Object Oriented Programming
+: - Classes: data and procedures
+: - Objects: instances of classes
+: - Class-based vs. Prototype-based
+: - Encapsulation
+: - Polymorphism
+: - Composition, inheritance, and delegation
+: - Delegation vs. Consultation or Forwarding
 
 : Class-based: Classes first, e.g. Java. Objects are instantiated based on classes
 : Prototype-based: Objects first, e.g. Javascript. Classes do not exist, but exactly one link to a prototype exists
@@ -162,102 +178,202 @@ allows an object-oriented style of programming
 : https://flaviocopes.com/golang-is-go-object-oriented/
 : https://code.egym.de/introduction-to-oop-in-golang-e4841a9c4e3e
 
-* Encapsulation
+* Encapsulation I: No classes, but structs
 
-- mechanism that binds together code and the data it manipulates
+  // Rational represents a rational number numerator/denominator.
+  type Rational struct {
+    numerator   int
+    denominator int
+  }
 
-.code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
-.code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
-.code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
+  // Constructor
+  func NewRational(numerator int, denominator int) Rational {
+    if denominator == 0 {
+      panic("division by zero")
+    }
+    return Rational{
+      numerator:   numerator,
+      denominator: denominator,
+    }
+  }
 
-* The typical OO Syntax (object.method()) is supported in Go
-.code ../src/oop/rational/rational_test.go /TestRational/,/END OMIT/
+- capitalized fields are public outside of the package. E. g. *Rational* and *NewRational* are public while *Rational.numerator* and *Rational.denominator* are not.
 
-:Object Oriented Programming - Custom Types
-:Go has no classes but types and functions
+: Go has no classes but types and functions
+
+* Encapsulation II: Bind together code and data it manipulates
+
+- Classical Procedural syntax (Used often in C)
+
+  // Multiply method for rational numbers
+  func Multiply(r Rational, y Rational) Rational {
+      return NewRational(r.numerator*y.numerator, r.denominator*y.denominator)
+  }
+
+- Object Oriented style syntax
+
+  // Multiply method for rational numbers
+  func (r Rational) Multiply(y Rational) Rational {
+      return NewRational(r.numerator*y.numerator, r.denominator*y.denominator)
+  }
+
+  r1 := NewRational(1, 2)
+  r2 := NewRational(2, 4)
+  r3 := r1.Multiply(r2)
+
+The variable *r* is in both cases similar to the Java *this*, which reference to the class instance
+
+: .code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
+: .code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
+: .code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
+
+: * The typical OO Syntax (object.method()) is supported in Go
+: .code ../src/oop/rational/rational_test.go /TestRational/,/END OMIT/
+
+: Object Oriented Programming - Custom Types
+: Go has no classes but types and functions
+
+* Syntax level OOP
+.play ../src/oop/oop_vs_procedural/bool.go
+
+- Go seems to convert the OOP style to procedural style. (OOP only on syntax level)
 
 * Embedding
 - Go does not support inheritance: Go supports embedding of other structs.
-.code ../src/oop/polymorphism/polymorphism.go /Point/,8
+.code ../src/oop/embedding0/embed.go /Point/,8
 
-.code ../src/oop/polymorphism/polymorphism.go /ColorPoint/,19
+.code ../src/oop/embedding0/embed.go /ColorPoint/,16
 
-.code ../src/oop/polymorphism/polymorphism.go /cp.x/,35
+.code ../src/oop/embedding0/embed.go /cp.x/,24
 
-- In Java this can be done with delegation.
-- Syntactically it is similar to inheritance in Java
 - Access to embedded field is identical to a normal field inside a struct
-- Overriding of methods is supported, overloading is not!
+- Syntactically it is similar to inheritance in Java
+- In Java this can be done with delegation.
+
 : Overloading is generally not possible in Go
 
-* Polymorphism
-.code ../src/oop/polymorphism/polymorphism.go /ColorPoint/,/END1 OMIT/
+* Delegation of Functions in Go
+
+- Overriding of methods is kind of supported, overloading is not!
+
+.play ../src/oop/delegation/delegation.go /type A/,/EOF OMIT/
+
+: prints "a.bar"
+: real delegation should print "b.bar", because delegation means
+: evaluating the receiver member method Foo() of A in the context of the sender object B
+
+* Polymorphism I
+An interface is a set of methods
+
+In Java:
+
+  interface Switch {
+      void open();
+      void close();
+  }
+
+In Go:
+
+  type OpenCloser interface {
+      Open()
+      Close()
+  }
+
+- Interfaces with very few methods end with the ending "er" (Stringer, Writer, Reader...)
+
+* Polymorphism II
+
+- Java interfaces are satisfied explicitly
+
+  class Door implements Switch {
+    public void Open() {}
+    public void Close() {}
+  }
+
+- Go interfaces are satisfied implicitly
+
+  type Door struct {}
+  func (OpenCloser*) Open() {}
+  func (OpenCloser*) Close() {}
+
+Door implicitly satisfies the interface OpenCloser
+
+Go supports polymorphism only via interfaces, not through classes
+
+* Polymorphism III: Example The stringer interface
+
+The print functions in the *fmt* package support the following interface
 
     type Stringer interface {
         String() string
     }
 
-- Interfaces are implemented implicitly
-- Go supports polymorphism only via interfaces, not through classes
+- Every type with a String() Method is detected by the print commands and the String function is executed
+- Detection identical to the dynamic slide type
+
+    if tmp, ok := object.(Stringer); ok {
+        // The object implements stringer is implemented
+    }
+
+* Polymorphism III: The stringer interface
+
+.play ../src/oop/stringer/stringer.go
+
 
 * Interfaces and Polymorphism
 .play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
 
-* Send Mail with Go: A minimal Interface
+* Example: Send Mail with Go: A minimal Interface
 .code ../src/oop/mail/mail.go /Message/,/END OMIT/
 - A example interface for a service-oriented component
 
-* A type implements an interface when providing the required methods
+* Example: A type implements an interface when providing the required methods
 .code ../src/oop/mail/smtp/sender.go /Package/,/END OMIT/
-- Import references fully qualified VC directories in $GOPATH/src
 
-* The Go interface can be used as in Java
+* Example: The Go interface can be used as in Java
 .code ../src/oop/mail/client/client.go /Package/,/EOF OMIT/
 
-* Delegation vs. Consultation or Forwarding
-.play ../src/oop/delegation/delegation.go /A/,/EOF OMIT/
-: prints "a.bar"
-: real delegation should print "b.bar", because delegation means
-: evaluating the receiver member method Foo() of A in the context of the sender object B
+* Filesystem Mocking via Filesystem API
+
+- Live Demo
 
 * Summary
-- Several interfaces can be put together to form an interface
+- Go does support Encapsulation via an OOP style syntax
 - Go does not support inheritance but type embedding (delegation without syntactic ballast)
+- Implicit polymorphism means fewer dependencies and no type hierarchy
+- Several interfaces can be put together to form an interface
+- Interface embedding makes mocking easy
 - Go supports polymorphism only via interfaces, not through classes
-- Interfaces with one method end with the ending "er" (Stringer, Writer, Reader...)
 
 * Video
 .link https://youtu.be/Ng8m5VXsn8Q?t=414
 : Start at 6:54 (Object orientation in Go)
 : Stop at 32:06 (Concurrency)
 
-* Embedding
-.code ../src/oop/embedding/embedding.go /Introducer/,/EOE OMIT/
+: * Embedding
+: .code ../src/oop/embedding/embedding.go /Introducer/,/EOE OMIT/
 
-* Embedding (cont.)
-.code ../src/oop/embedding/embedding.go /Employee/,/EOF OMIT/
+: * Embedding (cont.)
+: .code ../src/oop/embedding/embedding.go /Employee/,/EOF OMIT/
 
-* Takeaways
-- Implicit polymorphism means fewer dependencies and no type hierarchy
-- Inheritance can cause weak encapsulation, tight coupling and surprising bugs
-- Struct embedding is still composition, but makes life easier
-- Interface embedding makes mocking easy
+: * Takeaways
+: - Implicit polymorphism means fewer dependencies and no type hierarchy
+: - Inheritance can cause weak encapsulation, tight coupling and surprising bugs
+: - Struct embedding is still composition, but makes life easier
+: - Interface embedding makes mocking easy
 
 * Exercise 3
 .image img/03-exercise.png 600 800
 
-* Exercise 
+* Exercise
 - Implement the UML diagram with Go
 - The Paint() method should print the names and values of the fields to the console
-- Allocate an array of polymorph objects and call Paint() in a loop 
+- Allocate an array of polymorph objects and call Paint() in a loop
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise3.md
 
 * Questions
 - What is the difference between inheritance in Java and embedding in Go?
 - How does Go support multiple inheritance? Is is supported for interfaces and types?
 
-* Multiple inheritance
-.code ../src/oop/multi/multi.go /Fooer/,/END1 OMIT/
-
-* Multiple inheritance (cont.)
-.play ../src/oop/multi/multi.go /END1 OMIT/,/EOF OMIT/
+* Multiple embeddings of same variable or function names
+.code ../src/oop/multiple_inheritance/multi.go /Foo/,

@@ -37,7 +37,7 @@ func main() {
 	// p = cp // does not work: No type hierarchy, no polymorphism
 	p = cp.Point // works
 
-	// s is a interface and supports Polymorphism
+	// s is an interface and supports Polymorphism
 	var s fmt.Stringer
 	s = p
 	fmt.Println(s.String())

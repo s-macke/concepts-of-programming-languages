@@ -10,7 +10,7 @@ type Message struct {
 	Text    string
 }
 
-// Sender is a interface to send mails.
+// Sender is an interface to send mails.
 type Sender interface {
 
 	// Send a mail to a given address with a subject and text.
