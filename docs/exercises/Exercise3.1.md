@@ -7,7 +7,7 @@ Write a type for rational numbers (a/b). Implement a constructor, methods for ad
 - Write a constructor function to create rational numbers
 - The type should be immutable
 - Make sure to implement the Stringer() interface
-- Write an unit test to test the rational numbers
+- Write a unit test to test the rational numbers
 - Check the test coverage. It should be greater than 80%
 
 ### Questions
