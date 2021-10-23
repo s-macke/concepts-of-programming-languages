@@ -1,6 +1,6 @@
 Concurrent Programming with Go
 Concepts of Programming Languages
-2 Nov 2020
+6 Nov 2021
 Tags: go, programming, concurrent, go routines, channels
 
 Sebastian Macke
@@ -15,23 +15,153 @@ http://www.qaware.de
 
 * The modern world is parallel
 
-Multicore.
+- Multicore
 
-Networks.
+- Networks
 
-Clouds of CPUs.
+- Clouds of CPUs
 
-Loads of users.
+- Loads of users
+
+* Multiprocessor computer system
+Shared memory systems are the most common types of multiprocessor computer system
+
+- Two or more CPUs within one computer system.
+- The processors of the multiprocessor system share a common memory.
+- Communicate and sync via memory
+
+: JavaScript hat Worker threads, die keinen gemeinsamen Speicher teilen, sondern nur über Events kommunizieren.
+: Bild von https://en.wikipedia.org/wiki/Shared_memory
+
+* What are Software or Kernel Threads
+
+*Kernel* *Mode*: Highest Privilege level
+
+- Access to hardware via drivers
+- Control over File system, Memory
+- Kernel controls threads via a scheduler
+
+*User* *Mode*: Lowest Privilege level
+
+- No direct hardware access
+- Calls the kernel via the System Call Interface (SCI)
+- All IO has to run through the kernel. E. g. A thread cannot "wait" itself (Endless loop excluded).
+- A process can ask the kernel for more threads
+
+* The context switch is very expensive
+
+Example: Task switch for one CPU core
+
+- Context switch: User mode to kernel mode (Either user mode called the kernel or a timer interrupt or an external event such as a keypress)
+- Save state of thread
+- Scheduler has to choose the next thread for the CPU core or go to sleep
+- Reloading of memory layout of the other thread (MMU)
+- Restore state of another thread
+- Context switch: kernel mode to user mode
+- Indirect: Cache misses
+
+A task switch can take many µs up to 1ms. You should prevent context switches as much as possible. The fix for Spectre and other Bugs increased the context switching time significantly. The performance drop can be up to 30% if all fixes are applied.
+
+: TODO Distinguish Hardware Thread, Software Thread, Virtual Thread
+
+* History
+
+- The first dual-core CPUs were produced for the masses in 2003. However, the programming languages were not ready yet to help with
+  this complexity
+
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <pthread.h> // posix threads
+
+  // A normal C function that is executed as a thread when its name is specified in pthread_create()
+  void *myThreadFun(void *vargp) {
+      sleep(1);
+      printf("I run parallel to the main routine\n");
+      return NULL;
+  }
+
+  int main() {
+      pthread_t thread_id;
+      pthread_create(&thread_id, NULL, myThreadFun, NULL); // ask the kernel for a new thread
+      pthread_join(thread_id, NULL);
+  }
+
+-  Multithreading over an extra library
+
+* Parallelization in Java
+
+- Threadpool creates already sleeping software threads
+
+  ExecutorService executorService = Executors.newFixedThreadPool(10);
+  Future<String> future = executorService.submit(() -> "Hello World");
+  // some operations
+  String result = future.get();
+
+* Blocking calls to the kernel
+
+- IO system calls from a thread can block for a very long time E. g. Access to the filesystem or waiting for the network data
+
+- This is usually solved by thread pools. Hundreds of waiting software threads ready to do some work
+
+- However the major kernels (Windows, Linux, MacOs, ...) allow for event queue driven system calls.
+
+One interesting technique in this context are Coroutines.
+
+* Coroutines I
+- Coroutines allow to jump in and out of functions at any time
+*JavaScript* *example*
+
+  function* test() {
+    var x = yield 'Hello!';
+    var y = yield 'First I got: ' + x;
+    return 'Then I got: ' + y
+  }
+
+  var tester = test()
+  console.log(tester.next())   // Output: Hello
+  // .. do something else
+  console.log(tester.next("cat")); // Output: First I got: cat
+  // .. do something else
+  console.log(tester.next("dog")); // Output: then I got: dog
+
+When "yield" is executed the JavaScript engine has to store the state of the function. Usually the program counter, call stack and CPU registers.
+
+* Coroutines II
+
+JavaScript is single threaded. However doesn't allow to block on blocking calls.
+
+- Old technique with callbacks
+
+  fetch('http://example.com/movies.json')
+  .then(response => response.status())  // is executed as callback
+
+- New technique with async and await
+
+  async function Download() {
+      var response = await fetch('https://playcode.io/')
+      console.log(response.status)
+  }
+
+  await Download()
+
+The technique of Coroutines are implicitly used for blocking calls.
+Advantage: No callback hell. You just don't have to worry about blocking. Just write your code down.
+But: This must be a language feature directly supported by their runtime
+
+: TODO https://playcode.io/new/
+
 
 * Concurrent Programming with Go
 .image img/06-go-concurrency.jpeg
 - Don't communicate by sharing memory; share memory by communicating (Rob Pike)
 
 * Go provides:
-- concurrent execution (goroutines)
-- synchronization and messaging (channels)
-- multi-way concurrent control (select)
-- low level blocking primitives (locks) - Usually not needed!
+- Concurrent execution (goroutines)
+- Synchronization and messaging (channels)
+- Multi-way concurrent control (select)
+- Atomic operations
+- Low level blocking primitives (locks)
 
 * Goroutines
 
@@ -43,13 +173,21 @@ A goroutine is a function running independently  in the same address space as ot
 
 Like launching a function with shell's `&` notation.
 
-* Goroutines are not threads
+* Virtual Threads
 
-- (They're a bit like threads, but they're much cheaper)
-- Goroutines are multiplexed onto OS threads as required
-- When a goroutine blocks the thread will execute other goroutines
-- IO Calls and calls calls to the Go Standard Library trigger the scheduler
-- There are no thread local variables in Go
+Goroutines are neither hardware nor software threads
+
+- Goroutines are completely organized in user space.
+- They behave like threads, but they're much cheaper. Instead of several hundred software threads you can have *even* *millions* of virtual threads.
+- Go implements its own scheduler in user space
+- Goroutines are multiplexed onto OS threads as required.
+- When a goroutine blocks the thread will execute other goroutines via the same technique as used by coroutines.
+- IO Calls and calls to the Go Standard Library trigger the scheduler
+
+In case of independent threads and blocking calls you can just write your code down like it is single threaded!
+
+: TODO Project LOOM for Java
+
 
 * Lecturer 1: A simple example
 No Goroutine used yet:
@@ -174,6 +312,21 @@ Also write a test for the `setTimeout()` function.
 
 : auffächern
 
+* Waitgroups
+
+.play ../src/concurrent/waitgroup/parallel_for_loop.go /func/,
+
+* Atomics
+
+.play ../src/concurrent/atomic/atomic_none.go /var/,
+What will be the result?
+
+* Atomics
+
+.play ../src/concurrent/atomic/atomic.go /var/,
+
+- Atomics either use a atomic CPU feature or perform a low level blocking operation via a mutex
+
 * Go really supports concurrency
 
 Really.
@@ -190,17 +343,17 @@ More information about Go and concurrency:
 .link https://youtu.be/f6kdp27TYZs?t=1
 
 
-* Java like BlockingQueue with Channels
-.code ../src/concurrent/channels/blockingqueue/blockingqueue.go /BlockingQueue/,/EOF/
+: * Java like BlockingQueue with Channels
+: .code ../src/concurrent/channels/blockingqueue/blockingqueue.go /BlockingQueue/,/EOF/
 
-* Java like BlockingQueue - Test
-.code ../src/concurrent/channels/blockingqueue/blockingqueue_test.go /TestBlockingQueue/,/EOF OMIT/
+: * Java like BlockingQueue - Test
+: .code ../src/concurrent/channels/blockingqueue/blockingqueue_test.go /TestBlockingQueue/,/EOF OMIT/
 
-* Java like BlockingQueue with Locks (Low Level)
-.code ../src/concurrent/locks/blockingqueue/blockingqueue.go /BlockingQueue/,/A1/
+: * Java like BlockingQueue with Locks (Low Level)
+: .code ../src/concurrent/locks/blockingqueue/blockingqueue.go /BlockingQueue/,/A1/
 
-* Java like BlockingQueue with Locks (Low Level)
-.code ../src/concurrent/locks/blockingqueue/blockingqueue.go /Put/,/A2/
+: * Java like BlockingQueue with Locks (Low Level)
+: .code ../src/concurrent/locks/blockingqueue/blockingqueue.go /Put/,/A2/
 
 
 * Exercise 3: Dining Philosophers
@@ -244,5 +397,3 @@ More information about Go and concurrency:
 - Channels use Message Passing instead of locks
 - Go has a low level lock API, but this is seldom needed
 - It is possible to port all classes from java.util.locking easily
-
-: TODO Parallel For Loop, Performance
