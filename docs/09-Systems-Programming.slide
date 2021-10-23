@@ -24,7 +24,23 @@ Typical programs include the operating system and firmware, programming tools su
 - Highlevel Applications are written in any Programming Language like Java, Ruby, JS ...
 
 .image https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Priv_rings.svg/2560px-Priv_rings.svg.png 192 256
- 
+
+* Programming Languages based on which Programming languages
+- C++ programmed in C, then C++
+- Java compiler written in Java, Java runtime written in C++
+- Rust was written in C then Rust
+- Go originally programmed in C, then Go,
+- C# original writte in C and C++ then C#
+- Haskell written in C and C--
+- PHP written in C and C++
+- Python written in C
+- JavaScript written in C++
+- C was written in B
+
+
+Also most the compiling programming languages incorporate assembler
+
+
 * Calling C Code from Go with cgo
 
 * Calling C Code from Go with cgo

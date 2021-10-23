@@ -65,6 +65,7 @@ func main() {
 	// Boolean TRUE as function: λx.λy.x
 	TRUE := func(x fnf) fnf {
 		return func(y fnf) fnf {
+			fmt.Println("TRUE")
 			return x
 		}
 	}
@@ -72,6 +73,7 @@ func main() {
 	// Boolean FALSE as function: λx.λy.y
 	FALSE := func(x fnf) fnf {
 		return func(y fnf) fnf {
+			fmt.Println("FALSE")
 			return y
 		}
 	}
@@ -89,6 +91,10 @@ func main() {
 	OR := func(x fnf, y fnf) fnf {
 		return x(TRUE)(y)
 	}
+	fmt.Println("abcd")
+	//NOT(FALSE)(Printer)
+	AND(FALSE, TRUE)
+	fmt.Println("abcd")
 
 	fmt.Printf("AND(true, true) = %p\n", AND(TRUE, TRUE))
 	fmt.Printf("AND(true, false) = %p\n", AND(TRUE, FALSE))

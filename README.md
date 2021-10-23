@@ -25,42 +25,43 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - <a href="docs/01-3-Introduction to Golang.pdf">Introduction to Golang</a>
 - <a href="docs/exercises/Exercise1.md">Exercise 1</a>
 
-## Lecture 2 - Basics in Go Programming, OOP Part I
+## Lecture 2 - Basics in Go Programming
 
-- Pointer, Arrays, Maps and Object Oriented Programming
+- Pointer, Arrays, Maps
 - Reasons for Go https://www.youtube.com/watch?v=5kj5ApnhPAE
 - <a href="docs/02-Go Programming - Basics and OOP.pdf">Slides</a>
 - <a href="docs/exercises/Exercise2.1.md">Exercise 2.1</a>
 - <a href="docs/exercises/Exercise2.2.md">Exercise 2.2</a>
 
-## Lecture 3 - Object Oriented Programming in Go, OOP Part II
+## Lecture 3 - Object Oriented Programming in Go
 
 - Structs, Interfaces, Embedding, Polymorphism
 - <a href="docs/03-Go-Programming-OOP.pdf">Slides</a>
 - <a href="docs/exercises/Exercise3.md">Exercise 3</a>
 
-## Lecture 4 - Building Parsers
-
-- Practicing Go using the example of parsers for boolean expressions
-- <a href="docs/04-Go-Programming-Parser.pdf">Slides</a>
+## Lecture 4 - Functional Programming
+- Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
+- <a href="docs/04-Functional-Programming.pdf">Slides</a>
 - <a href="docs/exercises/Exercise4.md">Exercise 4</a>
 
-## Lecture 5 - Functional Programming
-- Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
-- <a href="docs/05-Functional-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise5.md">Exercise 5</a>
-
-## Lecture 6 - Concurrent Programming
+## Lecture 5 - Concurrent Programming
 - Why concurrent programming matters! Go routines and channels, Go concurrency patterns, The dining philosophers problem
 - <a href="docs/06-Concurrent-Programming.pdf">Slides</a>
 - <a href="docs/exercises/Exercise6.md">Exercise 6</a>
 
-## Lecture 7 - Distributed Programming 
+## Lecture 6 - Distributed Programming 
 - Introduction into Consensus Protocols
 - Raft
 - Implementing Raft with Go 
 - <a href="docs/07-Distributed-Programming-Raft.pdf">Slides</a>
 - <a href="docs/exercises/Exercise7.md">Exercise 7</a>
+
+## Lecture 7 - Systems Programming
+- Introduction into systems programming
+- Using Cgo to communicate with native libraries
+- Building an OS-level virtualization software in Go
+- <a href="docs/09-Systems-Programming.pdf">Slides</a>
+- <a href="docs/exercises/Exercise9.md">Exercise 9</a>
 
 ## Lecture 8 - Cross Compiling with WebAssembly 
 - Introduction to WebAssembly
@@ -68,19 +69,12 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - <a href="docs/08-WebAssembly.pdf">Slides</a>
 - <a href="docs/exercises/Exercise8.md">Exercise 8</a>
 
-## Lecture 9 - Systems Programming
-- Introduction into systems programming
-- Using Cgo to communicate with native libraries
-- Building an OS-level virtualization software in Go
-- <a href="docs/09-Systems-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise9.md">Exercise 9</a>
-
-## Lecture 10 - Enterprise Programming
+## Lecture 9 - Enterprise Programming
 - Large Scale Programming with Modules
 - <a href="docs/10-Enterprise-Programming-Modules.pdf">Slides</a>
 - <a href="docs/exercises/Exercise10.md">Exercise 10</a>
 
-## Lecture 11 - Logic Programming
+## Lecture 10 - Logic Programming
 - Introduction to Prolog
 - <a href="docs/11-Logic-Programming.pdf">Slides</a>
 - <a href="docs/exercises/Exercise11.md">Exercise 11</a>

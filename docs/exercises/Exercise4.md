@@ -1,123 +1,61 @@
-# Exercise 4 - Building Parsers
+# Exercise 4 - Functional Programming in Go
 
-During the course you learned about grammar, lexers and parsers.
-The exercise is split up into three parts:
+If you do not finish during the lecture period, please finish it as homework.
 
-1) Implement a lexer to extract tokens from a boolean expression
-2) Implement a parser to build an Abstract Syntax Tree and to evaluate the expression
-3) Implement both the lexer and the parser using Antlr
+## Exercise 4.1 - Warm Up
 
-If you do not finish during the lecture period, please try this at home.
+Write a Go Programm which shows the following concepts:
 
-## Exercise 4.1 - Lexer for boolean expressions
+- Functions as Variables
+- Anonymous Lambda Functions
+- High Order Functions (functions as parameters or return values)
+- Clojures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
 
-Write a lexer for boolean expressions inclusive braces.
-Use the following grammar definition:
+Compare the Syntax with Java.
+ 
+## Exercise 4.2 - Map / Filter / Reduce
+Map/Reduce is a famous functional construct implemented in many parallel and distributed collection frameworks like
+Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq
 
-```bnf
-<expression> ::= <term> { <or> <term> }
-<term> ::= <factor> { <and> <factor> }
-<factor> ::= <var> | <not> <factor> | (<expression>)
-<or>  ::= '|'
-<and> ::= '&'
-<not> ::= '!'
-<var> ::= '[a-zA-Z0-9]+'
+- Implement a custom M/R API with the following interface:
+ ```go
+    type Stream interface {
+    	Map(m Mapper) Stream
+    	Filter(p Predicate) Stream
+    	Reduce(a Accumulator) Any
+    }
 ```
-
-_Note:_ A lexer only uses the lexer rules from the grammar.
-
-The lexer has a method
-
+The usage of the interface should be like this:
 ```go
-func splitTokens(input string) []string {
+    stringSlice := []Any{"a", "b", "c", "1", "D"}
+
+	// Map/Reduce
+	result := ToStream(stringSlice).
+		Map(toUpperCase).
+		Filter(notDigit).
+		Reduce(concat).(string)
+
+	if result != "A,B,C,D" {
+		t.Error(fmt.Sprintf("Result should be 'A,B,C,D' but is: %v", result))
+    }
 ```
 
-to split the expression into tokens and a further method
+ *Questions*
+ - What is the type of Mapper, Predicate and Accumulator?
+ - How can you make the types generic, so they work for any type, not only for string?
 
-```go
-func (l *Lexer) NextToken() string
-```
+## Exercise 4.3 - Word Count (WC)
+Word Count is a famous algorithm for demonstrating the power of distributed collections and functional programming. 
+Word Count counts how often a word (string) occurs in a collection. It is easy to address that problem with shared state (a map), but
+this solution does not scale well.
+The question here is how to use a pure functional algorithm to enable parallel and distributed execution.
 
-that iterates over the tokens.
+After running Word Count, you should get the following result:
 
-**Disclaimer:** Feel free you use your very own software design.
+INPUT:  "A" "B" "C" "A" "B" "A"
 
-🤥 **Write tests! Otherwise it does not happen!** 🤥
+OUTPUT: ("A":3) ("B":2) ("C":1) 
 
-## Exercise 4.2 - Parser
-
-The parser is split up into two parts:
-
-- Define and implement an Abstract Syntax Tree
-- Token parsing and Abstract Syntax Tree building
-
-_Reminder:_ Use the following grammar definition:
-
-```bnf
-<expression> ::= <term> { <or> <term> }
-<term> ::= <factor> { <and> <factor> }
-<factor> ::= <var> | <not> <factor> | (<expression>)
-<or>  ::= '|'
-<and> ::= '&'
-<not> ::= '!'
-<var> ::= '[a-zA-Z0-9]+'
-```
-
-### Exercise 4.2.1 - Abstract Syntax Tree (AST)
-
-Write a program which builds an AST with nodes to evaluate logical expressions with (And, Not, Or with variables).
-
-```text
-Sample Expression: `A AND B OR C`
-
-             ----------
-             |   OR   |
-             ----------
-            /          \
-        ---------      ----------
-        |  AND  |      |  Var:C |
-        ---------      ----------
-        /       \
-  ---------   ---------
-  | Var:A |   | Var:B |
-  ---------   ---------
-```
-
-The tree should be evaluated with a evaluation methods which supports named variables:
-
-```go
-eval(vars map[string]bool) bool
-```
-
-_Why named variables:_ This allows us to build the AST once and use it for multiple variable values.
-
-Notes that might help:
-
-- Interfaces and Polymorphism
-- Nodes are different but what are the commonalities?
-- Simply follow the rules
-
-🤥 **Write tests! Otherwise it does not happen!** 🤥
-
-Write a unit test which builds the AST and evaluate the expression with given boolean values for the variables A, B, C.
-
-### Exercise 4.2.2 Recursive Descent Parser
-
-Write a recursive descent parser. The parser must implement the grammar rules  (that was enough hint).
-
-🤥 **Write tests! Otherwise it does not happen!** 🤥
-
-### Exercise 4.3 Antlr
-
-We now use Antlr to generate a lexer and a parser for a given grammar definition.
-
-Follow the go Antlr quick-start: <https://github.com/antlr/antlr4/blob/master/doc/go-target.md>
-
-You need to do the following things:
-
-- Antlr Setup (see above)
-- Define an Antlr grammar file (`boolparser.g4`)
-- Generate lexer and parser source code
-- Use the generated files to parse boolean expressions
-
-Should be not to hard 🤙
+*Questions*
+- How can you implement the problem with the already built Map()/Filter()/Reduce() functions?
+- Write an Unit Test to prove that your solution works as expected!
