@@ -20,36 +20,7 @@ http://www.qaware.de
 
 : Ergebnisse der Übungen zeigen.
 
-* Exception Pro and Cons
-
-Pro Exceptions:
-
-- Separate error handling code from the normal program flow
-- Exceptions are harder to ignore
-- Exceptions can carry a lot of extra information
-- Exceptions are easily propagated through the system
-
-Contra Exceptions:
-
-- Difficult to analyze if stack unwinding lead to further errors. E. g. Exceptions in Exceptions. Unexpected resource leaks
-- Exceptions can have more side effects
-- Exceptions are expensive
-
-* Return values Pro and Cons
-
-Pro error return code:
-
-- Easier to understand
-- Multiple return values are a good fit. It does not overload the return value
-- Better controllable than Exceptions.
-
-Contra error return code:
-
-- Handling errors is verbose and repetitive (4x more Code in average)
-- you have to propagate the error through your call stack yourself
-
-: Hier die Begründung von Google: https://golang.org/doc/faq#exceptions
-
+* Error Handling
 
 * Errors in Go
 
@@ -80,6 +51,46 @@ The "defer" statement lets us ensure that code runs before a function exits
 
 * unrecoverable error: panic and recover by using defer
 .play ../src/basics/panic/panic.go  /func getElement/,/EOF OMIT/
+
+
+* Exception Pro and Cons
+
+- What do you think are the pros and cons of exceptions vs
+
+* Exception Pro and Cons
+
+What are the pro and cons about Exceptions and return values?
+
+Pro Exceptions:
+
+- Separate error handling code from the normal program flow
+- Exceptions are harder to ignore
+- Exceptions can carry a lot of extra information
+- Exceptions are easily propagated through the system
+
+Contra Exceptions:
+
+- Difficult to analyze if stack unwinding lead to further errors. E. g. Exceptions in Exceptions. Unexpected resource leaks
+- Exceptions can have more side effects
+- Exceptions are expensive
+
+* Return values Pro and Cons
+
+Pro error return code:
+
+- Easier to understand
+- Multiple return values are a good fit. It does not overload the return value
+- Better controllable than Exceptions.
+
+Contra error return code:
+
+- Handling errors is verbose and repetitive (4x more Code in average)
+- you have to propagate the error through your call stack yourself
+
+: Hier die Begründung von Google: https://golang.org/doc/faq#exceptions
+
+
+* Object Oriented Programming
 
 * Prerequisites to OOP: Go does support a dynamic type
 
@@ -149,7 +160,7 @@ The "defer" statement lets us ensure that code runs before a function exits
 
 - Encapsulation: Bundling of data with the methods that operate on that data. Select what is public accessible and what is private
 - Inheritance: Based class upon another class
-- Polymorphism: Objects of different types can be accessed through the same interface
+- Polymorphism: Objects of different types can be accessed through the same interface or the use of a single variable to represent different types
 - Abstraction: Provide abstraction of a class without the implementation
 
 Go is not a pure object oriented programming language but
@@ -344,6 +355,8 @@ The print functions in the *fmt* package support the following interface
 - Several interfaces can be put together to form an interface
 - Interface embedding makes mocking easy
 - Go supports polymorphism only via interfaces, not through classes
+
+: Inheritance can cause weak encapsulation, tight coupling and surprising bugs
 
 * Video
 .link https://youtu.be/Ng8m5VXsn8Q?t=414
