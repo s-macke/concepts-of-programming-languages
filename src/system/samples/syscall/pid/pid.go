@@ -5,7 +5,6 @@
 // Licensed under the Apache License, Version 2.0
 package main
 
-import "C"
 import (
 	"fmt"
 
