@@ -71,6 +71,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	err = exec(db, "insert into students (name) values ('Sebastian Macke');")
+	if err != nil {
+		panic(err)
+	}
 	err = exec(db, "select * from students;")
 	if err != nil {
 		panic(err)

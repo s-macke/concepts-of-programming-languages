@@ -1,6 +1,6 @@
 package main
 
-// #include <stdlib.h>;
+// #include <stdlib.h>
 import "C"
 import "fmt"
 
@@ -15,5 +15,5 @@ func Random() int {
 
 func main() {
 	Seed(1)
-	fmt.Printf("random int from C is %d", Random())
+	fmt.Printf("random int from C is %d\n", Random())
 }
