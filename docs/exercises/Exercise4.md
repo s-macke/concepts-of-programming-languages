@@ -4,12 +4,12 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 4.1 - Warm Up
 
-Write a Go Programm which shows the following concepts:
+Write a Go program which shows the following concepts:
 
 - Functions as Variables
-- Anonymous Lambda Functions
+- Anonymous Functions
 - High Order Functions (functions as parameters or return values)
-- Clojures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
+- Closures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
 
 Compare the Syntax with Java.
  
