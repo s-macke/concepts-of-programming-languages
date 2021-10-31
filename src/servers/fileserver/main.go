@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -12,8 +13,8 @@ func main() {
 	directory := flag.String("d", ".", "the directory of static file to host")
 	flag.Parse()
 
-	fileServer := http.FileServer(http.Dir(*directory))
-	http.Handle("/", fileServer)
+	dirFs := os.DirFS(*directory)
+	http.Handle("/", http.FileServer(http.FS(dirFs)))
 	fmt.Printf("Starting server at port " + *port + "\n")
 	log.Fatal(http.ListenAndServe(":"+*port, nil))
 }
