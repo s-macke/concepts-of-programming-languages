@@ -14,7 +14,6 @@ func intSeq() func() int {
 func main() {
 	// We call intSeq, assigning the result (a function) to nextInt.
 	// This function value captures its own i value, which will be updated each time we call nextInt.
-
 	nextInt := intSeq()
 	// See the effect of the closure by calling nextInt a few times.
 	fmt.Println(nextInt())

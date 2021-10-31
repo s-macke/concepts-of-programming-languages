@@ -1,6 +1,6 @@
-Functional Programming with Go
+Functional Programming
 Concepts of Programming Languages
-26 Oct 2020
+25 Oct 2021
 Tags: go, programming, master
 
 Sebastian Macke
@@ -40,7 +40,7 @@ Lecture 7 - *Systems* *Programming*
 
 Lecture 8 - *Logical* *Programming*
 
-Lecture 9 - *Cross* *Compiling* *with* *Webassembly*
+: Lecture 9 - *Cross* *Compiling* *with* *Webassembly*
 
  .... TBA
 
@@ -74,17 +74,15 @@ These types of functional languages support the functional paradigms and imperat
 
 .play ../src/functional/basics/variable.go /func main/,
 
-- Anonymous function variable can be copied.
+- Function variable can be copied.
 
     ANOTHERADD := ADD;
     ANOTHERADD(1, 2);
 
-- The function doesn't need to be bound to a variable
+- The function doesn't need to be bound to a variable (Anonymous Function)
 .play ../src/functional/basics/notbound.go /func main/,
 
 * Function as parameter.
-
-.play ../src/functional/basics/sort.go /func main/,
 
 - Perform a function x times
 
@@ -96,20 +94,26 @@ These types of functional languages support the functional paradigms and imperat
 
 .play ../src/functional/basics/return.go /type/,
 
-* Clojures
-- functions gets access to its context (e. g. variables) at creation time.
+* Closures
+- Function gets access to its context (e. g. variables) at creation time.
 .play ../src/functional/clojures/main.go /intSeq/,/EOF OMIT/
 
-: Clojure/Funktionsabschluss: Eine anonyme Funktion, die Zugriffe auf ihren Erstellungskontext enthält. Beim Aufruf greift die Funktion dann auf diesen Erstellungskontext zu. Dieser Kontext (Speicherbereich, Zustand) ist außerhalb der Funktion nicht referenzierbar, d. h. nicht sichtbar.
+: Closure/Funktionsabschluss: Eine anonyme Funktion, die Zugriffe auf ihren Erstellungskontext enthält. Beim Aufruf greift die Funktion dann auf diesen Erstellungskontext zu. Dieser Kontext (Speicherbereich, Zustand) ist außerhalb der Funktion nicht referenzierbar, d. h. nicht sichtbar.
 : Go erlaubt aber auch globale variablen in anonymen Funktionen. Diese sind also einsehbar.
+
+* Closures II
+
+Access array outside of the function for sorting
+.play ../src/functional/basics/sort.go /func main/,
+
 
 * Exercise 5.1 - Warm Up
 Write a Go Programm which shows the following concepts:
 
 - Functions as Variables
-- Anonymous Lambda Functions
+- Anonymous Functions
 - High Order Functions (functions as parameters or return values)
-- Clojures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
+- Closures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
 
 * Pure Functions
 
@@ -117,18 +121,17 @@ Write a Go Programm which shows the following concepts:
 
 - Its return value always the same for the same arguments
 - The evaluation has no side effects (no mutation of data outside of the function)
-- Cannot have any side-effects
-- After calling a pure function, the rest of the program will be in the same state it was before calling
+- In other words: After calling a pure function, the rest of the program will be in the same state it was before calling
 
 Examples: exp, sin, cos, max, min.
 
 Advantages
 
-- Reading and understanding is much simpler
+- Reading and understanding is simpler
 - Easier to test
 - Are less prone to error in general
 
-* Every Function can be made Pure
+* Every Function can be made pure
 
 "An interactive program is a pure function that takes the current 'state of the world' as its arg and produces a modified world as result" - unknown Twitter user
 
@@ -159,7 +162,7 @@ The most prominent characteristics of functional programming are as follows
 - Functional programming supports higher-order functions and lazy evaluation features.
 - Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
   Hence, the declarative approach is prevalence rather than the imperative approach.
-- Like OOP, functional programming languages support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
+- Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
 
 * Functional programming offers the following advantages
 
@@ -244,24 +247,10 @@ Functions can be composed to new functions
 :    fmt.Printf("%v\n", compose(compose(square, square), square)(2)) // --> 256
 
 * Functional Composition (2)
+
 Functions can be composed with functions as parameters
-    g(f(x)) -> (g ◦ f)(x) 
 
-    // Type any makes the code readable
-    type any interface{}
-    type function func(any) any
-
-    compose := func(g, f function) function {
-        return func(x any) any {
-    	    return g(f(x))
-        }
-    }
-
-    square := func(x any) any { return x.(int) * x.(int) }
-
-    fmt.Printf("%v\n", compose(square, square)(2)) // --> 4*4 = 16
-    fmt.Printf("%v\n", compose(compose(square, square), square)(2)) // --> 256
-
+.play ../src/functional/composition/compose2.go
 
 * Famous Functional Languages
 - Haskell ([[https://www.youtube.com/watch?v=1jZ7j21g028][Introduction]])
@@ -396,7 +385,7 @@ Hint: To understand this video you will watch it at least three times :-)
 
 * Lambda Calculus in Go: Helper for printing
 
-.code ../src/functional/lambdacalculus/truefalse/main.go /// ToBool/,
+.play ../src/functional/lambdacalculus/truefalse/main.go /// ToBool/,
 - OOP style on a function definition!
 - Executes the function and provides two functions. If the first is executed it is true, if the second it is false
 
