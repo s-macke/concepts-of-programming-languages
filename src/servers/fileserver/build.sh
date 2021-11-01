@@ -1,4 +1,0 @@
-GOOS=linux gp build
-
-
-
