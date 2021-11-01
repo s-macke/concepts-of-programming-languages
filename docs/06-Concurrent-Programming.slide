@@ -8,10 +8,23 @@ Rosenheim Technical University
 sebastian.macke@qaware.de
 http://www.qaware.de
 
+* Last lecture
+- Functional programming in general
+- Impure Functional programming in Go
+- Anonymous functions
+- Closures
+- Currying
+- Functional composition
+- Pure languages such as Haskell
+- Lambda Calculus
+- Streaming functionality in Go
+
 * Why Concurrent Programming?
 - Computer clock rates do not get higher anymore (since 2004!)
 - But Moores Law is still valid (Multicore!)
 .image img/06-moores-law.png 450 800
+
+: TODO https://github.com/qaware/cloudcomputing
 
 * The modern world is parallel
 

@@ -1,0 +1,185 @@
+Distributed Programming
+Concepts of Programming Languages
+15 Nov 2021
+Tags: go, programming, concurrent, go routines, channels
+
+Sebastian Macke
+Rosenheim Technical University
+sebastian.macke@qaware.de
+http://www.qaware.de
+
+
+* About this Lecture
+
+- Go is developed for the cloud and for micro services as light weight alternative to Java and C++
+- So far, networking is not part of the language itself but provided via librarys.
+
+* Distributed Programming
+- Concurrent System - multiple execution points (threads, processes or via network)
+- Distributed System - processes are running on different networked processors
+- Parallel System - like a distributed system, but more closely coupled (shared memory or fast bus)
+
+Terms are not always used consistently.
+
+: Nebenläufiges System: es gibt mehrere separate Ausführungspunkte (egal ob Threads/Prozess oder über Netzwerk)
+: Verteiltes System: Prozesse laufen auf unterschiedlichen Prozessoren, die oft weit auseinderliegen, aber verbunden sind
+: Paralleles System: wie verteiltes System, aber enger gekoppelt (gemeinsamer Speicher, schneller Bus)
+
+*
+.background ./img/07-parallel-distributed.png 600 _
+
+* Message Passing
+Message Passing is invoking behavior on a separate process (not necessarily on the same computer) by sending messages.
+
+Models for exchanging messages:
+
+- point to point (symmetric/asymmetric, synchronous/asynchronous)
+- remote procedure calls (RPC, RMI)
+- broadcasting and multicasting
+
+: Sender schickt Nachricht an Empfänger
+: symmetrisch: beide kennen sich / asymmetrisch: nur ein eine Richtung
+: synchron: blockiert bis Nachricht gelesen
+: RPI: wie lokaler Prozeduraufruf
+
+* TCP - Transmission Control Protocol
+
+- TCP is currently the basis for all network communication
+- Allows consistent data streams in both direction between two computers
+
+* A few years ago, networking was heavy weighted
+
+   int main()
+   {
+       int sockfd, connfd, len;
+       struct sockaddr_in servaddr, cli;
+       sockfd = socket(AF_INET, SOCK_STREAM, 0);
+       if (sockfd == -1) {
+           printf("socket creation failed...\n"); exit(0);
+       }
+       bzero(&servaddr, sizeof(servaddr));
+       servaddr.sin_family = AF_INET;
+       servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+       servaddr.sin_port = htons(PORT);
+
+       if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+           printf("socket bind failed...\n"); exit(0);
+       }
+       if ((listen(sockfd, 5)) != 0) {
+           printf("Listen failed...\n"); exit(0);
+       }
+   ....
+
+* Listen to a socket in Go
+
+	l, err := net.Listen("tcp4", ":8080")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+
+
+* HTTP
+
+* A simple fileserver
+.code ../src/servers/fileserver/main.go /func/,
+
+
+* Transfer formats
+
+* There are different types of standardized transfer formats
+
+- JSON (Text Format)
+- XML (Text Format)
+- Protobuf (Binary Format)
+
+* JSON - JavaScript Object Notation
+
+  {
+      "coord": {
+          "lon": -122.08,
+          "lat": 37.39
+        },
+        "weather": [
+            {
+                "main": "Clear",
+                "description": "clear sky",
+            }
+        ],
+  }
+
+Types:
+- bool
+- floating point number
+- strings
+- arrays
+- null
+
+* XML
+
+TODO
+
+* Protocol Buffers
+
+  syntax = "proto3"
+  message SearchRequest {
+      string query = 1
+      int32 page_number = 2
+      int32 result_per_page = 3
+  }
+
+- published by Google in 2008
+- language neutral
+- platform independent
+- binary format
+- Auto generated code by a protobuf compiler for the various languages
+
+* Marshalling and Unmarshalling
+- Go offers a way to transform structs to the transfer formats and vice versa
+.play ../src/distributed/encoding/json/json.go /type Weather/,
+
+* Service-oriented Request-Response Communication with REST
+
+* REST APIs with Go
+
+* Example: Github API with Go
+
+.play ../src/distributed/rest/client.go /func main/,
+
+
+
+* Service-oriented Request-Response communication with gRPC
+
+- Developed by Google in 2015
+- HTTP/2 transport protocol
+- Protocol buffers for serialization
+- Communication ways
+Request-Response
+Client-side Streaming
+Server-side Streaming
+Bidirectional Streaming
+
+- Generator for client and server
+Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
+
+: Alternative http https://api.github.com/users/s-macke/repos
+
+
+* Exercise
+
+
+* Be Creative!
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise7.md
+
+
+* Summary
+- Go is an excellent choice for distributed applications
+- You can implement the Raft specification with ca 1000-2000 Loc
+- You can learn from the Etcd implementation, which is on Github
+- Building a production safe implementation is hard in any language anyway!
+
+: TODO: Exersice: Distributed calculation of the Collatz Conjecture
+: TODO Use TCP Stream, HTTP with JSON, HTTP with XML, GRPC
+: https://www.youtube.com/watch?v=094y1Z2wpJg
+: Extends to blocks to optimize
