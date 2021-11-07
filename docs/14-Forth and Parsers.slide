@@ -1,6 +1,6 @@
-Lisp and Forth - Languages from the Past
+Forth - Languages from the Past
 Concepts of Programming Languages
-14 Dec 2020
+14 Dec 2021
 Tags: go, programming, logic
 
 Sebastian Macke
@@ -10,91 +10,13 @@ http://www.qaware.de
 
 * Some thoughts about this lecture
 
+
 - In history there has been developments in language design which had a significant influence
 - They had unique ideas from which we can learn from
 - These languages are used only a niche language today
-- Lisp and Forth are two of those candidates
-
-* Lisp - List processing
-
-: https://www.slideshare.net/dataminingtools/introduction-to-lisp-3434723
-: https://auth0.com/blog/why-developers-should-look-into-clojure/
-
-* History
-
-- Invented by John McCarthy in 1958 at MIT
-- First implementation in 1960
-- Lisp is/was closely connected to AI research
-- Still used today
-- Lisp has spawned many variations of the language with its latest version: Clojure
-
-
-* Features
-
-- Example of elegant minimalist language (uniform syntax, s-expressions)
-- First functional language
-- First language with garbage collection
-- First language with with built in support for lists and tree like data structures
-. First language with dynamic typing
-- Code is data, Data is Code
-- Metaprogramming
-- Atomic storage management
-- Interactive environment
-- Standard macros
-
-* S- Expressions
-
-* Syntax (Data Structures)
-
-- Lists
-
-- Atoms
-
-- Prefix notation
-
-* Function definition
-
-
-* Calculations
-
-* Comparing
-
-* Variables
-- Assigning functions
-
-* Nil represents false and an empty list
-
-* Conses and lists
-
-* Exercise
-
-
-
-
-https://www.tutorialspoint.com/execute_lisp_online.php
-
-* Lisp Cheat Sheet
-
-    (+ [number] [number] ...)         add math operations
-    (- [number] [number] ...)         subtract from the first number
-    (< [number1] [number2])           returns true if number1 < number2
-
-    (print [number])                  prints the value
-    (if [condition] [then] [else])    if condition
-
-    `([elem1] [elem2] [elem3] ...)     list if quoted and hence not executed
-    (setq [name] [elem])               assigns variable
-    (eval `([code]))                   evaluate code
-    (car [elem1] [elem2] ...)          return elem1
-    (cdr [elem1] [elem2] ...)          return elem2 and all subsequent elements
-    (defun [name] ([params]) [code] [code] ...)   define function
-
-* Summary
-
-- Lisp is still alive and has several descendants such as Racket, Common Lisp, Scheme
-- Is still taught at universities as being unique
-
-
+- Forth is one of these candidates.
+- It is so easy, that we can discuss lexers, parsers and interpreters.
+- This lecture has two goals. Show a high level language that works totally different and try to write a interpreter.
 
 * Forth - Easier than Assembler
 
@@ -118,15 +40,16 @@ https://www.tutorialspoint.com/execute_forth_online.php
 - Entire development environment—including compiler, editor, and user programs fits in a few hundred bytes
 - Compiled programs usually ship with an embedded interpreter.
 - much broader range to define "word" names.
+- Forth is a compiled and interpreted language at the same time
 
 * Postfix notation or Reverse Polish Notation
 - The order of operations in Forth is Postfix (or Reverse Polish Notation)
 
 * Stack operations
-- dup - Duplicated the top of the stack
-- swap - swaps the top 2 elements
-- drop - drops the top element of the stack
-- rot - rotate the top 3 numbers
+- *dup* - Duplicated the top of the stack
+- *swap* - swaps the top 2 elements
+- *drop* - drops the top element of the stack
+- *rot* - rotate the top 3 numbers
 
 * store and fetch variables
 
@@ -151,10 +74,6 @@ https://www.tutorialspoint.com/execute_forth_online.php
 - You can write a forth interpreter in less then 512 bytes
 
 https://www.slideserve.com/holly/the-forth-language
-
-* Forth cheat sheet
-
-Forth is a compiled and interpreted language at the same time
 
 * Forth Cheat Sheet
     words           lists all word in the dictionary
@@ -185,3 +104,82 @@ Forth is a compiled and interpreted language at the same time
 * Forth Examples
 https://skilldrick.github.io/easyforth/#conditionals-and-loops
 https://www.tutorialspoint.com/execute_forth_online.php
+
+
+* Building a Forth Interpreter
+
+* Major building blocks
+
+- Stack for integers
+- Heap for variables
+- Dictionary for words
+
+Words have access to
+
+- The stack
+- The list of words executed
+- Program counter (can jump to another word)
+- Metainformation for each word
+
+* Lexer and Parser and Interpreter
+
+Lexer
+
+- Reads input
+- Identifies and Generates a sequence of tokens (Lexing)
+- Removes comments
+
+Parser
+
+- Performs syntax analysis
+- Performs semantic validation
+- Create abstract representation of the code
+
+Interpreter
+- Executes the computer program
+
+Forth doesn't fit into the usual text book scheme for building compilers
+We have to develop our own way
+
+: https://wiki.c2.com/?ForthVsLisp
+: https://www.chegg.com/homework-help/questions-and-answers/3-forth-lisp-abstract-syntax-tree-ast--1--forth-imperative-stack-based-computer-programmin-q64576344
+
+: * Abstract Syntax Tree
+: abstract Syntax Tree is a tree representation of the the abstract syntactic structure of source code written in a programming language
+: - An AST presentation of Forth is not a good way to represent. Why?
+
+: http://mshang.ca/syntree/
+: [* [+ 1 2] 3]
+: Warum? Weil die Anzahl der Parameter in Wörtern unbekannt ist. Ist erst zur Ausführzeit bekannt.
+
+* Parser for word pairs
+Forth supports several word pairs such as "( ... )", "do ... loop", ": ... ;" and "if ... then"
+The parser has to find and check these pairs and provide the meta information for these words.
+
+   2 3 ( this is a comment ) +    <- "(" should point to 7
+   0 1 2 3    4  5 6       7
+
+   if do_something then           <- "if" should point to 2
+   0  1            2
+
+   do if do_something then loop   <- "do" points to 4, "if" points to "3"
+   0  1  2            3    4
+
+   if do do_something then loop   <- Error: if without then, do without loop
+
+Exercise: Try to find an algorithm  (5 minutes)
+
+* Don't cheat
+
+* Don't cheat
+
+
+* Use Stack itself to determine the control structure offsets
+
+
+* Shunting Yard algorithm
+
+
+* Summary
+
+Stackmachines are used throughout
