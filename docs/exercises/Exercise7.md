@@ -1,27 +1,45 @@
-# Exercise 7 - Distributed Consensus and the Raft Algorithm
+# Exercise 7 - Distributed Computing
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 7.1 - Read the Raft Paper
+## Exercise 7.1 - Microservice with API and embedded Web Site
 
-Read the [Raft Paper](https://raft.github.io/raft.pdf):
+The goal of this exercise is to create a simple REST API for a key value store
 
-* Section 1
-* Section 2
-* Section 4
-* Section 5 (until including 5.3)
+```Go
+    map[string]string
+```
 
-## Exercise 7.2 - Coding
+### Add an "add" entry API call
 
-Be creative and write your own Raft Implementation!
+```
+/api/add?key=mykey&value=myvalue
+```
 
-**Examples:**
+To test the rest interface you can use tools such as
+- curl
+- httpie
+- Postman
+- Your own Go Rest call code
 
-* Testable key value store using interfaces and goroutines:  
-  https://github.com/s-macke/concepts-of-programming-languages/tree/master/src/distributed/kvstore/core/raft
-* Networkable implementation using gRPC (voting only):  
-  https://github.com/s-macke/concepts-of-programming-languages/tree/master/src/distributed/raft
-* Highly abstracted from the paper:
-  https://github.com/hashicorp/src/raft
-* More implementations:
-  github.com/search?q=go-raft
+###  List entry API call
+
+Add a Rest API GET call /api/list call which returns the complete key value store as JSON list
+
+###  Include web site
+
+Add web site as an embedded file system, which can interface the key value store
+
+### POST call
+
+Add a Rest API POST call /api/addAll call which takes a JSON as input
+
+```Json
+[{ 
+    "key":  "MyKey",
+    "value": "MyValue"
+},{
+    "key":  "NextKey",
+    "value": "NextValue"
+}]
+```

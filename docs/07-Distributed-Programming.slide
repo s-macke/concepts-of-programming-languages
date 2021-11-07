@@ -12,7 +12,9 @@ http://www.qaware.de
 * About this Lecture
 
 - Go is developed for the cloud and for micro services as light weight alternative to Java and C++
-- So far, networking is not part of the language itself but provided via librarys.
+- Hence we should take a look into the capabilities of Go in comparison with Java.
+- Virtual Threads with non-blocking behavior should be ideal for receiving requests and waiting for database etc. We have to Benchmark to see the outcome.
+- So far in all major languages, networking is not part of the language itself but provided via librarys.
 
 * Distributed Programming
 - Concurrent System - multiple execution points (threads, processes or via network)
@@ -78,13 +80,14 @@ Models for exchanging messages:
 		return
 	}
 
-
-
 * HTTP
 
 * A simple fileserver
 .code ../src/servers/fileserver/main.go /func/,
+- File server for static content.
+- Already optimized for maximum performance. No tweaking in any form necessary.
 
+: TODO every handler is its own virtual thread
 
 * Transfer formats
 
@@ -139,13 +142,81 @@ TODO
 - Go offers a way to transform structs to the transfer formats and vice versa
 .play ../src/distributed/encoding/json/json.go /type Weather/,
 
+* XML
+
+- Go offers a way to transform structs to the transfer formats and vice versa
+.play ../src/distributed/encoding/xml/xml.go /type Weather/,
+
+
+
 * Service-oriented Request-Response Communication with REST
 
 * REST APIs with Go
 
-* Example: Github API with Go
+* Example: Weather API with Go
 
 .play ../src/distributed/rest/client.go /func main/,
+
+* Exercise
+
+Call the Github API with Go to receive the repositories with the most stars and the query "awesome"
+
+.link https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
+
+- Use
+.link https://mholt.github.io/json-to-go/
+to instantly create a Go structure from an arbitrary JSON.
+
+What are the names of the repositories?
+
+* Comparison with Java I
+.code ../src/servers/benchmark/javasimple/Server.java /public class/,
+
+* Comparison with Java (Spring Boot)
+
+    @SpringBootApplication
+    @RestController
+    public class RestdemoApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(RestdemoApplication.class, args);
+        }
+
+        @GetMapping("/")
+        public String index() {
+            return "Greetings from Spring Boot!";
+        }
+    }
+
+- Frameworks such as Spring Boot offer a declarative approach via annotations
+
+* Demo: Benchmark Go vs. Java
+
+* Project Loom
+.link https://openjdk.java.net/projects/loom/
+- Project to implement lightweight user-mode threads (fibers) into Java
+
+* Remote Procedure Call with Go
+
+  type MultiplyArgs struct {
+      A, B big.Int
+  }
+
+  type Arith int
+
+  func (t *Arith) Multiply(args *MultiplyArgs, reply *big.Int) error {
+    *reply = *args.A.Mul(&args.A, &args.B)
+    return nil
+  }
+
+  func main() {
+    arith := new(Arith)
+   	rpc.Register(arith)
+    rpc.HandleHTTP()
+    log.Fatal(http.ListenAndServe(":1234", nil))
+  }
+
+* Remote Procedure Call with Go
+.code ../src/distributed/rpc/client.go  /func main/,
 
 
 
@@ -165,12 +236,13 @@ Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python
 
 : Alternative http https://api.github.com/users/s-macke/repos
 
-
 * Exercise
 
+Write a microservice, which exposes
+b) A rest api call
 
-* Be Creative!
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise7.md
+a) An embedded file system with an index.html file
+
 
 
 * Summary
