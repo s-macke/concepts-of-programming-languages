@@ -3,17 +3,20 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"sync/atomic"
+	"sync"
 	"time"
 )
 
 var myYoutubevideo struct {
 	likes int32
+	mu    sync.Mutex
 }
 
 func Viewer() {
 	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
-	atomic.AddInt32(&myYoutubevideo.likes, 1)
+	myYoutubevideo.mu.Lock()
+	defer myYoutubevideo.mu.Unlock()
+	myYoutubevideo.likes = myYoutubevideo.likes + 1
 }
 
 func main() {

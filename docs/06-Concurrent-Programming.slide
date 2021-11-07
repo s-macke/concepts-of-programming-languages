@@ -1,6 +1,6 @@
 Concurrent Programming with Go
 Concepts of Programming Languages
-6 Nov 2021
+8 Nov 2021
 Tags: go, programming, concurrent, go routines, channels
 
 Sebastian Macke
@@ -48,22 +48,20 @@ Shared memory systems are the most common types of multiprocessor computer syste
 
 * What are Software or Kernel Threads
 
-*Kernel* *Mode*: Highest Privilege level
+.image ./img/cpu_modes.png 200 _
 
-- Access to hardware via drivers
-- Control over File system, Memory
-- Kernel controls threads via a scheduler
+*Kernel* *Mode*: Highest Privilege level
+Access to hardware via drivers, Control over RAM, File system, Memory
+Kernel controls CPUs via a scheduler and provides threads to user space
 
 *User* *Mode*: Lowest Privilege level
-
-- No direct hardware access
-- Calls the kernel via the System Call Interface (SCI)
-- All IO has to run through the kernel. E. g. A thread cannot "wait" itself (Endless loop excluded).
-- A process can ask the kernel for more threads
+No direct hardware access, Calls the kernel via the System Call Interface (SCI)
+All IO has to run through the kernel. E. g. A process cannot "wait" itself (Endless loop excluded).
+A process can ask the kernel for threads
 
 * The context switch is very expensive
 
-Example: Task switch for one CPU core
+Example: Process switch for one CPU core
 
 - Context switch: User mode to kernel mode (Either user mode called the kernel or a timer interrupt or an external event such as a keypress)
 - Save state of thread
@@ -71,10 +69,11 @@ Example: Task switch for one CPU core
 - Reloading of memory layout of the other thread (MMU)
 - Restore state of another thread
 - Context switch: kernel mode to user mode
-- Indirect: Cache misses
+- Indirect cost: Cache misses
 
-A task switch can take many µs up to 1ms. You should prevent context switches as much as possible. The fix for Spectre and other Bugs increased the context switching time significantly. The performance drop can be up to 30% if all fixes are applied.
+A task switch can take many µs up to 1ms. You should prevent context switches as much as possible.
 
+: The fix for Spectre and other Bugs increased the context switching time significantly. The performance drop can be up to 30% if all fixes are applied.
 : TODO Distinguish Hardware Thread, Software Thread, Virtual Thread
 
 * History
@@ -100,22 +99,24 @@ A task switch can take many µs up to 1ms. You should prevent context switches a
       pthread_join(thread_id, NULL);
   }
 
--  Multithreading over an extra library
+- Multithreading over an extra library
 
-* Parallelization in Java
-
-- Threadpool creates already sleeping software threads
-
-  ExecutorService executorService = Executors.newFixedThreadPool(10);
-  Future<String> future = executorService.submit(() -> "Hello World");
-  // some operations
-  String result = future.get();
+* Virtual Threads
 
 * Blocking calls to the kernel
 
 - IO system calls from a thread can block for a very long time E. g. Access to the filesystem or waiting for the network data
 
 - This is usually solved by thread pools. Hundreds of waiting software threads ready to do some work
+  (e. g. Java)
+
+  ExecutorService executorService = Executors.newFixedThreadPool(10);
+  Future<String> future = executorService.submit(() -> "Hello World");
+  // some operations
+  String result = future.get();
+
+- Threadpools help preventing the additional cost of creating a thread when needed, but does not solve the cost of context switches
+
 
 - However the major kernels (Windows, Linux, MacOs, ...) allow for event queue driven system calls.
 
@@ -158,33 +159,11 @@ JavaScript is single threaded. However doesn't allow to block on blocking calls.
 
   await Download()
 
-The technique of Coroutines are implicitly used for blocking calls.
-Advantage: No callback hell. You just don't have to worry about blocking. Just write your code down.
+The technique of Coroutines is implicitly used for blocking calls.
+Advantage: 1. No callback hell. 2. You just don't have to worry about blocking. Just write your code down.
 But: This must be a language feature directly supported by their runtime
 
 : TODO https://playcode.io/new/
-
-
-* Concurrent Programming with Go
-.image img/06-go-concurrency.jpeg
-- Don't communicate by sharing memory; share memory by communicating (Rob Pike)
-
-* Go provides:
-- Concurrent execution (goroutines)
-- Synchronization and messaging (channels)
-- Multi-way concurrent control (select)
-- Atomic operations
-- Low level blocking primitives (locks)
-
-* Goroutines
-
-A goroutine is a function running independently  in the same address space as other goroutines
-
-.code snippets/cp /f.runs/
-
-.code snippets/cp /f.starts.running/,/return/
-
-Like launching a function with shell's `&` notation.
 
 * Virtual Threads
 
@@ -201,20 +180,71 @@ In case of independent threads and blocking calls you can just write your code d
 
 : TODO Project LOOM for Java
 
+* Goroutines
 
-* Lecturer 1: A simple example
-No Goroutine used yet:
+A goroutine is a function running independently  in the same address space as other goroutines
 
-.play ../src/concurrent/channels/lecturer/lecturer1/main.go /lecturer/,/EOF/
+.code snippets/cp /f.runs/
 
-What output do you expect?
+.code snippets/cp /f.starts.running/,/return/
 
-* Lecturer 2: First Goroutine
-Let's call `lecturer()` in a Goroutine:
+Like launching a function with shell's `&` notation.
 
-.play ../src/concurrent/channels/lecturer/lecturer2/main.go /lecturer/,/EOF/
+* One Million Parallel Threads
 
-What output do you expect?
+.code ../src/concurrent/routines/main.go /func/,
+
+- Stacks start small, but grow and shrink as required.
+
+- Goroutines aren't free, but they're very cheap.
+
+* Go provides:
+- Concurrent execution (goroutines)
+- Low level blocking primitives (locks)
+- Atomic operations
+- Synchronization and messaging (channels)
+- Multi-way concurrent control (select)
+
+* How to count correctly?
+
+.play ../src/concurrent/atomic/atomic_none.go /var/,
+What will be the result?
+
+* Soluation 1: Blocking Mutex
+
+.play ../src/concurrent/atomic/atomic_mutex.go /var/,
+
+* Solution 2: Atomics
+
+.play ../src/concurrent/atomic/atomic.go /var/,
+
+- Lock-free thread-safe programming on single variables
+
+- Atomics either use a atomic CPU feature or perform a low level blocking operation via a mutex
+
+
+* Waitgroups
+
+.play ../src/concurrent/waitgroup/parallel_for_loop.go /func/,
+
+
+* Go Channels
+.image img/06-go-concurrency.jpeg
+- Don't communicate by sharing memory; share memory by communicating (Rob Pike)
+
+: * Lecturer 1: A simple example
+: No Goroutine used yet:
+
+: .play ../src/concurrent/channels/lecturer/lecturer1/main.go /lecturer/,/EOF/
+
+: What output do you expect?
+
+: * Lecturer 2: First Goroutine
+: Let's call `lecturer()` in a Goroutine:
+
+: .play ../src/concurrent/channels/lecturer/lecturer2/main.go /lecturer/,/EOF/
+
+: What output do you expect?
 
 * Channels
 - Go routines can use channels for safe communication
@@ -240,6 +270,23 @@ Channels are typed values that allow goroutines to synchronize and exchange info
 
 .code snippets/cp /make.*chan/,/completedAt/
 
+* Lecturer 1: Channels
+Let's use channels for communication:
+
+.play ../src/concurrent/channels/lecturer/lecturer3/main.go /lecturer/,/EOF/
+
+* Lecturer 2: Channels
+We can also return an (outgoing) channel instead of passing it as parameter:
+
+.play ../src/concurrent/channels/lecturer/lecturer4/main.go /lecturer/,/EOF/
+
+* Channels: Deadlocks
+The following code might look good at first sight, but causes a deadlock:
+
+.play ../src/concurrent/channels/deadlock/main.go
+
+Expected output?
+
 * Channel and Errors
 - Channel can be closed. Readers will return immediately. Successive writes will cause panic.
 
@@ -260,32 +307,13 @@ Channels are typed values that allow goroutines to synchronize and exchange info
     }
     // channel closed
 
-* Channels: Deadlocks
-The following code might look good at first sight, but causes a deadlock:
-
-.play ../src/concurrent/channels/deadlock/main.go
-
-Expected output?
-
-* Lecturer 3: Channels
-Let's use channels for communication:
-
-.play ../src/concurrent/channels/lecturer/lecturer3/main.go /lecturer/,/EOF/
-
-* Lecturer 4: Channels
-We can also return an (outgoing) channel instead of passing it as parameter:
-
-.play ../src/concurrent/channels/lecturer/lecturer4/main.go /lecturer/,/EOF/
-
 
 * Exercise 1: Generator
 Write a generator for Fibonacci numbers, i.e. a function that returns a channel where the next Fibonacci number can be read.
 
 .play ../src/concurrent/channels/fibonacci/main.go /MAIN/,/EOF/
 
-Also write a test for the `fib()` function.
-
-* Lecturer 5: Anne & Bart
+* Lecturer 3: Anne & Bart
 We're adding another (slower) lecturer to make it more interesting:
 
 .play ../src/concurrent/channels/lecturer/lecturer5/main.go /lecturer/,/EOF/
@@ -293,10 +321,10 @@ We're adding another (slower) lecturer to make it more interesting:
 #* Ping Pong
 #.play ../src/concurrent/channels/pingpong/pingpong.go /Ball/,/EOF/
 
-* Lecturer 6: Fan In
+* Lecturer 4: Fan In
 .play ../src/concurrent/channels/lecturer/lecturer6/main.go /START/,/EOF/
 
-* Lecturer 7: Select
+* Lecturer 5: Select
 .play ../src/concurrent/channels/lecturer/lecturer7/main.go /lecturer/,/EOF/
 
 * Select
@@ -311,50 +339,30 @@ Write a function `setTimeout()` that times out an operation after a given amount
 
 .play ../src/concurrent/channels/timeout/main.go /MAIN/,/EOF/
 
-Also write a test for the `setTimeout()` function.
-
-* Fan In
-- Merge n channels into one
-.code ../src/concurrent/channels/fan/fanin.go /FanIn/,/FanIn OMIT/
+: * Fan In
+: - Merge n channels into one
+: .code ../src/concurrent/channels/fan/fanin.go /FanIn/,/FanIn OMIT/
 
 : einfächern, zusammenführen
 
-* Fan Out
-- Read tasks from a channel and start parallel processing. Results will be written in a result channel.
-.code ../src/concurrent/channels/fan/fanout.go /FanOut/,/EOF OMIT/
+: * Fan Out
+: - Read tasks from a channel and start parallel processing. Results will be written in a result channel.
+: .code ../src/concurrent/channels/fan/fanout.go /FanOut/,/EOF OMIT/
 
 : auffächern
-
-* Waitgroups
-
-.play ../src/concurrent/waitgroup/parallel_for_loop.go /func/,
-
-* Atomics
-
-.play ../src/concurrent/atomic/atomic_none.go /var/,
-What will be the result?
-
-* Atomics
-
-.play ../src/concurrent/atomic/atomic.go /var/,
-
-- Atomics either use a atomic CPU feature or perform a low level blocking operation via a mutex
 
 * Go really supports concurrency
 
 Really.
 
-It's routine to create thousands of goroutines in one program.
-(not unusual to debug a program after it had created even millions goroutines)
-
-Stacks start small, but grow and shrink as required.
-
-Goroutines aren't free, but they're very cheap.
+- It's routine to create thousands of goroutines in one program.
+ (not unusual to debug a program after it had created even millions goroutines)
+- With Go you can solve sync problems with channels
+- Channels use Message Passing instead of locks
 
 More information about Go and concurrency:
 
 .link https://youtu.be/f6kdp27TYZs?t=1
-
 
 : * Java like BlockingQueue with Channels
 : .code ../src/concurrent/channels/blockingqueue/blockingqueue.go /BlockingQueue/,/EOF/
@@ -368,17 +376,23 @@ More information about Go and concurrency:
 : * Java like BlockingQueue with Locks (Low Level)
 : .code ../src/concurrent/locks/blockingqueue/blockingqueue.go /Put/,/A2/
 
+* Dining Philosophers
 
 * Exercise 3: Dining Philosophers
 
-.image img/06-dining-philosophers.png 500 600
+.image img/06-dining-philosophers.png 400 _
 
+5 philosophers think either or eat. To eat the spaghetti each need 2 forks.
+A hungry philosopher sits down, takes the right fork, then the left, eats, then puts the left fork on the table, then the right. Everyone uses only the one to the left or to the right of his place.
 
 * Dining Philosophers with Channels
 
-.image img/06-philosophers-channel.jpeg 600 800
+.image img/06-philosophers-channel.jpeg 300 _
 
-: TODO, ohne Erklärung sinnlos.
+- Philosopher asks for the forks over requestForksChannel (green)
+- Waits for the reserved channel if the operation was successful (red).
+- Repeats if not successful
+- Philosopher puts the forks back via the putForkChannel
 
 * Dining Philosophers - Hints
 - The table itself should be a Go Routine and should handle all forks in a single thread. This makes synchronization easy.
@@ -405,8 +419,3 @@ More information about Go and concurrency:
 
 .link https://play.golang.org/p/rXCotNNY24
 
-* Summary
-- With Go you can solve sync problems with channels 
-- Channels use Message Passing instead of locks
-- Go has a low level lock API, but this is seldom needed
-- It is possible to port all classes from java.util.locking easily
