@@ -37,7 +37,8 @@ Also write a test for the `setTimeout()` function.
 ## Exercise 6.3 - Dining Philosophers
 
 Write a program to simulate the Dining Philosophers Problem by using Go Channels.
-- There should be one Go Routine for each Philosopher and the Table
+- There should be one Go Routine for each Philosopher
+- The table itself should be a Go Routine and should handle all forks. This makes synchronization easier.
 - Make sure that:
   - The distribution of forks is fair - No philosopher dies on starvation 
   - Use the given Unit Test:

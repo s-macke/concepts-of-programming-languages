@@ -11,7 +11,7 @@ var myYoutubevideo struct {
 }
 
 func Viewer() {
-	time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
+	time.Sleep(time.Duration(rand.Intn(300)) * time.Millisecond)
 	myYoutubevideo.likes = myYoutubevideo.likes + 1
 }
 
@@ -19,7 +19,8 @@ func main() {
 	for i := 0; i < 10000; i++ {
 		go Viewer()
 	}
-
-	time.Sleep(3 * time.Second)
-	fmt.Println(myYoutubevideo.likes)
+	for i := 0; i < 8; i++ {
+		fmt.Println(myYoutubevideo.likes, "likes")
+		time.Sleep(200 * time.Millisecond)
+	}
 }
