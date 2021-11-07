@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Key Value List</h3>
+<pre id="store"></pre>
+
+<script>
+    async function LoadStore() {
+        let response = await fetch("/api/list")
+        let store = await response.json()
+        let pre = document.getElementById("store")
+        for (let key in store) {
+            pre.innerText += key + ": " + store[key] + "\n"
+        }
+    }
+    LoadStore()
+</script>
+
+</body>
+</html>

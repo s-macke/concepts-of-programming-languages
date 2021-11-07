@@ -13,13 +13,17 @@ public class RestdemoApplication {
 		SpringApplication.run(RestdemoApplication.class, args);
 	}
 
-        @GetMapping("/")
-        public String index() {
-            try {
-                Thread.sleep(1000);
-            } catch(InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-            return "Greetings from Sprint Boot!";
+	public static void Sleep() {
+        try {
+            Thread.sleep(1000);
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
+	}
+
+    @GetMapping("/")
+    public String index() {
+        //Sleep();
+        return "Greetings from Sprint Boot!";
+    }
 }
