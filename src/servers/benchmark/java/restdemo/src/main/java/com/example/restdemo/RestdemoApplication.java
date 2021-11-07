@@ -24,6 +24,6 @@ public class RestdemoApplication {
     @GetMapping("/")
     public String index() {
         //Sleep();
-        return "Greetings from Sprint Boot!";
+        return "Greetings from Spring Boot!";
     }
 }
