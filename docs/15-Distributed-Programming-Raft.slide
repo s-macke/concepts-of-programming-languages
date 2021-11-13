@@ -1,6 +1,6 @@
 Distributed Consensus and the Raft Algorithm
 Concepts of Programming Languages
-16 Nov 2020
+15 Nov 2021
 Tags: go, programming, concurrent, go routines, channels
 
 Sebastian Macke
@@ -170,7 +170,7 @@ Requirements and Decisions
 - Write your own Raft Implementation!
 .link https://www.youtube.com/watch?v=YbZ3zDzDnrw More information
 
-* Summary 
+* Summary
 - Go is an excellent choice to implement an distributed protocol like Raft
 - You can implement the Raft specification with ca 1000-2000 Loc 
 - You can learn from the Etcd implementation, which is on Github
@@ -180,3 +180,11 @@ Requirements and Decisions
 : TODO Use TCP Stream, HTTP with JSON, HTTP with XML, GRPC
 : https://www.youtube.com/watch?v=094y1Z2wpJg
 : Extends to blocks to optimize
+
+
+: Organize a coordinated attack of multiple separate armies by reaching consensus on when to attack.
+
+: Follow these assumptions
+: 1. The generals never lie. You trust them.
+: 2. The leader has the id 0. All generals connect to them via RPC.
+: 3. Focus only on one possible failure. Either the generals answer timeouts or disconnects.

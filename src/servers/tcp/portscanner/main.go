@@ -9,11 +9,9 @@ import (
 	"time"
 )
 
-func scanPort(protocol, hostname string, port int) bool {
+func scanPort(hostname string, port int) bool {
 	address := hostname + ":" + strconv.Itoa(port)
-	//fmt.Printf("Scan Port %d\n", port)
-	conn, err := net.DialTimeout(protocol, address, 2*time.Second)
-
+	conn, err := net.DialTimeout("tcp", address, 5*time.Second)
 	if err != nil {
 		return false
 	}
@@ -26,19 +24,16 @@ func main() {
 	portMin := flag.Int("portmin", 80, "port min")
 	portMax := flag.Int("portmax", 80, "port max")
 	flag.Parse()
-	fmt.Printf("Port Scanning from %d to %d\n", *portMin, *portMax)
-
+	fmt.Printf("Port Scanning of host %s from %d to %d\n", *host, *portMin, *portMax)
 	var wg sync.WaitGroup
 	for port := *portMin; port <= *portMax; port++ {
 		wg.Add(1)
-		port := port
-		go func() {
+		go func(port int) {
 			defer wg.Done()
-			open := scanPort("tcp", *host, port)
-			if open {
+			if scanPort(*host, port) {
 				fmt.Printf("Port %d Open\n", port)
 			}
-		}()
+		}(port)
 	}
 	wg.Wait()
 }
