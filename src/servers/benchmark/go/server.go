@@ -5,12 +5,13 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func StartWithPort(port int) {
 	m := http.NewServeMux()
 	m.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		//time.Sleep(1000 * time.Millisecond)
+		time.Sleep(1000 * time.Millisecond)
 		if n, err := fmt.Fprintf(w, "Hello!\n"); err != nil {
 			log.Fatalf("Error after writing %d bytes: %v", n, err.Error())
 		}

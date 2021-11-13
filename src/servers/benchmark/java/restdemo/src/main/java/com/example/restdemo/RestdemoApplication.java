@@ -23,7 +23,7 @@ public class RestdemoApplication {
 
     @GetMapping("/")
     public String index() {
-        //Sleep();
+//        Sleep();
         return "Greetings from Spring Boot!";
     }
 }

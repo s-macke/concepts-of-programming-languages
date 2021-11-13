@@ -8,6 +8,16 @@ Rosenheim Technical University
 sebastian.macke@qaware.de
 http://www.qaware.de
 
+* Last lecture
+- Concurrent programming in general
+- Virtual threads of Go
+- Coroutines
+- Blocking calls
+- Atomic operations
+- Synchronization and messaging (channels)
+- Multi-way concurrent control (select)
+- Dining philosophers problem
+
 * About this Lecture
 
 - Go is developed for the cloud and for micro services as light weight alternative to Java and C++
@@ -43,10 +53,21 @@ Models for exchanging messages:
 : synchron: blockiert bis Nachricht gelesen
 : RPI: wie lokaler Prozeduraufruf
 
+* The Internet protocol stack
+.image ./img/protocols.svg 300 _
+
+- Many protocols power the Internet
+- Each protocol operates at a different layer, building a stack of protocols
+- The diagram is very simplified
+
+* TCP - Transmission Control Protocol
+
 * TCP - Transmission Control Protocol
 
 - TCP is currently the basis for almost all network communication
+- TCP is a connection oriented protocol
 - Allows consistent data streams in both direction between two computers
+- It also uses port nmbers to identify services on a host
 
 * Networking was heavy weighted in the past
 
@@ -84,7 +105,7 @@ Models for exchanging messages:
 .code ../src/servers/tcp/http/http.go /func/,
 
 
-* Exercise: Warm up
+* Exercise 7.1: Warm up
 
 Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from the data stream and write the output onto the screen in an infinite loop.
 
@@ -96,13 +117,11 @@ Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from 
 
 * Remote Procedure Call
 
-- RPC is a mechanism for calling remote procedures on a remote machine
-
-
-- The client sends a request to the server
-
+- RPC is an attempt to bring the style of programming into the network world
+- It is a mechanism for calling remote procedures on a remote machine
+- The client sends a request to the server, what looks like a normal procedure call
+- The client side packages the request into a network message and transfers it to the server.
 - Go offers a simple way to implement RPC via the net/rpc package
-
 
 * RPC - Remote procedure call in Go
 The server
@@ -148,8 +167,43 @@ Bidirectional Streaming
 - Generator for client and server
 Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
 
+* gRPC
+
+.image ./img/grpc.png 500 _
 
 * HTTP
+
+* Hypertext Transfer Protocol
+
+HTTP 1.0: 1989 developed at CERN by Tim Berners-Lee
+HTTP 1.1: Connection Pooling / Keep-Alive, HTTP-Pipelining
+HTTP 2.0: Binary-Stream, Multiplexing, Encryption as Standard, Server-Push, More Performance
+HTTP 3.0: Still in development. Switch from TCP to UDP. Faster connection.
+
+* Hypertext Transfer Protocol
+
+- *Request/Response*: Classic HTTP. Client sends request, server sends response. Client sends next request ....
+- *Push*
+- HTTP/2 Server Push. Server is allowed to send itself data
+- Peer to Peer: With websockets. Client sends request
+
+* Example communication
+
+Client sends
+
+    GET / HTTP/1.1
+    Host: www.example.com
+
+Server responds via
+
+    HTTP/1.1 200 OK
+    Date: Mon, 23 May 2021 16:14:34 GMT
+    Content-Type: text/html; charset=utf-8
+    Content-Length: 155
+    Server: Apache
+
+    <html>
+    ....
 
 * A simple fileserver
 .code ../src/servers/fileserver/main.go /func/,
@@ -165,6 +219,8 @@ Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python
 - JSON (Text Format)
 - XML (Text Format)
 - Protobuf (Binary Format)
+
+Truly portable data
 
 * JSON - JavaScript Object Notation
 
@@ -188,9 +244,19 @@ Types:
 - arrays
 - null
 
-* XML
+* XML - eXtensible Markup Language
 
-TODO
+  <?xml version="1.0" encoding="UTF-8"?>
+  <WeatherResponse>
+    <coords lon="-122.08" lat="37.39"/>
+    <weather>
+      <main>Clear</main>
+      <description>clear sky</description>
+    </weather>
+  </WeatherResponse>
+
+- XML is a subset of HTML
+- Huge ecosystem exists for XML. Schema definitions. XML transformation formats
 
 * Protocol Buffers
 
@@ -216,15 +282,25 @@ TODO
 - Go offers a way to transform structs to the transfer formats and vice versa
 .play ../src/distributed/encoding/xml/xml.go /type Weather/,
 
-
-
 * Service-oriented Request-Response Communication with REST
+
+* REST is a paradigm for application services
+
+- Based on the HTTP Protocol
+- Data is transfered via JSON or XML
+- Stateless: The communication between server and client is stateless. The server "forgets" you after the request is done.
+- Everything is a resource: A resource in the system should have only one logical URI
+- Uniform interfaces based on HTTP. (GET , POST, PUT, DELETE). Errors are returned via HTTP status codes.
 
 * REST APIs with Go
 
 * Example: Weather API with Go
 
-.play ../src/distributed/rest/client.go /func main/,
+.play ../src/servers/rest/client/client.go /func main/,
+
+* Example: Weather API with Go Short Version
+
+.play ../src/servers/rest/client_short/client_short.go /func main/,
 
 * Exercise
 
@@ -236,7 +312,13 @@ Call the Github API with Go to receive the repositories with the most stars and 
 .link https://mholt.github.io/json-to-go/
 to instantly create a Go structure from an arbitrary JSON.
 
-What are the names of the repositories?
+* REST API with Go
+
+.code ../src/servers/rest/server/server.go /func/,
+
+To test the rest interface you can use tools such as
+- curl, httpie, Postman, Your own Go Rest call code, Web Browser
+
 
 * Comparison with Java I
 .code ../src/servers/benchmark/javasimple/Server.java /public class/,
@@ -260,15 +342,17 @@ What are the names of the repositories?
 
 * Demo: Benchmark Go vs. Java
 
+: 2* Ubuntu öffnen
+: sudo su
+: ulimit -n 100000
+: gradlew bootRun
+
 * Project Loom
 .link https://openjdk.java.net/projects/loom/
 - Project to implement lightweight user-mode threads (fibers) into Java
 
-
-
-: Alternative http https://api.github.com/users/s-macke/repos
-
 * Exercise
+
 
 Write a microservice, which exposes
 b) A rest api call
@@ -276,14 +360,3 @@ b) A rest api call
 a) An embedded file system with an index.html file
 
 
-
-* Summary
-- Go is an excellent choice for distributed applications
-- You can implement the Raft specification with ca 1000-2000 Loc
-- You can learn from the Etcd implementation, which is on Github
-- Building a production safe implementation is hard in any language anyway!
-
-: TODO: Exersice: Distributed calculation of the Collatz Conjecture
-: TODO Use TCP Stream, HTTP with JSON, HTTP with XML, GRPC
-: https://www.youtube.com/watch?v=094y1Z2wpJg
-: Extends to blocks to optimize
