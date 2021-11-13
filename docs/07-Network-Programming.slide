@@ -1,4 +1,4 @@
-Distributed Programming
+Network Programming
 Concepts of Programming Languages
 15 Nov 2021
 Tags: go, programming, concurrent, go routines, channels
@@ -7,7 +7,6 @@ Sebastian Macke
 Rosenheim Technical University
 sebastian.macke@qaware.de
 http://www.qaware.de
-
 
 * About this Lecture
 
@@ -46,10 +45,10 @@ Models for exchanging messages:
 
 * TCP - Transmission Control Protocol
 
-- TCP is currently the basis for all network communication
+- TCP is currently the basis for almost all network communication
 - Allows consistent data streams in both direction between two computers
 
-* A few years ago, networking was heavy weighted
+* Networking was heavy weighted in the past
 
    int main()
    {
@@ -79,6 +78,76 @@ Models for exchanging messages:
 		fmt.Println(err)
 		return
 	}
+
+* HTTP Request via TCP
+
+.code ../src/servers/tcp/http/http.go /func/,
+
+
+* Exercise: Warm up
+
+Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from the data stream and write the output onto the screen in an infinite loop.
+
+* Port Scanner
+
+.code ../src/servers/tcp/portscanner/main.go /func/,
+
+* Remote Procedure Call
+
+* Remote Procedure Call
+
+- RPC is a mechanism for calling remote procedures on a remote machine
+
+
+- The client sends a request to the server
+
+- Go offers a simple way to implement RPC via the net/rpc package
+
+
+* RPC - Remote procedure call in Go
+The server
+
+.code ../src/distributed/rpc/multiply/server.go /type/,
+
+* RPC - Remote procedure call in Go
+The client
+
+.code ../src/distributed/rpc/multiply/client.go /type/,
+
+* Exercise: Remote Procedure Call
+
+Implement in Go a net/rpc client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
+
+A function, in which you receive a rune
+
+    var dummy struct {}
+    var output rune
+    err := client.Call("Session.Read", &dummy, &output)
+
+and a function in which you have to provide a rune
+
+    var input rune
+    err := client.Call("Session.Write", &input, &dummy)
+
+Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
+
+    reader := bufio.NewReader(os.Stdin)
+    input, _, err := reader.ReadRune()
+
+* Service-oriented Request-Response communication with gRPC
+
+- Developed by Google in 2015
+- HTTP/2 transport protocol
+- Protocol buffers for serialization
+- Communication ways
+Request-Response
+Client-side Streaming
+Server-side Streaming
+Bidirectional Streaming
+
+- Generator for client and server
+Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
+
 
 * HTTP
 
@@ -195,44 +264,7 @@ What are the names of the repositories?
 .link https://openjdk.java.net/projects/loom/
 - Project to implement lightweight user-mode threads (fibers) into Java
 
-* Remote Procedure Call with Go
 
-  type MultiplyArgs struct {
-      A, B big.Int
-  }
-
-  type Arith int
-
-  func (t *Arith) Multiply(args *MultiplyArgs, reply *big.Int) error {
-    *reply = *args.A.Mul(&args.A, &args.B)
-    return nil
-  }
-
-  func main() {
-    arith := new(Arith)
-   	rpc.Register(arith)
-    rpc.HandleHTTP()
-    log.Fatal(http.ListenAndServe(":1234", nil))
-  }
-
-* Remote Procedure Call with Go
-.code ../src/distributed/rpc/client.go  /func main/,
-
-
-
-* Service-oriented Request-Response communication with gRPC
-
-- Developed by Google in 2015
-- HTTP/2 transport protocol
-- Protocol buffers for serialization
-- Communication ways
-Request-Response
-Client-side Streaming
-Server-side Streaming
-Bidirectional Streaming
-
-- Generator for client and server
-Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
 
 : Alternative http https://api.github.com/users/s-macke/repos
 
