@@ -2,7 +2,33 @@
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 7.1 - Microservice with API and embedded Web Site
+## Exercise 7.1 - TCP connection
+
+Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from the data stream and write the output onto the screen in an infinite loop.
+
+
+## Exercise 7.2 - Remote procedure call
+
+Implement in Go a net/rpc client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . 
+This interface offers two remote procedures calls.
+
+A function, in which you receive a rune
+
+    var dummy struct {}
+    var output rune
+    err := client.Call("Session.Read", &dummy, &output)
+
+and a function in which you have to provide a rune
+
+    var input rune
+    err := client.Call("Session.Write", &input, &dummy)
+
+Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
+
+    reader := bufio.NewReader(os.Stdin)
+    input, _, err := reader.ReadRune()
+
+## Exercise 7.3 - Call Rest API
 
 Call the Github API with Go to receive the repositories with the most stars and the query "awesome"
 
@@ -10,10 +36,7 @@ https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
 
 Use https://mholt.github.io/json-to-go/ to instantly create a Go structure from an arbitrary JSON.
 
-
-
-
-## Exercise 7.2 - Microservice with API and embedded Web Site
+## Exercise 7.4 - Microservice with API and embedded Web Site
 
 The goal of this exercise is to create a REST API for a key value store.
 
