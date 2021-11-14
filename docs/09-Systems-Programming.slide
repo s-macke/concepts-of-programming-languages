@@ -119,7 +119,7 @@ Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or 
 * Platform independent programming with Go 
 The packages os and runtime encapsulate platform dependent APIs
 
-.play ../src/system/samples/os/pid.go
+.play ../src/system/samples/os/pid/pid.go
 
 * The OS Package
 Access to the standard I/O streams
@@ -152,10 +152,27 @@ Package runtime contains operations that interact with Go's runtime system, such
 - The Go syscall package has platform dependent functionality which is different per OS
 - Go has a wrapper package to use the C syscall function (#include<sys/syscall>)  
 
-.play ../src/system/samples/syscall/pid.go
+.play ../src/system/samples/syscall/pid/pid.go
 
 .link https://golang.org/pkg/syscall/
 .link https://godoc.org/golang.org/x/sys
+
+* Fun with the File System
+
+
+* What is FUSE?
+- Stands for "File system in USErspace"
+
+* What's a File System?
+-A file system map file paths (e. g. , /etc/hostname to file contents and metadata
+- metadata includes modification times, permissions etc.
+- File systems are mounted ov er a particular directory
+
+: https://www.slideshare.net/adorepump/building-file-systems-with-fuse
+
+* Writing a FUSE Filesystem
+
+- Live Demo
 
 * Building a Container from the Scratch
 

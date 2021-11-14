@@ -35,7 +35,7 @@ func (kv *kvstore) AddEntriesApiRequest(w http.ResponseWriter, r *http.Request) 
 	var data map[string]string
 	err := decoder.Decode(&data)
 	if err != nil {
-		http.Error(w, "Missing key or value URL parameter", http.StatusBadRequest)
+		http.Error(w, "Unable to decode the json structure", http.StatusBadRequest)
 	}
 	for key, value := range data {
 		kv.store[key] = value

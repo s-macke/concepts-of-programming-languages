@@ -1,11 +1,10 @@
-# Exercise 7 - Distributed Computing
+# Exercise 7 - Network Programming
 
 If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 7.1 - TCP connection
 
 Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from the data stream and write the output onto the screen in an infinite loop.
-
 
 ## Exercise 7.2 - Remote procedure call
 
@@ -38,7 +37,7 @@ Use https://mholt.github.io/json-to-go/ to instantly create a Go structure from 
 
 ## Exercise 7.4 - Microservice with API and embedded Web Site
 
-The goal of this exercise is to create a REST API for a key value store.
+Create a REST API for a key value store.
 
 ```Go
     map[string]string
@@ -73,10 +72,12 @@ call which returns the complete key value store as JSON
 }
 ```
 
-if the response should be display in the browser you have to add the following Header
+If the response should be display in the browser you have to add the following Header
 ```HTTP
 Content-Type: application/json
 ```
+
+You should be able to see the JSON in the browser when you try to access http://localhost:8080/api/list
 
 ### Clear Store API call
 
@@ -88,22 +89,54 @@ which removes the complete key value store
 
 ###  Include web site
 
-Add web site as an embedded file system, which can interface the key value store
+Add an index.html file, which can interface the key value store. E. g. following HTML File shows the data from the key value store.
+
+```HTML
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Key Value List</h3>
+<pre id="store"></pre>
+
+<script>
+    async function LoadStore() {
+        let response = await fetch("/api/list")
+        let store = await response.json()
+        let pre = document.getElementById("store")
+        for (let key in store) {
+            pre.innerText += key + ": " + store[key] + "\n"
+        }
+    }
+    LoadStore()
+</script>
+
+</body>
+</html>
+```
+
+Add a http.Fileserver to your REST service to access this file.
 
 ### Add a unit test
 
-Use the httptest.NewRequest function to create a request and test the API
+Use the httptest.NewRequest function to create a request Object and test the API
 
 ### POST call
 
-Add a Rest API POST call /api/addAll call which takes a JSON as input
+Currently we are only using the GET call of HTTP. GET does not have any payload. E. g. the data must be in the URL 
+But the advantage is, that we can easily test the API with a browser.
+
+Add a Rest API POST call /api/addAll call which takes a JSON as input.
 
 ```Json
-[{ 
-    "key":  "MyKey",
-    "value": "MyValue"
-},{
-    "key":  "NextKey",
-    "value": "NextValue"
-}]
+{ 
+    "MyKey": "MyValue",
+    "NextKey": "NextValue"
+}
+```
+
+You can test via httpie
+
+```
+http -v POST "http://localhost:8080/api/addAll" mykey1=myvalue1 mykey2=myvalue2
 ```

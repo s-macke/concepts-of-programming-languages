@@ -18,40 +18,37 @@ http://www.qaware.de
 - Multi-way concurrent control (select)
 - Dining philosophers problem
 
+* Info
+
+- Lecture in one week: Systems Programming
+- *Install* *Linux*!
+- Prefer a Debian based distribution.
+- For Windows, the Windows Subsystem (WSL2) is sufficient.
+- Otherwise install a virtual machine.
+
 * About this Lecture
 
-- Go is developed for the cloud and for micro services as light weight alternative to Java and C++
-- Hence we should take a look into the capabilities of Go in comparison with Java.
-- Virtual Threads with non-blocking behavior should be ideal for receiving requests and waiting for database etc. We have to Benchmark to see the outcome.
-- So far in all major languages, networking is not part of the language itself but provided via librarys.
+- Go was designed in era of multicore, networked machines as light weight alternative to Java and C++.
+- Hence we should take a look into the network capabilities of Go.
+- Go provides a simple way to implement networking.
+- Virtual Threads with non-blocking behavior should be ideal for receiving requests and waiting for database etc.
+- So far, in all major languages, networking is not part of the language itself but provided via librarys.
 
-* Distributed Programming
-- Concurrent System - multiple execution points (threads, processes or via network)
-- Distributed System - processes are running on different networked processors
-- Parallel System - like a distributed system, but more closely coupled (shared memory or fast bus)
 
-Terms are not always used consistently.
+: * Message Passing
+: Message Passing is invoking behavior on a separate process (not necessarily on the same computer) by sending messages.
 
-: Nebenläufiges System: es gibt mehrere separate Ausführungspunkte (egal ob Threads/Prozess oder über Netzwerk)
-: Verteiltes System: Prozesse laufen auf unterschiedlichen Prozessoren, die oft weit auseinderliegen, aber verbunden sind
-: Paralleles System: wie verteiltes System, aber enger gekoppelt (gemeinsamer Speicher, schneller Bus)
+: Models for exchanging messages:
 
-*
-.background ./img/07-parallel-distributed.png 600 _
-
-* Message Passing
-Message Passing is invoking behavior on a separate process (not necessarily on the same computer) by sending messages.
-
-Models for exchanging messages:
-
-- point to point (symmetric/asymmetric, synchronous/asynchronous)
-- remote procedure calls (RPC, RMI)
-- broadcasting and multicasting
+: - point to point (symmetric/asymmetric, synchronous/asynchronous)
+: - remote procedure calls (RPC, RMI)
+: - broadcasting and multicasting
 
 : Sender schickt Nachricht an Empfänger
 : symmetrisch: beide kennen sich / asymmetrisch: nur ein eine Richtung
 : synchron: blockiert bis Nachricht gelesen
 : RPI: wie lokaler Prozeduraufruf
+: https://github.com/qaware/cloudcomputing/tree/master/01-kommunikation/vorlesung
 
 * The Internet protocol stack
 .image ./img/protocols.svg 300 _
@@ -65,7 +62,7 @@ Models for exchanging messages:
 * TCP - Transmission Control Protocol
 
 - TCP is currently the basis for almost all network communication
-- TCP is a connection oriented protocol
+- TCP is a connection oriented protocol and prevents packet loss
 - Allows consistent data streams in both direction between two computers
 - It also uses port nmbers to identify services on a host
 
@@ -111,7 +108,7 @@ Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from 
 
 * Port Scanner
 
-.code ../src/servers/tcp/portscanner/main.go /func/,
+.code ../src/servers/tcp/portscanner/simple/main.go /func/,
 
 * Remote Procedure Call
 
@@ -316,6 +313,8 @@ to instantly create a Go structure from an arbitrary JSON.
 
 .code ../src/servers/rest/server/server.go /func/,
 
+Each request is processed in its separate go routine.
+
 To test the rest interface you can use tools such as
 - curl, httpie, Postman, Your own Go Rest call code, Web Browser
 
@@ -353,10 +352,13 @@ To test the rest interface you can use tools such as
 
 * Exercise
 
+Create a Microservice with a REST API for a key value store.
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/WS_2021/docs/exercises/Exercise7.md
 
-Write a microservice, which exposes
-b) A rest api call
+* Info
 
-a) An embedded file system with an index.html file
-
-
+- Lecture in one week: Systems Programming
+- *Install* *Linux*!
+- Prefer a Debian based distribution.
+- For Windows, the Windows Subsystem (WSL2) is sufficient.
+- Otherwise install a virtual machine.
