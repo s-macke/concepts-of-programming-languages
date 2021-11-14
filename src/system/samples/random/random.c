@@ -3,5 +3,5 @@
 
 void main() {
     srandom(1);
-    printf("random int from C is %li\n", random());
+    printf("random int is %li\n", random());
 }

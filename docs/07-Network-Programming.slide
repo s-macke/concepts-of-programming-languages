@@ -28,12 +28,11 @@ http://www.qaware.de
 
 * About this Lecture
 
-- Go was designed in era of multicore, networked machines as light weight alternative to Java and C++.
+- Go was designed in the era of multicore, networked machines as light weight alternative to Java and C++.
 - Hence we should take a look into the network capabilities of Go.
 - Go provides a simple way to implement networking.
 - Virtual Threads with non-blocking behavior should be ideal for receiving requests and waiting for database etc.
 - So far, in all major languages, networking is not part of the language itself but provided via librarys.
-
 
 : * Message Passing
 : Message Passing is invoking behavior on a separate process (not necessarily on the same computer) by sending messages.
@@ -67,6 +66,7 @@ http://www.qaware.de
 - It also uses port nmbers to identify services on a host
 
 * Networking was heavy weighted in the past
+C lanuage example
 
    int main()
    {
@@ -84,23 +84,25 @@ http://www.qaware.de
        if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
            printf("socket bind failed...\n"); exit(0);
        }
-       if ((listen(sockfd, 5)) != 0) {
+       if ((listen(sockfd, 5)) != 0) {  // equivalent in line 2 on next slide
            printf("Listen failed...\n"); exit(0);
        }
    ....
 
 * Listen to a socket in Go
 
-	l, err := net.Listen("tcp4", ":8080")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+.code ../src/servers/tcp/echo/server/echo.go /func/,
+
+- Listens to a tcp socker on port 8080
+- Each accepted connection is executed in its own go routine
 
 * HTTP Request via TCP
 
-.code ../src/servers/tcp/http/http.go /func/,
+.code ../src/servers/tcp/echo/client/client.go /func/,
 
+*io.Copy* copy data stream from second parameter to seconds
+- First Parameter implements Write(p []byte) (n int, err error)
+- Second Parameter implements Read(p []byte) (n int, err error)
 
 * Exercise 7.1: Warm up
 
@@ -114,11 +116,15 @@ Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from 
 
 * Remote Procedure Call
 
-- RPC is an attempt to bring the style of programming into the network world
-- It is a mechanism for calling remote procedures on a remote machine
-- The client sends a request to the server, what looks like a normal procedure call
+RPC is an attempt to bring the style of programming into the network world
+It is a mechanism for calling remote procedures on a remote machine
+
 - The client side packages the request into a network message and transfers it to the server.
-- Go offers a simple way to implement RPC via the net/rpc package
+- The server receives the request and executes the procedure.
+- The server returns the result to the client.
+- The client receives the result and returns it to the caller.
+
+Go offers a simple way to implement RPC via the net/rpc package via a TCP connection
 
 * RPC - Remote procedure call in Go
 The server
@@ -152,14 +158,15 @@ Create for each routine its own goroutine and call these functions in an infinit
 
 * Service-oriented Request-Response communication with gRPC
 
+- Solution from Google for remote procedure communication, which is independent of the language
 - Developed by Google in 2015
 - HTTP/2 transport protocol
 - Protocol buffers for serialization
 - Communication ways
-Request-Response
-Client-side Streaming
-Server-side Streaming
-Bidirectional Streaming
+- - Request-Response
+- - Client-side Streaming
+- - Server-side Streaming
+- - Bidirectional Streaming
 
 - Generator for client and server
 Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
@@ -172,23 +179,22 @@ Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python
 
 * Hypertext Transfer Protocol
 
-HTTP 1.0: 1989 developed at CERN by Tim Berners-Lee
-HTTP 1.1: Connection Pooling / Keep-Alive, HTTP-Pipelining
-HTTP 2.0: Binary-Stream, Multiplexing, Encryption as Standard, Server-Push, More Performance
-HTTP 3.0: Still in development. Switch from TCP to UDP. Faster connection.
+- Application Layer protocol based on TCP
+- Mainly originally used to transfer Hypertext documents
+- Classic operation mode: Client sends request, server sends response. Client sends next request ....
 
-* Hypertext Transfer Protocol
+History:
 
-- *Request/Response*: Classic HTTP. Client sends request, server sends response. Client sends next request ....
-- *Push*
-- HTTP/2 Server Push. Server is allowed to send itself data
-- Peer to Peer: With websockets. Client sends request
+- HTTP 1.0: 1989 developed at CERN by Tim Berners-Lee
+- HTTP 1.1: Connection Pooling / Keep-Alive, Caching, Authentification, addtional metainformation, ...
+- HTTP 2.0: Binary-Protocol, Multiplexing, Encryption as Standard, Server-Push
+- HTTP 3.0: Still in development. Switch from TCP to UDP. Faster connection.
 
 * Example communication
 
-Client sends
+Client sends the request to GET the content of the root path "/index.html"
 
-    GET / HTTP/1.1
+    GET /index.html HTTP/1.1
     Host: www.example.com
 
 Server responds via
@@ -202,12 +208,22 @@ Server responds via
     <html>
     ....
 
-* A simple fileserver
+- Responds is a *text/html* document with Unicode UTF-8 encoding and has a size of 155 bytes
+
+* HTTP Request via TCP
+
+.code ../src/servers/tcp/http/http.go /func/,
+
+* A Simple HTTP File Server
 .code ../src/servers/fileserver/main.go /func/,
 - File server for static content.
 - Already optimized for maximum performance. No tweaking in any form necessary.
 
-: TODO every handler is its own virtual thread
+Python equivalent is still simpler
+
+   python -m http.server 8080
+
+
 
 * Transfer formats
 
@@ -217,7 +233,8 @@ Server responds via
 - XML (Text Format)
 - Protobuf (Binary Format)
 
-Truly portable data
+Truly portable data.
+All can be transported via HTTP.
 
 * JSON - JavaScript Object Notation
 
@@ -317,7 +334,6 @@ Each request is processed in its separate go routine.
 
 To test the rest interface you can use tools such as
 - curl, httpie, Postman, Your own Go Rest call code, Web Browser
-
 
 * Comparison with Java I
 .code ../src/servers/benchmark/javasimple/Server.java /public class/,
