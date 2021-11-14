@@ -16,19 +16,10 @@ http://www.qaware.de
 
 Typical programs include the operating system and firmware, programming tools such as compilers, assemblers, I/O routines, interpreters, scheduler, loaders and linkers as well as the runtime libraries of the computer programming languages."
 
-* Systems Programming Today
-- Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
-- This includes the Kernel, Drivers, Graphics Subsystem, HAL ...
-- The higher layers are built in languages with good support to call C or Assembler code (C, C++, Objective C)
-- Tools and Low Level Applications on top are typically written in languages like Python, Perl, C++, Go
-- Highlevel Applications are written in any Programming Language like Java, Ruby, JS ...
-
-.image https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Priv_rings.svg/2560px-Priv_rings.svg.png 192 256
-
 * Programming Languages based on which Programming languages
 - C++ programmed in C, then C++
 - Java compiler written in Java, Java runtime written in C++
-- Rust was written in C then Rust
+- Rust was originally written in C then Rust
 - Go originally programmed in C, then Go,
 - C# original writte in C and C++ then C#
 - Haskell written in C and C--
@@ -38,10 +29,39 @@ Typical programs include the operating system and firmware, programming tools su
 - C was written in B
 
 
+* Systems Programming Today
+- Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
+- This includes the Kernel, Drivers, Graphics Subsystem, HAL ...
+- The higher layers are built in languages with good support to call C or Assembler code (C, C++, Objective C)
+- Tools and Low Level Applications on top are typically written in languages like Python, Perl, C++, Go
+- Highlevel Applications are written in any Programming Language like Java, Ruby, JS ...
+
+.image https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Priv_rings.svg/2560px-Priv_rings.svg.png 192 256
+
+
 Also most the compiling programming languages incorporate assembler
 
+: TODO The magic of GO comments: https://blog.jbowen.dev/2019/09/the-magic-of-go-comments/
 
 * Calling C Code from Go with cgo
+
+* C code example
+
+.code ../src/system/samples/random/random.c
+
+run with
+
+  gcc random.c -o random
+  ./random
+  random number is ...
+
+* Calling C Code from Go with cgo
+
+.code ../src/system/samples/random/ascomment/main.go
+
+- C code is embedded just before the "import "C" " part of the Go code
+- The C main function cannot be called "main" because of linker conflicts
+- To build cgo packages, just use go build or go install as usual. The go tool recognizes the special "C" import and automatically uses cgo for those files.
 
 * Calling C Code from Go with cgo
 Import the pseudo package C in your Go source and include the corresponding C header files (comment) to call a C function.  
@@ -58,8 +78,6 @@ Import the pseudo package C in your Go source and include the corresponding C he
     func Seed(i int) {
         C.srandom(C.uint(i))
     }
-
-To build cgo packages, just use go build or go install as usual. The go tool recognizes the special "C" import and automatically uses cgo for those files.
 
 * Calling C Code from Go with cgo
 .play ../src/system/samples/random/main.go
@@ -121,6 +139,11 @@ The packages os and runtime encapsulate platform dependent APIs
 
 .play ../src/system/samples/os/pid/pid.go
 
+* Use Signals to perform some tasks before exiting the program
+
+.play ../src/system/samples/os/signal/signal.go /func/,
+
+
 * The OS Package
 Access to the standard I/O streams
 
@@ -146,6 +169,8 @@ Access to files, directories, pipes, ...
 * The Runtime Package
 Package runtime contains operations that interact with Go's runtime system, such as functions to control goroutines. It also includes the low-level type information used by the reflect package
 
+.play ../src/system/samples/runtime/runtime.go /func/,
+
 .link https://golang.org/pkg/runtime/
 
 * Platform dependent programming with Go 
@@ -157,8 +182,13 @@ Package runtime contains operations that interact with Go's runtime system, such
 .link https://golang.org/pkg/syscall/
 .link https://godoc.org/golang.org/x/sys
 
-* Fun with the File System
+* Platform dependent programming with Go
+- The Go syscall package has platform dependent functionality which is different per OS
+- Go has a wrapper package to use the C syscall function (#include<sys/syscall>)
 
+.play ../src/system/samples/syscall/mkdir/mkdir.go /func/,
+
+* Fun with the File System
 
 * What is FUSE?
 - Stands for "File system in USErspace"
