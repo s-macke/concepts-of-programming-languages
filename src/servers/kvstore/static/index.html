@@ -6,7 +6,7 @@
 <pre id="store"></pre>
 
 <script>
-    async function LoadStore() {
+    async function ListStore() {
         let response = await fetch("/api/list")
         let store = await response.json()
         let pre = document.getElementById("store")
@@ -14,8 +14,26 @@
             pre.innerText += key + ": " + store[key] + "\n"
         }
     }
-    LoadStore()
+    ListStore()
 </script>
+
+<hr>
+
+    <label for="keyinput">Key:</label><br>
+    <input type="text" id="keyinput" name="keyinput" value="Mykey"><br>
+    <label for="valueinput">Value:</label><br>
+    <input type="text" id="valueinput" name="valueinput" value="Myvalue"><br><br>
+    <input type="submit" value="Add Key and Value" onclick="addKeyValue()">
+
+<script>
+    async function addKeyValue() {
+        let keyInput = document.getElementById("keyinput")
+        let valueInput = document.getElementById("valueinput")
+        await fetch("/api/add?key=" + keyInput.value + "&value=" + valueInput.value)
+        location.reload()
+    }
+</script>
+
 
 </body>
 </html>
