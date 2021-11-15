@@ -4,7 +4,7 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 7.1 - TCP connection
 
-Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from the data stream and write the output onto the screen in an infinite loop.
+Make a TCP connection with *towel.blinkenlights.nl* on port *23*, read from the data stream and write the output onto the screen in an infinite loop.
 
 ## Exercise 7.2 - Remote procedure call
 
@@ -29,7 +29,7 @@ Create for each routine its own goroutine and call these functions in an infinit
 
 ## Exercise 7.3 - Call Rest API
 
-Call the Github API with Go to receive the repositories with the most stars and the query "awesome"
+Call the Github API to receive the repositories with the most stars and the query "awesome"
 
 https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
 
@@ -72,7 +72,7 @@ call which returns the complete key value store as JSON
 }
 ```
 
-If the response should be display in the browser you have to add the following Header
+If the response should be displayed in the browser you have to add the following Header
 ```HTTP
 Content-Type: application/json
 ```
@@ -87,7 +87,7 @@ GET /api/clear
 ```
 which removes the complete key value store
 
-###  Include web site
+###  Include static web site
 
 Add an index.html file, which can interface the key value store. E. g. following HTML File shows the data from the key value store.
 
@@ -100,7 +100,7 @@ Add an index.html file, which can interface the key value store. E. g. following
 <pre id="store"></pre>
 
 <script>
-    async function LoadStore() {
+    async function ListStore() {
         let response = await fetch("/api/list")
         let store = await response.json()
         let pre = document.getElementById("store")
@@ -108,7 +108,7 @@ Add an index.html file, which can interface the key value store. E. g. following
             pre.innerText += key + ": " + store[key] + "\n"
         }
     }
-    LoadStore()
+    ListStore()
 </script>
 
 </body>
@@ -116,10 +116,6 @@ Add an index.html file, which can interface the key value store. E. g. following
 ```
 
 Add a http.Fileserver to your REST service to access this file.
-
-### Add a unit test
-
-Use the httptest.NewRequest function to create a request Object and test the API
 
 ### POST call
 
@@ -140,3 +136,7 @@ You can test via httpie
 ```
 http -v POST "http://localhost:8080/api/addAll" mykey1=myvalue1 mykey2=myvalue2
 ```
+
+### Add a unit test
+
+Use the httptest.NewRequest function to create a request Object and test the API
