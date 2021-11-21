@@ -41,3 +41,12 @@ func (c *runContext) Run() {
 		c.instructionPointer++
 	}
 }
+
+func (c *runContext) Clone() runContext {
+	return runContext{
+		forth:              c.forth,
+		instructionPointer: 0,
+		words:              c.words,
+		output:             "",
+	}
+}

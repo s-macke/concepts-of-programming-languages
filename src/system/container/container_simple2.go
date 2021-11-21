@@ -1,43 +1,39 @@
+//go:build linux
 // +build linux
-
-// Simple "Docker"/Container implementation by Liz Rice.
 
 package main
 
 import (
-	"log"
 	"os"
 	"os/exec"
 	"syscall"
 )
 
-// go run main.go run <cmd> <args>
 func main() {
-	switch os.Args[1] {
-	case "run":
-		run()
-	default:
-		panic("help")
-	}
-}
-
-func run() {
-	log.Printf("Running %v \n", os.Args[1:])
-
-	cmd := exec.Command(os.Args[2], os.Args[3:]...)
+	cmd := exec.Command("./stats")
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
-		Unshareflags: syscall.CLONE_NEWNS,
+		Cloneflags: syscall.CLONE_NEWPID | syscall.CLONE_NEWUSER | syscall.CLONE_NEWUTS,
+		UidMappings: []syscall.SysProcIDMap{
+			{
+				ContainerID: 0,
+				HostID:      os.Getuid(),
+				Size:        1,
+			},
+		},
+		GidMappings: []syscall.SysProcIDMap{
+			{
+				ContainerID: 0,
+				HostID:      os.Getgid(),
+				Size:        1,
+			},
+		},
 	}
 
-	must(cmd.Run())
-}
-
-func must(err error) {
-	if err != nil {
+	err := cmd.Run()
+	if cmd != nil {
 		panic(err)
 	}
 }

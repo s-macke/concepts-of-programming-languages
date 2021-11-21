@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "bufio"
+	"bufio"
 	"fmt"
 	"io"
 	_ "io"
@@ -15,24 +15,24 @@ type Session struct {
 	stdin  io.WriteCloser
 	stdout io.ReadCloser
 	cmd    *exec.Cmd
+	reader *bufio.Reader
 }
 
-func (s *Session) Read(_ *struct{}, reply *[]byte) error {
-	p := make([]byte, 1)
-	_, err := s.stdout.Read(p)
-	*reply = p
+func (s *Session) Read(_ *struct{}, reply *rune) error {
+	r, _, err := s.reader.ReadRune()
+	*reply = r
 	return err
 }
 
-func (s *Session) Write(input *[]byte, _ *struct{}) error {
-	_, err := s.stdin.Write(*input)
+func (s *Session) Write(input *rune, _ *struct{}) error {
+	_, err := s.stdin.Write([]byte(string(*input)))
 	return err
 }
 
 func NewSession() *Session {
 	var s = new(Session)
 	var err error
-	s.cmd = exec.Command("./frotz/dfrotz", "-p", "-m", "905.z5")
+	s.cmd = exec.Command("./frotz/dfrotz", "-p", "-m", "frotz/905.z5")
 	s.stdin, err = s.cmd.StdinPipe()
 	if nil != err {
 		log.Fatalf("Error obtaining stdin: %s", err.Error())
@@ -41,6 +41,9 @@ func NewSession() *Session {
 	if nil != err {
 		log.Fatalf("Error obtaining stdout: %s", err.Error())
 	}
+
+	s.reader = bufio.NewReader(s.stdout)
+
 	if err := s.cmd.Start(); nil != err {
 		log.Fatalf("Error starting program: %s, %s", s.cmd.Path, err.Error())
 	}
@@ -51,7 +54,10 @@ func RunRPCSession(c net.Conn) {
 	server := rpc.NewServer()
 	var s *Session
 	s = NewSession()
-	defer s.cmd.Process.Kill()
+	defer func() {
+		s.cmd.Process.Kill()
+		s.cmd.Wait()
+	}()
 	server.Register(s)
 	server.ServeConn(c)
 	fmt.Println("Closing connection from ", c.RemoteAddr())
@@ -65,7 +71,7 @@ func Listen() {
 	}
 	for {
 		c, err := l.Accept()
-		fmt.Printf("request from %v\n", c.RemoteAddr())
+		log.Printf("request from %v\n", c.RemoteAddr())
 		if err != nil {
 			fmt.Println("accept error:", err)
 			continue

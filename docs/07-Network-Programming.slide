@@ -93,7 +93,7 @@ C lanuage example
 
 .code ../src/servers/tcp/echo/server/echo.go /func/,
 
-- Listens to a tcp socker on port 8080
+- Listens to a tcp socket on port 8080
 - Each accepted connection is executed in its own go routine
 
 * HTTP Request via TCP

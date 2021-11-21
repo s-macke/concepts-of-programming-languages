@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 // Simple "Docker"/Container implementation by Liz Rice.
@@ -35,8 +36,22 @@ func run() {
 	cmd.Stderr = os.Stderr
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		// Does not compile on OSX
-		Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
+		Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWUSER,
 		Unshareflags: syscall.CLONE_NEWNS,
+		UidMappings: []syscall.SysProcIDMap{
+			{
+				ContainerID: 0,
+				HostID:      os.Getuid(),
+				Size:        1,
+			},
+		},
+		GidMappings: []syscall.SysProcIDMap{
+			{
+				ContainerID: 0,
+				HostID:      os.Getgid(),
+				Size:        1,
+			},
+		},
 	}
 
 	must(cmd.Run())
@@ -45,7 +60,7 @@ func run() {
 func child() {
 	log.Printf("Running %v \n", os.Args[1:])
 
-	//cg()
+	cg()
 
 	cmd := exec.Command(os.Args[2], os.Args[3:]...)
 	cmd.Stdin = os.Stdin
@@ -54,23 +69,21 @@ func child() {
 
 	// Does not compile on OSX or Windows
 	must(syscall.Sethostname([]byte("container")))
-	must(syscall.Chroot("/opt/alpinefs")) // local fs
+	must(syscall.Chroot("rootfs")) // local fs
 	must(os.Chdir("/"))
 	must(syscall.Mount("proc", "proc", "proc", 0, ""))
 
 	must(cmd.Run())
-
 	must(syscall.Unmount("proc", 0))
 }
 
 func cg() {
 	cgroups := "/sys/fs/cgroup/"
 	pids := filepath.Join(cgroups, "pids")
-	os.Mkdir(filepath.Join(pids, "container"), 0755)
-	must(ioutil.WriteFile(filepath.Join(pids, "container/pids.max"), []byte("20"), 0700))
-	// Removes the new cgroup in place after the container exits
-	must(ioutil.WriteFile(filepath.Join(pids, "container/notify_on_release"), []byte("1"), 0700))
-	must(ioutil.WriteFile(filepath.Join(pids, "container/cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
+	_ = os.Mkdir(pids, 0755)
+	_ = os.Mkdir(filepath.Join(pids, "container"), 0755)
+	must(ioutil.WriteFile(filepath.Join(pids, "pids.max"), []byte("7"), 0700))
+	must(ioutil.WriteFile(filepath.Join(pids, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
 }
 
 func must(err error) {

@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 // Simple "Docker"/Container implementation by Liz Rice.
@@ -31,8 +32,22 @@ func run() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
+		Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWUSER,
 		Unshareflags: syscall.CLONE_NEWNS,
+		UidMappings: []syscall.SysProcIDMap{
+			{
+				ContainerID: 0,
+				HostID:      os.Getuid(),
+				Size:        1,
+			},
+		},
+		GidMappings: []syscall.SysProcIDMap{
+			{
+				ContainerID: 0,
+				HostID:      os.Getgid(),
+				Size:        1,
+			},
+		},
 	}
 
 	must(cmd.Run())
@@ -41,14 +56,14 @@ func run() {
 func child() {
 	log.Printf("Running %v as PID %d \n", os.Args[1:], os.Getpid())
 
+	must(syscall.Sethostname([]byte("container")))
+	must(syscall.Chroot("rootfs")) // local fs
+	must(os.Chdir("/"))
+	must(syscall.Mount("proc", "/proc", "proc", 0, ""))
 	cmd := exec.Command(os.Args[2], os.Args[3:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-
-	must(syscall.Chroot("/opt/alpinefs")) // local fs
-	must(os.Chdir("/"))
-	must(syscall.Mount("proc", "proc", "proc", 0, ""))
 
 	must(cmd.Run())
 

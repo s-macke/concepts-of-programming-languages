@@ -25,6 +25,8 @@ func (dict dictionary) fill() {
 	dict["<"] = func(c *runContext) { temp := c.Pop(); c.booleanPush(c.Pop() < temp) }
 	dict["="] = func(c *runContext) { c.booleanPush(c.Pop() == c.Pop()) }
 	dict["<>"] = func(c *runContext) { c.booleanPush(c.Pop() == c.Pop()) }
+	dict["0>"] = func(c *runContext) { c.booleanPush(c.Pop() > 0) }
+	dict["1-"] = func(c *runContext) { c.Push(c.Pop() - 1) }
 
 	dict["."] = func(c *runContext) { c.output += fmt.Sprintf("%d ", c.Pop()) }
 	dict["cr"] = func(c *runContext) { c.output += fmt.Sprintln() }
@@ -37,7 +39,6 @@ func (dict dictionary) fill() {
 	dict[">r"] = func(c *runContext) { c.forth.returnStack.Push(c.Pop()) }
 	dict["r>"] = func(c *runContext) { c.Push(c.forth.returnStack.Pop()) }
 	dict["i"] = func(c *runContext) { c.Push(c.forth.returnStack.Get(0)) }
-	dict["recurse"] = func(c *runContext) { c.instructionPointer = -1 }
 	dict["do"] = func(c *runContext) { c.forth.dict["swap"](c); c.forth.dict[">r"](c); c.forth.dict[">r"](c) }
 	dict["loop"] = func(c *runContext) {
 		index := c.forth.returnStack.Pop() + 1
@@ -83,16 +84,26 @@ func (dict dictionary) fill() {
 			c.instructionPointer = c.getParameter()
 		}
 	}
+	dict["else"] = func(c *runContext) {
+		c.instructionPointer = c.getParameter()
+	}
+
+	dict["recurse"] = func(c *runContext) {
+		ctx := c.Clone()
+		ctx.Run()
+		c.output += ctx.output
+	}
 
 	dict[":"] = func(c *runContext) {
 		funcEnd := c.getParameter()
 		funcWords := Parser(c.words[c.instructionPointer+2 : funcEnd])
 		funcWords.Parse()
-		funcContext := c.forth.NewRunContext(funcWords)
 		name := c.StepOverNextWord()
+		funcContext := c.forth.NewRunContext(funcWords)
 		dict[name] = func(c *runContext) {
-			funcContext.Run()
-			c.output += funcContext.output
+			ctx := funcContext.Clone()
+			ctx.Run()
+			c.output += ctx.output
 		}
 		c.instructionPointer = funcEnd
 	}

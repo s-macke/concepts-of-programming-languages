@@ -1,125 +1,65 @@
-# Exercise 9 - Systems Programming
+# Exercise 8 - Webassembly
 
-If you do not finish during the lecture period, please finish it as homework.
+## Exercise 8.1 - Hello world Go project in WebAssembly
 
-## Exercise 9.1 - Cgo
+* Install npm/node on your system
+  - https://nodejs.org/en/download/
+  - Alternative: Use the provided docker file in the `webassembly/docker` folder
 
-Write a Cgo program that creates a new SQLITE database file and executes the following statements:
-```sqlite
-create table if not exists students (id integer not null primary key autoincrement, name text);
-insert into students (name) values ('Your Name');
-insert into students (name) values ('Another Name');
+---
+* Write a Hello World program in Go
+* Compile with `GOARCH=wasm GOOS=js go build -o lib.wasm main.go` The result will be a file called `lib.wasm`
+* In case you run Windows command shell you have to execute three commands
 ```
-Do not use any GitHub libraries, but write your own Cgo wrapper.
-Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or https://sqlitebrowser.org/).
-
-Windows users can use the Windows Subsystem for Linux and install the following packages:
-```shell script
-sudo apt install gcc golang sqlite3 libsqlite3-dev
+set GOARCH=wasm 
+set GOOS=js 
+go build -o lib.wasm main.go`
 ```
+* Copy the wasm javascript runtime from the GOROOT directory. You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec file: `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .`. Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`-
+* Execute via `node wasm_exec.js lib.wasm`
+---
+* An HTTP file web server is provided in the folder `wp/fileserver`. Compile and start it with root path `webassembly`.    
+* Copy the index.html file from `webassembly/hello/index.html`
 
-## Exercise 9.2 - Containerization
+## Exercise 8.2 - Execute a Go function inside Go
 
-### Try out chroot
-```shell script
-# prepare chroot
-mkdir -p jail/{bin,lib,lib64}
-cp -v /bin/{bash,ls,touch,rm} jail/bin
-for i in $(ldd /bin/bash | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/ls | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/touch | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/rm | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
+* The folder `mandelbrot/main.go` contains a program, which calculates the so called Mandelbrot set.
+* Compile it and ensure that it produces an image `mandelbrot.png` as result
+* Add a function, which returns for the default parameters the PNG as Base64 encoded string.
+```Go
+func GetImageAsBase64() string {
 
-# run chroot
-sudo chroot jail
-```
-
-### Building your own containerization system
-
-#### 1. Start with a simple main file:
-```go
-func main() {
-	switch os.Args[1] {
-	case "run":
-		run()
-	default:
-		panic("help")
-	}
-}
-
-func must(err error) {
-	if err != nil {
-		panic(err)
-	}
 }
 ```
+  - Use `bytes.Buffer` as io.Writer object and encode via the `base64.StdEncoding.EncodeToString` function. 
 
+* Rewrite the function header, so that it can be executed via a WebAssembly call and alter the main function accordingly.
 
-#### 2. Create your own non-isolated container command
-```go
-func run() {
-	log.Printf("Running %v \n", os.Args[1:])
+* Create a website with following content and ensure, that it shows a circle.
 
-	cmd := exec.Command(os.Args[2], os.Args[3:]...)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+```HTML
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Go Mandelbrot</title>
+</head>
 
-	must(cmd.Run())
-}
+<body>
+
+<img id="image" src="">
+
+<script>
+    document.getElementById("image").src = " data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQAAAAA2RLUcAAAABGdBTUEAALGPC/xhBQAAAAJiS0dEAAHdihOkAAAAB3RJTUUH5AsPECUqQdxoMgAAAGpJREFUGNOt0LENgCAQheF3obBkBEdhNBmNURiBksKA9zSnCQYrab6Sez/6+RLmZrmMCLQBnlbA0QIIzQBoUjc1qkFVsCY06h93ujxW6t4WKv87+2+8a7zb9tz7bK/ttx7Wx3pZv17ko/cB/caa7HEsGrQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMTEtMTVUMTU6Mzc6NDIrMDE6MDATkZwSAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTExLTE1VDE1OjM3OjQyKzAxOjAwYswkrgAAAABJRU5ErkJggg=="
+</script>
+
+</body>
+</html>
 ```
 
-**Questions:**
-- Try changing the hostname. What is the hostname if you exit the container?
-- What is the pid?
+* Load the wasm file and, execute the function GetImageAsBase64() and add the resulting string to the image.
+* Add coordinates and zoom level as parameters to your function.
+* Don't return the string, but use Go to call a JavaScript functions to create the image object inside the Go function. 
 
+## Exercise 8.3 - Concurrency
 
-#### 3. Extend your program by setting some sysflags
-```go
-cmd.SysProcAttr = &syscall.SysProcAttr{
-    Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
-    Unshareflags: syscall.CLONE_NEWNS,
-}
-```
-
-**Questions:**
-- Try changing the hostname again. What is the hostname if you exit the container?
-- Call `ps`. What do you see?
-
-
-#### 4. Try to become more isolated using exec/fork
-- Copy the run function and name the copy child(). 
-- Remove cmd.SysProcAttr in the child() function. 
-- Modify the run() function to execute the following instead:
-```go
-cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...)
-```
-
-**Questions:**
-- Call `ps`. What do you see?
-
-
-#### 5. Use a custom root filesystem
-Create a complete chroot environment. For Debian based linux systems, you might use e.g.
-```shell script
-sudo debootstrap buster /jail http://deb.debian.org/debian
-```
-
-In the child() function, add the following code:
-```go
-must(syscall.Chroot("/jail")) // local fs
-must(os.Chdir("/"))
-must(syscall.Mount("proc", "proc", "proc", 0, ""))
-
-must(cmd.Run())
-
-must(syscall.Unmount("proc", 0))
-```
-
-**Questions:**
-- Call `ps`. What do you see?
-
-#### 6. Resource limit
-
-Use cgroups (`/sys/fs/cgroup/`) to limit the container resource consumption.
-Test your program!
+* Try to run two or more goroutines in parallel. Does it work?

@@ -1,6 +1,6 @@
 Forth - Languages from the Past
 Concepts of Programming Languages
-14 Dec 2021
+29 Nov 2021
 Tags: go, programming, logic
 
 Sebastian Macke
@@ -10,13 +10,13 @@ http://www.qaware.de
 
 * Some thoughts about this lecture
 
-
 - In history there has been developments in language design which had a significant influence
 - They had unique ideas from which we can learn from
 - These languages are used only a niche language today
-- Forth is one of these candidates.
-- It is so easy, that we can discuss lexers, parsers and interpreters.
-- This lecture has two goals. Show a high level language that works totally different and try to write a interpreter.
+- Forth is one of these candidates
+- While Forth might be a niche language, its concepts such as a stack machine are not and are widley used
+- It is so easy, that we can discuss lexers, parsers and interpreters
+- This lecture has two goals. Show a high level language that works totally different and try to write a interpreter
 
 * Forth - Easier than Assembler
 
@@ -27,12 +27,21 @@ https://www.tutorialspoint.com/execute_forth_online.php
 - Invented by Charles H. "Chuck" Moore in 1968
 - Used in the early microcomputers. Implementations for almost computer types.
 - Standardized ANSI Forth in 1994
+.link img/01-languages.png
+.image img/01-languages.png 300 _
+
+* But not all used equal
+
+.image img/01_redmonk_2021.png 550 _
+
+
 
 * Features
 
 - The minimalist language you can imagine
 - Stack machine with reverse polish notation
 - Procedural language
+- control structures, loops, and conditionals
 - No types, just integers
 - Direct access to call stack
 - Most simple lexer of a language you can imagine
@@ -69,11 +78,29 @@ https://www.tutorialspoint.com/execute_forth_online.php
 
 * Arrays
 
+* Exercise
+
+- Write a function, which takes one integer as argument and calculates the cube x³ of that number
+- Write a loop, which prints the numbers from 1 to 10
+- Write a word which applies a rot13 to an integer which represents an ASCII character
+
+    97 emit  ( prints a )
+    122 emit ( prints z )
+    97 rot13 emit  ( should print n )
+    122 rot13 emit ( should print m )
+
+Ignore spaces.
+
+- write a word, which "encrypts" a whole string via rot 13
+
 * Some thoughts
 
 - You can write a forth interpreter in less then 512 bytes
 
 https://www.slideserve.com/holly/the-forth-language
+
+* Stack operations
+
 
 * Forth Cheat Sheet
     words           lists all word in the dictionary
