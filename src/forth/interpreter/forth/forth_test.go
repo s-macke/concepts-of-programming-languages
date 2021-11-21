@@ -29,6 +29,9 @@ func TestMath(t *testing.T) {
 
 	result, err = f.Exec("6 2 / .")
 	assertEqual(t, result, "3", err)
+
+	result, err = f.Exec("1 1- .")
+	assertEqual(t, result, "0", err)
 }
 
 func TestVariable(t *testing.T) {
@@ -69,6 +72,12 @@ func TestCompare(t *testing.T) {
 
 	result, err = f.Exec("5 5 <> .")
 	assertEqual(t, result, "-1", err)
+
+	result, err = f.Exec("1 0> .")
+	assertEqual(t, result, "-1", err)
+
+	result, err = f.Exec("0 0> .")
+	assertEqual(t, result, "0", err)
 }
 
 func TestComment(t *testing.T) {
@@ -117,17 +126,26 @@ func TestLoop(t *testing.T) {
 	assertEqual(t, result, "0 1 2 3 4", err)
 }
 
-/*
-func TestFaculty(t *testing.T) {
-    f := NewForth()
-    result := f.Exec(`
-        : fac2
-        dup 0> if
-        dup 1- recurse *
-        else
-        drop 1
-        endif ;
-        8 fac2 .
-    `)
+func TestIfThenElse(t *testing.T) {
+	f := NewForth()
+	result, err := f.Exec("-1 if 42 else 43 then .")
+	assertEqual(t, result, "42", err)
+	result, err = f.Exec("0 if 42 else 43 then .")
+	assertEqual(t, result, "43", err)
+	result, err = f.Exec(": test 0 if 42 else 43 then . ; test")
+	assertEqual(t, result, "43", err)
 }
-*/
+
+func TestFaculty(t *testing.T) {
+	f := NewForth()
+	result, err := f.Exec(`
+        : fac
+        dup 0> if
+          dup 1- recurse *
+        else
+          drop 1
+        then ;
+        8 fac .
+    `)
+	assertEqual(t, result, "40320", err)
+}

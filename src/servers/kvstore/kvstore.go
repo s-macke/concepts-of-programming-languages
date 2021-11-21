@@ -7,16 +7,20 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"sync"
 )
 
 type kvstore struct {
 	store map[string]string
+	mutex sync.RWMutex
 }
 
 func (kv *kvstore) AddApiRequest(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Query().Has("key") && r.URL.Query().Has("value") {
 		key := r.URL.Query().Get("key")
 		value := r.URL.Query().Get("value")
+		kv.mutex.Lock()
+		defer kv.mutex.Unlock()
 		kv.store[key] = value
 		//fmt.Printf("Added key: %s, value: %s\m", key, value)
 		w.WriteHeader(http.StatusOK)
@@ -37,6 +41,8 @@ func (kv *kvstore) AddEntriesApiRequest(w http.ResponseWriter, r *http.Request) 
 	if err != nil {
 		http.Error(w, "Unable to decode the json structure", http.StatusBadRequest)
 	}
+	kv.mutex.Lock()
+	defer kv.mutex.Unlock()
 	for key, value := range data {
 		kv.store[key] = value
 	}
@@ -45,11 +51,15 @@ func (kv *kvstore) AddEntriesApiRequest(w http.ResponseWriter, r *http.Request) 
 
 func (kv *kvstore) ListApiRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	kv.mutex.RLock()
+	defer kv.mutex.RUnlock()
 	data, _ := json.Marshal(kv.store)
 	w.Write(data)
 }
 
 func (kv *kvstore) ClearApiRequest(w http.ResponseWriter, r *http.Request) {
+	kv.mutex.Lock()
+	defer kv.mutex.Unlock()
 	kv.store = make(map[string]string)
 	w.WriteHeader(http.StatusOK)
 }

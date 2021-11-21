@@ -1,65 +1,174 @@
-# Exercise 8 - Webassembly
+# Exercise 8 - Systems Programming
 
-## Exercise 8.1 - Hello world Go project in WebAssembly
+If you do not finish during the lecture period, please finish it as homework.
 
-* Install npm/node on your system
-  - https://nodejs.org/en/download/
-  - Alternative: Use the provided docker file in the `webassembly/docker` folder
+## Exercise 8.1 - Cgo
 
----
-* Write a Hello World program in Go
-* Compile with `GOARCH=wasm GOOS=js go build -o lib.wasm main.go` The result will be a file called `lib.wasm`
-* In case you run Windows command shell you have to execute three commands
+Write a Cgo program that creates a new SQLITE database file and executes the following statements:
+```sqlite
+create table if not exists students (id integer not null primary key autoincrement, name text);
+insert into students (name) values ('Your Name');
+insert into students (name) values ('Another Name');
 ```
-set GOARCH=wasm 
-set GOOS=js 
-go build -o lib.wasm main.go`
+Do not use any GitHub libraries, but write your own Cgo wrapper.
+Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or https://sqlitebrowser.org/).
+
+Windows users can use the Windows Subsystem for Linux and install the following packages:
+```shell script
+sudo apt install gcc golang sqlite3 libsqlite3-dev
 ```
-* Copy the wasm javascript runtime from the GOROOT directory. You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec file: `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .`. Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`-
-* Execute via `node wasm_exec.js lib.wasm`
----
-* An HTTP file web server is provided in the folder `wp/fileserver`. Compile and start it with root path `webassembly`.    
-* Copy the index.html file from `webassembly/hello/index.html`
 
-## Exercise 8.2 - Execute a Go function inside Go
+Here is an example code of how use the libs
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <sqlite3.h>
+// compile with gcc sqlite.c -lsqlite3
 
-* The folder `mandelbrot/main.go` contains a program, which calculates the so called Mandelbrot set.
-* Compile it and ensure that it produces an image `mandelbrot.png` as result
-* Add a function, which returns for the default parameters the PNG as Base64 encoded string.
-```Go
-func GetImageAsBase64() string {
+void Exec(sqlite3 *db, char *sql) {
+    int rc = sqlite3_exec(db, sql, NULL, NULL, NULL);
+    if (rc != SQLITE_OK) {
+        printf("sqlite3_open returned code %i", rc);
+        exit(1);
+    }
+}
+int main() {
+    sqlite3 *db;
+    int rc = sqlite3_open("test.db", &db);
+    if (rc != SQLITE_OK) {
+        printf("sqlite3_open returned code %i", rc);
+        return 1;
+    }
 
+    Exec(db, "create table if not exists students (id integer not null primary key autoincrement, name text);");
+    Exec(db, "insert into students (name) values ('Your Name');");
+    Exec(db, "insert into students (name) values ('Another Name');");
+
+    sqlite3_close(db);
+    return 0;
 }
 ```
-  - Use `bytes.Buffer` as io.Writer object and encode via the `base64.StdEncoding.EncodeToString` function. 
 
-* Rewrite the function header, so that it can be executed via a WebAssembly call and alter the main function accordingly.
+## Exercise 8.2 - FUSE Filesystem
 
-* Create a website with following content and ensure, that it shows a circle.
+Choose either the FUSE Filesystem Exercise or the Containerer Exercise.
 
-```HTML
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Go Mandelbrot</title>
-</head>
+### Try out the test filesystem
 
-<body>
+Experiment with the test filesystem.
 
-<img id="image" src="">
+https://github.com/s-macke/concepts-of-programming-languages/blob/master/src/system/fuse/main.go
 
-<script>
-    document.getElementById("image").src = " data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQAAAAA2RLUcAAAABGdBTUEAALGPC/xhBQAAAAJiS0dEAAHdihOkAAAAB3RJTUUH5AsPECUqQdxoMgAAAGpJREFUGNOt0LENgCAQheF3obBkBEdhNBmNURiBksKA9zSnCQYrab6Sez/6+RLmZrmMCLQBnlbA0QIIzQBoUjc1qkFVsCY06h93ujxW6t4WKv87+2+8a7zb9tz7bK/ttx7Wx3pZv17ko/cB/caa7HEsGrQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMTEtMTVUMTU6Mzc6NDIrMDE6MDATkZwSAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTExLTE1VDE1OjM3OjQyKzAxOjAwYswkrgAAAABJRU5ErkJggg=="
-</script>
+#### Write a RAM file system
 
-</body>
-</html>
+- Try to make the INode of each file unique or limit to one file first.
+- Implement write to file capabilities. 
+- Allow to create new files inside the directory.
+
+
+## Exercise 8.2 - Containerization
+
+### Try out chroot
+```shell script
+# prepare chroot
+mkdir -p jail/{bin,lib,lib64}
+cp -v /bin/{bash,ls,touch,rm} jail/bin
+for i in $(ldd /bin/bash | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
+for i in $(ldd /bin/ls | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
+for i in $(ldd /bin/touch | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
+for i in $(ldd /bin/rm | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
+
+# run chroot
+sudo chroot jail
 ```
 
-* Load the wasm file and, execute the function GetImageAsBase64() and add the resulting string to the image.
-* Add coordinates and zoom level as parameters to your function.
-* Don't return the string, but use Go to call a JavaScript functions to create the image object inside the Go function. 
+### Building your own containerization system
 
-## Exercise 8.3 - Concurrency
+#### 1. Start with a simple main file:
+```go
+func main() {
+	switch os.Args[1] {
+	case "run":
+		run()
+	default:
+		panic("help")
+	}
+}
 
-* Try to run two or more goroutines in parallel. Does it work?
+func must(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+
+#### 2. Create your own non-isolated container command
+```go
+func run() {
+	log.Printf("Running %v \n", os.Args[1:])
+
+	cmd := exec.Command(os.Args[2], os.Args[3:]...)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	must(cmd.Run())
+}
+```
+
+**Questions:**
+- Try changing the hostname. What is the hostname if you exit the container?
+- What is the pid?
+
+#### 3. Extend your program by setting some sysflags
+```go
+cmd.SysProcAttr = &syscall.SysProcAttr{
+    Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
+    Unshareflags: syscall.CLONE_NEWNS,
+}
+```
+
+**Questions:**
+- Try changing the hostname again. What is the hostname if you exit the container?
+- Call `ps`. What do you see?
+
+
+#### 4. Try to become more isolated using exec/fork
+- Copy the run function and name the copy child(). 
+- Remove cmd.SysProcAttr in the child() function. 
+- Modify the run() function to execute the following instead:
+```go
+cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...)
+```
+
+**Questions:**
+- Call `ps`. What do you see?
+
+
+#### 5. Use a custom root filesystem
+Create a complete chroot environment. For Debian based linux systems, you might use e.g.
+```shell script
+sudo debootstrap buster /jail http://deb.debian.org/debian
+```
+
+or download the alpine mini root fs from https://alpinelinux.org/downloads/
+
+In the child() function, add the following code:
+```go
+must(syscall.Chroot("/jail")) // local fs
+must(os.Chdir("/"))
+must(syscall.Mount("proc", "proc", "proc", 0, ""))
+
+must(cmd.Run())
+
+must(syscall.Unmount("proc", 0))
+```
+
+**Questions:**
+- Call `ps`. What do you see?
+
+#### 6. Resource limit
+
+Use cgroups (`/sys/fs/cgroup/`) to limit the container resource consumption.
+Test your program!

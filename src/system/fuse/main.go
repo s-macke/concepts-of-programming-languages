@@ -6,12 +6,14 @@ import (
 	"github.com/jacobsa/fuse"
 	"github.com/jacobsa/fuse/fuseops"
 	"github.com/jacobsa/fuse/fuseutil"
+	"io"
 	_ "io"
 	"log"
 	"math/rand"
 	"os"
 	"os/user"
 	"strconv"
+	"strings"
 	_ "strings"
 	"time"
 )
@@ -20,16 +22,16 @@ type helloFS struct {
 	fuseutil.NotImplementedFileSystem
 }
 
-func NewHelloFS() (fuse.Server, error) {
+func NewHelloFS() fuse.Server {
 	fs := &helloFS{}
-	return fuseutil.NewFileSystemServer(fs), nil
+	return fuseutil.NewFileSystemServer(fs)
 }
 
 func (fs *helloFS) GetInodeAttributes(ctx context.Context, op *fuseops.GetInodeAttributesOp) error {
 	fmt.Println("Get Inode attribute of inode", op.Inode)
 
-	var mode os.FileMode = 0
-	if op.Inode == 1 { // root node is always a directory
+	var mode os.FileMode = 0 // is a normal file
+	if op.Inode == 1 {       // root node is always a directory
 		mode = os.ModeDir
 	}
 
@@ -37,6 +39,7 @@ func (fs *helloFS) GetInodeAttributes(ctx context.Context, op *fuseops.GetInodeA
 	uid, _ := strconv.Atoi(user.Uid)
 	gid, _ := strconv.Atoi(user.Gid)
 	op.Attributes = fuseops.InodeAttributes{
+		Size:  0,
 		Nlink: 1,
 		Mode:  0555 | mode,
 		Atime: time.Now(),
@@ -56,11 +59,12 @@ func (fs *helloFS) OpenDir(ctx context.Context, op *fuseops.OpenDirOp) error {
 func (fs *helloFS) ReadDir(ctx context.Context, op *fuseops.ReadDirOp) error {
 	fmt.Println("Read dir of inode ", op.Inode, " at offset ", op.Offset)
 
+	// We have only one directory
 	var entries []fuseutil.Dirent
 	for i := 0; i < 10; i++ {
 		dirent := fuseutil.Dirent{
 			Offset: fuseops.DirOffset(i + 1),
-			Inode:  fuseops.InodeID(2),
+			Inode:  fuseops.InodeID(2), // This is wrong. An InodeID should be unique
 			Name:   fmt.Sprintf("Hello%d", rand.Int()),
 			Type:   fuseutil.DT_File,
 		}
@@ -86,7 +90,7 @@ func (fs *helloFS) ReadDir(ctx context.Context, op *fuseops.ReadDirOp) error {
 func (fs *helloFS) LookUpInode(ctx context.Context, op *fuseops.LookUpInodeOp) error {
 	fmt.Println("Lookup INode with name ", op.Name, " and parent inode ", op.Parent)
 
-	op.Entry.Child = 2
+	op.Entry.Child = 2 // This is wrong. An InodeID should be unique
 	op.Entry.Attributes = fuseops.InodeAttributes{
 		Size:  13,
 		Nlink: 1,
@@ -96,14 +100,13 @@ func (fs *helloFS) LookUpInode(ctx context.Context, op *fuseops.LookUpInodeOp) e
 	return nil
 }
 
-/*
 func (fs *helloFS) OpenFile(ctx context.Context, op *fuseops.OpenFileOp) error {
 	fmt.Println("Allow to open file ", op.Inode)
 	return nil
 }
 
 func (fs *helloFS) ReadFile(ctx context.Context, op *fuseops.ReadFileOp) error {
-	fmt.Println("Read file ", op.Inode)
+	fmt.Println("Read file ", op.Inode, "from", op.Offset, "for", len(op.Dst), "bytes")
 	reader := strings.NewReader("Hello, world!")
 
 	var err error
@@ -116,13 +119,10 @@ func (fs *helloFS) ReadFile(ctx context.Context, op *fuseops.ReadFileOp) error {
 
 	return err
 }
-*/
+
 func main() {
 	// Create an appropriate file system.
-	server, err := NewHelloFS()
-	if err != nil {
-		log.Fatalf("makeFS: %v", err)
-	}
+	server := NewHelloFS()
 
 	cfg := &fuse.MountConfig{
 		ReadOnly: true,
@@ -135,8 +135,8 @@ func main() {
 	}
 
 	// Wait for it to be unmounted.
-	if err = mfs.Join(context.Background()); err != nil {
+	err = mfs.Join(context.Background())
+	if err != nil {
 		log.Fatalf("Join: %v", err)
 	}
-
 }

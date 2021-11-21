@@ -40,12 +40,15 @@ func (parser Parser) Parse() {
 			}
 			parser[i].parameterInt = id
 
-		case "then":
+		case "then", "else":
 			id := controlStructureStack.Pop()
-			if parser[id].name != "if" {
-				panic("then without if")
+			if parser[id].name != "if" && parser[id].name != "else" {
+				panic("then without if or else")
 			}
 			parser[id].parameterInt = i
+			if parser[i].name == "else" {
+				controlStructureStack.Push(i)
+			}
 
 		case ";":
 			id := controlStructureStack.Pop()
