@@ -17,6 +17,11 @@ http://www.qaware.de
 - Transfer Formats
 - REST APIs
 
+*Next* *Lectures*
+
+- Forth and Interpreters (Forth, Go)
+- Logic Programming with Harald Störrle (Prolog)
+
 * What is Systems Programming?
 
 *Definition*
@@ -451,6 +456,11 @@ The child() function function is called in the new process and configures the ne
 * Summary 
 - Go is an excellent language for system programming
 - The cgo C interface is easy to use and does not require separate tooling
+- You can implement easily a filesystem in user space
 - You can implement the main functionality of a Linux container in less than 50 lines 
 - The os, runtime packages enable platform independent programming (like in Java)
 - The syscall and x/sys/. packages enable platform dependent programming (to access platform specific functionality)
+
+* Exercise
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md

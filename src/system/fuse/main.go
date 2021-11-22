@@ -121,6 +121,11 @@ func (fs *helloFS) ReadFile(ctx context.Context, op *fuseops.ReadFileOp) error {
 }
 
 func main() {
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: ", os.Args[0], "mountpoint")
+		os.Exit(1)
+	}
+
 	// Create an appropriate file system.
 	server := NewHelloFS()
 

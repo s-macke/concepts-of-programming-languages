@@ -1,5 +1,5 @@
 
-all: stats container_simple1 container_simple2 container_simple3 container_simple4 container
+all: stats container_simple0 container_simple1 container_simple2 container_simple3 container_simple4 container
 
 stats: stats.go
 	go build stats.go
@@ -22,7 +22,7 @@ container_simple4: container_simple4.go
 container: container.go
 	go build container.go
 
-@phony: run
+.PHONY: run rootfs
 
 docker:
 	docker run -ti alpine:latest /bin/sh

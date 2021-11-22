@@ -15,7 +15,7 @@ type Weather struct {
 
 func main() {
 	var weather Weather
-	// Tags are accessible via the reflection
+	// Tags are accessible via reflection
 	fmt.Println("Tag of first field entry", reflect.TypeOf(weather).Field(0).Tag)
 
 	weatherJson := `{"city": "Rosenheim","sky": "clear", "temp": 15}`

@@ -33,7 +33,7 @@ func main() {
 	}
 
 	err := cmd.Run()
-	if cmd != nil {
+	if err != nil {
 		panic(err)
 	}
 }

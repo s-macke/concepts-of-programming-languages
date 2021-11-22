@@ -79,11 +79,14 @@ func child() {
 
 func cg() {
 	cgroups := "/sys/fs/cgroup/"
+
 	pids := filepath.Join(cgroups, "pids")
 	_ = os.Mkdir(pids, 0755)
-	_ = os.Mkdir(filepath.Join(pids, "container"), 0755)
-	must(ioutil.WriteFile(filepath.Join(pids, "pids.max"), []byte("7"), 0700))
-	must(ioutil.WriteFile(filepath.Join(pids, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
+	container := filepath.Join(pids, "container")
+	_ = os.Mkdir(container, 0755)
+
+	must(ioutil.WriteFile(filepath.Join(container, "pids.max"), []byte("8"), 0700))
+	must(ioutil.WriteFile(filepath.Join(container, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
 }
 
 func must(err error) {
