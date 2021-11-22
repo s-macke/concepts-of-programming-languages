@@ -13,8 +13,10 @@ func main() {
 	fmt.Println("gid: ", os.Getgid())
 	fmt.Println("Pid: ", os.Getpid())
 	PrintHostname("Current")
-	//syscall.Sethostname([]byte("container"))
-	//PrintHostname("New")
+	/*
+		syscall.Sethostname([]byte("container"))
+		PrintHostname("New")
+	*/
 }
 
 func PrintHostname(pre string) {

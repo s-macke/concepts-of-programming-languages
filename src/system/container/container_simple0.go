@@ -14,7 +14,7 @@ func main() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
-	if cmd != nil {
+	if err != nil {
 		panic(err)
 	}
 }

@@ -19,10 +19,12 @@ func main() {
 		c, err := l.Accept()
 		if err != nil {
 			fmt.Println(err)
-			return
+			continue
 		}
+		fmt.Println("Connection established from", c.RemoteAddr())
 		go func() { // asynchroneaous reply
 			data, _ := bufio.NewReader(c).ReadString('\n')
+			fmt.Println("Received string", string(data))
 			_, _ = c.Write([]byte("Echo: " + data))
 			c.Close()
 		}()

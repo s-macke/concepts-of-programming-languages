@@ -293,13 +293,13 @@ Types:
 
 * XML
 
-- Go offers a way to transform structs to the transfer formats and vice versa
 .play ../src/distributed/encoding/xml/xml.go /type Weather/,
 
 * Service-oriented Request-Response Communication with REST
 
 * REST is a paradigm for application services
 
+- Used mainly for Web Application Programming Interfaces
 - Based on the HTTP Protocol
 - Data is transfered via JSON or XML
 - Stateless: The communication between server and client is stateless. The server "forgets" you after the request is done.

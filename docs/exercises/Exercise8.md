@@ -18,7 +18,7 @@ Windows users can use the Windows Subsystem for Linux and install the following 
 sudo apt install gcc golang sqlite3 libsqlite3-dev
 ```
 
-Here is an example code of how use the libs
+Here is an example code of how to use the libs
 ```C
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,9 +62,8 @@ https://github.com/s-macke/concepts-of-programming-languages/blob/master/src/sys
 #### Write a RAM file system
 
 - Try to make the INode of each file unique or limit to one file first.
-- Implement write to file capabilities. 
+- Implement "write" to file capabilities. Store the content in RAM. 
 - Allow to create new files inside the directory.
-
 
 ## Exercise 8.2 - Containerization
 
