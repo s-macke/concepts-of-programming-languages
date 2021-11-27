@@ -17,3 +17,6 @@ src/library/main
 src/modules/**/client
 src/modules/**/client.exe
 src/modules/**/plugin.so
+
+*.z5
+*.class

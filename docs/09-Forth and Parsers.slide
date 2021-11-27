@@ -1,0 +1,705 @@
+Forth and Interpreters
+Concepts of Programming Languages
+29 Nov 2021
+Tags: go, programming, logic
+
+Sebastian Macke
+Rosenheim Technical University
+sebastian.macke@qaware.de
+http://www.qaware.de
+
+* Some thoughts about this lecture
+
+- In history there has been developments in language design which had a significant influence
+- They had unique ideas from which we can learn from
+- These languages are used only a niche language today
+- Forth is one of these candidates
+- While Forth might be a niche language, its concepts such as a stack machine are not and are wildly used
+- It is so easy, that we can discuss lexers, parsers and interpreters
+- This lecture has two goals. Show a high level language that works totally different and to write an interpreter
+
+* Prefix notation, Infix notation, and Postfix notation
+
+- The way to write arithmetic expression is known as a notation.
+- Arithmetic expressions can be written in three different. but equivalent notations:
+
+  Infix Notation
+  Prefix Notation
+  Postfix Notation
+
+These notations are named as how they use operator in expressions.
+
+* Infix Notation
+
+- we write expression in a way that the operators are placed between operands, e. g.
+
+  a - b + c
+
+- *Infix* notation is the most common notation in the world.
+- It is easy for us humans to understand, but it is hard for computers to understand. An algorithm to process info infix nitation could be difficult and costly in terms of time and space consumption
+
+- The order of operations is important
+- Parantheses are neccecary to group expressions
+- Evaluate 2 + 3 * 5
+
+  + First: ( 2 + 3 ) * 5 = 5 * 5 = 25
+  * First:  2 + ( 3 * 5 ) = 2 + 15 = 17
+
+* Prefix Notation
+
+- operators are *pre* -fixed by operands, i. e. operator is written ahead of operands
+- *+* *a* *b* This is equivalent to its infix notation a + b
+- Prefix notation is also known as Polish notation
+
+- Evaluate + 2 * 3 5
+
+  + 2 * 3 5 = + 2 15 = 17
+  * + 2 3 5 = * 5 5 = 25
+
+- No parenthesis are needed
+
+: https://www.slideshare.net/AfaqMansoorKhan/week-9-prefix-infix-and-postfix-notations-181514548
+
+* Postfix Notation
+
+- Known as reversed polish notation
+- the operator is *post*fixed to the operands
+- The operations are written after the operands
+- *a* *b* *+*  is equivalent to its infix notation a + b
+
+- Evaluate 2 3 5 * +
+
+  2 3 5 * + = 2 15 + = 17
+  2 3 + 5 * = 5 5 * = 25
+
+- No parenthesis are needed here either
+
+* Examples
+
+    a * b + c              =>  a b * c +
+    c * (a + b)            =>  c a b + *
+    (3 * a - b) / 4 + c    =>  3 a * b - 4 / c +
+    (0.5 * a * b) / 100    =>  0.5 a b * * 100 /
+    (n + 1) / n            =>  n 1 + n /
+    x * (7 * x + 5)        =>  x 7 x * 5 + *
+
+
+* Postfix via a stack machine
+
+Evaluate
+
+  3 9 + 4 6 + *
+
+.image img/stack1.png 200 _
+
+  3  push 3 onto stack
+  9  push 9 onto stack
+  +  pop 9 and 3 and add them and push the result back on the stack
+  4  push 4 onto stack
+  6  push 6 onto stack
+  +  pop 6 and 4 and add them and push the result back on the stack
+  *  pop 9 and 17 and multiply them and push the result back on the stack
+
+
+* Postfix via a stack machine
+
+Evaluate
+
+  16 20 132 3 9 + + + +
+
+.image img/stack2.png 350 _
+
+
+* Stack machines are rather simple to implement
+
+.play ../src/forth/reversepolish/main.go /func main/,
+
+* Forth - Easier than Assembler
+
+
+: https://www.mpeforth.com/arena/ProgramForth.pdf
+: https://www.forth.com/starting-forth/2-stack-manipulation-operators-arithmetic/
+
+* History
+
+- Invented by Charles H. "Chuck" Moore in 1968
+- Used mainly in the early microcomputers. Implementations for almost all computer types.
+- Standardized ANSI Forth in 1994
+.link img/01-languages.png
+.image img/01-languages.png 300 _
+
+* Forth doesn't show up in this benchmark
+
+.image img/01_redmonk_2021.png 550 _
+
+* Features
+
+- The most minimalist language you can imagine
+- Stack machine with reverse polish notation
+- Procedural language
+- control structures, loops, and conditionals
+- No types, just integers
+- Direct access to call stack
+- Most simple lexer of a language you can imagine
+- Compiles to threaded code (something in between bytecode and compiled code). Code is very compressed.
+- Entire development environment—including compiler, editor, and user programs fits in a few hundred bytes
+- Compiled programs usually ship with an embedded interpreter.
+- much broader range to define names such as variable names.
+- Forth is a compiled and interpreted language at the same time
+
+* Websites to experiment with Forth
+
+.link https://www.tutorialspoint.com/execute_forth_online.php
+.link https://www.jdoodle.com/execute-forth-online/
+
+Online tutorial
+.link https://www.forth.com/starting-forth/0-starting-forth/
+
+* Components of the Language
+
+- *Stack*: Stores intermediate results as integers
+- *Dictionary:* Stores all command *words* and their definitions
+- *Interpreter:* Interpretively executes commands found in the dictionary using the stack to store calculations
+
+  ." Hello world" - prints "Hello World"
+  .               - pops the top of the stack and prints its value
+  .s              - shows the content of the stack
+  words           - shows all the available words in the dictionary
+
+e. g.
+
+  3 9 + 4 6 + * .
+
+-  '+' '*' '.', '.s' 'words' '."' are called words
+- The interpreter only differs between words and numbers. It the word is not found in the dictionary, it is interpreted as a number, which is pushed onto the stack
+
+* Math
+
+  + - * / %
+
+* Stack operations
+
+As a stack machine, there are a few operations that on manipulating the stack.
+
+- *dup* - Duplicated the top of the stack
+- *swap* - swaps the top 2 elements
+- *drop* - drops the top element of the stack
+- *rot* - rotate the top 3 numbers
+- *2dup* - duplicates the top 2 elements
+
+* Constants
+
+  constant <name>
+
+The *constant* *<name>* word adds a new word into the dictionary which pushes the constant value of *<name>* onto the stack.
+
+   42 constant fourtytwo
+   fourtytwo .   ( outputs 42 )
+
+*Comments*
+
+  ( This is a comment )
+
+"(" and ")" are words in the dictionary. They are used to mark the beginning and end of a comment.
+The word "(" searches for the next ")" word and jump to it.
+
+
+* store and fetch variables
+
+  variable <name>
+
+- The *variable* *<name>* word allocates storage for an integer on the heap
+- Adds a new word into the dictionary which pushes the address of the variable on the stack
+- *@* - fetches the value of the variable from the given pointer on the stack
+- *!* - stores the top of the stack into the variable
+
+  variable x    ( equivalent to var x int )
+  1 x !         ( equivalent to x = 1 )
+  x @ .         ( equivalent to print(x) )
+  x @ 1 + x !   ( equivalent to x = x + 1 )
+
+
+* Functions: Adding a word
+
+  : <name> <body> ;
+
+: defines the start of the word ; ends the word
+
+  : square dup * ;
+  2 square .  ( outputs 4 )
+
+2 is placed on the stack, duped, then the result is multiplied by itself.
+
+* Conditionals
+
+- In Forth, *true* has the numeric value of -1 and *false* has the value of 0.
+- a 32-bit binary with the value -1 is in binary 11111111111111111111111111111111b
+- Conditional operators pops the top 2 values on the stack and push the boolean onto the stack
+
+   false invert .  ( outputs true )
+   1 2 < .         ( outputs true )
+   1 2 = .         ( outputs false )
+   1 2 and .       ( outputs true )
+
+other words:  <, >, =, <>, <=, >=, 0=, and, or, xor
+
+* Control Structures
+
+- if else then
+- do loop
+- begin until
+
+
+* If then else
+
+- if tests the top of the stack
+- if true, then executes code from if to else
+- if false, then code from else to then is executed
+
+Absolute value:
+
+   : absolute  ( returns the absolute value )
+     dup 0 < if -1  *  then ;
+
+   -100 absolute . ( outputs 100 )
+
+
+Boolean output:
+
+   : .bool ( prints the boolean )
+     -1 = if ." true" else ." false" then ;
+
+   false .bool
+
+
+* do loop
+
+- 2 parameters need to be pushed:
+- *limit* - number of times to execute the loop
+- *index* - the starting index for the loop
+
+do loop copies these two values onto the call stack
+
+- i is a special word that pushes the value of index from the return stack back to the main stack
+- j is like i and is used for nested do loops
+- leave or unloop breaks out of a do loop
+
+  : countdown  ( count down from ten to zero )
+    11 0 do
+           10 i - .
+         loop ;
+  countdown
+
+
+* begin until
+
+*begin* *<body>* *<condition>* *until*
+
+- Similar to a do while loop
+
+*begin* *<condition>* *while* *<body>* *repeat*
+
+- Similar to a while loop
+
+  : countdown
+    0
+    begin
+        dup 10 swap - . cr
+        1 +
+    dup 10 = until ;
+
+    countdown
+
+* strings
+
+  s" <string>"
+
+- Stores the <string> in the heap and pushes the address of the string and its length onto the stack
+
+  : printEachChar
+  0 do    ( the length of the string is already on the stack )
+      dup i +
+      c@ emit cr
+  loop
+  ;
+
+  s" This is a string"
+  2dup type               ( outputs the string )
+  printEachChar           ( outputs each character )
+
+- c@ loads only one byte from the given address
+- emit prints the given integer as ASCII
+
+
+* Exercise
+
+- Write a function, which takes one integer as argument and calculates the cube x³ of that number
+- Write a function which which prints the numbers from 1 to 10
+- Write a function, which checks whether the given number on the stack is a prime number (loop over all odd numbers and test via the word "mod")
+- Write a function "swapv", which swaps the content of two variables
+
+  variable a   1 a !   ( a = 1 )
+  variable b   2 b !   ( b = 2 )
+  a b swapv
+  a @ .  ( outputs 2 )
+  b @ .  ( outputs 1 )
+
+: swapv
+:      2dup @ swap @ rot ! swap !
+:  ;
+
+
+: Write a word which applies a rot13 to an integer which represents an ASCII character
+:    97 emit  ( prints a )
+:    122 emit ( prints z )
+:    97 rot13 emit  ( should print n )
+:    122 rot13 emit ( should print m )
+
+* Summary
+
+- Forth is not very readable
+- The base language is simple, but the base dictionary is global and can go rapidly out of control
+- the only parameter passing mechanism is the stack and is difficult to decipher. Forth encourage you to use the stack, but does encourage you to use variables
+- Once you are familiar with RPN it is a natural way to do calculations
+- Weak point is the pointer arithmetic and no type checking
+
+
+Ignore spaces.
+
+- write a word, which "encrypts" a whole string via rot 13
+
+* Java uses a stack machine
+
+    public int Add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+compiles into
+
+  public int Add(int, int, int);
+    Code:
+       0: iload_1  // push parameter 1 onto the stack
+       1: iload_2  // push parameter 2 onto the stack
+       2: iadd     // pop the two parameters, add them, and push the result
+       3: iload_3  // push parameter 3 onto the stack
+       4: iadd     // pop the two parameters, add them, and push the result
+       5: ireturn  // return the result
+
+: https://en.wikipedia.org/wiki/Stack_machine
+
+
+
+* Some thoughts
+
+- You can write a forth interpreter in less then 512 bytes
+
+https://www.slideserve.com/holly/the-forth-language
+
+* Stack operations
+
+
+* Forth Cheat Sheet
+    words           lists all word in the dictionary
+    .s              show the stack
+
+    +, -, *, /     math operations
+    <, >, =        test if the numbers are smaller, larger, equal
+
+    .               pops the top element from the stack and prints its number
+    drop            drop a stack item
+    dup             duplicate a stack item
+    rot             rotate the top 3 elements in the stack
+
+    ( and \         Comments
+
+    : [name] ... ;  Function declaration
+    ." ..."         Print the string
+    .S" ..."
+    type            prints the string on the stack
+    cr              prints a new line
+
+    variable [name] defines a int variable
+    [variable]      puts the memory position of the variable onto the stack
+    @               receives the content from the memory location
+    !               stores the content into the memory location
+
+
+* Forth Examples
+https://skilldrick.github.io/easyforth/#conditionals-and-loops
+https://www.tutorialspoint.com/execute_forth_online.php
+
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+Infix: ( ( ( A + B ) * C ) - ( ( D + E ) / F ) )
+Postfix: A B + C * D E + F / -
+
+Operand order does not change!
+Operators are in order of evaluation!
+
+Algorithm:
+
+  - Initialize a stack for operators and output list
+  - Split the input string into a list of tokens
+  - For each token in the token list:
+    - If the token is a number, push it onto the output list
+    - If the token is an operator:
+        - Pop operators from the stack and push them onto the output list until you find an operator
+          with lower precedence
+        - Push the current operator onto the stack
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ( ( ( A + B ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: <empty>
+    output: []
+
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ( ( A + B ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: (
+    output: []
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ( A + B ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( (
+    output: []
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    A + B ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( (
+    output: []
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    + B ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( (
+    output: [A]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    B ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( ( +
+    output: [A]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ) * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( ( +
+    output: [A B]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    * ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( (
+    output: [A B +]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ( C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( *
+    output: [A B +]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    C - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( * (
+    output: [A B +]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    - E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( * (
+    output: [A B + C]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    E ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( * ( -
+    output: [A B + C]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ) ) / ( F + G ) )
+    ↑
+
+    stack: ( ( * ( -
+    output: [A B + C E]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ) / ( F + G ) )
+    ↑
+
+    stack: ( ( *
+    output: [A B + C E -]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    / ( F + G ) )
+    ↑
+
+    stack: (
+    output: [A B + C E - *]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ( F + G ) )
+    ↑
+
+    stack: ( /
+    output: [A B + C E - *]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    F + G ) )
+    ↑
+
+    stack: ( / (
+    output: [A B + C E - *]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    + G ) )
+    ↑
+
+    stack: ( / (
+    output: [A B + C E - * F]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    G ) )
+    ↑
+
+    stack: ( / ( +
+    output: [A B + C E - * F]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    ) )
+    ↑
+
+    stack: ( / ( +
+    output: [A B + C E - * F G]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    )
+    ↑
+
+    stack: ( /
+    output: [A B + C E - * F G +]
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+
+    ↑
+
+    stack: <empty>
+    output: [A B + C E - * F G + /]
+
+
+
+* Building a Forth Interpreter
+
+* Major building blocks
+
+- Stack for integers
+- Heap for variables
+- Dictionary for words
+
+Words have access to
+
+- The stack
+- The list of words executed
+- Program counter (can jump to another word)
+- Metainformation for each word
+
+* Lexer and Parser and Interpreter
+
+Lexer
+
+- Reads input
+- Identifies and Generates a sequence of tokens (Lexing)
+- Removes comments
+
+Parser
+
+- Performs syntax analysis
+- Performs semantic validation
+- Create abstract representation of the code
+
+Interpreter
+- Executes the computer program
+
+Forth doesn't fit into the usual text book scheme for building compilers
+We have to develop our own way
+
+: https://wiki.c2.com/?ForthVsLisp
+: https://www.chegg.com/homework-help/questions-and-answers/3-forth-lisp-abstract-syntax-tree-ast--1--forth-imperative-stack-based-computer-programmin-q64576344
+
+: * Abstract Syntax Tree
+: abstract Syntax Tree is a tree representation of the the abstract syntactic structure of source code written in a programming language
+: - An AST presentation of Forth is not a good way to represent. Why?
+
+: http://mshang.ca/syntree/
+: [* [+ 1 2] 3]
+: Warum? Weil die Anzahl der Parameter in Wörtern unbekannt ist. Ist erst zur Ausführzeit bekannt.
+
+* Parser for word pairs
+Forth supports several word pairs such as "( ... )", "do ... loop", ": ... ;" and "if ... then"
+The parser has to find and check these pairs and provide the meta information for these words.
+
+   2 3 ( this is a comment ) +    <- "(" should point to 7
+   0 1 2 3    4  5 6       7
+
+   if do_something then           <- "if" should point to 2
+   0  1            2
+
+   do if do_something then loop   <- "do" points to 4, "if" points to "3"
+   0  1  2            3    4
+
+   if do do_something then loop   <- Error: if without then, do without loop
+
+Exercise: Try to find an algorithm  (5 minutes)
+
+* Don't cheat
+
+* Don't cheat
+
+
+* Use Stack itself to determine the control structure offsets
+
+
+
+
+* Summary
+
+Stackmachines are used throughout
