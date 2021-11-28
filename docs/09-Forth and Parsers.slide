@@ -14,7 +14,7 @@ http://www.qaware.de
 - They had unique ideas from which we can learn from
 - These languages are used only a niche language today
 - Forth is one of these candidates
-- While Forth might be a niche language, its concepts such as a stack machine are not and are wildly used
+- While Forth might be a niche language, its concepts are wildly used in other contexts
 - It is so easy, that we can discuss lexers, parsers and interpreters
 - This lecture has two goals. Show a high level language that works totally different and to write an interpreter
 
@@ -134,18 +134,21 @@ Evaluate
 
 * Features
 
-- The most minimalist language you can imagine
+- The most minimalist language regarding syntax you can imagine
 - Stack machine with reverse polish notation
+- No types, just integers
 - Procedural language
 - control structures, loops, and conditionals
-- No types, just integers
-- Direct access to call stack
-- Most simple lexer of a language you can imagine
-- Compiles to threaded code (something in between bytecode and compiled code). Code is very compressed.
-- Entire development environment—including compiler, editor, and user programs fits in a few hundred bytes
-- Compiled programs usually ship with an embedded interpreter.
-- much broader range to define names such as variable names.
+- Reflection
+- much broader range to define names such as variable names or function names.
+- Direct access to call stack (return stack)
+
+* Features
+
 - Forth is a compiled and interpreted language at the same time
+- Compiled programs usually ship with an embedded interpreter. Like Java breakpoints, it allows you to execute code at any point in the program.
+- Compiles to threaded code (something in between bytecode and compiled code). Contains an implicit compression.
+- Entire development environment—including compiler, editor fits in a few kiloByte of machine language
 
 * Websites to experiment with Forth
 
@@ -154,6 +157,7 @@ Evaluate
 
 Online tutorial
 .link https://www.forth.com/starting-forth/0-starting-forth/
+.link https://learnxinyminutes.com/docs/forth/
 
 * Components of the Language
 
@@ -161,10 +165,10 @@ Online tutorial
 - *Dictionary:* Stores all command *words* and their definitions
 - *Interpreter:* Interpretively executes commands found in the dictionary using the stack to store calculations
 
-  ." Hello world" - prints "Hello World"
-  .               - pops the top of the stack and prints its value
-  .s              - shows the content of the stack
-  words           - shows all the available words in the dictionary
+  ." Hello World!" cr - prints "Hello World" and a newline (carriage return)
+  .                   - pops the top of the stack and prints its value
+  .s                  - shows the content of the stack
+  words               - shows all the available words in the dictionary
 
 e. g.
 
@@ -207,7 +211,7 @@ What is the output of the following code?
 
   variable <name>
 
-- The *variable* *<name>* word allocates storage for an integer on the heap
+- The *variable* *<name>* word allocates storage for an integer in the dictionary. (There is no difference between the heap and the dictionary)
 - Adds a new word into the dictionary which pushes the address of the variable on the stack
 - *@* - fetches the value of the variable from the given pointer on the stack
 - *!* - stores the top of the stack into the variable
@@ -353,18 +357,44 @@ do loop copies these two values onto the call stack
 :    97 rot13 emit  ( should print n )
 :    122 rot13 emit ( should print m )
 
+* Arrays
+
+array with initialization
+
+  create [myarray] 10 , 20 , 30 ,
+  [myarray] @ .  ( outputs 10 )
+  [myarray] cell+ @ .  ( outputs 20 )
+  [myarray] cell+ cell + @ .  ( outputs 30 )
+  [myarray] 2 cells + @ .  ( outputs 30 )
+
+alloc 12 bytes
+
+  create [myarray] 12 allot
+  [myarray] 4 + c@  ( access byte number 4 )
+
+* Extending Forth
+
+Forth has a lot of built-in words. But most of them are just made of other words.
+
+- The words ":", "variable", "constant" use all the next word as a name and use "create" to allocate a new word
+
+    : variable   create  0 , ;
+    : constant   create  ,  DOES> @ ;
+
+- Forth is so flexible that you can extend the compiler and e. g. implement structs in your own way.
+
 * Summary
 
-- Forth is not very readable
+- Forth is not very readable but you can write clean code in Forth by using the open naming scheme wisely.
 - The base language is simple, but the base dictionary is global and can go rapidly out of control
-- the only parameter passing mechanism is the stack and is difficult to decipher. Forth encourage you to use the stack, but does encourage you to use variables
+- the only parameter passing mechanism is the stack and is difficult to decipher. Forth encourage you to use the stack, but does not encourage you to use variables
 - Once you are familiar with RPN it is a natural way to do calculations
-- Weak point is the pointer arithmetic and no type checking
+- Weak point is the pointer arithmetic and no type checking. You can shoot yourself in the foot very easily
 
 : Ignore spaces.
 : - write a word, which "encrypts" a whole string via rot 13
 
-* Java uses a stack machine
+* Java bytecode is actually a stack machine
 
     public int Add(int a, int b, int c) {
         return a + b + c;
@@ -423,7 +453,7 @@ compiles into
 *Lexer*
 
 - Reads input
-- Identifies and Generates a sequence of tokens (Lexing)
+- Identifies and generates a sequence of tokens (Lexing)
 - Removes comments
 
 *Parser*
@@ -451,7 +481,7 @@ We have to develop our own way.
     return words
   }
 
-strings.Fields splits the string around each instance of one or more consecutive white space characters
+*strings.Fields* splits the string around each instance of one or more consecutive white space characters
 
 Does not exactly fit for strings. In Forth there doesn't exist a lexer in this sense.
 
@@ -460,8 +490,8 @@ Does not exactly fit for strings. In Forth there doesn't exist a lexer in this s
 * Major building blocks of a Forth interpreter
 
 - Parameter stack
-- Heap for variables
 - Dictionary for words
+- Heap for variables. (In the original Forth, there is no difference between the heap and the dictionary)
 - Return stack
 - Program counter
 
@@ -493,7 +523,7 @@ The parser has to find and check these pairs and provide the meta information fo
 
 * Group work
 
-- Ignore Forth strings for now
+- Premise: Ignore Forth strings
 - Start from the example on slide with the title "Stack machines are rather simple to implement"
 - Discuss the data structures to implement a simple Forth interpreter
 - How to implement of simple words such as math words, stack manipulation words?

@@ -21,6 +21,8 @@ func (dict dictionary) fill() {
 	dict["-"] = func(c *runContext) { temp := c.Pop(); c.Push(c.Pop() - temp) }
 	dict["/"] = func(c *runContext) { temp := c.Pop(); c.Push(c.Pop() / temp) }
 
+	dict["true"] = func(c *runContext) { c.Push(-1) }
+	dict["false"] = func(c *runContext) { c.Push(0) }
 	dict[">"] = func(c *runContext) { temp := c.Pop(); c.booleanPush(c.Pop() > temp) }
 	dict["<"] = func(c *runContext) { temp := c.Pop(); c.booleanPush(c.Pop() < temp) }
 	dict["="] = func(c *runContext) { c.booleanPush(c.Pop() == c.Pop()) }
