@@ -1,65 +1,66 @@
-# Exercise 8 - Webassembly
+# Exercise 9.1 - Forth
 
-## Exercise 8.1 - Hello world Go project in WebAssembly
+- Write a function, which takes one integer as argument and calculates the cube x³ of that number
+- Write a function which which prints the numbers from 1 to 10
+- Write a function, which checks whether the given number on the stack is a prime number (loop over all odd numbers and test via the word "mod")
+- Write a function "swapv", which swaps the content of two variables
 
-* Install npm/node on your system
-  - https://nodejs.org/en/download/
-  - Alternative: Use the provided docker file in the `webassembly/docker` folder
-
----
-* Write a Hello World program in Go
-* Compile with `GOARCH=wasm GOOS=js go build -o lib.wasm main.go` The result will be a file called `lib.wasm`
-* In case you run Windows command shell you have to execute three commands
-```
-set GOARCH=wasm 
-set GOOS=js 
-go build -o lib.wasm main.go`
-```
-* Copy the wasm javascript runtime from the GOROOT directory. You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec file: `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .`. Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`-
-* Execute via `node wasm_exec.js lib.wasm`
----
-* An HTTP file web server is provided in the folder `wp/fileserver`. Compile and start it with root path `webassembly`.    
-* Copy the index.html file from `webassembly/hello/index.html`
-
-## Exercise 8.2 - Execute a Go function inside Go
-
-* The folder `mandelbrot/main.go` contains a program, which calculates the so called Mandelbrot set.
-* Compile it and ensure that it produces an image `mandelbrot.png` as result
-* Add a function, which returns for the default parameters the PNG as Base64 encoded string.
-```Go
-func GetImageAsBase64() string {
-
-}
-```
-  - Use `bytes.Buffer` as io.Writer object and encode via the `base64.StdEncoding.EncodeToString` function. 
-
-* Rewrite the function header, so that it can be executed via a WebAssembly call and alter the main function accordingly.
-
-* Create a website with following content and ensure, that it shows a circle.
-
-```HTML
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Go Mandelbrot</title>
-</head>
-
-<body>
-
-<img id="image" src="">
-
-<script>
-    document.getElementById("image").src = " data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQAAAAA2RLUcAAAABGdBTUEAALGPC/xhBQAAAAJiS0dEAAHdihOkAAAAB3RJTUUH5AsPECUqQdxoMgAAAGpJREFUGNOt0LENgCAQheF3obBkBEdhNBmNURiBksKA9zSnCQYrab6Sez/6+RLmZrmMCLQBnlbA0QIIzQBoUjc1qkFVsCY06h93ujxW6t4WKv87+2+8a7zb9tz7bK/ttx7Wx3pZv17ko/cB/caa7HEsGrQAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjAtMTEtMTVUMTU6Mzc6NDIrMDE6MDATkZwSAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIwLTExLTE1VDE1OjM3OjQyKzAxOjAwYswkrgAAAABJRU5ErkJggg=="
-</script>
-
-</body>
-</html>
+```Forth
+  variable a   1 a !   ( a = 1 )
+  variable b   2 b !   ( b = 2 )
+  a b swapv
+  a @ .  ( outputs 2 )
+  b @ .  ( outputs 1 )
 ```
 
-* Load the wasm file and, execute the function GetImageAsBase64() and add the resulting string to the image.
-* Add coordinates and zoom level as parameters to your function.
-* Don't return the string, but use Go to call a JavaScript functions to create the image object inside the Go function. 
+## Exercise 9.2 - Interpreter for Forth
 
-## Exercise 8.3 - Concurrency
+**Disclaimer:** Feel free you use your very own software design.
 
-* Try to run two or more goroutines in parallel. Does it work?
+Ignore Forth strings for this exercise.
+
+Write a Forth runtime by implementing
+- a stack for integers
+- a dictionary which maps strings to functions
+
+🤥 **Write tests!** 🤥
+
+Write an interpreter that
+- searches each word in the dictionary and executes it.
+- otherwise tries to intepret the string as number
+- fails if none of the above applies
+
+Implement at least the following Forth words 
+  "+", "-", ".", "dup", "drop", "words" 
+
+### Constants
+
+- Allow a Forth word to jump over the next word and to receive the word string
+- Implement the constant word
+
+### Variables
+
+- Implement a heap memory to store variables
+- Implement the variable word
+- Add the forth words @ and !
+
+### If/then
+
+- Implement the words "true" and "false"
+- Allow a lexed word to have an additional jumpTo parameter
+- Implement a parser to determine the word pairs as discussed in the lecture
+
+### Implement comments
+
+- Implement the comment words "(" and ")"
+
+### Have fun
+
+Continue just as you like
+
+- Implement do/loop. You have to add an additional "return stack" to store the meta information for the loop.
+- Implement functions. Are you able to execute them recursively?
+
+Link to small code snipplets:
+https://rosettacode.org/wiki/Category:Forth
+
