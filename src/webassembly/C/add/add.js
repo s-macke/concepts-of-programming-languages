@@ -1,8 +1,12 @@
 const fs = require('fs');
-const buf = fs.readFileSync('./add.wasm');
 
-WebAssembly.instantiate(buf)
-.then(result => {
-    console.log(result.instance.exports.add(5, 2))
-});
+async function Run() {
+    let buffer = await fs.readFileSync('./add.wasm');
+    let result = await WebAssembly.instantiate(buffer);
+    let add = result.instance.exports.add
+    console.log(add(5, 2))
+}
+
+Run()
+
 

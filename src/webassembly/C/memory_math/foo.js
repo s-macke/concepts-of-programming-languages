@@ -1,10 +1,12 @@
 const fs = require('fs');
-const buf = fs.readFileSync('./foo.wasm');
 
-WebAssembly
-    .instantiate(buf)
-    .then(result => {
-        console.log(result.instance.exports.foo(42));
-        var memory = new Uint8Array(result.instance.exports.memory.buffer);
-        console.log(memory[2048]);
-    });
+async function Run() {
+    let buffer = await fs.readFileSync('./foo.wasm');
+    let result = await WebAssembly.instantiate(buffer);
+    let foo = result.instance.exports.foo
+    foo(42)
+    let memory = new Uint8Array(result.instance.exports.memory.buffer);
+    console.log(memory[2048]);
+}
+
+Run()

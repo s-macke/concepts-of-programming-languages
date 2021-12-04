@@ -7,14 +7,16 @@
 
 <script>
 
-    fetch('add.wasm')
-        .then(response => response.arrayBuffer())
-        .then(bytes =>WebAssembly.instantiate(bytes))
-        .then(result => {
-            alert(result.instance.exports.add(5, 5))
-        }
-    );
+    async function Run() {
+        let response = await fetch('add.wasm')
+        let buffer = await response.arrayBuffer();
+        let result = await WebAssembly.instantiate(buffer);
+        let add = result.instance.exports.add
+        console.log(add(5, 2))
+        alert(add(5, 2))
+    }
 
+    Run()
 </script>
 
 </body>
