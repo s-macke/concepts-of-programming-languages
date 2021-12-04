@@ -1,6 +1,6 @@
 WebAssembly
 Concepts of Programming Languages
-23 Nov 2020
+13 Dec 2021
 Tags: go, programming, master, webassembly,  cross-compilation
 
 
@@ -52,7 +52,7 @@ http://www.qaware.de
 .image ./img/08-webassembly/0a-javascript-compilation.png
 
 - WebAssembly simplifies processing
-.image ./img/08-webassembly/08-webassembly-compilation.png
+.image ./img/08-webassembly/0a-webassembly-compilation.png
 
 * Design
 - Binary format
@@ -67,7 +67,7 @@ http://www.qaware.de
 * Design
 -  Linear memory with load/store addressing
   - Sandboxed
-  - 64kB segmentt. Enables hardware-supported boundary check
+  - 64kB segment. Enables hardware-supported boundary check
   - Size adaptable at runtime
 - Interface via defined interface
   - Export/import of functions, global variables and so-called tables
@@ -93,21 +93,24 @@ add.js
 
 - Source:
 .link https://github.com/appcypher/awesome-wasm-langs
-
-    .Net 🐥              AssemblyScript 🐥   Astro 🥚
-    Brainfuck 🐥         C 🐥                C# 🐥
-    C++ 🐥               D 🐣                Elixir 🐣
-    F# 🐣                Faust 🥚            Forest 🥚
-    Forth 🐥             Go 🐥               Grain 🥚
-    Haskell 🥚           Java 🐣             JavaScript 🐣
-    Julia 🥚             Idris 🐣            Kotlin/Native 🐣
-    Kou 🥚               Lua 🐥              Nim 🥚
-    Ocaml 🥚             Perl 🐣             PHP 🐣
-    Plorth 🥚            Poetry 🐣           Python 🐣
-    Prolog 🐣            Ruby 🐣             Rust 🐥
-    Scheme 🐣            Speedy.js 🐣        Turboscript 🐣
-    Wah 🐥               Walt 🐣             Wam 🐣
-    Wracket 🥚           Xlang 🥚            Zig 🐥
+    🐥 Net                         🐥 AssemblyScript          🥚 Astro Unmaintained
+    🐥 Brainfuck                   🐥 C                       🐥 C#
+    🐥 C++                         🐥 Clean                   🥚 Co
+    🐥 COBOL                       🐣 D                       🐣 Eel
+    🐣 Elixir                      🐣 F#                      🥚 Faust
+    🥚 Forest                      🐥 Forth                   🐥 Go
+    🥚 Grain                       🥚 Haskell                 🐣 Java
+    🐣 JavaScript                  🥚 Julia                   🐣 Idris Unmaintained
+    🐣 Kotlin/Native               🥚 Kou                     🐣 Lisp
+    🐥 Lobster                     🐥 Lua                     🐣 Lys
+    🐥 Never                       🥚 Nim                     🥚 Ocaml
+    🐣 Perl                        🐣 PHP                     🥚 Plorth
+    🐣 Poetry                      🐣 Python                  🐣 Prolog
+    🐣 Ruby                        🐥 Rust                    🐣 Scheme
+    🐣 Scopes                      🐣 Speedy.js Unmaintained  🐣 Swift
+    🐣 Turboscript Unmaintained    🐥 TypeScript              🐥 Wah Unmaintained
+    🐣 Walt Unmaintained           🐣 Wam Unmaintained        🐥 WebAssembly
+    🥚 Wracket Unmaintained        🐥 Zig
 
 * Demo in C
 - Example in `webassembly/C` folder

@@ -1,15 +1,11 @@
 <html>
 <body>
 <!------------------------------------->
-    <p>
-        Hello from HTML!
-    </p>
-<!------------------------------------->
-    <script>
-        let p = document.createElement("p");
-        p.innerHTML = "Hello from JavaScript!"
-        document.body.appendChild(p);
-    </script>
+
+<input type="text" id="input" >
+<button type="button" onclick="Exec()">Execute</button>
+<p id="output"></p>
+
 <!------------------------------------->
     <script src="wasm_exec.js"></script>
     <script>
@@ -20,7 +16,11 @@
             let buffer = await response.arrayBuffer();
             let result = await WebAssembly.instantiate(buffer, go.importObject);
             go.run(result.instance)
-            document.body.innerHTML += add(41, 1);
+        }
+
+        function Exec() {
+            let input = document.getElementById("input").value
+            document.getElementById("output").innerText = rpn(input)
         }
 
         Run()

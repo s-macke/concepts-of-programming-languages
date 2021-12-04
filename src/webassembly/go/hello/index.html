@@ -4,13 +4,14 @@
     <script>
         const go = new Go();
 
-        fetch('lib.wasm')
-            .then(response => response.arrayBuffer())
-            .then(bytes =>WebAssembly.instantiate(bytes, go.importObject))
-            .then(result => {
-                go.run(result.instance)
-            }
-        );
+        async function Run() {
+            let response = await fetch('lib.wasm')
+            let buffer = await response.arrayBuffer();
+            let result = await WebAssembly.instantiate(buffer, go.importObject);
+            go.run(result.instance)
+        }
+
+        Run()
     </script>
 </body>
 </html>
