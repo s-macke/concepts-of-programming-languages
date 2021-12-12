@@ -20,3 +20,5 @@ src/modules/**/plugin.so
 
 *.z5
 *.class
+
+wasm_exec.js

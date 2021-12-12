@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // Package philosophers implements the Dining Philosophers Problem.
-package philosophers
+package main
 
 // =====================================================================================================================
 // Dining Philosophers Problem. See https://en.wikipedia.org/wiki/Dining_philosophers_problem.

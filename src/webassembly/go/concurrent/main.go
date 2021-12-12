@@ -2,27 +2,16 @@ package main
 
 import (
 	"fmt"
+	"math/big"
 	"runtime"
 )
 import "time"
-import "math"
-
-func IsPrime(value int) bool {
-	for i := 2; i <= int(math.Floor(float64(value)/2)); i++ {
-		if value%i == 0 {
-			return false
-		}
-	}
-	return value > 1
-}
 
 func ListPrimes() {
-	n := 10000001
-	for {
-		if IsPrime(n) {
+	for n := 100000000001; ; n++ {
+		if big.NewInt(int64(n)).ProbablyPrime(100000) {
 			fmt.Printf("%d\n", n)
 		}
-		n += 2
 		runtime.Gosched()
 	}
 }
