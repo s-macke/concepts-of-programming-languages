@@ -1,4 +1,6 @@
-# Exercise 9.1 - Forth
+# Exercise 9 - Forth
+
+## Exercise 9.1 - Forth
 
 - Write a function, which takes one integer as argument and calculates the cube x³ of that number
 - Write a function which which prints the numbers from 1 to 10

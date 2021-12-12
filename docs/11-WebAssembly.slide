@@ -9,24 +9,23 @@ Rosenheim Technical University
 sebastian.macke@qaware.de
 http://www.qaware.de
 
-* Content
-- What is WebAssembly?
-- Design
-- Demo in WAT and C
-- Hello world in Go
-- Exercise
-- Calls from and to WebAssembly
-- Exercise
-- Future of WebAssembly
+: * Content
+: - What is WebAssembly?
+: - Design
+: - Demo in WAT and C
+: - Hello world in Go
+: - Exercise
+: - Calls from and to WebAssembly
+: - Exercise
+: - Future of WebAssembly
 
-.image ./img/08-webassembly/01-04-js-interop-00-A-768x432.png _ 200
 
 * What is WebAssembly?
 
 .link https://webassembly.org
 
 - WebAssembly is a portable binary-code format for executable programs.
-- Timeline
+
  - 1995: JavaScript is developed within 10 days by Brendan Eich
 
  - ... Java Applets, Flash, ActiveX, Silverlight
@@ -40,6 +39,7 @@ http://www.qaware.de
 
 *After* *the* *introduction* *of* *JavaScript* *in* *the* *90s,* *it* *is* *the* *second* *language* *supported* *directly* *by* *web* *browsers*
 
+.image ./img/08-webassembly/01-04-js-interop-00-A-768x432.png _ 200
 
 * What is WebAssembly?
 
@@ -55,24 +55,37 @@ http://www.qaware.de
 .image ./img/08-webassembly/0a-webassembly-compilation.png
 
 * Design
-- Binary format
-  - small size and easy to interpret
--  Stack Machine with local and global variables
+- *Binary* *format*:
+
+    - small size and easy to interpret
+
+- *Stack* *Machine* *with* *local* *and* *global* *variables*:
+
   - Efficient decoding and compilation
-- Structured control flow and structured use of the stack
+
+- *Structured* *control* *flow* *and* *structured* *use* *of* *the* *stack*:
+
   - One-Pass Verification
-- Simple types: i32, i64, f32, f64
+
+- *Simple* *types:* *i32,* *i64,* *f32,* *f64*
+
   - Representation of today's CPU architecture
 
 * Design
+
 -  Linear memory with load/store addressing
-  - Sandboxed
-  - 64kB segment. Enables hardware-supported boundary check
-  - Size adaptable at runtime
+
+    - Sandboxed
+    - 64kB segment. Enables hardware-supported boundary check
+    - Size adaptable at runtime
+
 - Interface via defined interface
-  - Export/import of functions, global variables and so-called tables
+
+    - Export/import of functions, global variables and so-called tables
+
 - Assembler text format
-  - Open and possibility for debugging
+
+    - Open and possibility for debugging
 
 * Stackmachine in Detail
 
@@ -80,7 +93,7 @@ http://www.qaware.de
 
 
 * Demo in WebAssembly Text Format
-- Example in `webassembly/wat` folder
+- Example in `src/webassembly/wat` folder
 add.wat
 
 .code ../src/webassembly/wat/add.wat
@@ -113,7 +126,8 @@ add.js
     🥚 Wracket Unmaintained        🐥 Zig
 
 * Demo in C
-- Example in `webassembly/C` folder
+
+- Example in `src/webassembly/C` folder
 add.c
 
 .code ../src/webassembly/C/add/add.c
@@ -130,9 +144,49 @@ index.html
 
 .code ../src/webassembly/go/hello/index.html
 
-
 * Exercise
-- Write Hello world in Go and execute as node app or in the browser.
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise11.md
+
+- Write a Hello world App in Go and execute it as node app or in the browser.
+
+- Javascript or WebAssembly doesn't support concurrency and are single threaded.
+  Test Go concurrency for the wasm compile target.
+
+- Webassembly does not support Coroutines either, e.g. blocking calls such as time.Sleep(1 * time.Second).
+  Test blocking calls.
+
+* WebAssembly and Go Routines
+- Webassembly does not support concurrency yet. Also no event timers for the scheduler
+- However go executables run in the browser. How is that possible?
+
+.play ../src/webassembly/go/concurrent/main.go /func List/,
+
+- Go supports concurrency when you execute the Scheduler on purpose
+
+* Webassembly and Coroutines
+
+- Webassembly does neither support concurrency, nor coroutines
+- However you can mimic coroutines without runtime support via switch case. Some sort of fake gotos.
+
+    function foo(state *int, vars *local_vars) { // all variables must be handled in a global context
+        for(;;) {
+            switch(state) {
+                case 0:
+                    // do_this ....
+                    state = 1
+                    // you can temporarily return here
+                case 1:
+                    // do_that ....
+                    state = 2
+                case 2:
+                    // do_something
+                    return
+            }
+        }
+    }
+
+
 
 * Applications
 .link https://webassembly.org/docs/use-cases/
@@ -180,11 +234,10 @@ index.html
 
 * Exercise
 
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise11.md
+
+- Reverse Polish Calculator in the browser
 - Show generated image in the browser
-
-
-* WebAssembly and Go Routines
-- Demo
 
 * Future - The Skill Tree
 .image ./img/08-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 800

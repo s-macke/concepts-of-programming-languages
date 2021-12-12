@@ -1,74 +1,129 @@
-# Exercise 11 - Logic Programming
+# Exercise 11 - Webassembly
 
-If you do not finish during the lecture period, please finish it as homework.
+## Exercise 11.1 - Hello world Go project in WebAssembly
 
+* Install npm/node on your system
+  - https://nodejs.org/en/download/
 
-## Exercise 11.1 - Warmup
-Install SWI Prolog from [swi-prolog.org](https://www.swi-prolog.org/).
+---
+* Write a Hello World program in Go
+* Compile by setting the environment variables GOARCH and GOOS
 
-* Windows users: download the [installer](https://www.swi-prolog.org/download/stable)
-  or use the [Docker container](https://hub.docker.com/_/swipl);
-  see also [swi-prolog page about Docker](https://www.swi-prolog.org/Docker.html).
-* Mac users: run `brew install swi-prolog`
-
-Create a new file named `family.pl` and put the following content:
-```prolog
-male(albert).
-male(bob).
-male(bill).
-male(carl).
-male(charlie).
-male(dan).
-male(edward).
-
-female(alice).
-female(betsy).
-female(diana).
-
-parent(albert, bob).
-parent(albert, betsy).
-parent(albert, bill).
-
-parent(alice, bob).
-parent(alice, betsy).
-parent(alice, bill).
-
-parent(bob, carl).
-parent(bob, charlie).
-parent(diana, charlie).
+```bash
+export GOARCH=wasm 
+export GOOS=js 
+go build -o lib.wasm main.go
 ```
 
-Run `swipl family.pl` and play with the interactive prompt:
+The result will be a file called `lib.wasm`
 
-* `male(charlie).`
-* `female(charlie).`
-* `parent(X, charlie).` (press ; or n for next result)
-* Write a query to find all grandparents of Charlie
-* Write a query to find only grandmothers of Charlie
-* Write a query to find all siblings of Bob
-* `trace.`, then repeat the last query
-* Try to query `X.` to print ALL THINGS POSSIBLE IN THE UNIVERSE!
-* Use `halt.` or Ctrl+D (EOF) to exit the interactive prompt
+* In case you run Windows command shell you have to execute three commands
+```powershell
+set GOARCH=wasm 
+set GOOS=js 
+go build -o lib.wasm main.go`
+```
 
+* Copy the wasm JavaScript runtime from the GOROOT directory. 
+You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec file:
+`cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .`. 
+Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`
+* Execute via `node wasm_exec.js lib.wasm`
+---
 
-## Exercise 11.2 - Palindrome
-Write a predicate `palindrome_list/1` that checks if a list of atoms is a palindrome.  
-Hint: have look at the [reverse/2](https://www.swi-prolog.org/pldoc/doc_for?object=reverse/2) predicate.
+* An HTTP file web server is provided in the folder `src/servers/fileserver`.
+Alternatively, you can use python `python -m http.server 8080`
+* Copy the index.html file and test your program
 
-Write a predicate `palindrome/1` that checks if an atom (or string) is a palindrome.  
-Hint: have a look at the [name/2](https://www.swi-prolog.org/pldoc/man?predicate=atom_codes/2), [atom_codes/2](https://www.swi-prolog.org/pldoc/man?predicate=atom_codes/2) and [string_codes/2](https://www.swi-prolog.org/pldoc/man?predicate=string_codes/2) predicates.
+```HTML
+<html>
+<body>
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
 
+        async function Run() {
+            let response = await fetch('lib.wasm')
+            let buffer = await response.arrayBuffer();
+            let result = await WebAssembly.instantiate(buffer, go.importObject);
+            go.run(result.instance)
+        }
 
-## Exercise 11.3 - Solve a Logical
-Write a prolog program that derives a solution for the following logical:
+        Run()
+    </script>
+</body>
+</html>
+```
+---
 
-> Once upon a time a farmer went to a market and purchased a wolf, a goat, and a cabbage. On his way home, the farmer came to the bank of a river and rented a boat. But crossing the river by boat, the farmer could carry only himself and a single one of his purchases: the wolf, the goat, or the cabbage.
->
-> If left unattended together, the wolf would eat the goat, or the goat would eat the cabbage.
->
-> The farmer's challenge was to carry himself and his purchases to the far bank of the river, leaving each purchase intact. How did he do it?
->
-> [Source](https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem)
+## Exercise 11.2 - Concurrency
 
-Hint 1: The problem is very similar to the one in [cannibals.pl](../../logic/cannibals.pl).  
-Hint 2: Only 7 river crossings are needed for solving the puzzle.
+Javascript or WebAssembly doesn't support concurrency and are single threaded.
+
+* Experiment with the Go concurrency in webassembly.
+  Try to run two or more goroutines in parallel. Does it work?
+* Webassembly does not support Coroutines either, e.g. blocking calls such as `time.Sleep(1 * time.Second)`.
+  Test blocking calls together with concurrency. Does it work?
+* Try to run the dining philosophers problem in the web browser.
+  Example source code `src/concurrent/channels/philosophers`
+
+## Exercise 11.3 - Execute a Go function inside Go
+
+In one of our last lectures I showed a very simple reverse polish notation calculator 
+
+```
+func main() {
+	var s stack
+	fields := strings.Fields("2 3 5 * +")
+	for _, expr := range fields {
+		fmt.Println("Parse ", expr)
+		switch expr {
+		case "+":
+			s.Push(s.Pop() + s.Pop())
+		case "*":
+			s.Push(s.Pop() * s.Pop())
+		default:
+			v, err := strconv.Atoi(expr)
+			if err != nil {
+				fmt.Println("Unknown expr", expr)
+				return
+			}
+			s.Push(v)
+		}
+	}
+	println("result:", s.Pop())
+}
+```
+
+This can be programed as a function with an input string and an output string. 
+* Use a stack implementation from one of the first lectures and rewrite it, 
+  so that the calculator is separated into its own function.
+* Rewrite it, so that it can be used in webassembly.
+
+You can use the following code to create the necessary objects.
+
+```html
+<html>
+    <body>
+        <input type="text" id="input" >
+        <button type="button" onclick="execute_function()">Execute</button>
+        <p id="output"></p>
+    </body>
+</html>
+```
+
+You can then access the elements in a Javascript `<script>` element via
+
+```JavaScript
+  alert(document.getElementById("input").value)
+  document.getElementById("output").innerText = "Hello world"
+```
+
+* Try to create the necessary HTML elements via Golang.
+Here is an example code.
+```JavaScript
+	document := js.Global().Get("document")
+	p := document.Call("createElement", "p")
+	p.Set("innerHTML", "Hello WASM from Go!")
+	document.Get("body").Call("appendChild", p)
+```
