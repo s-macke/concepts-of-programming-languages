@@ -1,7 +1,7 @@
 package main
 
 import (
-	mail "github.com/s-macke/concepts-of-programming-languages/src/modules/mail/v2"
+	"github.com/s-macke/concepts-of-programming-languages/src/modules/email/mail/v2"
 	log "github.com/sirupsen/logrus"
 	"plugin"
 	"time"
@@ -9,7 +9,7 @@ import (
 
 func main() {
 	log.Info("opening plugin")
-	p, err := plugin.Open("../plugin/plugin.so")
+	p, err := plugin.Open("plugin/plugin.so")
 	if err != nil {
 		panic(err)
 	}
@@ -19,10 +19,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	sender := senderSymbol.(*mail.SenderImpl)
+	sender := senderSymbol.(*v2.SenderImpl)
 
 	log.Info("sending mail")
-	err = sender.Send(mail.Message{
+	err = sender.Send(v2.Message{
 		From:    "sebastian.macke@qaware.de",
 		To:      "johannes.weigend@qaware.de",
 		Subject: "KP",
