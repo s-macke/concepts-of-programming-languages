@@ -1,11 +1,7 @@
-package stackgeneric
-
-import "fmt"
-
 package main
 
 import (
-    "fmt"
+	"fmt"
 )
 
 // Stack is a generic LIFO container for untyped object.

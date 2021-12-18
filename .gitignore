@@ -14,7 +14,7 @@ src/library/libmylib.a
 src/library/mylib.o
 src/library/main
 
-src/modules/**/client
+src/modules/**/client/client
 src/modules/**/client.exe
 src/modules/**/plugin.so
 
