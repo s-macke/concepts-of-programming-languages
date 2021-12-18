@@ -1,0 +1,68 @@
+Generics
+Concepts of Programming Languages
+20 Dec 2021
+Tags: go, programming, Generics
+
+* Go 1.18 Beta 1 is released
+
+* Generics
+
+- Go is either type safe + use-case specific or type-unsafe + use-case agnostic.
+- This changes with Go 1.18
+
+    type comparable interface {
+    	int | int8 | int16 | int32 | int64 |
+    	uint | uint8 | uint16 | uint32 | uint64 |
+    	float32 | float64
+    }
+
+    func max[T comparable](x T, y T) T {
+    	if x > y {
+    		return x
+    	}
+    	return y
+    }
+
+
+- No new standard libs are introduced yet. They want to wait how this feature develops.
+
+: Show also Generic Stack implementation in Repo
+: https://stackoverflow.com/questions/62147158/operator-not-defined-for-t
+: https://go2goplay.golang.org/p/XF6wM3JF2QM
+: https://www.linkedin.com/pulse/functional-programming-go-118-generics-ani-channarasappa
+
+* Operator overloading I
+
+- Operator overloading is not a feature of Go, but of C++ and C#.
+- However it is interesting in combination with generics.
+- Operator overloading allows to define functions which are called when basic operators are used for complex objects such as structs.
+- String concatenation is a special case of operator overloading and is usually a language feature, which cannot be altered.
+
+    "Hello " + "World"
+
+- Java's "equals" method is a special case of operator overloading, which defines the == operator.
+
+* Operator overloading II
+
+- Pseudocode:
+
+  type MyString struct {
+      String string
+  }
+
+  // This function is called when the "+" operator is used for MyString objects.
+  func (leftHandSide MyString) +(rightHandSide MyString) MyString {
+     return MyString{String: leftHandSide.String + rightHandSide.String}
+  }
+
+  func main() {
+    s := MyString{String: "Hello "} + MyString{String: "World"} // s will be a MyString struct
+    fmt.Println(s.String) // Hello World
+  }
+
+* Operator overloading III
+
+- By overloading the < operator, the max function from the previous slide would even work for structs.
+- In C++ you cannot change the precedence of the operators. They stay the same for operator overloading.
+- It is still debatable whether operator overloading should be used besides of mathematical objects such
+  as complex numbers or arbitrary-precision arithmetic (big numbers).
