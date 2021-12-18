@@ -1,6 +1,6 @@
 Large Scale Programming with Modules
 Concepts of Programming Languages
-07 Dec 2020
+20 Dec 2021
 Tags: go, programming, modules
 
 Sebastian Macke
@@ -19,7 +19,10 @@ http://www.qaware.de
 - Languages have diffent interpretations and focus
 - Decomposition into modules is a well understood
 
-"The major advancement in the area of modular programming has been the development of coding techniques and assemblers which (1) allow one module to be written with little knowledge of the code in another module, and (2) allow modules to be reassembled and replaced without reassembly of the whole system."
+  The major advancement in the area of modular programming has been the
+  development of coding techniques and assemblers which
+    (1) allow one module to be written with little knowledge of the code in another module, and
+    (2) allow modules to be reassembled and replaced without reassembly of the whole system.
 
 .link https://www.win.tue.nl/~wstomv/edu/2ip30/references/criteria_for_modularization.pdf On the Criteria To Be Used in Decomposing Systems into Modules, David Parnas 1972
 
@@ -77,10 +80,11 @@ http://www.qaware.de
 
 * The Go Module System
 - There is an evolution in the Go module systems
-- Before 1.11: Go dep was the tool of choice to implement safe, versioned dependencies
+- Before 1.11: Go dep was the tool of choice to implement safe, versioned dependencies in Go.
+  Dep was an official experiment to implement a package manager for Go
 - Since 1.11: Go modules is the concept for the future
-- Can be controlled by `$GO111MODULE` environment variable
-- No need to develop on the `$GOPATH` anymore
+- Since 1.16: Go modules is the new default
+
 - Usually one repository = one module, but also multiple modules possible
 
 .link https://github.com/golang/go/wiki/Modules Go Module System

@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"plugin"
+	"reflect"
 )
 
 func main() {
@@ -18,6 +20,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("type of v is ", reflect.TypeOf(v).String())
+	fmt.Println("type of f is ", reflect.TypeOf(f).String())
 	*v.(*int) = 7
 	f.(func())() // prints "Hello, number 7"
 }
