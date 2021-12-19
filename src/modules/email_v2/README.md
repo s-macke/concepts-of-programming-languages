@@ -2,7 +2,7 @@
 
 Start with
 ```
-docker build -t module --progress=plain .
+docker build -t module .
 ```
 
 Run with
