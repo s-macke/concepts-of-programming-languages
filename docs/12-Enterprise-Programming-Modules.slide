@@ -98,6 +98,7 @@ Make sure that build results never change over time !!!
 Make sure that released code stays compatible. Make incompatible changes explicit visible to users of your code !!!
 
 *Cooperation* 
+The package ecosystem is the most important factor for Go’s success.
 Make sure your code ist stable with the latest minor version of a dependent library
 
 * Semantic Versioning
@@ -138,6 +139,24 @@ A module can be created with a simple command:
 If your code is already under version control (e.g. git), you may simply run
 
     go mod init
+
+* Demo
+
+Use my own repo as module
+.link https://github.com/s-macke/concepts-of-programming-languages
+
+    import (
+        "fmt"
+        "github.com/s-macke/concepts-of-programming-languages/src/oop/stack"
+    )
+
+    func main() {
+        s := stack.NewStack()
+        s.Push(1)
+        fmt.Println(s.Pop())
+    }
+
+
 
 * Managing Dependencies
 
