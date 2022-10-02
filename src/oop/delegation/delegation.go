@@ -6,7 +6,7 @@ type A struct {
 }
 
 func (a A) Foo() {
-	fmt.Println("a.foo")
+	fmt.Print("a.foo ")
 	a.Bar()
 }
 
@@ -22,15 +22,7 @@ func (b B) Bar() {
 	fmt.Println("b.bar")
 }
 
-/*
-func (b B) Foo() {
-	fmt.Println("b.foo")
-	b.Bar()
-}
-*/
 func main() {
 	b := B{}
 	b.Foo() // "a.bar" or "b.bar"?
 }
-
-// EOF OMIT

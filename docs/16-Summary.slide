@@ -1,0 +1,163 @@
+Summary
+Concepts of Programming Languages
+10 Jan 2022
+Tags: go, programming, concurrent, go routines, channels
+
+Sebastian Macke
+Rosenheim Technical University
+sebastian.macke@qaware.de
+http://www.qaware.de
+
+* Typing
+
+*weak*
+
+- type conversions implicit
+
+*strong*
+
+- type conversions explicit
+
+*dynamic*
+
+- runtime types allowed
+
+*static*
+
+- runtime types not allowed
+
+
+* Types 1: What is the output of the following program?
+
+    func main() {
+        var a int32 = -1
+        var b uint32 = 2
+
+        if a < b {
+            fmt.Printf("a is smaller than b")
+        }
+    }
+
+* Types 2: What is the output of the following program?
+
+    func main() {
+        var a int32 = -1
+        var b uint32 = 2
+
+        if a < int32(b) {
+            fmt.Printf("a is smaller than b")
+        }
+    }
+
+* Types 3: What is the output of the following program?
+
+    func main() {
+        var a int32 = -1
+        var b uint32 = 2
+
+        if uint32(a) < b {
+            fmt.Printf("a is smaller than b")
+        }
+    }
+
+* Pointer 1: What is the output of the following program?
+
+    package main
+    import "fmt"
+
+    func foo(a []int) {
+        for i := range(a) {
+            a[i] = 5
+        }
+        fmt.Print(a)
+    }
+
+    func main() {
+        a := []int{1, 2, 3, 4}
+        foo(a)
+        fmt.Println(a)
+    }
+
+* Pointer 2: What is the output of the following program?
+
+    package main
+    import "fmt"
+
+    func foo(a []int) {
+        a = append(a, 5)
+        for i := range(a) {
+            a[i] = 5
+        }
+        fmt.Print(a)
+    }
+
+    func main() {
+        a := []int{1, 2, 3, 4}
+        foo(a)
+        fmt.Println(a)
+    }
+
+* Pointer 3: What is the output of the following program?
+
+    package main
+
+    import "fmt"
+
+    func foo(a *[]int) {
+    	*a = append(*a, 5)
+    	for i := range *a {
+    		(*a)[i] = 5
+    	}
+    	fmt.Print(a)
+    }
+
+    func main() {
+    	a := []int{1, 2, 3, 4}
+    	foo(&a)
+    	fmt.Println(a)
+    }
+
+* OOP 1: What is the output of the following program?
+
+    type A struct {
+    }
+
+    func (a A) Foo() {
+    	a.Bar()
+    }
+
+    func (a A) Bar() {
+    	fmt.Println("a.bar")
+    }
+
+    type B struct {
+    	A
+    }
+
+    func (b B) Bar() {
+    	fmt.Println("b.bar")
+    }
+
+    func main() {
+    	b := B{}
+    	b.Foo() // "a.bar" or "b.bar"?
+    }
+
+* Concurrency 1:
+
+    var myYoutubevideo struct {
+    	likes int32
+    }
+
+    func Viewer() {
+    	time.Sleep(time.Duration(rand.Intn(300)) * time.Millisecond)
+    	myYoutubevideo.likes = myYoutubevideo.likes + 1
+    }
+
+    func main() {
+    	for i := 0; i < 10000; i++ {
+    		go Viewer()
+    	}
+    	time.Sleep(2000 * time.Millisecond) // wait a long time
+    	fmt.Println(myYoutubevideo.likes, "likes")
+    }
