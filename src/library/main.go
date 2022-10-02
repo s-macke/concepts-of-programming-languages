@@ -1,7 +1,8 @@
 package main
 
 // #cgo CFLAGS: -I.
-// #cgo LDFLAGS: -L. -lmylib
+// // #cgo LDFLAGS: libmylib.a  // for static linking
+// #cgo LDFLAGS: -L. -lmylib    // for shared object linking
 // #include "mylib.h"
 // #include <stdlib.h>
 import "C"
