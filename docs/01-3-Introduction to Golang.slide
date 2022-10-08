@@ -1,12 +1,12 @@
 Introduction to Golang
 Concepts of Programming Languages
-04 Oct 2021
+10 Oct 2022
 Tags: go, programming, master
 
 Sebastian Macke
 Rosenheim Technical University
-sebastian.macke@qaware.de
-http://www.qaware.de
+Sebastian.Macke@th-rosenheim.de
+https://www.qaware.de
 
 * Gopher
 .image https://talks.golang.org/2012/10things/gopher.jpg 500 _
@@ -34,7 +34,7 @@ Rob Pike @ Google 2009 (60 Min)
 
 .link https://talks.golang.org/2009/go_talk-20091030.pdf go_talk_2009.pdf
 .link https://www.youtube.com/watch?v=rKnDgT73v8s
-.image img/01-go-programming-Language.png 300 _
+.image img/01-go-programming-language.png 300 _
 
 * Hello World
 .play ../src/basics/hello/main.go
@@ -56,7 +56,6 @@ Rob Pike @ Google 2009 (60 Min)
 
 * Exercise 1
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise1.md
-.image img/01-exercise.png 500 700
 
 * See also
 
