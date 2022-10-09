@@ -8,6 +8,16 @@ Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
+: * What is wrong with using machine code?
+
+: - Poor readability
+: - Poor modifiability
+: - Expensive to maintain
+: - Difficult to debug, test, reuse and extend
+: - Machine deficiencies (e.g. no floating point)
+: - No support for abstraction
+: - No memory management
+
 * Categorization of programming languages
 
 Programming languages can be categorized in many ways
@@ -15,11 +25,11 @@ Programming languages can be categorized in many ways
 - Chronologically
 - Popularity
 - Language Paradigma
-- Usage
+- Usage (Programming Domains)
 - Orthogonal Properties of the language (e. g. compiled vs. interpreted)
 - Features
 
-.link https://en.wikipedia.org/wiki/Category:Lists_of_programming_languages List of Programming Languages Categorization Lists
+.link https://en.wikipedia.org/wiki/Category:Lists_of_programming_languages Wikipedia list of Programming Languages Categorization Lists
 
 * Evolution of Programming Languages
 .link img/01-languages.png
@@ -110,15 +120,29 @@ Programming languages can be categorized in many ways
 
 - Fully Declarative.
 
-    Sum the integer array.
+    Sum the array of integers.
 
-* Areas for Programming Languages
-- Application Programming (small / large scale, web, central, cloud)
-- Systems Programming
-- Network Programming / Distributed Systems 
-- Realtime Systems
-- User Interface Programming
-- Embedded Systems 
+-  New development to declarative coding is *GitHub* *Copilot*. Can be used as converter from declarative to imperative code.
+
+* Categorization of Programming Language by Domains
+
+- System Programming (C, C++, Rust, Go, ...)
+- Application Programming (Java, C#, ...)
+- Web Development (PHP, JavaScript, ...)
+- Science and Engineering (Matlab, Fortran, C++, ...)
+- Computer Science (Haskell, Prolog, ...)
+- Artificial Intelligence (Python, R, ...)
+- Administration (Bash, Powershell, Perl, ...)
+- Cloud Native such as Tooling, Infrastructure, Applications, ... (Go, ...)
+- Realtime (C, C++, Realtime Java, ...)
+
+: * Areas for Programming Languages
+: - Application Programming (small / large scale, web, central, cloud)
+: - Systems Programming
+: - Network Programming / Distributed Systems
+: - Realtime Systems
+: - User Interface Programming
+: - Embedded Systems
 
 * Orthogonal Classifications I
 - Static vs. Dynamic Typed
@@ -145,14 +169,29 @@ Programming languages can be categorized in many ways
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
 : Golang: platform dependent assembler & cross compiler
 
+* Language Design Trade-Offs
+
+“There are only two kinds of languages: the ones people complain about and the ones nobody uses.”
+( Bjarne Stroustrup, The C++ Programming Language)
+
+.html snippets/horizontal_line.html
+
+- Reliability vs. Performance
+Java bounds checking of all arrays accesses is expensive.
+
+- Readability vs. Conciseness
+C++ allows for many abstractions, allows complex computations to be written in a compact form, but is hard to read.
+
+- Flexibility vs. Restriction
+C pointers are powerful and very flexible but are unreliable and error prone.
+
+
 * Some Thoughts
-- There are many solutions for a given problem
+: - There are many solutions for a given problem
 - The "best" language is nothing without a proper ecosystem (Libraries, Examples, Community, Developers)
 - There are straight forward choices for a given platform (Mac: Swift + Objectiv-C, Linux: C + Python, Android: Java)
 - Don't expect "Magic" from programming Languages
 - Clean code and good programming is orthogonal to the language
 - Learn more than one programming language at a professional level
-- “There are only two kinds of languages: the ones people complain about and the ones nobody uses.”
-  Bjarne Stroustrup, The C++ Programming Language
 
 : z.B. Ablehnung von Kotlin wegen mangelnden Entwicklern und Mächtigkeit

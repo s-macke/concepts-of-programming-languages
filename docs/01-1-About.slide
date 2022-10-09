@@ -21,19 +21,34 @@ Miro Board: https://miro.com/app/board/.....
 : Fragen, welche Sprachen ihr so alle kennt.
 : https://en.wikipedia.org/wiki/List_of_programming_languages
 
+* What are concepts of programming languages?
+
+- Syntax (Basic vocabulary, grammar)
+- Semantics (The meaning of the program)
+- Names (variabes, types, functions, classes, objects, but also scope, visibility, lifetime)
+- Data Types (simple, structured)
+- Flow control (for, if, ....)
+- Functional programming (function as first class citizen)
+- Object Oriented Programming
+- Debugging
+- Exception handling
+- Concurrency handling
+- Memory management
+
+* Goal of the Course
+
+.image img/go.png
+- Gain knowledge about the concepts of existing programming languages
+- Increased ability to learn new languages
+- Learn how Go differs from other languages conceptually
+- Learn how to write professional code with Golang
+- Gain skills to pick the right language for a given problem
+
 * Course Requirements
 - The course is designed as a master course.
 - Solid programming skills in at least one language (Java?) are required.
 - It is assumed that students have some skills in other programming languages.
 - For most of the code examples, we will use Go (Golang) as language.
-
-* Goal of the Course
-
-.image img/go.png
-- Learn how Go differs from other languages conceptually 
-- Knowledge about the concepts of existing programming languages
-- Gain skills to pick the right language for a given problem
-- Learn how to write professional code with Golang
 
 * Lectures so far planned
 
