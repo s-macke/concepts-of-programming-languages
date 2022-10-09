@@ -1,82 +1,93 @@
 Welcome
-Concepts of Programming Languages - TH Rosenheim - WS 2020/2021
-04 Oct 2021
-Tags: go, programming, master
+Concepts of Programming Languages - TH Rosenheim - WS 2022/2023
+10 Oct 2022
+Tags: go, golang, programming, master
 
 Sebastian Macke
 Rosenheim Technical University
-sebastian.macke@qaware.de
-http://www.qaware.de
+Sebastian.Macke@th-rosenheim.de
+https://www.qaware.de
 
-: Selbst vorstellen
+About me:
+Software Engineer and Site Reliability Engineer at QAware (Munich, Mainz, Rosenheim)
+Software Developer as a hobby: https://github.com/s-macke
 
 * There are so many Languages ...
-.image ./img/00-programming-languages.jpeg 550 1000
+.image ./img/00-programming-languages.jpeg 460 _
 
+Miro Board: https://miro.com/app/board/.....
+
+: Miro Bord
 : Fragen, welche Sprachen ihr so alle kennt.
 : https://en.wikipedia.org/wiki/List_of_programming_languages
 
-* Course Requirements
-- The course is designed as a master course.
-- Solid programming skills in Java/C/C++ are required.
-- It is assumed that students have some skills in other programming languages.
-- For most of the code examples, we will use Go (Golang) as language.
+* What are concepts of programming languages?
+
+- Syntax (Basic vocabulary, grammar)
+- Semantics (The meaning of the program)
+- Names (variabes, types, functions, classes, objects, but also scope, visibility, lifetime)
+- Data Types (simple, structured)
+- Flow control (for, if, ....)
+- Functional programming (function as first class citizen)
+- Object Oriented Programming
+- Debugging
+- Exception handling
+- Concurrency handling
+- Memory management
 
 * Goal of the Course
 
 .image img/go.png
-- Learn how Go differs from other languages conceptually 
-- Knowledge about the concepts of existing programming languages
-- Gain skills to pick the right language for a given problem
+- Gain knowledge about the concepts of existing programming languages
+- Increased ability to learn new languages
+- Learn how Go differs from other languages conceptually
 - Learn how to write professional code with Golang
+- Gain skills to pick the right language for a given problem
 
-* Lectures
+* Course Requirements
+- The course is designed as a master course.
+- Solid programming skills in at least one language (Java?) are required.
+- It is assumed that students have some skills in other programming languages.
+- For most of the code examples, we will use Go (Golang) as language.
+
+* Lectures so far planned
 
 Lecture 1 - *About* *Overview* *Introduction*
-
-Lecture 2 - *Introduction* *to* *Golang*
-
+Lecture 2 - *Introduction* *to* *Golang*. *Types* *Control* *Structures*
 Lecture 3 - *Object* *Oriented* *Programming* *with* *Go*
-
-Lecture 4 - *Functional* *Programming*
-
-Lecture 5 - *Concurrent* *Programming*
-
-Lecture 6 - *Distributed* *Programming*.
-
-Lecture 8 - *The* *Road* *not* *taken*. *Lisp* *and* *Forth*
-
-Lecture 9 - *Cross* *Compiling* *with* *Webassembly*
-
+Lecture 4 - *Forth*, *Stack* *Machine*, *Meta* *Programming*
+Lecture 5 - *Functional* *Programming*
+Lecture 6 - *Pure* *Functional* *Programming* *With* *Haskell*
+Lecture 7 - *Concurrent* *Programming*
+Lecture 8 - *Distributed* *Programming*
+Lecture 9 - *Cross* *Compiling* *with* *WebAssembly*
 Lecture 10 - *Systems* *Programming*
+Lecture 11 - *Logic* *Programming*
+Lecture 13 - .... *Summary* ....
 
-Lecture xx - *Enterprise* *Programming* *and* *Modules*
+: * Lectures
 
-* Lectures
+: Lecture xx - *Logic* *Programming*
 
-Lecture xx - *Logic* *Programming*
-
-Lecture xx - Other Ideas:
- - Memory (Garbage Collector, Smart Pointers, Compile Time Memory Handling)
- - Strong Typing vs. Weak Typing
- - Annotations
- - Reflection
- - Dependency Injection
- - Preprocessor
- - Templates vs. Generics
- - Execution Order
- - Lexer / Parser / Compiler
- - Operator Overloading
- - Coroutines
- - Fortran Arrays
- - Reactive Programming or async functions
-
-Lecture xx - Summary
+: Lecture xx - Other Ideas:
+: - Memory (Garbage Collector, Smart Pointers, Compile Time Memory Handling)
+: - Strong Typing vs. Weak Typing
+: - Annotations
+: - Reflection
+: - Dependency Injection
+: - Preprocessor
+: - Templates vs. Generics
+: - Execution Order
+: - Lexer / Parser / Compiler
+: - Operator Overloading
+: - Coroutines
+: - Fortran Arrays
+: - Reactive Programming or async functions
+: Lecture xx - Summary
 
 * Structure of this course
 - Recap
 - Lecture
-- Online Tutorials (Video)
 - Student Discussions
 - Introduction to Exercises
 - Exercises
@@ -84,7 +95,7 @@ Lecture xx - Summary
 : Pause in der Mitte?
 
 * Material
-Learning Campus: PDFs only
+Learning Campus:
 .link https://learning-campus.fh-rosenheim.de/course/view.php?id=2993
 
 Github: Sources, Slides (Go Present Tool)
@@ -93,7 +104,7 @@ Github: Sources, Slides (Go Present Tool)
 
 
 * Semester Work
-15 Minutes presentation + 5-10 pages Asciidoc document (written in English)
+15 Minutes presentation + 5-10 pages Asciidoc document (written in English) + Small Software Project to exemplify
 
 Examples:
 
@@ -154,13 +165,13 @@ Examples:
     C#
 
 : Zettel ziehen Anfang November, Tauschen möglich, Anmeldung für Prüfung nicht vergessen
-: Abgabe der Arbeiten Januar
-: Präsentation 17.1. und 24.1
+: Abgabe der Arbeiten im Januar. Evtl. 10. Januar
+: Präsentation evtl. 16.1. und 23.1.
 : 01.11. Allerheiligen
 
-* Administration
-- COVID-19 rules apply. See https://www.th-rosenheim.de/index.php?id=16926
-- All participants *must* be signed up to the lecture on the Learning Campus platform
+: * Administration
+: - COVID-19 rules apply. See https://www.th-rosenheim.de/index.php?id=16926
+: - All participants *must* be signed up to the lecture on the Learning Campus platform
 
 * Books
 Donovan, Kernigham: The Go Programming Language 

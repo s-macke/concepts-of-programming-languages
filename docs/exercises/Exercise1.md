@@ -4,29 +4,25 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Setup
 
-- Install Go from <http://golang.org> inside a virtual disk
-  (.vhdx on Windows or .sparseimage on Mac) in a /software/go subdirectory.
-  To have a really independent image choose the archives and not the installers.
-
-  - Win: <https://www.windowscentral.com/how-create-and-set-vhdx-or-vhd-windows-10>
-  - Mac: <https://support.apple.com/de-de/guide/disk-utility/dskutl11888/mac>
-
-- Create a Go workspace on the disk in the <<DISK>>/codebase/go directory
-  - <https://www.youtube.com/watch?v=XCsL89YtqCs>
-- Create a shell script (.sh / .cmd) to make your changes to the `GOPATH` and PATH environment variables persistent.
-  - Check the configuration with `go env`
-- Create a `HelloWorld.go` program inside the `GOPATH`/src/hello folder
-- Test the `HelloWorld` program with "go run HelloWorld"
-- Compile the `HelloWorld` program with "go build" and "go install". You need to init the module first via `go mod init`.
-- What is the difference between go build and go install?
-- Optional, but desirable: Install Visual Studio Code, IntelliJ or any other Editor with Go support inside your virtual disk.
+- Install Go from <https://golang.org> 
+- Test if `go` can be executed from the command line.
+- Check the Go environment via `go env`, especially the variable GOPATH. There the external dependencies are installed.
+- Create your Go workspace directory
+- Create a `HelloWorld.go`
+- Test the `HelloWorld` program with "go run HelloWorld.go"
+- Compile the `HelloWorld` program with "go build". You need to init the module first via `go mod init HelloWorld`. Check the content of the created file go.mod.
+- Optional, but desirable: Install Visual Studio Code, IntelliJ, GoLand or any other Editor with Go support and get familiar with it.
 - Try to run the hello world example code inside <https://goplay.tools/>
-  Alternative: https://play.golang.org/
-  Alternative: https://go-playground-wasm.vercel.app/
+  Alternative: <https://play.golang.org/>
+  Alternative: <https://go-playground-wasm.vercel.app/>
+- Learn the basics by understanding the first six examples at <https://gobyexample.com/>
 - Optional: Get familiar with the community. Look what others have done: <https://github.com/avelino/awesome-go>
+
+## Answer the following question
+- In your opinion, what are the characteristics of a successful language?
 
 ## After this Exercise
 
+- You should have a working Go installation on your computer
 - You should know how to compile and run Go code
-- You should know about the meaning of the `GOPATH` and PATH variables
-- You should have a portable Go installation inside a separate disk or directory on your computer
+ 

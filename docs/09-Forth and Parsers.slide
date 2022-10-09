@@ -5,8 +5,8 @@ Tags: go, programming
 
 Sebastian Macke
 Rosenheim Technical University
-sebastian.macke@qaware.de
-http://www.qaware.de
+Sebastian.Macke@th-rosenheim.de
+https://www.qaware.de
 
 * Some thoughts about this lecture
 
@@ -499,7 +499,7 @@ Does not exactly fit for strings. In Forth there doesn't exist a lexer in this s
 : abstract Syntax Tree is a tree representation of the the abstract syntactic structure of source code written in a programming language
 : - An AST presentation of Forth is not a good way to represent. Why?
 
-: http://mshang.ca/syntree/
+: https://mshang.ca/syntree/
 : [* [+ 1 2] 3]
 : Warum? Weil die Anzahl der Parameter in Wörtern unbekannt ist. Ist erst zur Ausführzeit bekannt.
 
