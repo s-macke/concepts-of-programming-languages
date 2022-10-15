@@ -35,7 +35,7 @@ https://www.qaware.de
 - First functional language
 - First language with garbage collection
 - First language with with built in support for lists and tree like data structures
-. First language with dynamic typing
+- First language with dynamic typing
 - Code is data, Data is Code
 - Metaprogramming
 - Atomic storage management
