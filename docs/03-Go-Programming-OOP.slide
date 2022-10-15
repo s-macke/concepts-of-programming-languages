@@ -267,7 +267,7 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 
 - Overriding of methods is kind of supported, overloading is not!
 
-.play ../src/oop/delegation/delegation.go /type A/,/EOF OMIT/
+.play ../src/oop/delegation/delegation.go /type A/,//
 
 : prints "a.bar"
 : real delegation should print "b.bar", because delegation means
