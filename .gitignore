@@ -18,6 +18,11 @@ src/modules/**/client/client
 src/modules/**/client.exe
 src/modules/**/plugin.so
 
+src/slideconvert/slideconvert
+src/slideconvert/slideconvert.exe
+
+docs/*.html
+
 *.z5
 *.class
 
