@@ -19,25 +19,25 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 ## Lecture 1 - Introduction
 
 - Overview of Programming Languages, Why Go?
-- Setup, HelloWorld, Swap, Basic Types and Variables, Program Arguments, Working with Go Flags, CLI Libraries 
-- <a href="docs/01-1-About.pdf">About</a>
-- <a href="docs/01-2-Overview.pdf">Overview</a>
-- <a href="docs/01-3-Introduction to Golang.pdf">Introduction to Golang</a>
-- <a href="docs/exercises/Exercise1.md">Exercise 1</a>
+- [About](https://s-macke.github.io/concepts-of-programming-languages/docs/01-1-About.html)
+- [Overview](https://s-macke.github.io/concepts-of-programming-languages/docs/01-2-Overview.html)
+- [Introduction to Go](<https://s-macke.github.io/concepts-of-programming-languages/docs/01-3-Introduction to Golang.html>)
+- First presentation of the Go programming language: https://www.youtube.com/watch?v=rKnDgT73v8s&t=722s
+- [Exercise 1](docs/exercises/Exercise1.md)
 
 ## Lecture 2 - Basics in Go Programming
 
-- Pointer, Arrays, Maps
+- Swap, Basic Types and Variables, Program Arguments, Working with Go Flags, CLI Libraries, Pointer, Arrays, Maps
 - Reasons for Go https://www.youtube.com/watch?v=5kj5ApnhPAE
-- <a href="docs/02-Go Programming - Basics and OOP.pdf">Slides</a>
-- <a href="docs/exercises/Exercise2.1.md">Exercise 2.1</a>
-- <a href="docs/exercises/Exercise2.2.md">Exercise 2.2</a>
+- [Slides](<https://s-macke.github.io/concepts-of-programming-languages/docs/02-Go Programming - Basics.html>)
+- [Exercise 2.1](docs/exercises/Exercise2.1.md)
+- [Exercise 2.2](docs/exercises/Exercise2.2.md)
 
 ## Lecture 3 - Object Oriented Programming in Go
 
 - Structs, Interfaces, Embedding, Polymorphism
-- <a href="docs/03-Go-Programming-OOP.pdf">Slides</a>
-- <a href="docs/exercises/Exercise3.md">Exercise 3</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/03-Go-Programming-OOP.html)
+- [Exercise 3](docs/exercises/Exercise3.md)
 
 ## Lecture 4 - Functional Programming
 - Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
