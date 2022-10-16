@@ -37,7 +37,7 @@ jobs:
           go-version: '>=1.19.0'
 
       - name: Build
-        run: ./build_and_run.sh
+        run: bash build_and_run.sh
         working-directory: src/slideconvert
 
       - name: Setup Pages
