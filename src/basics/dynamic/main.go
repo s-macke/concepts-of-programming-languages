@@ -6,13 +6,13 @@ import (
 )
 
 // START OMIT
-func PrintVariableDetails(v interface{}) {
+func PrintVariableDetails(v any) {
 	typeof := reflect.TypeOf(v)
 	fmt.Printf("The variable with type '%s' has the value '%v' and size %v\n", typeof.Name(), v, typeof.Size())
 }
 
 func main() {
-	var someValue interface{}
+	var someValue any
 	someValue = 2
 	PrintVariableDetails(someValue)
 

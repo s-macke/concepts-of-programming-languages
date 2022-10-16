@@ -8,11 +8,20 @@ Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
+* Characteristics of a Successful Language (Suggestion)
+- Simplicity and readability (Small instruction set and easy syntax)
+- Abstraction (types/classes, Generics, Procedures ....)
+- Efficiency
+- Reliability (compatibility, error checking, no memory leaks)
+- Dependency management
+- Good support and documentation (public compilers, tutorials, community, IDE)
+- Orthogonality
+
 * Golang
 - Go is an open source programming language for distributed and parallel systems
 - Go addresses the problems of C ++ backend development at Google
 - The Go core team is prominent: Robert Griesheimer (Hotspot VM), Ken Thompson (UX / B) and Rob Pike (UTF-8)
-- Go is actively developed since 2008 (current version 1.17)
+- Go is actively developed since 2008 (current version 1.19)
 - Go is *THE* language behind the Cloud Native Stack
 .link https://www.cncf.io/
 .image ./img/01-cncf-projects.png 100 1024
@@ -27,19 +36,24 @@ https://www.qaware.de
 - Tools
 
 * Tools
+
+*go* *env*  Print Go environment information
+
 *go* *run* *file.go* just runs the code. Can be multiple files, too.
 
-*go* *build* build the executable, but needs a go.mod file.
+*go* *build* downloads dependencies and builds the executable, but needs a go.mod file.
 
-*go* *install* build and copies the executable to the GOBIN folder
+*go* *tool* *dist* *list* list all supported platforms
+
+*env* *GOOS=darwin* *GOARCH=arm64* *go* *build* Build for Apple ARM CPU computers.
+
+*go* *fmt* formats your files
 
 *go* *mod* *init* creates a go.mod module file
 
 - module file contains language version information, module name and dependencies
 
 *go* *mod* *tidy* updates the go mod file if you add more dependencies
-
-*go* *fmt* formats your files
 
 : Live Demo
 : go.mod im Hauptverzeichnis vorher löschen
@@ -69,7 +83,6 @@ https://www.qaware.de
 - Package import names are hierarchical
 - Package names are not hierarchical!
 
-
 : neues Verzeichnis mit Paket anlegen und zeigen, wie man von main darauf zugreift
 
 * Primitive Types
@@ -91,14 +104,25 @@ https://www.qaware.de
 - The assignment ':=' is used for short variable declarations. The type is deduced implicitly. Also called "type inference"
 .image img/02-complex.png 150 _
 
-* Weak typing vs. Strong typing
-Languages differ of how serious they handle the type#
+* Weak typing vs. Strong typing I
+Languages differ of how serious they handle the type
 
 - type conversions implicit or explicit
 - strict or loose typing rules at compile time
 - dynamic types (runtime types) allowed or not
 
-Go uses a more strong typing system. But Why?
+* Weak typing vs. Strong typing II
+
+.image img/02-typing.png 250 _
+
+- weakly typed: allow implicit conversions
+- strongly typed: don't allow implicit conversions
+- statically typed: type checking at compile time
+- dynamically typed: type checking at runtime
+
+: Frage an Studenten: bitte ausfüllen.
+
+Go uses a strong typing system. But why?
 
 * Where implicit type conversion in C goes wrong
 
@@ -127,17 +151,19 @@ Go uses a more strong typing system. But Why?
 : 0 == "" -> true
 : "" - "" => 0
 : new Array() == false
-: {} + {} => NaN
+: {} + {} => "[object Object][object Object]"    (typeof ({} + {}) is string)
 : {} + [] => 0
-: {} + {} => 0
-: {} + {} + [] => "NaN"
-: ("NaN") => "NaN"
-: ({} + {} +[]) => ("[object Object][object Object]")
+: {} + {} + [] => "NaN" as string
+: ({} + {}) + [] => ""
+: {} + ({} + []) => NaN as number
 : 0 > null => false
 : 0 >= null => true
 : 0 === null => false
 : [1,2,3] + [4,5,6] => "1,2,34,5,6"
 : http://www.jsfuck.com/
+: ....
+: ("NaN") => "NaN"
+: ({} + {} +[]) => ("[object Object][object Object]")
 
 * Strong typing in Go
 
@@ -151,8 +177,110 @@ Go uses a more strong typing system. But Why?
     }
 
 - In Go there is no implicit type cast.
-- But Go has a dynamic type (later)
+- The compiler will complain if you try to compare different types.
+- You have to do the type conversion explicitly.
 
+* Go has a dynamic type: any
+
+.play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
+
+- The downcast is safe (== dynamic_cast in C++ or cast in Java)
+
+* Maps
+
+- Maps are Go's built-in associative data type (sometimes called hashes or dicts in other languages).
+
+    package main
+    func main() {
+        m := map[string]string{"foo": "bar"}
+        _, ok := m["asd"]
+        fmt.Println(k)
+        _, ok = m["foo"]
+        fmt.Println(k)
+        for k, v := range a {
+            fmt.Println(k, v)
+        }
+    }
+
+* Arrays and Slices
+- Arrays have a fixed length and can not resized
+- Slices are views to underlying arrays
+- Slices can be resized (`append()`)
+- The underlying array grows automatically (if needed)
+- Both have a length and a capacity
+
+    var array = [3]int{1, 2, 3}
+    fmt.Println(array)       // -> [1 2 3]
+
+    slice := array[0:2]      // -> [1 2], len(slice) == 2, cap(slice) == 3
+
+    slice = append(slice, 4) // len(slice) == 3, cap(slice) == 3
+    slice = append(slice, 5) // len(slice) == 4, cap(slice) == 6
+
+    fmt.Println(slice)       // -> [1 2 4 5]
+    fmt.Println(array)       // -> [1 2 4]
+
+: slicecap zeigen
+
+* What is an Orthogonal language
+
+- Def 1: A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
+- Def 2: We can combine the majority of the language constructs in many ways without any side effects
+- Other definitions: https://stackoverflow.com/questions/3272019/is-java-orthogonal
+- Associated with simplicity and consistency.
+- The more orthogonal the design, the fewer exceptions.
+- The Go language was designed with orthogonality in mind.
+
+: http://www.javawenti.com/?post=39930
+
+
+* Orthogonal Design by an example
+
+- Type System is a "feature"
+- Functions are a "feature"
+- Types are used in functions as parameters or return values.
+- Orthogonal would mean, that the type system is independent of the functions.
+- E. g. The behaviour of the type is not influenced by a function or vice-versa.
+
+* Non-Orthogonal Design by example
+- E. g. in C, the type system is not orthogonal to the function system.
+
+    // Ints are allowed to return
+    int returnint() {
+        return 1;
+    }
+
+    // Structs are allowed to return
+    typedef struct{} structdef;
+    structdef returnstruct() {
+        structdef mystruct;
+        return mystruct;
+    }
+
+    // Arrays are not allowed to return
+    int[3] returnarray() {
+        static int myarray[3] = {1, 2, 3};
+        return myarray;
+    }
+
+- But arrays in structs are allowed to return
+
+* Other non-orthogonal examples
+
+- In C, "a++" behaves different for an integer a than for a pointer a.
+--  Go doesn't allow this operation.
+
+- In Java, there are three kinds of loops: for, while, do-while.
+--  In Go, there is only one loop: for
+
+- In Java the way variables are stored depends on their types.
+
+    int x; // x is a value
+    MyClass y; // y is a reference
+
+-- Go has pointers and values. But the way they are stored is the same.
+
+: https://www.cs.csub.edu/~melissa/cs350-f15/notes/notes01.html
 
 * Functions and Control Structures: Example Palindrome
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
@@ -178,24 +306,6 @@ Go uses a more strong typing system. But Why?
 * Functions and Control Structures: Example String Reverse (UTF-8)
 .code ../src/basics/types/strings/strings.go /Reverse/,/End OMIT/
 
-* Arrays and Slices
-- Arrays have a fixed length and can not resized
-- Slices are views to underlying arrays 
-- Slices can be resized (`append()`)
-- The underlying array grows automatically (if needed)
-- Both have a length and a capacity
-
-    var array = [3]int{1, 2, 3}
-    fmt.Println(array)       // -> [1 2 3]
-
-    slice := array[0:3]      // len(slice) == 3, cap(slice) == 3
-
-    slice = append(slice, 4) // len(slice) == 4, cap(slice) == 3
-    slice = append(slice, 5) // len(slice) == 5, cap(slice) == 6
-
-    fmt.Println(slice)       // -> [1 2 3 4 5]
-    fmt.Println(array)       // -> [1 2 3]
-
 * Functions and Control Structures: Example Palindrome (Reverse)
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome3/,/END3 OMIT/
 - Strings, arrays are compared in Go with ==
@@ -218,33 +328,33 @@ Go uses a more strong typing system. But Why?
 
 : - Comparator (Comparer) is optional (as in Java)
 
-*  Function calling
-There are two types: Pass by value or pass by reference
+: *  Function calling
+: There are two types: Pass by value or pass by reference
 
-    ....
-    func inc(count int) {
-    	count++
-    }
+:    ....
+:    func inc(count int) {
+:    	count++
+:    }
 
-    func incarray1(count []int) {
-    	count[0]++
-    }
+:    func incarray1(count []int) {
+:    	count[0]++
+:    }
 
-    func incarray2(count [1]int) {
-    	count[0]++
-    }
-    ....
+:    func incarray2(count [1]int) {
+:    	count[0]++
+:    }
+:    ....
 
-- pass by value makes an internal copy, discards the value afterwards
-- pass by reference provides a direct reference to the given variable. Changes have an effect on the original value
+: - pass by value makes an internal copy, discards the value afterwards
+: - pass by reference provides a direct reference to the given variable. Changes have an effect on the original value
 
 
-* Pass by value vs. pass by reference
-.html snippets/pass_by_value_table.html
+: * Pass by value vs. pass by reference
+: .html snippets/pass_by_value_table.html
 
-- In C a string is an array.
-- You can also try array of structs, structs of arrays, .....
-- Copying a structure or or array can be rather expensive and should be avoided!
+: - In C a string is an array.
+: - You can also try array of structs, structs of arrays, .....
+: - Copying a structure or or array can be rather expensive and should be avoided!
 
 : As optimization some structures are not copied, but passed as reference but on the first access they are copied (Copy On Write)
 : Ich hatte vor kurzem eine Sprache, da konnte man auf die Funktionsparameter gar nicht schreibend zugreifen: WGSL
@@ -255,11 +365,12 @@ A pointer is variable which contains a memory address
 - 8 Byte on 64 Bit machines
 - 4 Bytes on 32 Bit machines
 
-For CPU architectures they are a very natural feature.
+For CPU architectures they are a natural feature.
 As a systems language Go support pointers
 
     func main() {
         x := 10
+        fmt.Println(reflect.TypeOf(x), reflect.TypeOf(&x))
         fmt.Println(x, &x)  // shows value and memory address
         y := &x             // y is now a pointer to an int type. It points to the variable x
         *y = 20;            // change of the variable x
@@ -282,7 +393,6 @@ As a systems language Go support pointers
 
 * Exercise 2.1
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
-.image img/02-exercise.png 500 700
 
 * Pointer arithmetic
 - There is some unsafe pointer arithmetic as in C / C ++
@@ -326,14 +436,16 @@ References are kind of safe pointers. In different languages they have slighty d
 - Thoughts about language design:
 .link https://www.youtube.com/watch?v=5kj5ApnhPAE
 
-* Summary of Go
-  - Compiled (cross compiler for OS: Mac, Windows, Linux and CPU: ARM, x86 + Amd64)
-  - Static linker (Single Binary) -> Ideal for Docker containers
-  - Static type system with runtime support (Reflection, Dynamic Types)
-  - Focus on fast compile times (the entire Go codebase compiles in <20 seconds)
-  - Simple (less keywords like C - 25/32)
-  - Object-oriented, Functional, Parallel, Modular and Versioned
+* Summary
+
+- Compiled (cross compiler for OS: Mac, Windows, Linux and CPU: ARM, x86 + Amd64)
+- Static linker (Single Binary) -> Ideal for Docker containers
+- Focus on fast compile times (the entire Go codebase compiles in <20 seconds)
+- Simple (less keywords like C - 25/32) and Orthogonal
+- Strong type system with runtime support (Reflection, Dynamic Types)
+
+
+:  - Object-oriented, Functional, Parallel, Modular and Versioned
 
 * Exercise 2.2
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.2.md
-.image img/02-exercise.png 500 700

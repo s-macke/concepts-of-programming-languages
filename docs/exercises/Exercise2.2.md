@@ -11,7 +11,8 @@ Each Page contains an array of words.
 - Define custom types for Book, Page and Index
 - Make sure the Stringer() interface is implemented for Book and Index to make them printable
   More details about the Stringer interface: https://tour.golang.org/methods/17
-- Write an unit test which generates a book and calculates the index and prints it to Stdout
+  The stringer interface will be explained in more detail in the next lecture.
+- Write a unit test which generates a book and calculates the index and prints it to Stdout
 
 ## After this Exercise
 - You know the basic Go container types: string, map, array, slice
@@ -34,6 +35,6 @@ Write a program "find" that searches the filesystem recursively from a given pat
 4. Either use "panic" or "log.Fatal" for error handling.
 5. Run through directories recursively
  
-#Question
+# Question
 Go doesn't support Exceptions but uses multiple return values of which one can be the error information.
 Discuss the pro and cons about both approaches.
