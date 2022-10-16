@@ -4,7 +4,7 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Pointers (swap.go)
 
-- Write a function to swap two integer variables in the caller function (2 ways)
+- Write a function to swap two integer variables in the caller function
 - Write a function to swap two integer pointers in the caller function (2 ways)
 - Write test example code ExampleSwap inside a swap_test file
 
