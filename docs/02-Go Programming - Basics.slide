@@ -17,6 +17,66 @@ https://www.qaware.de
 - Good support and documentation (public compilers, tutorials, community, IDE)
 - Orthogonality
 
+* What is an Orthogonal language
+
+- Def 1: A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
+- Def 2: We can combine the majority of the language constructs in many ways without any side effects
+- Other definitions: https://stackoverflow.com/questions/3272019/is-java-orthogonal
+- Associated with simplicity and consistency.
+- The more orthogonal the design, the fewer exceptions.
+- The Go language was designed with orthogonality in mind.
+
+: http://www.javawenti.com/?post=39930
+
+* Orthogonal Design by an example
+
+- Type System is a "feature"
+- Functions are a "feature"
+- Types are used in functions as parameters or return values.
+- Orthogonal would mean, that the type system is independent of the functions.
+- E. g. The behaviour of the type is not influenced by a function or vice-versa.
+
+* Non-Orthogonal Design by example
+- E. g. in C, the type system is not orthogonal to the function system.
+
+    // Ints are allowed to return
+    int returnint() {
+        return 1;
+    }
+
+    // Structs are allowed to return
+    typedef struct{} structdef;
+    structdef returnstruct() {
+        structdef mystruct;
+        return mystruct;
+    }
+
+    // Arrays are not allowed to return
+    int[3] returnarray() {
+        static int myarray[3] = {1, 2, 3};
+        return myarray;
+    }
+
+- But arrays in structs are allowed to return
+
+* Other non-orthogonal examples
+
+- In C, "a++" behaves different for an integer a than for a pointer a.
+--  Go doesn't allow this operation.
+
+- In Java, there are three kinds of loops: for, while, do-while.
+--  In Go, there is only one loop: for
+
+- In Java the way variables are stored depends on their types.
+
+    int x; // x is a value
+    MyClass y; // y is a reference
+
+-- Go has pointers and values. But the way they are stored is the same.
+
+: https://www.cs.csub.edu/~melissa/cs350-f15/notes/notes01.html
+
+
 * Golang
 - Go is an open source programming language for distributed and parallel systems
 - Go addresses the problems of C ++ backend development at Google
@@ -167,14 +227,7 @@ Go uses a strong typing system. But why?
 
 * Strong typing in Go
 
-    func main() {
-        var a int32 = -1
-        var b uint32 = 2
-
-        if a < int32(b) {
-            fmt.Printf("a is smaller than b")
-        }
-    }
+.play ../src/basics/types/cast/cast.go
 
 - In Go there is no implicit type cast.
 - The compiler will complain if you try to compare different types.
@@ -190,21 +243,11 @@ Go uses a strong typing system. But why?
 
 - Maps are Go's built-in associative data type (sometimes called hashes or dicts in other languages).
 
-    package main
-    func main() {
-        m := map[string]string{"foo": "bar"}
-        _, ok := m["asd"]
-        fmt.Println(k)
-        _, ok = m["foo"]
-        fmt.Println(k)
-        for k, v := range a {
-            fmt.Println(k, v)
-        }
-    }
+.play ../src/basics/types/maps/maps.go
 
 * Arrays and Slices
-- Arrays have a fixed length and can not resized
-- Slices are views to underlying arrays
+- Arrays have a fixed length and can not be resized
+- Slices are views to underlying arrays or can be created dynamically
 - Slices can be resized (`append()`)
 - The underlying array grows automatically (if needed)
 - Both have a length and a capacity
@@ -222,65 +265,6 @@ Go uses a strong typing system. But why?
 
 : slicecap zeigen
 
-* What is an Orthogonal language
-
-- Def 1: A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
-- Def 2: We can combine the majority of the language constructs in many ways without any side effects
-- Other definitions: https://stackoverflow.com/questions/3272019/is-java-orthogonal
-- Associated with simplicity and consistency.
-- The more orthogonal the design, the fewer exceptions.
-- The Go language was designed with orthogonality in mind.
-
-: http://www.javawenti.com/?post=39930
-
-
-* Orthogonal Design by an example
-
-- Type System is a "feature"
-- Functions are a "feature"
-- Types are used in functions as parameters or return values.
-- Orthogonal would mean, that the type system is independent of the functions.
-- E. g. The behaviour of the type is not influenced by a function or vice-versa.
-
-* Non-Orthogonal Design by example
-- E. g. in C, the type system is not orthogonal to the function system.
-
-    // Ints are allowed to return
-    int returnint() {
-        return 1;
-    }
-
-    // Structs are allowed to return
-    typedef struct{} structdef;
-    structdef returnstruct() {
-        structdef mystruct;
-        return mystruct;
-    }
-
-    // Arrays are not allowed to return
-    int[3] returnarray() {
-        static int myarray[3] = {1, 2, 3};
-        return myarray;
-    }
-
-- But arrays in structs are allowed to return
-
-* Other non-orthogonal examples
-
-- In C, "a++" behaves different for an integer a than for a pointer a.
---  Go doesn't allow this operation.
-
-- In Java, there are three kinds of loops: for, while, do-while.
---  In Go, there is only one loop: for
-
-- In Java the way variables are stored depends on their types.
-
-    int x; // x is a value
-    MyClass y; // y is a reference
-
--- Go has pointers and values. But the way they are stored is the same.
-
-: https://www.cs.csub.edu/~melissa/cs350-f15/notes/notes01.html
 
 * Functions and Control Structures: Example Palindrome
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
@@ -365,18 +349,9 @@ A pointer is variable which contains a memory address
 - 8 Byte on 64 Bit machines
 - 4 Bytes on 32 Bit machines
 
-For CPU architectures they are a natural feature.
-As a systems language Go support pointers
+For CPU architectures they are a natural feature. As a systems language Go support pointers
 
-    func main() {
-        x := 10
-        fmt.Println(reflect.TypeOf(x), reflect.TypeOf(&x))
-        fmt.Println(x, &x)  // shows value and memory address
-        y := &x             // y is now a pointer to an int type. It points to the variable x
-        *y = 20;            // change of the variable x
-        fmt.Println(x, &x)
-    }
-
+.play ../src/basics/pointers/pointer/pointer.go
 
 * Pointer I
 .code ../src/basics/swap/main.go /func swap0/,/END0 OMIT/
