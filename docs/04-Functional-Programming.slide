@@ -365,7 +365,53 @@ The <- sign executes a non-pure function
 - Where did it came from?
 .link https://www.youtube.com/watch?v=eis11j_iGMs Professor Graham Hutton explains the Lambda Calculus (Cool Stuff :-)
 
-Hint: To understand this video you will watch it at least three times :-)
+* The Lambda Calculus
+
+- No lists, integers, strings, loop, if, switch, ...
+- Just anonymous functions
+
+*Format*
+
+.html snippets/lambda.html
+
+*That's* *all*
+
+* Lambda calculus
+
+- Lambda calculus contains 3 elements
+*Variables*
+- _x_
+- variables can be itself a function
+
+*Functions*
+- _λx.x_
+- here the identity function
+
+*Applications*
+- _(λx.x)a_
+- here the application of the identity function to a returns a)
+- also a can be a function
+- Parenthesis help to avoid ambiguity.
+
+: https://www.youtube.com/watch?v=m32kbFXBRR0
+
+: Tafel
+: λx.x is the identity function
+: To apply a function
+: (λx.x) 5 = 5
+
+: (λa.λb (a+b)) 5 6 = 11
+: ((λa.λb (a+b)) 5) 6 = 11
+: (λ5.λb (5+b)) 6 = 11
+: ((λb (5+b)) 6
+: (5+6) = 11
+
+: T := λa.λb.a is the function which takes two parameters and returns the first one
+: F := λa.λb.b is the function which takes two parameters and returns the second one
+: (λa.λb.a) 5 6 = 5
+: (λa.λb.b) 5 6 = 6
+: AND := λa.λb.(a b False)
+: AND True False = False
 
 * Summary of the Introduction to Lambda Calculus
 - Pure Functions have no internal state
@@ -373,7 +419,8 @@ Hint: To understand this video you will watch it at least three times :-)
 - The lambda calculus knows only three primitives: Variables (x,y,z), building functions λx.x, applying functions "(λx.x+1) 5" -> 6 with values
 - There are no datatypes (number, logical values) - values can be functions, no built-in recursion!
 - It can encode any computation (Church-Turing thesis)
-- Lambda Calculus is present in most major programming languages
+
+: - Lambda Calculus is present in most major programming languages
 
 * Lambda Calculus in Go: Combinators
 : .image ./img/04-lambda.png 200 350
@@ -395,6 +442,7 @@ Hint: To understand this video you will watch it at least three times :-)
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /Boolean/,/BOOL OMIT/
 : .play ../src/functional/lambdacalculus/mockingbird/main.go /TEST BOOL START OMIT/,/TEST BOOL END OMIT/
 .play ../src/functional/lambdacalculus/logic/main.go /// Boolean Logic/,
+
 
 
 : * Lambda Calculus in Go: Helper (2)

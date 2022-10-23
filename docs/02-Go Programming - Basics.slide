@@ -128,14 +128,7 @@ https://www.qaware.de
 
 * Packages
 
-    package main
-
-    import "fmt"
-
-    func main() {
-        fmt.Printf("Hello %s", "Programming with Go \xE2\x98\xAF\n") // \xE2\x98\xAF -> ☯
-        fmt.Printf("Hello %s", "Programming with Go ☯\n")
-    }
+.play ../src/basics/hello/main.go
 
 - The entry point for Go executable is always the function main in package main (main.main)
 - New packages need a new directory and can then be referenced
@@ -351,7 +344,7 @@ A pointer is variable which contains a memory address
 
 For CPU architectures they are a natural feature. As a systems language Go support pointers
 
-.play ../src/basics/pointers/pointer/pointer.go
+.play ../src/basics/pointers/pointer/pointer.go /func main/,
 
 * Pointer I
 .code ../src/basics/swap/main.go /func swap0/,/END0 OMIT/
@@ -372,15 +365,7 @@ For CPU architectures they are a natural feature. As a systems language Go suppo
 * Pointer arithmetic
 - There is some unsafe pointer arithmetic as in C / C ++
 
-    func main() {
-    	z := []int64{10, 20} // fixed size array
-    	y := &z[0]  // pointer to first entry in array
-    	fmt.Println(y)
-    	y = (*int64)(unsafe.Add(unsafe.Pointer(y), 8)) // 64 Bit has 8 bytes
-    	fmt.Println(y)
-    	*y = 30  // changes second parameter in the array z
-    	fmt.Println(z)
-    }
+.play ../src/basics/pointers/unsafe/main.go /func main/,
 
 - Because of garbage collection anything can happen here! Even more unsafe than in C!
 

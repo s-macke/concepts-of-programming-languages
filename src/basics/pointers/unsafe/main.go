@@ -5,22 +5,12 @@ import (
 	"unsafe"
 )
 
-// TODO
 func main() {
-	//var x = 10
-	//var y = &x
-
-	//fmt.Println(x, *y)
-
-	//x = 20
-	//fmt.Println(x, *y)
-
-	//fmt.Printf("%p %p\n", &x, &y)
-
-	z := []int64{10, 20}
-	y := &z[0]
-	y = (*int64)(unsafe.Add(unsafe.Pointer(y), 8)) // 64 Bit it has 8 bytes
-	*y = 30
+	z := [2]int64{10, 20} // fixed size array
+	y := &z[0]            // pointer to first entry in array
+	fmt.Println(y)
+	y = (*int64)(unsafe.Add(unsafe.Pointer(y), 8)) // 64 Bit has 8 bytes
+	fmt.Println(y)
+	*y = 30 // changes second parameter in the array z
 	fmt.Println(z)
-
 }

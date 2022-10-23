@@ -14,9 +14,7 @@ https://www.qaware.de
 - Functions and Control Structures
 - Unit Tests
 - Arrays, Slices and Maps
-- Comparison
 - Pointer
-- Flag API, File API
 
 : Ergebnisse der Übungen zeigen.
 
@@ -55,7 +53,7 @@ The "defer" statement lets us ensure that code runs before a function exits
 
 * Exception Pro and Cons
 
-- What do you think are the pros and cons of exceptions vs
+- What do you think are the pros and cons of exceptions?
 
 * Exception Pro and Cons
 
@@ -191,24 +189,9 @@ allows an object-oriented style of programming
 
 * Encapsulation I: No classes, but structs
 
-  // Rational represents a rational number numerator/denominator.
-  type Rational struct {
-    numerator   int
-    denominator int
-  }
+.play ../src/oop/constructor/rational.go /Rational/,/END OMIT/
 
-  // Constructor
-  func NewRational(numerator int, denominator int) Rational {
-    if denominator == 0 {
-      panic("division by zero")
-    }
-    return Rational{
-      numerator:   numerator,
-      denominator: denominator,
-    }
-  }
-
-- capitalized fields are public outside of the package. E. g. *Rational* and *NewRational* are public while *Rational.numerator* and *Rational.denominator* are not.
+- Capitalized fields are public outside of the package. E. g. *Rational* and *NewRational* are public while *Rational.numerator* and *Rational.denominator* are not.
 
 : Go has no classes but types and functions
 
@@ -224,7 +207,7 @@ allows an object-oriented style of programming
 - Object Oriented style syntax
 
   // Multiply method for rational numbers
-  func (r Rational) Multiply(y Rational) Rational {
+  func (r *Rational) Multiply(y Rational) Rational {
       return NewRational(r.numerator*y.numerator, r.denominator*y.denominator)
   }
 
