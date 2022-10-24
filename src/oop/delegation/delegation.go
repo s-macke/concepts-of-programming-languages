@@ -23,6 +23,12 @@ func (b B) Bar() {
 }
 
 func main() {
+	/*
+		a := A{}
+		a.Foo()
+	*/
+
 	b := B{}
 	b.Foo() // "a.bar" or "b.bar"?
+
 }

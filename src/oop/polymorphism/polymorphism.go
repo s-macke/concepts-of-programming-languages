@@ -28,9 +28,9 @@ func (p ColorPoint) String() string {
 
 func main() {
 	var p = Point{1, 2}
-	var cp = ColorPoint{Point{1, 2}, 3}
-
 	fmt.Println(p)
+
+	var cp = ColorPoint{Point{1, 2}, 3}
 	fmt.Println(cp)
 	fmt.Println(cp.x) // access inherited field
 
