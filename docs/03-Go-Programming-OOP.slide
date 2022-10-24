@@ -90,20 +90,12 @@ Contra error return code:
 
 * Object Oriented Programming
 
-* Prerequisites to OOP: Go does support a dynamic type
-
-.play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
-
-- The downcast is safe (== dynamic_cast in C ++ or cast in Java)
-
-
 : * The Downcast Syntax is similar to a Function Call
 : .code ../src/oop/stack/stack_test.go /TestCasting/,/END OMIT/
 : - Object types (e.g., Containers) are used by pointers (no copies)
 : - Data types (e.g., Money, Date, ...) are used by value (copies)
 : - The downcast is safe (== dynamic_cast in C ++ or cast in Java)
 : - No dereference (*s) is needed to call a method
-
 
 : * Generics
 :
@@ -156,10 +148,10 @@ Contra error return code:
 
 * Principles of Object Oriented Programming
 
-- Encapsulation: Bundling of data with the methods that operate on that data. Select what is public accessible and what is private
-- Inheritance: Based class upon another class
-- Polymorphism: Objects of different types can be accessed through the same interface or the use of a single variable to represent different types
-- Abstraction: Provide abstraction of a class without the implementation
+- *Abstraction:* Provide abstraction of a class without the implementation. Manage the complexity by hiding.
+- *Inheritance:* Based class upon another class. Goal is reusing the parent class properties.
+- *Encapsulation:* Bundling of data with the methods that operate on that data. Select what is public accessible and what is private.  Ensure that the consistency of the data is maintained.
+- *Polymorphism:* Objects of different types can be accessed through the same interface or the use of a single variable to represent different types
 
 Go is not a pure object oriented programming language but
 allows an object-oriented style of programming
@@ -250,7 +242,7 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 
 - Overriding of methods is kind of supported, overloading is not!
 
-.play ../src/oop/delegation/delegation.go /type A/,//
+.play ../src/oop/delegation/delegation.go /type A/,
 
 : prints "a.bar"
 : real delegation should print "b.bar", because delegation means
@@ -287,8 +279,8 @@ In Go:
 - Go interfaces are satisfied implicitly
 
   type Door struct {}
-  func (OpenCloser*) Open() {}
-  func (OpenCloser*) Close() {}
+  func (Door*) Open() {}
+  func (Door*) Close() {}
 
 Door implicitly satisfies the interface OpenCloser
 
@@ -312,6 +304,12 @@ The print functions in the *fmt* package support the following interface
 * Polymorphism III: The stringer interface
 
 .play ../src/oop/stringer/stringer.go
+
+* Recap: Go does support a dynamic type
+
+.play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
+
+- The type _any_ is actually just an empty _interface{}_
 
 
 * Interfaces and Polymorphism
