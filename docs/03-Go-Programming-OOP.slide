@@ -298,7 +298,7 @@ The print functions in the *fmt* package support the following interface
 - Detection identical to the dynamic slide type
 
     if tmp, ok := object.(Stringer); ok {
-        // The object implements stringer is implemented
+        // The object implements stringer
     }
 
 * Polymorphism III: The stringer interface
