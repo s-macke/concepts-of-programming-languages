@@ -22,18 +22,19 @@ https://www.qaware.de
 
 * Errors in Go
 
-Go distinguishes between recoverable and unrecoverable errors
+Go doesn't have try-catch exception based error handling.
+Go distinguishes between recoverable and unrecoverable errors.
 
-recoverable e. g. file not found
+Recoverable: e. g. file not found
 
-- Go returns the error as one of return values
+- Go returns the error as one of the return values
 
 	err := ioutil.WriteFile(src.Name(), []byte("hello"), 0644)
 	if err != nil {
 		log.Error(err)
 	}
 
-unrecoverable: array access outside its boundaries, out of memory
+Unrecoverable: array access outside its boundaries, out of memory
 
 * Go defer: run code before function exists
 
@@ -43,7 +44,7 @@ The "defer" statement lets us ensure that code runs before a function exits
     if err != nil {
         return err
     }
-    defer f.Close() // will be executed on function exit
+    defer f.Close() // Will be executed on function exit, even in case of an unrecoverable error.
     ....
     // read, write
 
@@ -55,35 +56,35 @@ The "defer" statement lets us ensure that code runs before a function exits
 
 - What do you think are the pros and cons of exceptions?
 
-* Exception Pro and Cons
+: * Exception Pro and Cons
 
-What are the pro and cons about Exceptions and return values?
+: What are the pro and cons about Exceptions and return values?
 
-Pro Exceptions:
+: Pro Exceptions:
 
-- Separate error handling code from the normal program flow
-- Exceptions are harder to ignore
-- Exceptions can carry a lot of extra information
-- Exceptions are easily propagated through the system
+: - Separate error handling code from the normal program flow
+: - Exceptions are harder to ignore
+: - Exceptions can carry a lot of extra information
+: - Exceptions are easily propagated through the system
 
-Contra Exceptions:
+: Contra Exceptions:
 
-- Difficult to analyze if stack unwinding lead to further errors. E. g. Exceptions in Exceptions. Unexpected resource leaks
-- Exceptions can have more side effects
-- Exceptions are expensive
+: - Difficult to analyze if stack unwinding lead to further errors. E. g. Exceptions in Exceptions. Unexpected resource leaks
+: - Exceptions can have more side effects
+: - Exceptions are expensive
 
-* Return values Pro and Cons
+: * Return values Pro and Cons
 
-Pro error return code:
+: Pro error return code:
 
-- Easier to understand
-- Multiple return values are a good fit. It does not overload the return value
-- Better controllable than Exceptions.
+: - Easier to understand
+: - Multiple return values are a good fit. It does not overload the return value
+: - Better controllable than Exceptions.
 
-Contra error return code:
+: Contra error return code:
 
-- Handling errors is verbose and repetitive (4x more Code in average)
-- you have to propagate the error through your call stack yourself
+: - Handling errors is verbose and repetitive (4x more Code in average)
+: - you have to propagate the error through your call stack yourself
 
 : Hier die Begründung von Google: https://golang.org/doc/faq#exceptions
 
@@ -305,15 +306,15 @@ The print functions in the *fmt* package support the following interface
 
 .play ../src/oop/stringer/stringer.go
 
+* Interfaces and Polymorphism
+.play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
+
 * Recap: Go does support a dynamic type
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
 
 - The type _any_ is actually just an empty _interface{}_
 
-
-* Interfaces and Polymorphism
-.play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
 
 * Example: Send Mail with Go: A minimal Interface
 .code ../src/oop/mail/mail.go /Message/,/END OMIT/
