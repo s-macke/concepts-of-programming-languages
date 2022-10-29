@@ -280,8 +280,8 @@ In Go:
 - Go interfaces are satisfied implicitly
 
   type Door struct {}
-  func (Door*) Open() {}
-  func (Door*) Close() {}
+  func (d *Door) Open() {}
+  func (d *Door) Close() {}
 
 Door implicitly satisfies the interface OpenCloser
 

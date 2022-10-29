@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 // Package rational implements rational numbers.
-package rational
+package main
 
 import "fmt"
 
@@ -53,4 +53,10 @@ func gcd(x, y int) int {
 		x, y = y, x%y
 	}
 	return x
+}
+
+func main() {
+	r1 := NewRational(1, 2)
+	r2 := NewRational(2, 4)
+	fmt.Println(r1, r2)
 }

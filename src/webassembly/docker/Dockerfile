@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.14
 MAINTAINER Sebastian Macke <sebastian@macke.de>
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
@@ -11,7 +11,9 @@ RUN apk add --no-cache npm
 RUN apk add --no-cache nano nano-syntax tmux
 
 # for C support 
-#RUN apk add git llvm clang lld make
+RUN apk add --no-cache llvm12-libs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
+#RUN apk add --no-cache llvm12-libs
+RUN apk add --no-cache git llvm clang lld make
 #RUN git clone https://github.com/CraneStation/wasi-libc.git && cd wasi-libc && make install INSTALL_DIR=/tmp/wasi-libc
 #RUN mkdir -p /usr/lib/clang/10.0.0/lib/wasi && cd /usr/lib/clang/10.0.0/lib/wasi && wget "https://github.com/jedisct1/libclang_rt.builtins-wasm32.a/raw/master/precompiled/libclang_rt.builtins-wasm32.a"
 

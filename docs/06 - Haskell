@@ -1,0 +1,108 @@
+Functional Programming
+Concepts of Programming Languages
+25 Oct 2022
+Tags: go, programming, master
+
+Sebastian Macke
+Rosenheim Technical University
+Sebastian.Macke@th-rosenheim.de
+https://www.qaware.de
+
+* Haskell I: Hello world
+
+  main = print "Hello, World!"
+
+1. Define a function with name "main" with no input and output parameters.
+Execute the function print, which takes one arbitrary argument. In this case a string
+
+- Printing text doesn't seem to have any side effects
+
+Online editor:
+.link https://replit.com/languages/haskell
+
+* Haskell II: Fibonacci
+  fib :: Int -> Int
+  fib 0 = 0
+  fib 1 = 1
+  fib n = fib (n-1) + fib (n-2)
+  main = print (fib 10)
+
+1. Define a function fib with takes an argument of type int and returns an int
+2. Define the function fib which takes as input the number 0 and return 0
+3. Else: Define the function fib which takes as input the number 1 and return 1
+4. Else: Define the function fib for an arbitrary integer n and execute the function itself with the arguments n-1 and n-2 and add the result
+5. Execute the function fib with the number 10 and print the result
+The order of line 2, 3, 4 matters
+
+* Haskell III: Functional Composition
+
+  import Data.List
+  revsort = (reverse . sort)
+  main = print $ revsort [2,8,7,10,1,9,5,3,4,6]
+
+2. Sort takes a list and returns a sorted list. The result of sort is pipelined to reverse
+3. prints the result of revsort for the given table
+
+The $ is a shortcut to prevent brackets
+
+Alternative:
+
+  main = print (revsort [2,8,7,10,1,9,5,3,4,6])
+
+* Haskell IV: Partial Application for a dot product application
+
+  dot :: [Int] -> [Int] -> Int
+  dot x y = sum (zipWith (*) x y)
+  partial_dot = dot [1, 2, 3]
+  main = print $ partial_dot [4,5,6]
+
+1. Define a function dot which takes an array of ints as input and returns a function which returns an array of ints as input which returns an integer
+
+  dot :: [Int] -> ([Int] -> Int)
+
+2. (*) is shortcut to define a function which takes two parameters and returns the multiplication of these parameters.
+
+  (*) 2 3 -- returns 6
+
+zipWith takes three parameters. The first is the function to apply to the next parameters. It returns a new list in which each element of the two tables are run through the function defined in the first parameter.
+sum just sums the table
+
+* Haskell IV: Partial Application for a dot product application
+
+3. define a new function which is the partial applcation of the dot function
+4. execute and print the rest of the function.
+
+A normal execution of dot would have looked like
+
+  main = print (dot [1,2,3] [4,5,6])
+
+* Haskell V: Lazy evaluation
+
+  osc :: [Integer]
+  osc = 0 : 1 : osc
+  main = print (osc!!10)
+
+1. Define a function osc, which returns a list of integers of unknown size
+2. Define a function osc, which returns oscillating numbers 0,1,0,1,0,1. There is no break condition in this list!
+3. Execute the function fibs which actually should return an infinite list. But is not evaluated yet.
+   Take the 10th element out of the list. Print the result
+
+The order of the function evaluation is O(N) or even O(N²), instead of O(1)
+
+* Haskell IV: Communication with the outside world
+
+Also Haskell have to perform IO
+
+  import Data.Time.Clock
+  import Control.Concurrent
+
+  main = do {
+    x <- getCurrentTime;
+    print x;
+    threadDelay 1000000;
+    x <- getCurrentTime;
+    print x
+  }
+
+The <- sign executes a non-pure function
+
