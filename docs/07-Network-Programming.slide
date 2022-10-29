@@ -335,8 +335,8 @@ Each request is processed in its separate go routine.
 To test the rest interface you can use tools such as
 - curl, httpie, Postman, Your own Go Rest call code, Web Browser
 
-* Comparison with Java I
-.code ../src/servers/benchmark/javasimple/Server.java /public class/,
+: * Comparison with Java I
+: .code ../src/servers/benchmark/javasimple/Server.java /public class/,
 
 * Comparison with Java (Spring Boot)
 
