@@ -20,11 +20,14 @@ func main() {
 	var cp = ColorPoint{Point{1, 2}, 3}
 
 	fmt.Println(p)
+
 	fmt.Println(cp)
+
 	fmt.Println(cp.x)       // access inherited field
 	fmt.Println(cp.Point.x) // access inherited field via composition
 
 	//p = cp // does not work: No type hierarchy, no polymorphism
+
 	p = cp.Point // works
 
 }

@@ -35,7 +35,7 @@ func main() {
 	fmt.Println(cp.x) // access inherited field
 
 	// p = cp // does not work: No type hierarchy, no polymorphism
-	p = cp.Point // works
+	//p = cp.Point // works
 
 	// s is an interface and supports Polymorphism
 	var s fmt.Stringer

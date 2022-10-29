@@ -39,6 +39,12 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/03-Go-Programming-OOP.html)
 - [Exercise 3](docs/exercises/Exercise3.md)
 
+## Lecture 4 - Forth
+- Postfix Notation, Reverse Polish Notation, Stack Machine, Forth, Metaprogramming
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/04-Forth.html)
+- [Exercise 4](docs/exercises/Exercise4.md)
+
+
 ## Lecture 4 - Functional Programming
 - Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
 - <a href="docs/04-Functional-Programming.pdf">Slides</a>

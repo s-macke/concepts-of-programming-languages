@@ -1,7 +1,7 @@
 Forth and Interpreters
 Concepts of Programming Languages
-29 Nov 2021
-Tags: go, programming
+31 Oct 2022
+Tags: Postfix Notation, Reverse Polish Notation, Stack Machine, Forth, Metaprogramming
 
 Sebastian Macke
 Rosenheim Technical University
@@ -15,8 +15,7 @@ https://www.qaware.de
 - These languages are used only a niche language today
 - Forth is one of these candidates
 - While Forth might be a niche language, its concepts are wildly used in other contexts
-- It is so easy, that we can discuss lexers, parsers and interpreters
-- This lecture has two goals. Show a high level language that works totally different and to write an interpreter
+- It is so easy, that it is used in embedded systems or because of its zero dependencies can even work as a stand alone operating system
 
 * Prefix notation, Infix notation, and Postfix notation
 
@@ -116,7 +115,6 @@ Evaluate
 
 * Forth - Easier than Assembler
 
-
 : https://www.mpeforth.com/arena/ProgramForth.pdf
 : https://www.forth.com/starting-forth/2-stack-manipulation-operators-arithmetic/
 
@@ -137,17 +135,18 @@ Evaluate
 - The most minimalist language regarding syntax you can imagine
 - Stack machine with reverse polish notation
 - No types, just integers
+- No character limits to define names such as variable names or function names.
 - Procedural language
-- control structures, loops, and conditionals
+- Control structures, loops, and conditionals
 - Reflection
-- much broader range to define names such as variable names or function names.
 - Direct access to call stack (return stack)
+- Able to invent new programming features on the fly
 
 * Features
 
 - Forth is a compiled and interpreted language at the same time
-- Compiled programs usually ship with an embedded interpreter. Like Java breakpoints, it allows you to execute code at any point in the program.
-- Compiles to threaded code (something in between bytecode and compiled code). Contains an implicit compression.
+- Debugging capabilities during runtime because of built in interpreter
+- Compiles to threaded code (something in between bytecode and compiled code). Contains an implicit compression
 - Entire development environment—including compiler, editor fits in a few kiloByte of machine language
 
 * Websites to experiment with Forth
@@ -381,7 +380,12 @@ Forth has a lot of built-in words. But most of them are just made of other words
     : variable   create  0 , ;
     : constant   create  ,  DOES> @ ;
 
-- Forth is so flexible that you can extend the compiler and e. g. implement structs in your own way.
+- Forth is so flexible that you can extend the compiler and e. g. implement structs, special loops, exceptions, etc. in your own way.
+- Most words are implemented with other words. How far you can go can be easily seen by looking at the source code of
+
+.link https://github.com/nineties/planckforth
+
+Only 215 lines of C code and 2800 lines of bootstrap Forth code.
 
 * Summary
 
@@ -393,25 +397,6 @@ Forth has a lot of built-in words. But most of them are just made of other words
 
 : Ignore spaces.
 : - write a word, which "encrypts" a whole string via rot 13
-
-* Java bytecode is actually a stack machine
-
-    public int Add(int a, int b, int c) {
-        return a + b + c;
-    }
-
-compiles into
-
-  public int Add(int, int, int);
-    Code:
-       0: iload_1  // push parameter 1 onto the stack
-       1: iload_2  // push parameter 2 onto the stack
-       2: iadd     // pop the two parameters, add them, and push the result
-       3: iload_3  // push parameter 3 onto the stack
-       4: iadd     // pop the two parameters, add them, and push the result
-       5: ireturn  // return the result
-
-: https://en.wikipedia.org/wiki/Stack_machine
 
 : * Some thoughts
 : - You can write a forth interpreter in less then 512 bytes
@@ -446,7 +431,26 @@ compiles into
 : https://skilldrick.github.io/easyforth/#conditionals-and-loops
 : https://www.tutorialspoint.com/execute_forth_online.php
 
-* Building a Forth Interpreter
+* Java bytecode is actually a stack machine
+
+    public int Add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+compiles into
+
+  public int Add(int, int, int);
+    Code:
+       0: iload_1  // push parameter 1 onto the stack
+       1: iload_2  // push parameter 2 onto the stack
+       2: iadd     // pop the two parameters, add them, and push the result
+       3: iload_3  // push parameter 3 onto the stack
+       4: iadd     // pop the two parameters, add them, and push the result
+       5: ireturn  // return the result
+
+: https://en.wikipedia.org/wiki/Stack_machine
+
+* Exercise: Write a calculator
 
 * Lexer and Parser and Interpreter
 
@@ -465,144 +469,6 @@ compiles into
 *Interpreter*
 
 - Executes the computer program
-
-Forth doesn't fit into the usual text book scheme for building compilers
-We have to develop our own way.
-
-: https://wiki.c2.com/?ForthVsLisp
-: https://www.chegg.com/homework-help/questions-and-answers/3-forth-lisp-abstract-syntax-tree-ast--1--forth-imperative-stack-based-computer-programmin-q64576344
-
-* The lexer is free
-
-  type lexedWords []string
-
-  func Lexer(cmd string) lexedWords {
-    words := strings.Fields(cmd)
-    return words
-  }
-
-*strings.Fields* splits the string around each instance of one or more consecutive white space characters
-
-Does not exactly fit for strings. In Forth there doesn't exist a lexer in this sense.
-
-  ." Hello     world"   ( Recognizes multiple spaces in between Hello and world)
-
-* Major building blocks of a Forth interpreter
-
-- Parameter stack
-- Dictionary for words
-- Heap for variables. (In the original Forth, there is no difference between the heap and the dictionary)
-- Return stack
-- Program counter
-
-: * Abstract Syntax Tree
-: abstract Syntax Tree is a tree representation of the the abstract syntactic structure of source code written in a programming language
-: - An AST presentation of Forth is not a good way to represent. Why?
-
-: https://mshang.ca/syntree/
-: [* [+ 1 2] 3]
-: Warum? Weil die Anzahl der Parameter in Wörtern unbekannt ist. Ist erst zur Ausführzeit bekannt.
-
-
-* Parser for word pairs
-
-Forth supports several word pairs such as "( ... )", "do ... loop", ": ... ;" and "if ... then"
-The parser has to find and check these pairs and provide the meta information for these words.
-
-   2 3 ( this is a comment ) +    <- "(" should point to 7
-   0 1 2 3    4  5 6       7
-
-   if do_something then           <- "if" should point to 2
-   0  1            2
-
-   do if do_something then loop   <- "do" points to 4, "if" points to "3"
-   0  1  2            3    4
-
-   if do do_something then loop   <- Error: if without then, do without loop
-
-
-* Group work
-
-- Premise: Ignore Forth strings
-- Start from the example on slide with the title "Stack machines are rather simple to implement"
-- Discuss the data structures to implement a simple Forth interpreter
-- How to implement of simple words such as math words, stack manipulation words?
-- A word must have access to the following Forth components: ....
-- How to implement constants and variables and "@" and "!" ?
-- Try to find an algorithm for word pairs?
-- How to implement if/then and do/loop?
-
-* Solution
-
-Components:
-
-- Stack for integers:     []int in its own stack class
-- Heap for variables:     []int. You can even use a stack class with a Get method
-- Dictionary for words:   map[string]dictFunc
-- Return stack:           []int in its own stack class
-- Program counter:        int
-
-A word has access to the following components
-
-- The stack, the list of words executed, Program counter (can jump to another word), Meta information for each word and return stack
-
-A word can have access either by a closure or by a specific context object. Context object is much safer.
-
-    type dictFunc func(c *context)
-
-* Solution: Use Stack itself to determine the control structure offsets
-
-   do if do_something then loop
-   0  1  2            3    4
-   ↑
-
-   stack:
-
-   Exec: Push 0 to stack
-
-* Solution: Use Stack itself to determine the control structure offsets
-
-   do if do_something then loop
-   0  1  2            3    4
-      ↑
-
-   stack: 0
-   Exec: Push 1 to stack
-
-* Solution: Use Stack itself to determine the control structure offsets
-
-   do if do_something then loop
-   0  1  2            3    4
-         ↑
-
-   stack: 0 1
-   Exec: do nothing, just forward
-
-* Solution: Use Stack itself to determine the control structure offsets
-
-   do if do_something then loop
-   0  1  2            3    4
-                      ↑
-
-   stack: 0 1
-   Exec: pop from stack and lookup if the word at position 1 is an "if". If not, error.
-         Provide word at position 1 the info to jump to position 4.
-
-
-* Solution: Use Stack itself to determine the control structure offsets
-
-   do if do_something then loop
-   0  1  2            3    4
-                           ↑
-
-   stack: 0
-   Exec: pop from stack and lookup if the word at position 0 is an "do". If not, error
-         Provide word at position 4 the info to jump to position 1.
-
-* Exercise
-
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise9.md
-
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -631,6 +497,7 @@ Algorithm:
     stack: <empty>
     output: []
 
+- Push "(" onto the stack
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -640,6 +507,8 @@ Algorithm:
     stack: (
     output: []
 
+- Push "(" onto the stack
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     ( A + B ) * ( C - E ) ) / ( F + G ) )
@@ -647,6 +516,8 @@ Algorithm:
 
     stack: ( (
     output: []
+
+- Push "(" onto the output list
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -656,6 +527,8 @@ Algorithm:
     stack: ( ( (
     output: []
 
+- Push "A" onto the output list
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     + B ) * ( C - E ) ) / ( F + G ) )
@@ -663,6 +536,8 @@ Algorithm:
 
     stack: ( ( (
     output: [A]
+
+- Push "+" onto the stack
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -672,6 +547,8 @@ Algorithm:
     stack: ( ( ( +
     output: [A]
 
+- Push "B" onto the output list
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     ) * ( C - E ) ) / ( F + G ) )
@@ -679,6 +556,8 @@ Algorithm:
 
     stack: ( ( ( +
     output: [A B]
+
+- Pop everything from the stack and push it onto the output list until you find "("
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -688,6 +567,8 @@ Algorithm:
     stack: ( (
     output: [A B +]
 
+- Push "*" onto the stack
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     ( C - E ) ) / ( F + G ) )
@@ -695,6 +576,8 @@ Algorithm:
 
     stack: ( ( *
     output: [A B +]
+
+- Push "(" onto the stack
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -704,6 +587,8 @@ Algorithm:
     stack: ( ( * (
     output: [A B +]
 
+- Push "C" onto the output list
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     - E ) ) / ( F + G ) )
@@ -711,6 +596,8 @@ Algorithm:
 
     stack: ( ( * (
     output: [A B + C]
+
+- Push "-" onto the stack
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -720,6 +607,8 @@ Algorithm:
     stack: ( ( * ( -
     output: [A B + C]
 
+- Push "E" onto the output list
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     ) ) / ( F + G ) )
@@ -727,6 +616,8 @@ Algorithm:
 
     stack: ( ( * ( -
     output: [A B + C E]
+
+- Pop everything from the stack and push it onto the output list until you find "("
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -736,6 +627,8 @@ Algorithm:
     stack: ( ( *
     output: [A B + C E -]
 
+- Pop everything from the stack and push it onto the output list until you find "("
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     / ( F + G ) )
@@ -743,6 +636,8 @@ Algorithm:
 
     stack: (
     output: [A B + C E - *]
+
+- Push "/" onto the stack
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -752,6 +647,8 @@ Algorithm:
     stack: ( /
     output: [A B + C E - *]
 
+- Push "(" onto the stack
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     F + G ) )
@@ -759,6 +656,8 @@ Algorithm:
 
     stack: ( / (
     output: [A B + C E - *]
+
+- Push "F" onto the output list
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -768,6 +667,8 @@ Algorithm:
     stack: ( / (
     output: [A B + C E - * F]
 
+- Push "+" onto the stack
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     G ) )
@@ -775,6 +676,8 @@ Algorithm:
 
     stack: ( / ( +
     output: [A B + C E - * F]
+
+- Push "G" onto the output list
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -784,6 +687,8 @@ Algorithm:
     stack: ( / ( +
     output: [A B + C E - * F G]
 
+- Pop everything from the stack and push it onto the output list until you find "("
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
     )
@@ -791,6 +696,8 @@ Algorithm:
 
     stack: ( /
     output: [A B + C E - * F G +]
+
+- Pop everything from the stack and push it onto the output list until you find "("
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -800,4 +707,9 @@ Algorithm:
     stack: <empty>
     output: [A B + C E - * F G + /]
 
+- Finished
+
+* Exercise
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise9.md
 
