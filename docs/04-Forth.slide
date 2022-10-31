@@ -1,4 +1,4 @@
-Forth and Interpreters
+Forth
 Concepts of Programming Languages
 31 Oct 2022
 Tags: Postfix Notation, Reverse Polish Notation, Stack Machine, Forth, Metaprogramming
@@ -7,6 +7,17 @@ Sebastian Macke
 Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
+
+* Last lecture
+- Exception Handling. Error return codes vs. Exceptions
+- Dynamic Types in Go
+- Object Oriented Programming Principles
+- Object Oriented Programming without class hierarchy
+- Reasons from Go team: Inheritance can cause weak encapsulation (override) , tight coupling (difficult to refactor) and surprising bugs
+- Delegation
+- Implicit satisfied interfaces
+
+: Übungslös
 
 * Some thoughts about this lecture
 
@@ -30,7 +41,7 @@ These notations are named as how they use operator in expressions.
 
 * Infix Notation
 
-- we write expression in a way that the operators are placed between operands, e. g.
+- We write expression in a way that the operators are placed between operands, e. g.
 
   a - b + c
 
@@ -46,7 +57,7 @@ These notations are named as how they use operator in expressions.
 
 * Prefix Notation
 
-- operators are *pre* -fixed by operands, i. e. operator is written ahead of operands
+- Operators are *pre* -fixed by operands, i. e. operator is written ahead of operands
 - *+* *a* *b* This is equivalent to its infix notation a + b
 - Prefix notation is also known as Polish notation
 
@@ -56,13 +67,15 @@ These notations are named as how they use operator in expressions.
   * + 2 3 5 = * 5 5 = 25
 
 - No parenthesis are needed
+- That's how the programming languages _Lisp_ and _Scheme_ work
+
 
 : https://www.slideshare.net/AfaqMansoorKhan/week-9-prefix-infix-and-postfix-notations-181514548
 
 * Postfix Notation
 
 - Known as reversed polish notation
-- the operator is *post*fixed to the operands
+- The operator is *post*fixed to the operands
 - The operations are written after the operands
 - *a* *b* *+*  is equivalent to its infix notation a + b
 
@@ -108,7 +121,6 @@ Evaluate
 
 .image img/stack2.png 350 _
 
-
 * Stack machines are rather simple to implement
 
 .play ../src/forth/reversepolish/main.go /func main/,
@@ -136,6 +148,7 @@ Evaluate
 - Stack machine with reverse polish notation
 - No types, just integers
 - No character limits to define names such as variable names or function names.
+- No (fixed) keywords
 - Procedural language
 - Control structures, loops, and conditionals
 - Reflection
@@ -151,6 +164,7 @@ Evaluate
 
 * Websites to experiment with Forth
 
+.link https://s-macke.github.io/Forthly/
 .link https://www.tutorialspoint.com/execute_forth_online.php
 .link https://www.jdoodle.com/execute-forth-online/
 
@@ -161,6 +175,7 @@ Online tutorial
 * Components of the Language
 
 - *Stack*: Stores intermediate results as integers
+- *Return* *Stack*: Stores the function call return addresses. Directly accessible.
 - *Dictionary:* Stores all command *words* and their definitions
 - *Interpreter:* Interpretively executes commands found in the dictionary using the stack to store calculations
 
@@ -470,6 +485,92 @@ compiles into
 
 - Executes the computer program
 
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    1 + 2 * 3 + 4
+    ↑
+
+    stack: <empty>
+    output: []
+
+- Push "1" onto the output list
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    + 2 * 3 + 4
+    ↑
+
+    stack: <empty>
+    output: [1]
+
+- Push "+" onto the stack
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    2 * 3 + 4
+    ↑
+
+    stack: [+]
+    output: [1]
+
+- Push "2" onto the output list
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    * 3 + 4
+    ↑
+
+    stack: [+]
+    output: [1 2]
+
+- Push "*" onto the stack
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    3 + 4
+    ↑
+
+    stack: [+ *]
+    output: [1 2]
+
+- Push "3" onto the output list
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    + 4
+    ↑
+
+    stack: [+ *]
+    output: [1 2 3]
+
+- The operator on the top of the stack has a higher precedence than the current operator, so pop the top of the stack and push it onto the output list
+- Push "+" onto the stack
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    4
+    ↑
+
+    stack: [+]
+    output: [1 2 3 * +]
+
+- Push "4" onto the output list
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    stack: [+]
+    output: [1 2 3 * + 4]
+
+- Push the rest on the stack onto the output list
+
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+    stack: []
+    output: [1 2 3 * + 4 +]
+
+- Finished
+
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
 Infix: ( ( ( A + B ) * C ) - ( ( D + E ) / F ) )
@@ -711,5 +812,5 @@ Algorithm:
 
 * Exercise
 
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise9.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise4.md
 

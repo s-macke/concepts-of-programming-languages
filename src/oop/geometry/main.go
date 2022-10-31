@@ -4,5 +4,5 @@ import "github.com/s-macke/concepts-of-programming-languages/src/oop/geometry/ge
 
 func main() {
 	geoobject.Paint()
-	geoobject.GGPaint()
+	//geoobject.GGPaint()
 }
