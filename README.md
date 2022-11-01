@@ -40,25 +40,29 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - [Exercise 3](docs/exercises/Exercise3.md)
 
 ## Lecture 4 - Forth
+
 - Postfix Notation, Reverse Polish Notation, Stack Machine, Forth, Metaprogramming
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/04-Forth.html)
 - [Exercise 4](docs/exercises/Exercise4.md)
 
+## Lecture 5 - Functional Programming
 
-## Lecture 4 - Functional Programming
 - Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
-- <a href="docs/04-Functional-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise4.md">Exercise 4</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/05-Functional-Programming.html)
+- [Exercise 5](docs/exercises/Exercise5.md)
 
-## Lecture 5 - Concurrent Programming
+## Lecture 6 - Haskell
+- Introduction to Haskell
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/06-Haskell.html)
+- [Exercise 6](docs/exercises/Exercise6.md)
+
+## Lecture 7 - Concurrent Programming
 - Why concurrent programming matters! Go routines and channels, Go concurrency patterns, The dining philosophers problem
-- <a href="docs/06-Concurrent-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise6.md">Exercise 6</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/07-Concurrent-Programming.html)
+- [Exercise 7](docs/exercises/Exercise7.md)
 
-## Lecture 6 - Distributed Programming 
-- Introduction into Consensus Protocols
-- Raft
-- Implementing Raft with Go 
+## Lecture 8 - Distributed Programming 
+- Introduction to Networrking in Go
 - <a href="docs/07-Distributed-Programming-Raft.pdf">Slides</a>
 - <a href="docs/exercises/Exercise7.md">Exercise 7</a>
 

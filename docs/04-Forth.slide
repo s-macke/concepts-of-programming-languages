@@ -17,7 +17,7 @@ https://www.qaware.de
 - Delegation
 - Implicit satisfied interfaces
 
-: Übungslös
+: Lösungen der Übungen zeigen
 
 * Some thoughts about this lecture
 
@@ -95,6 +95,7 @@ These notations are named as how they use operator in expressions.
     (n + 1) / n            =>  n 1 + n /
     x * (7 * x + 5)        =>  x 7 x * 5 + *
 
+: ask students
 
 * Postfix via a stack machine
 
@@ -485,6 +486,25 @@ compiles into
 
 - Executes the computer program
 
+* Shunting Yard algorithm - Conversion from Infix to Postfix
+
+Infix: ( ( ( A + B ) * C ) - ( ( D + E ) / F ) )
+Postfix: A B + C * D E + F / -
+
+Operand order does not change!
+Operators are in order of evaluation!
+
+Algorithm:
+
+  - Initialize a stack for operators and output list
+  - Split the input string into a list of tokens
+  - For each token in the token list:
+    - If the token is a number, push it onto the output list
+    - If the token is an operator:
+        - Pop operators from the stack and push them onto the output list until you find an operator
+          with lower precedence
+        - Push the current operator onto the stack
+
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 
@@ -569,26 +589,7 @@ compiles into
     stack: []
     output: [1 2 3 * + 4 +]
 
-- Finished
-
-* Shunting Yard algorithm - Conversion from Infix to Postfix
-
-Infix: ( ( ( A + B ) * C ) - ( ( D + E ) / F ) )
-Postfix: A B + C * D E + F / -
-
-Operand order does not change!
-Operators are in order of evaluation!
-
-Algorithm:
-
-  - Initialize a stack for operators and output list
-  - Split the input string into a list of tokens
-  - For each token in the token list:
-    - If the token is a number, push it onto the output list
-    - If the token is an operator:
-        - Pop operators from the stack and push them onto the output list until you find an operator
-          with lower precedence
-        - Push the current operator onto the stack
+- No more elements on the stack. Finished
 
 * Shunting Yard algorithm - Conversion from Infix to Postfix
 

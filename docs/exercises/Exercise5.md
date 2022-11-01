@@ -1,8 +1,8 @@
-# Exercise 4 - Functional Programming in Go
+# Exercise 5 - Functional Programming in Go
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 4.1 - Warm Up
+## Exercise 5.1 - Warm Up
 
 Write a Go program which shows the following concepts:
 
