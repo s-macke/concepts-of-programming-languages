@@ -11,39 +11,13 @@ https://www.qaware.de
 : https://www.digicomp.ch/blog/2015/10/20/einfuehrung-in-die-funktionale-programmierung
 
 * Last lecture
-- Exception Handling. Error return codes vs. Exceptions
-- Dynamic Types in Go
-- Object Oriented Programming Principles
-- Object Oriented Programming without class hierarchy
-- Reasons from Go team: Inheritance can cause weak encapsulation (override) , tight coupling (difficult to refactor) and surprising bugs
-- Delegation
-- Implicit satisfied interfaces
-- Filesystem IO mocking as example
+- Prefix, Infix and Post-Notation
+- Stack machine
+- Forth as one of most simplistic languages
+- Metaprogramming, program new languages features while programming
+- Shunting-Yard Algorithm
 
 : Ergebnisse der Übungen zeigen.
-
-* Lectures
-
-Lecture 1 - *About* *Overview* *Introduction*
-
-Lecture 2 - *Introduction* *to* *Golang*
-
-Lecture 3 - *Object* *Oriented* *Programming*
-
-Lecture 4 - *Functional* *Programming*
-
-Lecture 5 - *Concurrent* *Programming*
-
-Lecture 6 - *Distributed* *Programming*.
-
-Lecture 7 - *Systems* *Programming*
-
-Lecture 8 - *Logical* *Programming*
-
-: Lecture 9 - *Cross* *Compiling* *with* *Webassembly*
-
- .... TBA
-
 
 * What is Functional programming?
 - Functional programming is a programming paradigm where functions can not only be defined and applied. Like data, functions can be linked together, used as parameters, and occur as function results.
@@ -58,7 +32,6 @@ Functional programming is old, but some major languages have adapted them quite 
 - C++ in 2011
 - Java 8 in 2014
 - Rust 2015
-
 
 * Functional programming languages are categorized into two groups
 - *Pure* Functional Languages
@@ -144,6 +117,10 @@ Advantages
 
     List<Integer> array = new ArrayList<Integer>
     arrlist.add(1);
+
+: Question: How to make a real random() function pure?
+: How to make a quasi-random number pure?
+: TODO: separate slide maybe?
 
 * Pure Functional Languages
 
