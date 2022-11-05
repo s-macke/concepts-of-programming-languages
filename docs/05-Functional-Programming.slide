@@ -1,6 +1,6 @@
 Functional Programming
 Concepts of Programming Languages
-25 Oct 2021
+7 Nov 2022
 Tags: go, programming, master
 
 Sebastian Macke
@@ -13,8 +13,8 @@ https://www.qaware.de
 * Last lecture
 - Prefix, Infix and Post-Notation
 - Stack machine
-- Forth as one of most simplistic languages
-- Metaprogramming, program new languages features while programming
+- Forth as one of the most simplistic languages
+- Metaprogramming, program new language features while programming
 - Shunting-Yard Algorithm
 
 : Ergebnisse der Übungen zeigen.
@@ -117,6 +117,9 @@ Advantages
 
     List<Integer> array = new ArrayList<Integer>
     arrlist.add(1);
+
+- Question: How to make a pseudo random() function pure?
+- Question: How to make a real random() function pure?
 
 : Question: How to make a real random() function pure?
 : How to make a quasi-random number pure?
@@ -230,110 +233,12 @@ Functions can be composed with functions as parameters
 .play ../src/functional/composition/compose2.go
 
 * Famous Functional Languages
-- Haskell ([[https://www.youtube.com/watch?v=1jZ7j21g028][Introduction]])
+- Haskell ([[https://www.youtube.com/watch?v=1jZ7j21g028][Introduction]]) ← Next lecture
 - ML
 - Clojure
 - F#
 - Scala
 - JavaScript
-
-* Haskell I: Hello world
-
-  main = print "Hello, World!"
-
-1. Define a function with name "main" with no input and output parameters.
-Execute the function print, which takes one arbitrary argument. In this case a string
-
-- Printing text doesn't seem to have any side effects
-
-Online editor:
-.link https://replit.com/languages/haskell
-
-* Haskell II: Fibonacci
-  fib :: Int -> Int
-  fib 0 = 0
-  fib 1 = 1
-  fib n = fib (n-1) + fib (n-2)
-  main = print (fib 10)
-
-1. Define a function fib with takes an argument of type int and returns an int
-2. Define the function fib which takes as input the number 0 and return 0
-3. Else: Define the function fib which takes as input the number 1 and return 1
-4. Else: Define the function fib for an arbitrary integer n and execute the function itself with the arguments n-1 and n-2 and add the result
-5. Execute the function fib with the number 10 and print the result
-The order of line 2, 3, 4 matters
-
-* Haskell III: Functional Composition
-
-  import Data.List
-  revsort = (reverse . sort)
-  main = print $ revsort [2,8,7,10,1,9,5,3,4,6]
-
-2. Sort takes a list and returns a sorted list. The result of sort is pipelined to reverse
-3. prints the result of revsort for the given table
-
-The $ is a shortcut to prevent brackets
-
-Alternative:
-
-  main = print (revsort [2,8,7,10,1,9,5,3,4,6])
-
-* Haskell IV: Partial Application for a dot product application
-
-  dot :: [Int] -> [Int] -> Int
-  dot x y = sum (zipWith (*) x y)
-  partial_dot = dot [1, 2, 3]
-  main = print $ partial_dot [4,5,6]
-
-1. Define a function dot which takes an array of ints as input and returns a function which returns an array of ints as input which returns an integer
-
-  dot :: [Int] -> ([Int] -> Int)
-
-2. (*) is shortcut to define a function which takes two parameters and returns the multiplication of these parameters.
-
-  (*) 2 3 -- returns 6
-
-zipWith takes three parameters. The first is the function to apply to the next parameters. It returns a new list in which each element of the two tables are run through the function defined in the first parameter.
-sum just sums the table
-
-* Haskell IV: Partial Application for a dot product application
-
-3. define a new function which is the partial applcation of the dot function
-4. execute and print the rest of the function.
-
-A normal execution of dot would have looked like
-
-  main = print (dot [1,2,3] [4,5,6])
-
-* Haskell V: Lazy evaluation
-
-  osc :: [Integer]
-  osc = 0 : 1 : fibs
-  main = print (osc!!10)
-
-1. Define a function osc, which returns a list of integers of unknown size
-2. Define a function osc, which returns oscillating numbers 0,1,0,1,0,1. There is no break condition in this list!
-3. Execute the function fibs which actually should return an infinite list. But is not evaluated yet.
-   Take the 10th element out of the list. Print the result
-
-The order of the function evaluation is O(N) or even O(N²), instead of O(1)
-
-* Haskell IV: Communication with the outside world
-
-Also Haskell have to perform IO
-
-  import Data.Time.Clock
-  import Control.Concurrent
-
-  main = do {
-    x <- getCurrentTime;
-    print x;
-    threadDelay 1000000;
-    x <- getCurrentTime;
-    print x
-  }
-
-The <- sign executes a non-pure function
 
 * History: The Lambda Calculus
 .image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
@@ -357,15 +262,16 @@ The <- sign executes a non-pure function
 
 - Lambda calculus contains 3 elements
 *Variables*
-- _x_
-- variables can be itself a function
+_x_
+- A variable can be itself a function
+- There are no datatypes (number, logical values)
 
 *Functions*
-- _λx.x_
-- here the identity function
+_λx.x_    (here the identity function as an example)
+- Functions have no internal state
 
 *Applications*
-- _(λx.x)a_
+_(λx.x)_ _a_
 - here the application of the identity function to a returns a)
 - also a can be a function
 - Parenthesis help to avoid ambiguity.
@@ -385,17 +291,28 @@ The <- sign executes a non-pure function
 
 : T := λa.λb.a is the function which takes two parameters and returns the first one
 : F := λa.λb.b is the function which takes two parameters and returns the second one
+: (λx.3) 5 = 3
 : (λa.λb.a) 5 6 = 5
 : (λa.λb.b) 5 6 = 6
+
+: NOT := λb.(b F T)
 : AND := λa.λb.(a b False)
 : AND True False = False
 
-* Summary of the Introduction to Lambda Calculus
-- Pure Functions have no internal state
-- The Lambda Calculus is very different to the Turing Machine in this way
-- The lambda calculus knows only three primitives: Variables (x,y,z), building functions λx.x, applying functions "(λx.x+1) 5" -> 6 with values
-- There are no datatypes (number, logical values) - values can be functions, no built-in recursion!
-- It can encode any computation (Church-Turing thesis)
+: ifelse = λp.λa.λb.(p a b)
+: ifelse true 42 58 = true 42 58 = 42
+: or = λp.λq.(p p q)
+: alternative for not = λp.λa.λb.(p b a)
+
+: falls mehr fragen kommen: http://www.cs.columbia.edu/~sedwards/classes/2012/w4115-fall/lambda.pdf
+: Fun: https://github.com/woodrush/lambda-8cc
+
+: * Summary of the Introduction to Lambda Calculus
+: - Pure Functions have no internal state
+: - The Lambda Calculus is very different to the Turing Machine in this way
+: - The lambda calculus knows only three primitives: Variables (x,y,z), building functions λx.x, applying functions "(λx.x+1) 5" -> 6 with values
+: - There are no datatypes (number, logical values) - values can be functions, no built-in recursion!
+: - It can encode any computation (Church-Turing thesis)
 
 : - Lambda Calculus is present in most major programming languages
 
@@ -432,18 +349,17 @@ The <- sign executes a non-pure function
 : .play ../src/functional/lambdacalculus/successor/main.go /Functional Numbers SUCCESSOR/,/EOF OMIT/
 
 * Lambda Calculus in JavaScript
-        TRUE = a => b => a;
-        FALSE = a => b => b;
-        NOT = f => a => b => f(b)(a);
+  TRUE = a => b => a;
+  FALSE = a => b => b;
+  NOT = f => a => b => f(b)(a);
 
-        f = x => x + 10
-        g = x => x + 20
+  ToBool = f => f(() => true)(() => false)()
 
-        TRUE(f)(g)(3)       // -> 13
-        FALSE(f)(g)(3)      // -> 23
+  console.log( ToBool(TRUE) ) // -> true
+  console.log( ToBool(FALSE) ) // -> false
 
-        NOT(TRUE)(f)(g)(3)  // -> 23
-        NOT(FALSE)(f)(g)(3) // -> 13
+  console.log( ToBool(NOT(TRUE)) )  // -> false
+  console.log( ToBool(NOT(FALSE)) ) // -> true
 
 .link https://www.youtube.com/watch?v=3VQ382QG-y4 Fundamentals of Lambda Calculus & Functional Programming in JavaScript
 
