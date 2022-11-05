@@ -2,91 +2,97 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
-// Implement the shunting-yard algorithm for parsing infix expressions.
-type ShuntingYard struct {
-	// The input expression
-	input string
-	// Input Tokens
-	tokens []string
-	// The output queue
-	output []string
-	// The operator stack
-	operatorStack *Stack[string]
-
-	precedence map[string]int // The precedence of operators
-
+var precedence = map[string]int{
+	"*": 2,
+	"/": 2,
+	"+": 1,
+	"-": 1,
 }
 
-// Create a new ShuntingYard instance.
-func NewShuntingYard(input string) *ShuntingYard {
-	return &ShuntingYard{
-		input:         input,
-		output:        make([]string, 0),
-		operatorStack: NewStack[string](),
-		precedence: map[string]int{
-			"(": 1,
-			"*": 3,
-			"/": 3,
-			"+": 2,
-			"-": 2,
-		},
-	}
+type Tokens []string
+
+func Lexer(input string) Tokens {
+	return strings.Fields(input)
 }
 
-func (sy *ShuntingYard) Lex() []string {
-	sy.tokens = strings.Fields(sy.input)
-	return sy.tokens
-}
+type Postfix []string
 
-// Parse the input expression.
-func (sy *ShuntingYard) Parse() []string {
-	for _, token := range sy.tokens {
-		fmt.Println("Parse ", token)
+// Parse the input expression by performing the shunting yard algorithm
+func (tokens Tokens) ToPostfix() Postfix {
+	operatorStack := NewStack[string]()
+	var output []string
+
+	for _, token := range tokens {
+		//fmt.Println("Parse ", token)
 
 		switch token {
 		case "+", "-", "*", "/":
-			for !sy.operatorStack.IsEmpty() { // Check precedence of operators
-				op := sy.operatorStack.Get(0)
-				if sy.precedence[op] < sy.precedence[token] {
+			for !operatorStack.IsEmpty() { // Check precedence of operators
+				op := operatorStack.Get(0)
+				if precedence[op] < precedence[token] {
 					break
 				}
-				sy.output = append(sy.output, sy.operatorStack.Pop())
+				output = append(output, operatorStack.Pop())
 			}
-			sy.operatorStack.Push(token)
+			operatorStack.Push(token)
 		case "(":
-			sy.operatorStack.Push(token)
+			operatorStack.Push(token)
 
 		case ")": // Highest precedence
-			for !sy.operatorStack.IsEmpty() {
-				op := sy.operatorStack.Pop()
+			for !operatorStack.IsEmpty() {
+				op := operatorStack.Pop()
 				if op == "(" {
 					break
 				}
-				sy.output = append(sy.output, op)
+				output = append(output, op)
 			}
 
 		default: // A number or variable
-			sy.output = append(sy.output, token)
+			output = append(output, token)
 		}
-		fmt.Println("output:", sy.output, "Operator Stack", sy.operatorStack.data)
+		//fmt.Println("output:", output, "Operator Stack", operatorStack.data)
 	}
 
 	// Pop all operators from the stack and append them to the output queue.
-	for !sy.operatorStack.IsEmpty() {
-		sy.output = append(sy.output, sy.operatorStack.Pop())
+	for !operatorStack.IsEmpty() {
+		output = append(output, operatorStack.Pop())
 	}
+	return output
+}
 
-	return sy.output
+func (pf Postfix) Evaluate() (int, error) {
+	s := NewStack[int]()
+	for _, expr := range pf {
+		switch expr {
+		case "+":
+			s.Push(s.Pop() + s.Pop())
+		case "-":
+			right := s.Pop()
+			s.Push(s.Pop() - right)
+		case "*":
+			s.Push(s.Pop() * s.Pop())
+		case "/":
+			right := s.Pop()
+			s.Push(s.Pop() / right)
+		default:
+			v, err := strconv.Atoi(expr)
+			if err != nil {
+				return 0, err
+			}
+			s.Push(v)
+		}
+	}
+	return s.Pop(), nil
 }
 
 func main() {
-	//sy := NewShuntingYard("3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3")
-	sy := NewShuntingYard("3 + 4 * 2 * ( 5 + 6 )")
-	sy.Lex()
-	fmt.Println("Lexer:", sy.tokens)
-	sy.Parse()
-	fmt.Println("Result:", sy.output)
+	result, err := Lexer("3 + 4 * 2 * ( 5 + 6 )").ToPostfix().Evaluate()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Result:", result)
 }
