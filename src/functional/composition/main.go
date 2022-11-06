@@ -17,7 +17,6 @@ func main() {
 	fmt.Printf("%v\n", gf(2)) // --> 5
 
 	// Generic Composition
-	type any interface{}
 	type function func(any) any
 
 	compose := func(g, f function) function {

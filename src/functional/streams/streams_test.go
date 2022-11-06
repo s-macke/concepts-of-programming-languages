@@ -11,7 +11,7 @@ import (
 // TestMapFilterReduce tests the Java 8 Map/Filter/Reduce Chain.
 func TestMapFilterReduce(t *testing.T) {
 	// array of generic interfaces.
-	stringSlice := []Any{"a", "b", "c", "1", "D"}
+	stringSlice := []any{"a", "b", "c", "1", "D"}
 
 	// Map/Reduce
 	result := ToStream(stringSlice).
@@ -24,10 +24,10 @@ func TestMapFilterReduce(t *testing.T) {
 	}
 	// lambda (inline)
 	result = ToStream(stringSlice).
-		Map(func(o Any) Any {
+		Map(func(o any) any {
 			return strings.ToUpper(o.(string))
 		}).
-		Filter(func(o Any) bool {
+		Filter(func(o any) bool {
 			s := o.(string)
 			result := true
 			for _, v := range s {
@@ -38,20 +38,20 @@ func TestMapFilterReduce(t *testing.T) {
 			}
 			return result
 		}).
-		Reduce(func(a Any, b Any) Any {
+		Reduce(func(a any, b any) any {
 			return a.(string) + "," + b.(string)
 		}).(string)
 }
 
 // toUpperCase converts a given string to upper case.
-func toUpperCase(o Any) Any {
+func toUpperCase(o any) any {
 	return strings.ToUpper(o.(string))
 }
 
 //EOF OMIT
 
 // notDigit loops over a string value and checks if the string contains a digit.
-func notDigit(o Any) bool {
+func notDigit(o any) bool {
 	s := o.(string)
 	result := true
 	for _, v := range s {
@@ -64,7 +64,7 @@ func notDigit(o Any) bool {
 }
 
 // concat produces a string by concating two strings with ,.
-func concat(a Any, b Any) Any {
+func concat(a any, b any) any {
 	return a.(string) + "," + b.(string)
 }
 
@@ -73,13 +73,12 @@ func concat(a Any, b Any) Any {
 // ========================
 // Classic wordcount sample
 // ========================
-//
 func TestWordCount(t *testing.T) {
-	strings := []Any{"a", "a", "b", "b", "D", "a"}
+	strings := []any{"a", "a", "b", "b", "D", "a"}
 
 	// Map/Reduce
 	result := ToStream(strings).
-		Map(func(o Any) Any {
+		Map(func(o any) any {
 			result := []Pair{Pair{o, 1}}
 			return result
 		}).
@@ -93,7 +92,7 @@ func TestWordCount(t *testing.T) {
 // ENDWC OMIT
 
 // sumValues reduces the pair arrays by adding the count for the same key.
-func sumInts(a Any, b Any) Any {
+func sumInts(a any, b any) any {
 	pa := a.([]Pair)
 	pb := b.([]Pair)
 	for i, e := range pa {

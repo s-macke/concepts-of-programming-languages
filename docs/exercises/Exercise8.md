@@ -1,173 +1,142 @@
-# Exercise 8 - Systems Programming
+# Exercise 8 - Network Programming
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 8.1 - Cgo
+## Exercise 8.1 - TCP connection
 
-Write a Cgo program that creates a new SQLITE database file and executes the following statements:
-```sqlite
-create table if not exists students (id integer not null primary key autoincrement, name text);
-insert into students (name) values ('Your Name');
-insert into students (name) values ('Another Name');
+Make a TCP connection with *towel.blinkenlights.nl* on port *23*, read from the data stream and write the output onto the screen in an infinite loop.
+
+## Exercise 8.2 - Remote procedure call
+
+Implement in Go a net/rpc client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . 
+This interface offers two remote procedures calls.
+
+A function, in which you receive a rune
+
+    var dummy struct {}
+    var output rune
+    err := client.Call("Session.Read", &dummy, &output)
+
+and a function in which you have to provide a rune
+
+    var input rune
+    err := client.Call("Session.Write", &input, &dummy)
+
+Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
+
+    reader := bufio.NewReader(os.Stdin)
+    input, _, err := reader.ReadRune()
+
+## Exercise 8.3 - Call Rest API
+
+Call the Github API to receive the repositories with the most stars and the query "awesome"
+
+https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
+
+Use https://mholt.github.io/json-to-go/ to instantly create a Go structure from an arbitrary JSON.
+
+## Exercise 7.4 - Microservice with API and embedded Web Site
+
+Create a REST API for a key value store.
+
+```Go
+    map[string]string
 ```
-Do not use any GitHub libraries, but write your own Cgo wrapper.
-Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or https://sqlitebrowser.org/).
 
-Windows users can use the Windows Subsystem for Linux and install the following packages:
-```shell script
-sudo apt install gcc golang sqlite3 libsqlite3-dev
+### Add an "add" entry API call
+
+```
+GET /api/add?key=mykey&value=myvalue
 ```
 
-Here is an example code of how to use the libs
-```C
-#include <stdio.h>
-#include <stdlib.h>
-#include <sqlite3.h>
-// compile with gcc sqlite.c -lsqlite3
+To test the rest interface you can use tools such as
+- curl
+- httpie
+- Postman
+- Your own Go Rest call code
+- Web Browser
 
-void Exec(sqlite3 *db, char *sql) {
-    int rc = sqlite3_exec(db, sql, NULL, NULL, NULL);
-    if (rc != SQLITE_OK) {
-        printf("sqlite3_open returned code %i", rc);
-        exit(1);
+###  List entry API call
+
+Add a Rest API GET call
+```
+GET /api/list 
+```
+call which returns the complete key value store as JSON
+
+```JSON
+{
+    "mykey1": "myvalue1",
+    "mykey2": "myvalue2",
+    ...
+}
+```
+
+If the response should be displayed in the browser you have to add the following Header
+```HTTP
+Content-Type: application/json
+```
+
+You should be able to see the JSON in the browser when you try to access http://localhost:8080/api/list
+
+### Clear Store API call
+
+Add a Rest API GET call
+```
+GET /api/clear
+```
+which removes the complete key value store
+
+###  Include static web site
+
+Add an index.html file, which can interface the key value store. E. g. following HTML File shows the data from the key value store.
+
+```HTML
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Key Value List</h3>
+<pre id="store"></pre>
+
+<script>
+    async function ListStore() {
+        let response = await fetch("/api/list")
+        let store = await response.json()
+        let pre = document.getElementById("store")
+        for (let key in store) {
+            pre.innerText += key + ": " + store[key] + "\n"
+        }
     }
-}
-int main() {
-    sqlite3 *db;
-    int rc = sqlite3_open("test.db", &db);
-    if (rc != SQLITE_OK) {
-        printf("sqlite3_open returned code %i", rc);
-        return 1;
-    }
+    ListStore()
+</script>
 
-    Exec(db, "create table if not exists students (id integer not null primary key autoincrement, name text);");
-    Exec(db, "insert into students (name) values ('Your Name');");
-    Exec(db, "insert into students (name) values ('Another Name');");
-
-    sqlite3_close(db);
-    return 0;
-}
+</body>
+</html>
 ```
 
-## Exercise 8.2 - FUSE Filesystem
+Add a http.Fileserver to your REST service to access this file.
 
-Choose either the FUSE Filesystem Exercise or the Containerer Exercise.
+### POST call
 
-### Try out the test filesystem
+Currently we are only using the GET call of HTTP. GET does not have any payload. E. g. the data must be in the URL 
+But the advantage is, that we can easily test the API with a browser.
 
-Experiment with the test filesystem.
+Add a Rest API POST call /api/addAll call which takes a JSON as input.
 
-https://github.com/s-macke/concepts-of-programming-languages/blob/master/src/system/fuse/main.go
-
-#### Write a RAM file system
-
-- Try to make the INode of each file unique or limit to one file first.
-- Implement "write" to file capabilities. Store the content in RAM. 
-- Allow to create new files inside the directory.
-
-## Exercise 8.2 - Containerization
-
-### Try out chroot
-```shell script
-# prepare chroot
-mkdir -p jail/{bin,lib,lib64}
-cp -v /bin/{bash,ls,touch,rm} jail/bin
-for i in $(ldd /bin/bash | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/ls | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/touch | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/rm | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-
-# run chroot
-sudo chroot jail
-```
-
-### Building your own containerization system
-
-#### 1. Start with a simple main file:
-```go
-func main() {
-	switch os.Args[1] {
-	case "run":
-		run()
-	default:
-		panic("help")
-	}
-}
-
-func must(err error) {
-	if err != nil {
-		panic(err)
-	}
+```Json
+{ 
+    "MyKey": "MyValue",
+    "NextKey": "NextValue"
 }
 ```
 
+You can test via httpie
 
-#### 2. Create your own non-isolated container command
-```go
-func run() {
-	log.Printf("Running %v \n", os.Args[1:])
-
-	cmd := exec.Command(os.Args[2], os.Args[3:]...)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	must(cmd.Run())
-}
+```
+http -v POST "http://localhost:8080/api/addAll" mykey1=myvalue1 mykey2=myvalue2
 ```
 
-**Questions:**
-- Try changing the hostname. What is the hostname if you exit the container?
-- What is the pid?
+### Add a unit test
 
-#### 3. Extend your program by setting some sysflags
-```go
-cmd.SysProcAttr = &syscall.SysProcAttr{
-    Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
-    Unshareflags: syscall.CLONE_NEWNS,
-}
-```
-
-**Questions:**
-- Try changing the hostname again. What is the hostname if you exit the container?
-- Call `ps`. What do you see?
-
-
-#### 4. Try to become more isolated using exec/fork
-- Copy the run function and name the copy child(). 
-- Remove cmd.SysProcAttr in the child() function. 
-- Modify the run() function to execute the following instead:
-```go
-cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...)
-```
-
-**Questions:**
-- Call `ps`. What do you see?
-
-
-#### 5. Use a custom root filesystem
-Create a complete chroot environment. For Debian based linux systems, you might use e.g.
-```shell script
-sudo debootstrap buster /jail http://deb.debian.org/debian
-```
-
-or download the alpine mini root fs from https://alpinelinux.org/downloads/
-
-In the child() function, add the following code:
-```go
-must(syscall.Chroot("/jail")) // local fs
-must(os.Chdir("/"))
-must(syscall.Mount("proc", "proc", "proc", 0, ""))
-
-must(cmd.Run())
-
-must(syscall.Unmount("proc", 0))
-```
-
-**Questions:**
-- Call `ps`. What do you see?
-
-#### 6. Resource limit
-
-Use cgroups (`/sys/fs/cgroup/`) to limit the container resource consumption.
-Test your program!
+Use the httptest.NewRequest function to create a request Object and test the API

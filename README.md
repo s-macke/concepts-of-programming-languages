@@ -53,8 +53,8 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 
 ## Lecture 6 - Haskell
 - Introduction to Haskell
-- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/06-Haskell.html)
-- [Exercise 6](docs/exercises/Exercise6.md)
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/06-Pure-Functional-Programming-with-Haskell.html)
+- [Exercise 6](docs/exercises/Exercise7.md)
 
 ## Lecture 7 - Concurrent Programming
 - Why concurrent programming matters! Go routines and channels, Go concurrency patterns, The dining philosophers problem
@@ -62,29 +62,29 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - [Exercise 7](docs/exercises/Exercise7.md)
 
 ## Lecture 8 - Distributed Programming 
-- Introduction to Networrking in Go
-- <a href="docs/07-Distributed-Programming-Raft.pdf">Slides</a>
-- <a href="docs/exercises/Exercise7.md">Exercise 7</a>
+- Introduction to Networking in Go
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/08-Network-Programming.html)
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/15-Distributed-Programming-Raft.html)
+- [Exercise 8](docs/exercises/Exercise8.md)
 
-## Lecture 7 - Systems Programming
+## Lecture 9 - Systems Programming
 - Introduction into systems programming
 - Using Cgo to communicate with native libraries
-- Building an OS-level virtualization software in Go
-- <a href="docs/09-Systems-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise9.md">Exercise 9</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/09-Systems-Programming.html)
+- [Exercise 9](docs/exercises/Exercise9.md)
 
-## Lecture 8 - Cross Compiling with WebAssembly 
+## Lecture 10 - Cross Compiling with WebAssembly 
 - Introduction to WebAssembly
 - WebAssembly implementation of Go
 - <a href="docs/08-WebAssembly.pdf">Slides</a>
 - <a href="docs/exercises/Exercise8.md">Exercise 8</a>
 
-## Lecture 9 - Enterprise Programming
+## Lecture 11 - Enterprise Programming
 - Large Scale Programming with Modules
 - <a href="docs/10-Enterprise-Programming-Modules.pdf">Slides</a>
 - <a href="docs/exercises/Exercise10.md">Exercise 10</a>
 
-## Lecture 10 - Logic Programming
+## Lecture 12 - Logic Programming
 - Introduction to Prolog
 - <a href="docs/11-Logic-Programming.pdf">Slides</a>
 - <a href="docs/exercises/Exercise11.md">Exercise 11</a>

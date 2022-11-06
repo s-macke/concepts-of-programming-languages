@@ -1,142 +1,85 @@
-# Exercise 7 - Network Programming
+# Exercise 7 - Concurrent Programming in Go
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 7.1 - TCP connection
+## Exercise 7.1 - Generator
 
-Make a TCP connection with *towel.blinkenlights.nl* on port *23*, read from the data stream and write the output onto the screen in an infinite loop.
-
-## Exercise 7.2 - Remote procedure call
-
-Implement in Go a net/rpc client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . 
-This interface offers two remote procedures calls.
-
-A function, in which you receive a rune
-
-    var dummy struct {}
-    var output rune
-    err := client.Call("Session.Read", &dummy, &output)
-
-and a function in which you have to provide a rune
-
-    var input rune
-    err := client.Call("Session.Write", &input, &dummy)
-
-Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
-
-    reader := bufio.NewReader(os.Stdin)
-    input, _, err := reader.ReadRune()
-
-## Exercise 7.3 - Call Rest API
-
-Call the Github API to receive the repositories with the most stars and the query "awesome"
-
-https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
-
-Use https://mholt.github.io/json-to-go/ to instantly create a Go structure from an arbitrary JSON.
-
-## Exercise 7.4 - Microservice with API and embedded Web Site
-
-Create a REST API for a key value store.
-
-```Go
-    map[string]string
-```
-
-### Add an "add" entry API call
-
-```
-GET /api/add?key=mykey&value=myvalue
-```
-
-To test the rest interface you can use tools such as
-- curl
-- httpie
-- Postman
-- Your own Go Rest call code
-- Web Browser
-
-###  List entry API call
-
-Add a Rest API GET call
-```
-GET /api/list 
-```
-call which returns the complete key value store as JSON
-
-```JSON
-{
-    "mykey1": "myvalue1",
-    "mykey2": "myvalue2",
-    ...
-}
-```
-
-If the response should be displayed in the browser you have to add the following Header
-```HTTP
-Content-Type: application/json
-```
-
-You should be able to see the JSON in the browser when you try to access http://localhost:8080/api/list
-
-### Clear Store API call
-
-Add a Rest API GET call
-```
-GET /api/clear
-```
-which removes the complete key value store
-
-###  Include static web site
-
-Add an index.html file, which can interface the key value store. E. g. following HTML File shows the data from the key value store.
-
-```HTML
-<!DOCTYPE html>
-<html>
-<body>
-
-<h3>Key Value List</h3>
-<pre id="store"></pre>
-
-<script>
-    async function ListStore() {
-        let response = await fetch("/api/list")
-        let store = await response.json()
-        let pre = document.getElementById("store")
-        for (let key in store) {
-            pre.innerText += key + ": " + store[key] + "\n"
-        }
+Write a generator for Fibonacci numbers, i.e. a function that returns a channel where the next Fibonacci number can be read.
+```go
+func main() {
+    fibChan := fib() // <- write func fib
+    for n := 1; n <= 10; n++ {
+        fmt.Printf("The %dth Fibonacci number is %d\n", n, <-fibChan)
     }
-    ListStore()
-</script>
-
-</body>
-</html>
+}
 ```
+Also write a test for the `fib()` function.
 
-Add a http.Fileserver to your REST service to access this file.
+## Exercise 7.2 - Timeout
 
-### POST call
+Write a function `setTimeout()` that times out an operation after a given amount of time. Hint: Have a look at the built-in `time.After()` function and make use of the `select` statement.
+```go
+func main() {
+    res, err := setTimeout(func() int {
+        time.Sleep(2000 * time.Millisecond)
+        return 1
+    }, 1*time.Second)
 
-Currently we are only using the GET call of HTTP. GET does not have any payload. E. g. the data must be in the URL 
-But the advantage is, that we can easily test the API with a browser.
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Printf("operation returned %d", res)
+    }
+}
+```
+Also write a test for the `setTimeout()` function.
 
-Add a Rest API POST call /api/addAll call which takes a JSON as input.
+## Exercise 7.3 - Dining Philosophers
 
-```Json
-{ 
-    "MyKey": "MyValue",
-    "NextKey": "NextValue"
+Write a program to simulate the Dining Philosophers Problem by using Go Channels.
+- There should be one Go Routine for each Philosopher
+- The table itself should be a Go Routine and should handle all forks. This makes synchronization easier.
+- Make sure that:
+  - The distribution of forks is fair - No philosopher dies on starvation 
+  - Use the given Unit Test:
+
+```go
+func TestPhilosophers(t *testing.T) {
+
+	var COUNT = 5
+
+	// start table for 5 philosophers
+	table := NewTable(COUNT)
+
+	// create 5 philosophers and run parallel 
+	for i := 0; i < COUNT; i++ {
+		philosopher := NewPhilosopher(i, table)
+		go philosopher.run()
+	}
+	go table.run()
+
+	// simulate 10 milliseconds --> check output
+	time.Sleep(10 * time.Millisecond)
 }
 ```
 
-You can test via httpie
+Sample console output:
 
+```sh
+[->]: Philosopher #0 eats ...
+[->]: Philosopher #3 eats ...
+[<-]: Philosopher #0  eat ends.
+[<-]: Philosopher #3  eat ends.
+[->]: Philosopher #0 thinks ...
+[->]: Philosopher #1 eats ...
+[->]: Philosopher #3 thinks ...
+[->]: Philosopher #4 eats ...
+[<-]: Philosopher #1  eat ends.
+[->]: Philosopher #1 thinks ...
+[<-]: Philosopher #4  eat ends.
+[->]: Philosopher #2 eats ...
+[->]: Philosopher #4 thinks ...
+[<-]: Philosopher #0 thinking ends
+[->]: Philosopher #0 eats ...
+[<-]: Philosopher #3 thinking ends
 ```
-http -v POST "http://localhost:8080/api/addAll" mykey1=myvalue1 mykey2=myvalue2
-```
-
-### Add a unit test
-
-Use the httptest.NewRequest function to create a request Object and test the API
