@@ -67,6 +67,24 @@ These types of functional languages support the functional paradigms and imperat
 
 .play ../src/functional/basics/return.go /type/,
 
+* Why functional programming is better - Odd Number Filter
+
+- With imperative programming. Generate a new array and copy only the correct values.
+.play ../src/functional/genericstreams/filter/classic.go /array/,/fmt.Println/
+
+- With functional declarative programming. Filter the array via a stream.
+.play ../src/functional/genericstreams/filter/main.go /array/,/fmt.Println/
+
+* Why functional programming is better - Sorting
+- A sorting algorithm needs to be able to compare two elements. This is done via a comparator function.
+- Before functional programming was a thing in Java, we had to provide a Comparator implementation via inheritance.
+Java:
+.play ../src/functional/genericstreams/sort/SortDemo.java /class/,
+
+* Why functional programming is better - Sorting
+- With functional programming, we can use a lambda expression to provide a comparator function.
+.play ../src/functional/genericstreams/sort/main.go /array/,/fmt.Println/
+
 * Closures
 - Function gets access to its context (e. g. variables) at creation time.
 .play ../src/functional/clojures/main.go /intSeq/,/EOF OMIT/
@@ -78,7 +96,6 @@ These types of functional languages support the functional paradigms and imperat
 
 Access array outside of the function for sorting
 .play ../src/functional/basics/sort.go /func main/,
-
 
 * Exercise 5.1 - Warm Up
 Write a Go Programm which shows the following concepts:
@@ -336,8 +353,6 @@ _(λx.x)_ _a_
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /Boolean/,/BOOL OMIT/
 : .play ../src/functional/lambdacalculus/mockingbird/main.go /TEST BOOL START OMIT/,/TEST BOOL END OMIT/
 .play ../src/functional/lambdacalculus/logic/main.go /// Boolean Logic/,
-
-
 
 : * Lambda Calculus in Go: Helper (2)
 : .play ../src/functional/lambdacalculus/mockingbird/main.go /Debugging/,/DEBUG END OMIT/

@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// Type any makes the code readable
-type any interface{}
 type function func(any) any
 
 func main() {
