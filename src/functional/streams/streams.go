@@ -8,7 +8,7 @@
 //			Map(toUpperCase).
 //			Filter(containsDigit).
 //			Reduce(concat).(string)
-//	 - ToStream() converts a Slice of Any (interface{}) to a Steam.
+//	 - ToStream() converts a Slice of "any" to a Steam.
 //	 - Map() applies a function to all elements.
 //	 - Filter() filters all elements out which not match the given predicate.
 //	 - Reduce() combines all elements and returns a single element.
@@ -28,47 +28,18 @@ type Mapper func(o1 any) any
 type Accumulator func(any, any) any
 
 // EXERCISE 5.3 END OMIT
+
 // Pair of two values.
 type Pair struct {
 	k any
 	v any
 }
 
-type Iterator interface {
-	HasNext() bool
-	Next() any
-}
-
 // Stream interface is implemented for container types.
 type Stream interface {
-	Iterator() Iterator
 	Map(m Mapper) Stream
 	Filter(p Predicate) Stream
 	Reduce(a Accumulator) any
-}
-
-type SliceIterator struct {
-	slice      []any
-	currentPos int
-}
-
-func NewSliceIterator(slice []any) *SliceIterator {
-	result := new(SliceIterator)
-	result.slice = slice
-	return result
-}
-
-func (s *SliceIterator) HasNext() bool {
-	return len(s.slice) > s.currentPos
-}
-
-func (s *SliceIterator) Next() any {
-	if len(s.slice) > s.currentPos {
-		cp := s.currentPos
-		s.currentPos++
-		return s.slice[cp]
-	}
-	panic("No such element")
 }
 
 // ToStream helper converts a slice into a Stream.
@@ -83,7 +54,7 @@ type SliceStream struct {
 
 // NewSliceStream returns a new stream.
 func NewSliceStream(data []any) *SliceStream {
-	ss := new(SliceStream)
+	ss := &SliceStream{}
 	ss.data = data
 	return ss
 }
@@ -111,7 +82,7 @@ func (s *SliceStream) Filter(filter Predicate) Stream {
 // Reduce combines two elements and return one element.
 func (s *SliceStream) Reduce(accumulate Accumulator) any {
 
-	var result interface{}
+	var result any
 	for i, e := range s.data {
 		if i == 0 {
 			result = e
@@ -120,8 +91,4 @@ func (s *SliceStream) Reduce(accumulate Accumulator) any {
 		}
 	}
 	return result
-}
-
-func (s *SliceStream) Iterator() Iterator {
-	return nil
 }
