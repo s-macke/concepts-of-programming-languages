@@ -69,7 +69,14 @@ Functional programming supports distributed computing
 - Haskell is a general-purpose, statically-typed, purely functional programming language with type inference and lazy evaluation
 - Designed for teaching, research and industrial applications
 - Haskell has pioneered a number of programming language features such as type classes, which enable type-safe operator overloading, and monadic IO
+
+.link img/01-languages.png
+.image img/01-languages.png 250 _
+
+* Ranking
 - 28th most popular programming language by Google searches for tutorials
+
+.image img/01_redmonk_2021.png 500 _
 
 * Websites to experiment with Hakell
 
@@ -80,7 +87,7 @@ Functional programming supports distributed computing
 Online tutorials
 .link http://learnyouahaskell.com/chapters
 .link http://learn.hfm.io/
-
+.link https://hackage.haskell.org/package/CheatSheet-1.11/src/CheatSheet.pdf
 
 * Haskell I: Hello world
 
@@ -98,15 +105,16 @@ Online editor:
 
 - Supports typical basic types such as Int, Float, Double, Char, String, Bool, etc.
 
-  2 + 15 => 17
-  40 * 100 => 4900
-  5 == 5 => True
-  5 == 5.0 => True
-  True && False => False
-  not False => True
-  "Hello" ++ " World" => "Hello World"
-  [1,2,3] ++ [4,5,6] => [1,2,3,4,5,6]
-  [1,2,3] !! 1 => 2
+  2 + 15                 => 17
+  40 * 100               => 4900
+  5 == 5                 => True
+  5 == 5.0               => True
+  True && False          => False
+  not False              => True
+  "Hello" ++ " World"    => "Hello World"
+  [1,2,3] ++ [4,5,6]     => [1,2,3,4,5,6]
+  [1,2,3] !! 1           => 2
+  "hey" == ['h','e','y'] => True  -- Strings are just lists of characters
 
 : - Supports user-defined types such as data types, type synonyms, and newtypes
 : - Supports type classes
@@ -115,31 +123,45 @@ Online editor:
 * Haskell: Variables
 
 - Variables are immutable
-- Variables are defined using the let keyword
+- Variables are defined locally using the let keyword
 
-  r = 5 -- actually a function, which always returns 5
+  r = 5 -- globally defined variable
   main = do
-         let n = r
+         let n = r  -- local defined "variable"
          print n
          let m = n + 1
          print m
 
+The do keyword is used to define a block of code. This sequence of instructions nearly
+matches that in any imperative language
+
+*Actually* *a* *variable* *is* *just* *a* *function* *with* *no* *arguments*
+
+: https://en.wikibooks.org/wiki/Haskell/do_notation
+
 * Haskell: Functions
+
+Defines a function *inc* that takes one argument *x* and returns *x* + 1
 
   inc x = x + 1
   main = print (inc 1)
 
-- alternative syntax
+- Alternative syntax for function calling
 
   inc x = x + 1
   main = print $ inc 1
 
+The *$* operator is used to avoid parentheses. It has the lowest precedence of all operators
+
 * Haskell: Partial Applications
+
+Function, which takes multiple arguments, can be partially applied
+Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
   add a b = a + b
   main = print $ add 1 2
 
-- alternative syntax
+- Alternative syntax
 
   add a b = a + b
   main = do
@@ -158,57 +180,81 @@ Online editor:
     main = print $ add 1 2
 
 - Function signatures are optional, but they provide documentation for other programmers and help the Haskell system to spot type errors
+- The function signature can be read as "add" takes two Int arguments and returns an Int
+- However with partial application in mind you can read is as "add" takes one Int argument and returns a function that takes one Int argument and returns an Int
 
-* Haskell: Prefix and Infix Notation
+  add :: Int -> (Int -> Int)
 
--- add with prefix notation
-main = print (+) 1 2
-
-- Infix notation
-
-  add a b = a + b
-  main = print $ 1 `add` 2
-
-- Infix notation with brackets
-
-  add :: Int -> Int -> Int
-  add a b = a + b
-  main = print $ (1 `add` 2)
-
-* Haskell: Overloading
+* Haskell: Type classes
 
 TODO
 
+* Haskell: Functional Composition
+
+  square x = x * x
+  tripleSquare x = (square . square . square) x
+  main = print $ tripleSquare 2
+
+- The *.* operator is used to compose functions
+
+: * Haskell: Prefix and Infix Notation
+
+: - add with prefix notation
+
+:   main = print $ (+) 1 2    -- returns 3
+
+: - Infix notation
+
+:   add a b = a + b
+:   main = print $ 1 `add` 2
+
+: - Infix notation with brackets
+
+:   add :: Int -> Int -> Int
+:   add a b = a + b
+:   main = print $ (1 `add` 2)
+
+: * Haskell: Overloading
+: TODO
+
+
 * Haskell: Control Flow
 
- - with if-then-else
+- with if-then-else
 
- max a b = if a > b then a else b
- main = print $ max 1 2
+  max a b = if a > b then a else b
+  main = print $ Main.max 1 2  -- max already exists, so be more specific
 
- - with guards
+- with guards
 
-    max :: Ord a => a -> a -> a  (TODO)
     max a b | a > b = a
             | otherwise = b
     main = print $ Main.max 1 2 -- max already exists, so be more specific
 
+- *guards* are evaluated top to bottom
+- *otherwise* is a predefined guard that always evaluates to True
+
+:    max :: Ord a => a -> a -> a  (TODO)
+
 * Haskell: Recursions
 
-- Using recursion (with the "ifthenelse" expression)
+- Using recursion (with the "if then else" expression)
+
   factorial n = if n < 2
                 then 1
                 else n * factorial (n - 1)
-  main = print (factorial 10)
 
--- Using recursion (with pattern matching)
+  main = print $ factorial 10
+
+- Using recursion (with pattern matching)
+
   factorial 0 = 1
   factorial n = n * factorial (n - 1)
   main = print (factorial 10)
 
--- Using a list and the "product" function
-  factorial n = product [1..n]
-
+- Pattern matching is evaluated top to bottom
+- Pattern matching is more powerful than the "if then else" expression
+- Pattern matching is also more efficient, readable and type-safe and more functional
 
 * Haskell: Local bindings
 
@@ -217,8 +263,10 @@ use diamater and radius
 
 TODO
 
-
 * Haskell: Tuples
+
+Haskell uses two fundamental structures for managing several values: lists and tuples.
+They both work by grouping multiple values into a single combined value.
 
 - How to return multiple values from a function?
 
@@ -230,16 +278,58 @@ TODO
       add a b = (a + b, a - b)
       main = do
             let (x, y) = add 1 2
-            print x
-            print y
+            print x; print y
+            print $ fst (add 1 2) -- first element
+            print $ snd (add 1 2) -- second element
 
 - can be used also as key-value pair or as a list or as 2D-coordinates
-TODO
+- In contrary to lists, tuples have a fixed number of elements and each element can have a different type
+
 
 * Haskell: Lists
-TODO
 
+- Lists are a fundamental data structure in Haskell
+- Lists are homogenous, i.e. all elements of a list must have the same type
+- Lists are immutable
 
+  main = do
+       print [1,2,3]
+       print (1:2:3:[])    -- same as [1,2,3]
+       print [1 .. 3]      -- same as [1,2,3]
+       print ([1,2,3] ++ [4,5,6])
+       print $ [1,2,3] !! 1 -- access element at index 1
+       print $ head [1,2,3] -- first element
+       print $ tail [1,2,3] -- all elements except the first one
+       print $ last [1,2,3] -- last element
+       print $ init [1,2,3] -- all elements except the last one
+
+* Haskell: Functional usage of lists
+
+  myhead (x:xs) = x
+  mytail (x:xs) = xs
+  main = do
+         print $ myhead [1,2,3]
+         print $ mytail [1,2,3]
+
+*(x:xs)* is a pattern that matches a list with at least one element
+
+- x is the first element of the list
+- xs is the rest of the list
+
+* Haskell: Functional usage of lists
+
+- How to reverse a list?
+
+  reverse [] = []
+  reverse (x:xs) = reverse xs ++ [x]
+  main = print $ reverse [1,2,3]
+
+- How to check if a list is a palindrome?
+
+  isPalindrome [] = True
+  isPalindrome [x] = True
+  isPalindrome (x:xs) = x == (last xs) && isPalindrome (init xs)
+  main = print $ isPalindrome [1,2,3,2,1]
 
 : * Haskell II: Fibonacci
 :   fib :: Int -> Int
@@ -248,23 +338,23 @@ TODO
 :   fib n = fib (n-1) + fib (n-2)
 :   main = print (fib 10)
 
-:  1. Define a function fib with takes an argument of type int and returns an int
+: 1. Define a function fib with takes an argument of type int and returns an int
 : 2. Define the function fib which takes as input the number 0 and return 0
 : 3. Else: Define the function fib which takes as input the number 1 and return 1
 : 4. Else: Define the function fib for an arbitrary integer n and execute the function itself with the arguments n-1 and n-2 and add the result
 : 5. Execute the function fib with the number 10 and print the result
 : The order of line 2, 3, 4 matters
 
-* Haskell: Functional Composition
+* Haskell: Functional Composition with Lists
 
   import Data.List
   revsort = (reverse . sort)
   main = print $ revsort [2,8,7,10,1,9,5,3,4,6]
 
-2. Sort takes a list and returns a sorted list. The result of sort is pipelined to reverse
-3. prints the result of revsort for the given table
+1. Sort takes a list and returns a sorted list. The result of sort is pipelined to reverse
+2. prints the result of revsort for the given table
 
-* Haskell V: Lazy evaluation
+* Haskell: Lazy evaluation
 
   osc :: [Integer]
   osc = 0 : 1 : osc
@@ -275,25 +365,41 @@ TODO
 3. Execute the function fibs which actually should return an infinite list. But is not evaluated yet.
    Take the 10th element out of the list. Print the result
 
-The order of the function evaluation is O(N) or even O(N²), instead of O(1)
+This example explains the concept of lazy evaluation.
+The list osc is not evaluated until it is needed.
+The function osc is called only once, but the list osc is evaluated many times.
+The list osc is evaluated only as much as needed.
 
-* Haskell IV: Communication with the outside world
+* Finally: The quicksort algorithm by using the filter function
+
+With the filter function
+
+   main = print $ filter (<3) [4,3,2,1,2,3,4]    -- returns [2,1,2]
+
+we can finally define the famous quicksort algorithm
+
+  quickSort []     = []
+  quickSort (x:xs) = quickSort (filter (<x) xs)
+                     ++ [x] ++
+                     quickSort (filter (>=x) xs)
+  main = print $ quickSort [2,8,7,10,1,9,5,3,4,6]
+
+* Communication with the outside world
 
 Also Haskell have to perform IO
 
   import Data.Time.Clock
   import Control.Concurrent
 
-  main = do {
+  main = do
     x <- getCurrentTime;
     print x;
     threadDelay 1000000;
     x <- getCurrentTime;
     print x
-  }
 
-The <- sign executes a non-pure function
+The <- sign is used to assign the result of a non-pure function to a variable
 
-* Haskell: Higher Order Functions
+* Exercise 6
 
-TODO
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise6.md

@@ -227,7 +227,7 @@ Functions can be composed to new functions
 
     fmt.Printf("%v\n", gf(2)) // --> 5
 
-: * Exercise 5.2 - Functional Composition (g◦f)(x)
+: * Exercise 5.3 - Functional Composition (g◦f)(x)
 : - Write a Go function to compose two unknown unary functions (one argument and one return value)
 : - The functions to compose should be arguments
 : - Write a Unit Test for that function
