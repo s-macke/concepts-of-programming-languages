@@ -36,12 +36,23 @@ Solve the following exercises.
 Remember, that strings are just lists of characters
 
 - Implement a function which counts the number of odd numbers in a list of integers.
-- Use pattern matching and recursion.
+  Use pattern matching and recursion.
 
 Type definition:
+
 `countOdds :: [Int] -> Int`
 
 Example main routine:
+
 `main = print $ countOdds [1,2,3,4,5]  -- returns 3`
 
- 
+### Exercise 6.4 - Higher Order Functions
+
+- Implement your own filter function which takes a list and a 
+  predicate function and returns a list of all elements that satisfy the predicate.
+  For example, the expression
+
+```
+   main = print filter even [1,2,3,4,5] 
+```
+returns [2,4]

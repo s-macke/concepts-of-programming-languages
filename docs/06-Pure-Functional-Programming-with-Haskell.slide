@@ -68,7 +68,8 @@ Functional programming supports distributed computing
 - Haskell was developed by a team led by Professor John Hughes at the University of Glasgow in 1990.
 - Haskell is a general-purpose, statically-typed, purely functional programming language with type inference and lazy evaluation
 - Designed for teaching, research and industrial applications
-- Haskell has pioneered a number of programming language features such as type classes, which enable type-safe operator overloading, and monadic IO
+- Haskell has pioneered a number of programming language features such as type classes, which enable type-safe operator overloading
+: , and monadic IO
 
 .link img/01-languages.png
 .image img/01-languages.png 250 _
@@ -185,15 +186,14 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
   add :: Int -> (Int -> Int)
 
-* Haskell: Type classes
-
-TODO
+: * Haskell: Type classes
+: TODO
 
 * Haskell: Functional Composition
 
   square x = x * x
   tripleSquare x = (square . square . square) x
-  main = print $ tripleSquare 2
+  main = print $ tripleSquare 2 -- returns 256
 
 - The *.* operator is used to compose functions
 
@@ -256,12 +256,10 @@ TODO
 - Pattern matching is more powerful than the "if then else" expression
 - Pattern matching is also more efficient, readable and type-safe and more functional
 
-* Haskell: Local bindings
-
-- Using "where"
-use diamater and radius
-
-TODO
+: * Haskell: Local bindings
+: - Using "where"
+: use diamater and radius
+: TODO
 
 * Haskell: Tuples
 
@@ -284,7 +282,6 @@ They both work by grouping multiple values into a single combined value.
 
 - can be used also as key-value pair or as a list or as 2D-coordinates
 - In contrary to lists, tuples have a fixed number of elements and each element can have a different type
-
 
 * Haskell: Lists
 
@@ -369,6 +366,16 @@ This example explains the concept of lazy evaluation.
 The list osc is not evaluated until it is needed.
 The function osc is called only once, but the list osc is evaluated many times.
 The list osc is evaluated only as much as needed.
+
+* Higher Order Functions
+
+- A function that takes another function as an argument or returns a function as a result is called a higher order function
+
+  map :: (a -> b) -> [a] -> [b]
+  map f [] = []
+  map f (x:xs) = f x : map f xs
+
+  main = print $ map (+1) [1,2,3]
 
 * Finally: The quicksort algorithm by using the filter function
 
