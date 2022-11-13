@@ -21,3 +21,5 @@ parent(alice, bill).
 parent(bob, carl).
 parent(bob, charlie).
 parent(diana, charlie).
+
+run :- parent(X, charlie), parent(X, Y), charlie \= Y
