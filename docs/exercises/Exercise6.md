@@ -53,6 +53,6 @@ Example main routine:
   For example, the expression
 
 ```
-   main = print filter even [1,2,3,4,5] 
+   main = print $ filter even [1,2,3,4,5] 
 ```
 returns [2,4]

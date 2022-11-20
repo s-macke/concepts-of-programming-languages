@@ -13,7 +13,6 @@ func main() {
     }
 }
 ```
-Also write a test for the `fib()` function.
 
 ## Exercise 7.2 - Timeout
 
@@ -32,7 +31,6 @@ func main() {
     }
 }
 ```
-Also write a test for the `setTimeout()` function.
 
 ## Exercise 7.3 - Dining Philosophers
 

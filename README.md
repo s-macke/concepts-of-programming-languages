@@ -54,7 +54,7 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 ## Lecture 6 - Haskell
 - Introduction to Haskell
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/06-Pure-Functional-Programming-with-Haskell.html)
-- [Exercise 6](docs/exercises/Exercise7.md)
+- [Exercise 6](docs/exercises/Exercise6.md)
 
 ## Lecture 7 - Concurrent Programming
 - Why concurrent programming matters! Go routines and channels, Go concurrency patterns, The dining philosophers problem
@@ -73,18 +73,18 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/09-Systems-Programming.html)
 - [Exercise 9](docs/exercises/Exercise9.md)
 
-## Lecture 10 - Cross Compiling with WebAssembly 
-- Introduction to WebAssembly
-- WebAssembly implementation of Go
-- <a href="docs/08-WebAssembly.pdf">Slides</a>
-- <a href="docs/exercises/Exercise8.md">Exercise 8</a>
-
-## Lecture 11 - Enterprise Programming
-- Large Scale Programming with Modules
-- <a href="docs/10-Enterprise-Programming-Modules.pdf">Slides</a>
-- <a href="docs/exercises/Exercise10.md">Exercise 10</a>
-
-## Lecture 12 - Logic Programming
+## Lecture 10 - Logic Programming
 - Introduction to Prolog
 - <a href="docs/11-Logic-Programming.pdf">Slides</a>
 - <a href="docs/exercises/Exercise11.md">Exercise 11</a>
+
+## Lecture 11 - Cross Compiling with WebAssembly 
+- Introduction to WebAssembly
+- WebAssembly implementation of Go
+- <a href="docs/08-WebAssembly.pdf">Slides</a>
+- <a href="docs/exercises/Exercise11.md">Exercise 11</a>
+
+## Lecture 13 - Enterprise Programming
+- Large Scale Programming with Modules
+- <a href="docs/10-Enterprise-Programming-Modules.pdf">Slides</a>
+- <a href="docs/exercises/Exercise10.md">Exercise 10</a>

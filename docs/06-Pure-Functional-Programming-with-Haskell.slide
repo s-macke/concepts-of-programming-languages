@@ -192,7 +192,7 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 * Haskell: Functional Composition
 
   square x = x * x
-  tripleSquare x = (square . square . square) x
+  tripleSquare = square . square . square
   main = print $ tripleSquare 2 -- returns 256
 
 - The *.* operator is used to compose functions
@@ -370,12 +370,24 @@ The list osc is evaluated only as much as needed.
 * Higher Order Functions
 
 - A function that takes another function as an argument or returns a function as a result is called a higher order function
+- map takes a function and a list as arguments and returns a list
 
   map :: (a -> b) -> [a] -> [b]
   map f [] = []
   map f (x:xs) = f x : map f xs
 
   main = print $ map (+1) [1,2,3]
+
+- Can also be used with partial application
+
+  add x y = x + y
+
+  map :: (a -> b) -> [a] -> [b]
+  map f [] = []
+  map f (x:xs) = f x : Main.map f xs
+
+  main = print $ Main.map (add 1) [1,2,3]
+
 
 * Finally: The quicksort algorithm by using the filter function
 
