@@ -66,7 +66,7 @@ solution(State, [Move|OtherMoves]) :- move(State,Move,NextState),
 % Speed up the recursive calculation by remembering the previous results in a table
 :- table solution/2.
 % Only search for solutions with 11 river crossings and print it
-run :- length(X,11), solution([a,a,a,a,a,a,a], X), write(X).
+run :- length(X,11), solution([a,a,a,a,a,a,a], X), write(X), nl.
 
 % Solution in 11 moves:
 % a,b = river sides, m = missionary, k = cannibal

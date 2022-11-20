@@ -34,5 +34,5 @@ solution(State,[Move|OtherMoves]) :- move(State,Move,NextState),
                                      safe(NextState),
                                      solution(NextState,OtherMoves).
 
-run :- length(X,7), solution([a,a,a,a],X), write(X).
+run :- length(X,7), solution([a,a,a,a],X), write(X), nl.
 % solution([a,a,a,a], [ziege,nichts,wolf,ziege,kohl,nichts,ziege]).
