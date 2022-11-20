@@ -18,10 +18,14 @@ func ParallelFor(n int, f func(int)) {
 	wg.Wait()
 }
 
+func ProbablyPrime(value int) {
+	if big.NewInt(int64(value)).ProbablyPrime(0) == true {
+		fmt.Printf("%d is probably prime\n", value)
+	}
+}
+
 func main() {
-	ParallelFor(1000, func(value int) {
-		if big.NewInt(int64(value)).ProbablyPrime(0) == true {
-			fmt.Printf("%d is probably prime\n", value)
-		}
-	})
+	fmt.Println("Start Program")
+	ParallelFor(1000, ProbablyPrime)
+	fmt.Println("Stop Program")
 }

@@ -9,22 +9,16 @@ Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
 * Last lecture
-- Functional programming in general
-- Impure Functional programming in Go
-- Anonymous functions
-- Closures
-- Currying
-- Functional composition
-- Pure languages such as Haskell
-- Lambda Calculus
-- Streaming functionality in Go
+- Pure Functional programming
+- Introduction to Haskell
+- Types, partial application, control flow, lists, filters, ...
 
 * Why Concurrent Programming?
 - Computer clock rates do not get higher anymore (since 2004!)
 - But Moores Law is still valid (Multicore!)
 .image img/06-moores-law.png 450 800
 
-: TODO https://github.com/qaware/cloudcomputing
+: https://github.com/qaware/cloudcomputing
 
 * The modern world is parallel
 
@@ -59,47 +53,41 @@ No direct hardware access, Calls the kernel via the System Call Interface (SCI)
 All IO has to run through the kernel. E. g. A process cannot "wait" itself (Endless loop excluded).
 A process can ask the kernel for threads
 
-* The context switch is very expensive
+* How expensive is a context switch
 
 Example: Process switch for one CPU core
 
-- Context switch: User mode to kernel mode (Either user mode called the kernel or a timer interrupt or an external event such as a keypress)
-- Save state of thread
-- Scheduler has to choose the next thread for the CPU core or go to sleep
-- Reloading of memory layout of the other thread (MMU)
-- Restore state of another thread
-- Context switch: kernel mode to user mode
-- Indirect cost: Cache misses
+.image ./img/06-context_switch.png 300 _
 
 A task switch can take many µs up to 1ms. You should prevent context switches as much as possible.
 
 : The fix for Spectre and other Bugs increased the context switching time significantly. The performance drop can be up to 30% if all fixes are applied.
 : TODO Distinguish Hardware Thread, Software Thread, Virtual Thread
 
-* History
+: * History
 
-- The first dual-core CPUs were produced for the masses in 2003. However, the programming languages were not ready yet to help with
-  this complexity
+: - The first dual-core CPUs were produced for the masses in 2003. However, the programming languages were not ready yet to help with
+:   this complexity
 
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <pthread.h> // posix threads
+:   #include <stdio.h>
+:   #include <stdlib.h>
+:   #include <unistd.h>
+:   #include <pthread.h> // posix threads
 
-  // A normal C function that is executed as a thread when its name is specified in pthread_create()
-  void *myThreadFun(void *vargp) {
-      sleep(1);
-      printf("I run parallel to the main routine\n");
-      return NULL;
-  }
+:   // A normal C function that is executed as a thread when its name is specified in pthread_create()
+:   void *myThreadFun(void *vargp) {
+:       sleep(1);
+:       printf("I run parallel to the main routine\n");
+:       return NULL;
+:   }
 
-  int main() {
-      pthread_t thread_id;
-      pthread_create(&thread_id, NULL, myThreadFun, NULL); // ask the kernel for a new thread
-      pthread_join(thread_id, NULL);
-  }
+:   int main() {
+:       pthread_t thread_id;
+:       pthread_create(&thread_id, NULL, myThreadFun, NULL); // ask the kernel for a new thread
+:       pthread_join(thread_id, NULL);
+:   }
 
-- Multithreading over an extra library
+: - Multithreading over an extra library
 
 * Virtual Threads
 
@@ -124,6 +112,7 @@ One interesting technique in this context are Coroutines.
 
 * Coroutines I
 - Coroutines allow to jump in and out of functions at any time
+
 *JavaScript* *example*
 
   function* test() {
@@ -165,6 +154,12 @@ But: This must be a language feature directly supported by their runtime
 
 : TODO https://playcode.io/new/
 
+* Go uses its own Thread Operating Model
+
+- Kernel based scheduling (left), User Mode based scheduling (right)
+
+.image img/06-virtual-threads.png 400 _
+
 * Virtual Threads
 
 Goroutines are neither hardware nor software threads
@@ -192,7 +187,7 @@ Like launching a function with shell's `&` notation.
 
 * One Million Parallel Threads
 
-.code ../src/concurrent/routines/main.go /func/,
+.play ../src/concurrent/routines/main.go /func/,
 
 - Stacks start small, but grow and shrink as required.
 
@@ -205,12 +200,12 @@ Like launching a function with shell's `&` notation.
 - Synchronization and messaging (channels)
 - Multi-way concurrent control (select)
 
-* How to count correctly?
+* How to count right?
 
 .play ../src/concurrent/atomic/atomic_none.go /var/,
 What will be the result?
 
-* Soluation 1: Blocking Mutex
+* Solution 1: Blocking Mutex
 
 .play ../src/concurrent/atomic/atomic_mutex.go /var/,
 
@@ -221,7 +216,6 @@ What will be the result?
 - Lock-free thread-safe programming on single variables
 
 - Atomics either use a atomic CPU feature or perform a low level blocking operation via a mutex
-
 
 * Waitgroups
 
@@ -268,7 +262,7 @@ What will be the result?
 
 Channels are typed values that allow goroutines to synchronize and exchange information.
 
-.code snippets/cp /make.*chan/,/completedAt/
+.play ../src/concurrent/channels/typed/main.go /func main/,
 
 * Lecturer 1: Channels
 Let's use channels for communication:
@@ -286,6 +280,12 @@ The following code might look good at first sight, but causes a deadlock:
 .play ../src/concurrent/channels/deadlock/main.go
 
 Expected output?
+
+* Channels: Deadlocks
+
+Same code, but with a channel with buffer size 2 (instead of 0):
+
+.play ../src/concurrent/channels/deadlock/fixed/main.go
 
 * Channel and Errors
 - Channel can be closed. Readers will return immediately. Successive writes will cause panic.
@@ -411,11 +411,11 @@ A hungry philosopher sits down, takes the right fork, then the left, eats, then 
         }
     }
 
-* Wrong Solutions
-- There are many wrong solution on the web.
-- Most of them share the problem that the Philosopher picks up the left fork (implemented with channels or locks) and immediately the right fork.
-- The problem arises, when the second fork is in use. There is a potential deadlock, when all Philosophers wait on the second fork.
-- In theory a deadlock occurs if there is a cycle in the Resource Allocation Graph.
+: * Wrong Solutions
+: - There are many wrong solution on the web.
+: - Most of them share the problem that the Philosopher picks up the left fork (implemented with channels or locks) and immediately the right fork.
+: - The problem arises, when the second fork is in use. There is a potential deadlock, when all Philosophers wait on the second fork.
+: - In theory a deadlock occurs if there is a cycle in the Resource Allocation Graph.
 
 .link https://play.golang.org/p/rXCotNNY24
 

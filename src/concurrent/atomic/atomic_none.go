@@ -19,6 +19,6 @@ func main() {
 	for i := 0; i < 10000; i++ {
 		go Viewer()
 	}
-	time.Sleep(2000 * time.Millisecond) // wait a long time
+	time.Sleep(3000 * time.Millisecond) // wait a long time
 	fmt.Println(myYoutubevideo.likes, "likes")
 }
