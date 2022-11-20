@@ -1,30 +1,37 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"math/big"
 	"net"
 	"net/rpc"
 )
 
 type MultiplyArgs struct {
-	A, B big.Int
+	A, B int
 }
 
 type Arith struct{}
 
-func (t *Arith) Multiply(args *MultiplyArgs, reply *big.Int) error {
-	*reply = *args.A.Mul(&args.A, &args.B)
+func (t *Arith) Multiply(args *MultiplyArgs, reply *int) error {
+	a := args.A
+	b := args.B
+	fmt.Println("Received arguments", a, b)
+	*reply = a * b
 	return nil
 }
 
 func main() {
-	arith := new(Arith)
-	rpc.Register(arith)
+	var arith Arith
+	err := rpc.RegisterName("Math", &arith)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	listener, err := net.Listen("tcp", ":1234")
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("Listening on port 1234")
 	rpc.Accept(listener)
 }

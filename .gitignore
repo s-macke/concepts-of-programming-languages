@@ -27,3 +27,4 @@ docs/*.html
 *.class
 
 wasm_exec.js
+dist/
