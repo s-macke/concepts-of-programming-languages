@@ -3,26 +3,30 @@ package main
 import (
 	"fmt"
 	"log"
-	"math/big"
 	"net/rpc"
 )
 
 type MultiplyArgs struct {
-	A, B big.Int
+	A, B int
 }
 
-func main() {
+func Multiply(a, b int) int {
+	args := MultiplyArgs{a, b}
 	client, err := rpc.Dial("tcp", "localhost:1234")
 	if err != nil {
 		log.Fatal("dialing:", err)
 	}
 	// Synchronous call
-	args := MultiplyArgs{*big.NewInt(7), *big.NewInt(8)}
-	var reply big.Int
-	err = client.Call("Arith.Multiply", &args, &reply)
+	var reply int
+	err = client.Call("Math.Multiply", &args, &reply)
 	if err != nil {
-		log.Fatal("arith error:", err)
+		log.Fatal("Mutliply error:", err)
 	}
-	fmt.Printf("Arith: %s*%s=%s\n", args.A.String(), args.B.String(), reply.String())
+	return reply
+}
 
+func main() {
+	a := 7
+	b := 8
+	fmt.Printf("Multiply: %d * %d = %d\n", a, b, Multiply(a, b))
 }
