@@ -4,7 +4,7 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 8.1 - TCP connection
 
-Make a TCP connection with *towel.blinkenlights.nl* on port *23*, read from the data stream and write the output onto the screen in an infinite loop.
+Make a TCP connection with *simulationcorner.net* on port *54321*, read from the data stream and write the output onto the screen in an infinite loop.
 
 ## Exercise 8.2 - Remote procedure call
 
@@ -22,7 +22,7 @@ and a function in which you have to provide a rune
     var input rune
     err := client.Call("Session.Write", &input, &dummy)
 
-Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
+For each function create its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
 
     reader := bufio.NewReader(os.Stdin)
     input, _, err := reader.ReadRune()

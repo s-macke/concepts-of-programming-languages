@@ -6,7 +6,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -83,14 +83,15 @@ func cg() {
 	pids := filepath.Join(cgroups, "pids")
 	_ = os.Mkdir(pids, 0755)
 	container := filepath.Join(pids, "container")
-	_ = os.Mkdir(container, 0755)
+	must(os.Mkdir(container, 0755))
 
-	must(ioutil.WriteFile(filepath.Join(container, "pids.max"), []byte("8"), 0700))
-	must(ioutil.WriteFile(filepath.Join(container, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
+	must(os.WriteFile(filepath.Join(container, "pids.max"), []byte("8"), 0700))
+	must(os.WriteFile(filepath.Join(container, "cgroup.procs"), []byte(strconv.Itoa(os.Getpid())), 0700))
 }
 
 func must(err error) {
 	if err != nil {
-		panic(err)
+		//panic(err)
+		fmt.Println(err)
 	}
 }

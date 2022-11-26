@@ -33,5 +33,4 @@ run:
 rootfs:
 	wget "https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-minirootfs-3.14.3-x86_64.tar.gz"
 	mkdir -p rootfs
-	cd rootfs
-	tar -xvzf ../alpine-minirootfs-3.14.3-x86_64.tar.gz
+	cd rootfs && tar -xvzf ../alpine-minirootfs-3.14.3-x86_64.tar.gz

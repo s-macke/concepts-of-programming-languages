@@ -68,17 +68,18 @@ https://github.com/s-macke/concepts-of-programming-languages/blob/master/src/sys
 ## Exercise 9.2 - Containerization
 
 ### Try out chroot
+
+Download the alpine distribution: 
+https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.3-x86_64.tar.gz
+
 ```shell script
 # prepare chroot
-mkdir -p jail/{bin,lib,lib64}
-cp -v /bin/{bash,ls,touch,rm} jail/bin
-for i in $(ldd /bin/bash | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/ls | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/touch | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-for i in $(ldd /bin/rm | egrep -o '/lib.*.\.[0-9]'); do cp -v --parents "$i" jail; done
-
-# run chroot
-sudo chroot jail
+mkdir -p jail
+cd jail
+tar -xvzf PATH/TO/alpine-minirootfs-3.16.3-x86_64.tar.gz
+cd ..
+# run chroot and start the shell via /bin/sh
+sudo chroot jail /bin/sh
 ```
 
 ### Building your own containerization system
@@ -145,12 +146,7 @@ cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...).
 - Call `ps`. What do you see?
 
 #### 5. Use a custom root filesystem
-Create a complete chroot environment. For Debian based linux systems, you might use e.g.
-```shell script
-sudo debootstrap buster /jail http://deb.debian.org/debian
-```
-
-or download the alpine mini root fs from https://alpinelinux.org/downloads/
+Download the alpine mini root fs from https://alpinelinux.org/downloads/
 
 In the child() function, add the following code:
 ```go
@@ -165,8 +161,3 @@ must(syscall.Unmount("proc", 0))
 
 **Questions:**
 - Call `ps`. What do you see?
-
-#### 6. Resource limit
-
-Use cgroups (`/sys/fs/cgroup/`) to limit the container resource consumption.
-Test your program!

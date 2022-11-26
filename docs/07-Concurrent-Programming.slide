@@ -12,6 +12,7 @@ https://www.qaware.de
 - Pure Functional programming
 - Introduction to Haskell
 - Types, partial application, control flow, lists, filters, ...
+- Implicit concurrency
 
 * Why Concurrent Programming?
 - Computer clock rates do not get higher anymore (since 2004!)
@@ -158,7 +159,7 @@ But: This must be a language feature directly supported by their runtime
 
 - Kernel based scheduling (left), User Mode based scheduling (right)
 
-.image img/06-virtual-threads.png 400 _
+.image img/06-virtual-threads.png 430 _
 
 * Virtual Threads
 
