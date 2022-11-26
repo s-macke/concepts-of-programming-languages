@@ -1,6 +1,6 @@
 Systems Programming
 Concepts of Programming Languages
-22 Nov 2021
+5 Dec 2022
 Tags: go, programming, concurrent, go routines, channels
 
 Sebastian Macke
@@ -16,11 +16,6 @@ https://www.qaware.de
 - HTTP
 - Transfer Formats
 - REST APIs
-
-*Next* *Lectures*
-
-- Forth and Interpreters (Forth, Go)
-- Logic Programming with Harald Störrle (Prolog)
 
 * What is Systems Programming?
 

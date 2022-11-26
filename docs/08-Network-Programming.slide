@@ -22,7 +22,6 @@ https://www.qaware.de
 
 - Lecture in one week: Systems Programming
 - *Install* *Linux*!
-- Prefer a Debian based distribution.
 - For Windows, the Windows Subsystem (WSL2) is sufficient.
 - Otherwise install a virtual machine.
 
@@ -63,10 +62,10 @@ https://www.qaware.de
 - TCP is currently the basis for almost all network communication
 - TCP is a connection oriented protocol and prevents packet loss
 - Allows consistent data streams in both direction between two computers
-- It also uses port nmbers to identify services on a host
+- It also uses port numbers to identify services on a host
 
 * Networking was heavy weighted in the past
-C lanuage example
+C language example
 
    int main()
    {
@@ -93,7 +92,7 @@ C lanuage example
 
 .code ../src/servers/tcp/echo/server/echo.go /func/,
 
-- Listens to a tcp socket on port 8080
+- Listens to a tcp socket on port 8081
 - Each accepted connection is executed in its own go routine
 
 * HTTP Request via TCP
@@ -104,13 +103,15 @@ C lanuage example
 - First Parameter implements Write(p []byte) (n int, err error)
 - Second Parameter implements Read(p []byte) (n int, err error)
 
-* Exercise 7.1: Warm up
+* Exercise 8.1: Warm up
 
-Make a TCP connection with *towel.blinkenlights.nl* on port *23* and, read from the data stream and write the output onto the screen in an infinite loop.
+Open a TCP connection to *simulationcorner.net* on port *54321* and, read from the data stream and write the output onto the screen in an infinite loop.
 
 * Port Scanner
 
 .code ../src/servers/tcp/portscanner/simple/main.go /func/,
+
+- Searches for open TCP ports on a remote machine
 
 * Remote Procedure Call
 
@@ -124,21 +125,21 @@ It is a mechanism for calling remote procedures on a remote machine
 - The server returns the result to the client.
 - The client receives the result and returns it to the caller.
 
-Go offers a simple way to implement RPC via the net/rpc package via a TCP connection
+Go offers a simple way to implement RPC via the *net/rpc* package via a TCP connection
 
 * RPC - Remote procedure call in Go
 The server
 
-.code ../src/distributed/rpc/multiply/server.go /type/,
+.code ../src/distributed/rpc/multiply/server/server.go /type/,
 
 * RPC - Remote procedure call in Go
 The client
 
-.code ../src/distributed/rpc/multiply/client.go /type/,
+.code ../src/distributed/rpc/multiply/client/client.go /type/,
 
 * Exercise: Remote Procedure Call
 
-Implement in Go a net/rpc client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
+Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
 
 A function, in which you receive a rune
 
@@ -355,13 +356,6 @@ To test the rest interface you can use tools such as
 
 - Frameworks such as Spring Boot offer a declarative approach via annotations
 
-* Demo: Benchmark Go vs. Java
-
-: 2* Ubuntu öffnen
-: sudo su
-: ulimit -n 100000
-: gradlew bootRun
-
 * Project Loom
 .link https://openjdk.java.net/projects/loom/
 - Project to implement lightweight user-mode threads (fibers) into Java
@@ -369,7 +363,7 @@ To test the rest interface you can use tools such as
 * Exercise
 
 Create a Microservice with a REST API for a key value store.
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/WS_2021/docs/exercises/Exercise7.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/WS_2021/docs/exercises/Exercise8.md
 
 * Info
 

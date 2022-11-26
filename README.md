@@ -75,8 +75,8 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 
 ## Lecture 10 - Logic Programming
 - Introduction to Prolog
-- <a href="docs/11-Logic-Programming.pdf">Slides</a>
-- <a href="docs/exercises/Exercise11.md">Exercise 11</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/10-Logic-Programming.html)
+- [Exercise 10](docs/exercises/Exercise10.md)
 
 ## Lecture 11 - Cross Compiling with WebAssembly 
 - Introduction to WebAssembly

@@ -3,16 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"net"
 )
 
-// use with netcat
+// use with netcat or browser
 
 func main() {
-	l, err := net.Listen("tcp4", ":8080")
+	l, err := net.Listen("tcp4", ":8081")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer l.Close()
 	for {
@@ -22,7 +21,7 @@ func main() {
 			continue
 		}
 		fmt.Println("Connection established from", c.RemoteAddr())
-		go func() { // asynchroneaous reply
+		go func() { // asynchronous reply
 			data, _ := bufio.NewReader(c).ReadString('\n')
 			fmt.Println("Received string", string(data))
 			_, _ = c.Write([]byte("Echo: " + data))
