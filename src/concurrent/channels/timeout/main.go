@@ -21,10 +21,11 @@ func setTimeout(task func() int, timeout time.Duration) (int, error) {
 
 // MAIN OMIT
 func main() {
-	res, err := setTimeout(func() int {
-		time.Sleep(2000 * time.Millisecond)
-		return 1
-	}, 1*time.Second)
+	res, err := setTimeout(
+		func() int {
+			time.Sleep(2000 * time.Millisecond)
+			return 1
+		}, 1*time.Second)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -32,4 +33,5 @@ func main() {
 		fmt.Printf("operation returned %d", res)
 	}
 }
+
 // EOF OMIT

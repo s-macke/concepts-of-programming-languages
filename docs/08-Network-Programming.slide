@@ -90,14 +90,14 @@ C language example
 
 * Listen to a socket in Go
 
-.code ../src/servers/tcp/echo/server/echo.go /func/,
+.play ../src/servers/tcp/echo/server/echo.go /func/,
 
 - Listens to a tcp socket on port 8081
 - Each accepted connection is executed in its own go routine
 
 * HTTP Request via TCP
 
-.code ../src/servers/tcp/echo/client/client.go /func/,
+.play ../src/servers/tcp/echo/client/client.go /func/,
 
 *io.Copy* copy data stream from second parameter to seconds
 - First Parameter implements Write(p []byte) (n int, err error)
@@ -109,7 +109,7 @@ Open a TCP connection to *simulationcorner.net* on port *54321* and, read from t
 
 * Port Scanner
 
-.code ../src/servers/tcp/portscanner/simple/main.go /func/,
+.play ../src/servers/tcp/portscanner/simple/main.go /func/,
 
 - Searches for open TCP ports on a remote machine
 
@@ -130,12 +130,12 @@ Go offers a simple way to implement RPC via the *net/rpc* package via a TCP conn
 * RPC - Remote procedure call in Go
 The server
 
-.code ../src/distributed/rpc/multiply/server/server.go /type/,
+.play ../src/distributed/rpc/multiply/server/server.go /type/,
 
 * RPC - Remote procedure call in Go
 The client
 
-.code ../src/distributed/rpc/multiply/client/client.go /type/,
+.play ../src/distributed/rpc/multiply/client/client.go /type/,
 
 * Exercise: Remote Procedure Call
 
@@ -213,10 +213,10 @@ Server responds via
 
 * HTTP Request via TCP
 
-.code ../src/servers/tcp/http/http.go /func/,
+.play ../src/servers/tcp/http/http.go /func/,
 
 * A Simple HTTP File Server
-.code ../src/servers/fileserver/main.go /func/,
+.play ../src/servers/fileserver/main.go /func/,
 - File server for static content.
 - Already optimized for maximum performance. No tweaking in any form necessary.
 
@@ -313,7 +313,7 @@ Types:
 
 .play ../src/servers/rest/client/client.go /func main/,
 
-* Example: Weather API with Go Short Version
+* Example: Weather API with Go: Short version
 
 .play ../src/servers/rest/client_short/client_short.go /func main/,
 
@@ -329,7 +329,7 @@ to instantly create a Go structure from an arbitrary JSON.
 
 * REST API with Go
 
-.code ../src/servers/rest/server/server.go /func/,
+.play ../src/servers/rest/server/server.go /func/,
 
 Each request is processed in its separate go routine.
 
@@ -355,10 +355,6 @@ To test the rest interface you can use tools such as
     }
 
 - Frameworks such as Spring Boot offer a declarative approach via annotations
-
-* Project Loom
-.link https://openjdk.java.net/projects/loom/
-- Project to implement lightweight user-mode threads (fibers) into Java
 
 * Exercise
 

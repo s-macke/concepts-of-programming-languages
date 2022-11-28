@@ -35,7 +35,7 @@ type Table struct {
 
 // NewTable constructs a table with n seats.
 func NewTable(nbrOfSeats int) *Table {
-	table := new(Table)
+	table := &Table{}
 
 	// initialize channels
 	table.takeCh = make(chan int)

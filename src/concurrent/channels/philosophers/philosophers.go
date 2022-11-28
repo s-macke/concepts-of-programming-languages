@@ -27,10 +27,10 @@ type Philosopher struct {
 
 // NewPhilosopher constructs a philosopher.
 func NewPhilosopher(id int, table *Table) *Philosopher {
-	p := new(Philosopher)
-	p.id = id
-	p.table = table
-	return p
+	return &Philosopher{
+		id:    id,
+		table: table,
+	}
 }
 
 // Run loops forever.
