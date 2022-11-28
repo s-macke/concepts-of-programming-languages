@@ -4,11 +4,11 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 8.1 - TCP connection
 
-Make a TCP connection with *simulationcorner.net* on port *54321*, read from the data stream and write the output onto the screen in an infinite loop.
+Open a TCP connection to *simulationcorner.net* on port *54321*, read from the data stream and write the output onto the screen in an infinite loop.
 
 ## Exercise 8.2 - Remote procedure call
 
-Implement in Go a net/rpc client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . 
+Implement in Go a net/rpc client TCP connection via RPC. Dial against the URL *simulationcorner.net:1234* . 
 This interface offers two remote procedures calls.
 
 A function, in which you receive a rune
@@ -35,7 +35,7 @@ https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
 
 Use https://mholt.github.io/json-to-go/ to instantly create a Go structure from an arbitrary JSON.
 
-## Exercise 7.4 - Microservice with API and embedded Web Site
+## Exercise 8.4 - Microservice with API and embedded Web Site
 
 Create a REST API for a key value store.
 
@@ -86,36 +86,6 @@ Add a Rest API GET call
 GET /api/clear
 ```
 which removes the complete key value store
-
-###  Include static web site
-
-Add an index.html file, which can interface the key value store. E. g. following HTML File shows the data from the key value store.
-
-```HTML
-<!DOCTYPE html>
-<html>
-<body>
-
-<h3>Key Value List</h3>
-<pre id="store"></pre>
-
-<script>
-    async function ListStore() {
-        let response = await fetch("/api/list")
-        let store = await response.json()
-        let pre = document.getElementById("store")
-        for (let key in store) {
-            pre.innerText += key + ": " + store[key] + "\n"
-        }
-    }
-    ListStore()
-</script>
-
-</body>
-</html>
-```
-
-Add a http.Fileserver to your REST service to access this file.
 
 ### POST call
 
