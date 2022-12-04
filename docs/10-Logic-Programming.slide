@@ -18,7 +18,6 @@ https://www.qaware.de
 - User posts a goal (query)
 - Prolog interpreter uses rules and facts to find a solution
 
-
 * Terms
 The single data type in prolog is a *term*. Terms can be either
 
@@ -78,7 +77,6 @@ The rule "Juliet loves Romeo as long as Romeo loves Juliet." can be expressed as
 
 Rules end with a dot (just like a semicolon in Java).
 
-
 * Facts are Rules
 The fact from the previous slide
 
@@ -122,6 +120,12 @@ Example:
     with_romeo(juliet).
     dances(juliet) :- happy(juliet), with_romeo(juliet).
 
+* Logical operators
+
+Standard Logic operators
+
+.html snippets/prolog_logic_operators.html
+
 
 * Playing with variables
 Given some facts:
@@ -141,9 +145,21 @@ Or to express general rules:
         parent(X, Z),
         parent(Z, Y).
 
+* Live Demo
+
+  likes(dan, sally).
+  likes(sally, dan).
+  likes(josh, brittney).
+
+  dating(X,Y) :- likes(X,Y), likes(Y,X).
+  friendship(X,Y) :- likes(X,Y); likes(Y,X).
 
 * Exercise 1
 
+
+* Live Demo 2
+
+Sol
 
 * Naming Conventions
 - When referring to facts, the notion `loves/2` refers to the predicate `loves` with two arguments

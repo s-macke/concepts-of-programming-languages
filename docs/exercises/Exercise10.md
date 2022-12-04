@@ -2,14 +2,22 @@
 
 If you do not finish during the lecture period, please finish it as homework.
 
+All exercises can be solved online: [https://swish.swi-prolog.org/](https://swish.swi-prolog.org/) 
 
-## Exercise 11.1 - Warmup
-Install SWI Prolog from [swi-prolog.org](https://www.swi-prolog.org/).
-
+Alternatively you can install SWI Prolog from [swi-prolog.org](https://www.swi-prolog.org/).
 * Windows users: download the [installer](https://www.swi-prolog.org/download/stable)
   or use the [Docker container](https://hub.docker.com/_/swipl);
   see also [swi-prolog page about Docker](https://www.swi-prolog.org/Docker.html).
 * Mac users: run `brew install swi-prolog`
+
+## Demo 
+
+1. 
+
+2. https://swish.swi-prolog.org/example/movies.pl
+
+
+## Exercise 11.1 - Warmup
 
 Create a new file named `family.pl` and put the following content:
 ```prolog

@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
-	fmt.Println("uid: ", os.Getuid())
-	fmt.Println("gid: ", os.Getgid())
-	fmt.Println("Pid: ", os.Getpid())
+	fmt.Println("User ID: ", os.Getuid())
+	fmt.Println("Group ID: ", os.Getgid())
+	fmt.Println("Process Id: ", os.Getpid())
 	PrintHostname("Current")
 	/*
 		syscall.Sethostname([]byte("container"))
