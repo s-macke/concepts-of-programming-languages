@@ -64,7 +64,7 @@ run with
 
 * Calling C Code from Go with cgo
 
-.code ../src/system/samples/random/ascomment/main.go
+.play ../src/system/samples/random/ascomment/main.go
 
 - C code is embedded just before the "import "C" " part of the Go code
 - The C main function cannot be called "main" because of linker conflicts
@@ -72,7 +72,7 @@ run with
 
 * Calling C Code from Go with cgo
 Import the pseudo package C in your Go source and include the corresponding C header files (comment) to call a C function.  
-    
+
     package rand
 
     // #include <stdlib.h>

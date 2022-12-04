@@ -99,9 +99,9 @@ C language example
 
 .play ../src/servers/tcp/echo/client/client.go /func/,
 
-*io.Copy* copy data stream from second parameter to seconds
-- First Parameter implements Write(p []byte) (n int, err error)
-- Second Parameter implements Read(p []byte) (n int, err error)
+*io.Copy* copy data stream from second parameter to first parameter
+- First parameter implements write(p []byte) (n int, err error)
+- Second parameter implements read(p []byte) (n int, err error)
 
 * Exercise 8.1: Warm up
 
