@@ -19,7 +19,7 @@ int main() {
 }
 ```
 
-Write a function `GetHostname` that calls the C function and returns the hostname as a Go string.
+Start with the function `GetHostname` that calls the C function and returns the hostname as a Go string.
 
 ```Go
 func getHostname() string {

@@ -127,7 +127,23 @@ Also: opaque data (behind void *) to []byte
 
 .link https://golang.org/cmd/cgo/
 
-* Exercise 1
+* Exercise 1.1
+
+Write a Cgo program that reads the hostname from the libc function `gethostname` and prints it to the console.
+The corresponding C function is defined in `unistd.h` and can be used as follows:
+
+  #include<unistd.h>
+  #include<stdio.h>
+
+  int main() {
+      char buffer[256];
+      gethostname(buffer, 256);
+      printf("%s\n", buffer);
+      return 0;
+  }
+
+
+* Exercise 1.2
 
 Write a Cgo program that creates a new SQLITE database file and executes the following statements:
 
@@ -140,7 +156,7 @@ Verify the content of the database using any SQLITE inspector (e.g. IntelliJ or 
 
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md
 
-* Exercise 1
+* Exercise 1.2
 
 .code ../src/system/samples/sqlite/simple/sqlite.c
 
