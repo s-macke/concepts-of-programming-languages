@@ -1,7 +1,9 @@
 % https://www.brainzilla.com/logic/logic-equations/
 
 :- style_check(-singleton).
+
 :- use_module(library(lists)).
+:- use_module(library(clpfd)).
 
 solution(Answers) :-
     Answers = [
@@ -14,8 +16,6 @@ solution(Answers) :-
     		   member(B, [1,2,3,4]),
     		   member(C, [1,2,3,4]),
                member(D, [1,2,3,4]),
-               dif(A, B), dif(A, C), dif(A, D),
-               dif(B, C), dif(B, D),
-               dif(C, D),
+               all_distinct([A,B,C,D]),
                B + D < 4,
                6 is A * B.

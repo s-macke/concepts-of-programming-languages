@@ -10,16 +10,9 @@ Alternatively you can install SWI Prolog from [swi-prolog.org](https://www.swi-p
   see also [swi-prolog page about Docker](https://www.swi-prolog.org/Docker.html).
 * Mac users: run `brew install swi-prolog`
 
-## Demo 
+## Exercise 10.1 - Warmup
 
-1. 
-
-2. https://swish.swi-prolog.org/example/movies.pl
-
-
-## Exercise 11.1 - Warmup
-
-Create a new file named `family.pl` and put the following content:
+Create the following rules:
 ```prolog
 male(albert).
 male(bob).
@@ -46,28 +39,28 @@ parent(bob, charlie).
 parent(diana, charlie).
 ```
 
-Run `swipl family.pl` and play with the interactive prompt:
+Play with the interactive prompt:
 
 * `male(charlie).`
 * `female(charlie).`
-* `parent(X, charlie).` (press ; or n for next result)
+* `parent(X, charlie).`
 * Write a query to find all grandparents of Charlie
 * Write a query to find only grandmothers of Charlie
 * Write a query to find all siblings of Bob
-* `trace.`, then repeat the last query
-* Try to query `X.` to print ALL THINGS POSSIBLE IN THE UNIVERSE!
-* Use `halt.` or Ctrl+D (EOF) to exit the interactive prompt
+* Add `trace, ....`, then repeat the last query
 
+## Exercise 10.2 - Logical grid puzzles
 
-## Exercise 11.2 - Palindrome
-Write a predicate `palindrome_list/1` that checks if a list of atoms is a palindrome.  
-Hint: have look at the [reverse/2](https://www.swi-prolog.org/pldoc/doc_for?object=reverse/2) predicate.
+Solve the following puzzle using Prolog:
+https://www.brainzilla.com/logic/logic-grid/basic-2/
 
-Write a predicate `palindrome/1` that checks if an atom (or string) is a palindrome.  
-Hint: have a look at the [name/2](https://www.swi-prolog.org/pldoc/man?predicate=atom_codes/2), [atom_codes/2](https://www.swi-prolog.org/pldoc/man?predicate=atom_codes/2) and [string_codes/2](https://www.swi-prolog.org/pldoc/man?predicate=string_codes/2) predicates.
+Hint 1: The problem is very similar to the one in [superheroes.pl](../../src/logic/puzzles/superheroes.pl).
+Hint 2: Use dif/2 to test for inequality. For example, `dif(X, Y)` is true if X and Y are not equal.
 
+All kind of puzzles listed here can be solved with the same patterns: https://www.brainzilla.com/logic/
 
-## Exercise 11.3 - Solve a Logical
+## Exercise 10.3 - Solve a Logical
+
 Write a prolog program that derives a solution for the following logical:
 
 > Once upon a time a farmer went to a market and purchased a wolf, a goat, and a cabbage. On his way home, the farmer came to the bank of a river and rented a boat. But crossing the river by boat, the farmer could carry only himself and a single one of his purchases: the wolf, the goat, or the cabbage.
