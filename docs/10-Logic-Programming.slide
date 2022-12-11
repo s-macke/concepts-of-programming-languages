@@ -1,6 +1,6 @@
 Logic Programming with Prolog
 Concepts of Programming Languages
-14 Dec 2020
+12 Dec 2022
 Tags: go, programming, logic
 
 Sebastian Macke
@@ -26,32 +26,40 @@ The single data type in prolog is a *term*. Terms can be either
 - Variables
 - Compound terms
 
+: atom a = a
+: number 3 = 3
+: A is 4+6
+: Variables X = X
+: Lists [1,2,3] = [1,2,3]
 
 * Atoms
 - Atoms are general purpose names without any inherent meaning
 - Start with a lower case letter or are quoted
+- Are defined implicitly
 
 Examples:
 
-- x
-- red
-- romeo
-- pizza
-- 'Pizza'
-- 'foo bar'
+  x
+  red
+  romeo
+  pizza
+  'Pizza'
+  'foo bar'
 
+The closest thing to an atom in other languages is a constant string, which contains the name of the variable.
+
+  const string pizza = "pizza"
 
 * Variables
 - Variables are placeholders for arbitrary terms
-- Can be bound in terms
 - Start with an upper case letter or an underscore
+- Are defined implicitly
 
 Examples:
 
 - X
 - Foo
 - Romeo
-
 
 * Facts
 Clauses without body are called *facts*.
@@ -86,25 +94,29 @@ can also be written as a rule:
 
     loves(romeo, juliet) :- true.
 
+: * Loading a knowledge base
+: In Prolog, loading code is referred to as *consulting*.
 
-* Loading a knowledge base
-In Prolog, loading code is referred to as *consulting*.
+: One can load a knowledge base by either running (here shown with SWI Prolog):
 
-One can load a knowledge base by either running (here shown with SWI Prolog):
-
-    swipl filename.pl
-
-Or by loading interactively using:
-
-    [filename].
-
+:    swipl filename.pl
+: Or by loading interactively using:
+:    [filename].
 
 * Interactive Prompt
+- We will use *https://swish.swi-prolog.org/* throughout the lecture
 - Prolog can be used interactively by entering queries at the Prolog prompt ?-
 - If there is no solution, Prolog writes `no` or `false`
 - If a solution exists then it is printed, followed by `yes` or `true`
 - If there are multiple solutions to the query, then these can be requested by entering a semicolon ; or n
 
+: - e. g.
+
+:  a = a     % atom
+:  3 = 3     % number
+:  X = X     % variables
+:  A is 4+6  % number
+:  [1,2,3] = [1,2,3] % lists
 
 * Conjunction and Disjunction
 Multiple predicates in the body of an expression can be composed as
@@ -126,7 +138,6 @@ Standard Logic operators
 
 .html snippets/prolog_logic_operators.html
 
-
 * Playing with variables
 Given some facts:
 
@@ -145,7 +156,7 @@ Or to express general rules:
         parent(X, Z),
         parent(Z, Y).
 
-* Live Demo
+* Live Demo 1
 
   likes(dan, sally).
   likes(sally, dan).
@@ -154,12 +165,40 @@ Or to express general rules:
   dating(X,Y) :- likes(X,Y), likes(Y,X).
   friendship(X,Y) :- likes(X,Y); likes(Y,X).
 
-* Exercise 1
-
-
 * Live Demo 2
 
-Sol
+  https://swish.swi-prolog.org/example/movies.pl
+
+: movie(american_beauty, Y).
+: movie(M, 2000).
+: movie(M, Y), Y < 2000.
+: movie(M, Y), Y > 1999.
+: actor(M1, A, _), actor(M2, A, _), M1 @> M2.
+: actress(M, scarlett_johansson, _), director(M, D).
+: actor(_, A, _), director(_, A).
+: (actor(_, A, _) ; actress(_, A, _)), director(_, A).
+: actor(M, john_goodman, _), actor(M, jeff_bridges, _).
+
+* Exercise 1
+
+* Logical puzzles
+
+from: https://www.brainzilla.com/logic/logic-grid/superheroes/
+
+3 Kids: Bryan, Sean, Tony
+3 Ages: 6 years, 8 years, 10 years
+3 superheroes: Batman, Spiderman, Superman
+
+Solve this logic puzzle to find out the name, the age and the favorite superhero of each kid.
+
+1. Bryan likes Spiderman.
+2. Tony doesn't like Superman.
+3. The youngest kid likes Spiderman.
+4. The kid who likes Superman is 8.
+
+* Logical puzzles
+
+
 
 * Naming Conventions
 - When referring to facts, the notion `loves/2` refers to the predicate `loves` with two arguments
@@ -187,16 +226,16 @@ Or to print the actual results in a nicer way:
 There is also `format/2`.
 
 
-* Atoms vs Strings
-Atoms do not have quotes or are single quoted:
+: * Atoms vs Strings
+: Atoms do not have quotes or are single quoted:
 
-    bob
-    'this is an atom'
-    'AlsoAtomNotVariable'
+:     bob
+:     'this is an atom'
+:     'AlsoAtomNotVariable'
 
-Strings are double quoted (only in modern Prolog interpreters):
+: Strings are double quoted (only in modern Prolog interpreters):
 
-    "this is a string"
+:     "this is a string"
 
 Usually it is fine to use atoms only. However, they have restrictions on length.
 
@@ -285,7 +324,6 @@ Two terms unify if they are the same term or if they contain variables that can 
 
     ?- loves(X,X) = loves(romeo,juliet).
     false.
-
 
 * Exercise 2
 

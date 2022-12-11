@@ -5,17 +5,21 @@
 % zu müssen aufgefressen zu werden, dürfen die Missionare niemals
 % in Unterzahl gegenüber den Kannibalen sein.
 
+% We define the following data structure [Boot, M1, M2, M3, K1, K2, K3]
+% First entry is the board, followed by missionaries and cannibals.
+% The state vector saves the position (a or b) for each actor.
+
+% start  :- [a, a, a, a, a, a, a]
+% finish :- [b, b, b, b, b, b, b]
+
 % The river can be crossed from a to b and vice versa
 cross(a,b).
 cross(b,a).
 
-% The state vector saves the position (a or b) for each actor.
-% First entry is the board, followed by missionaries and cannibals.
-
 % Single crossing
-move([X,X,M2,M3,K1,K2,K3], m1, [Y,Y,M2,M3,K1,K2,K3]) :- cross(X,Y). % not required for solution
-move([X,M1,X,M3,K1,K2,K3], m2, [Y,M1,Y,M3,K1,K2,K3]) :- cross(X,Y). % not required for solution
-move([X,M1,M2,X,K1,K2,K3], m3, [Y,M1,M2,Y,K1,K2,K3]) :- cross(X,Y). % not required for solution
+move([X,X,M2,M3,K1,K2,K3], m1, [Y,Y,M2,M3,K1,K2,K3]) :- cross(X,Y).
+move([X,M1,X,M3,K1,K2,K3], m2, [Y,M1,Y,M3,K1,K2,K3]) :- cross(X,Y).
+move([X,M1,M2,X,K1,K2,K3], m3, [Y,M1,M2,Y,K1,K2,K3]) :- cross(X,Y).
 move([X,M1,M2,M3,X,K2,K3], k1, [Y,M1,M2,M3,Y,K2,K3]) :- cross(X,Y).
 move([X,M1,M2,M3,K1,X,K3], k2, [Y,M1,M2,M3,K1,Y,K3]) :- cross(X,Y).
 move([X,M1,M2,M3,K1,K2,X], k3, [Y,M1,M2,M3,K1,K2,Y]) :- cross(X,Y).

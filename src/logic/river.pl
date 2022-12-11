@@ -9,20 +9,25 @@
 %
 % Hinweis: es sind nur 7 Züge erforderlich.
 
+% Wir definieren folgende Datenstruktur [Mann, Wolf, Ziege, Kohl]
+% jede der Variablen kann entweder a oder b annehmen für jeweils eine Seite des Flusses
+% start :- [a, a, a, a]
+% ziel :-  [b, b, b, b]
+
+% Wenn der Mann bei der Ziege oder bei Wolf und Kohl ist, ist der Zustand sicher.
+safe([Farmer,_,Ziege,_]) :- Farmer = Ziege.
+safe([Farmer,Wolf,_,Kohl]) :- Farmer = Wolf, Farmer = Kohl.
+
 % Definition der gültige Züge
 % Es ist möglich von a nach b und zurück zu wechseln.
 cross(a,b).
 cross(b,a).
+
 % Der Mann fährt immer mit und kann genau einen Passagier oder nichts mitnehmen).
 move([X,X,Ziege,Kohl],wolf,[Y,Y,Ziege,Kohl]) :- cross(X,Y).
 move([X,Wolf,X,Kohl],ziege,[Y,Wolf,Y,Kohl]) :- cross(X,Y).
 move([X,Wolf,Ziege,X],kohl,[Y,Wolf,Ziege,Y]) :- cross(X,Y).
 move([X,Wolf,Ziege,Kohl],nichts,[Y,Wolf,Ziege,Kohl]) :- cross(X,Y).
-
-
-% Wenn der Mann bei der Ziege oder bei Wolf und Kohl ist, ist der Zustand sicher.
-safe([Farmer,_,Ziege,_]) :- Farmer = Ziege.
-safe([Farmer,Wolf,_,Kohl]) :- Farmer = Wolf, Farmer = Kohl.
 
 % Rekursive Lösungsdefinition (ähnlich vollständiger Induktion):
 % Der Endzustand ist eine gültige Lösung, d.h. also wenn alle den Fluss
