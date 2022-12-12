@@ -164,6 +164,8 @@ Or to express general rules:
 
   dating(X,Y) :- likes(X,Y), likes(Y,X).
   friendship(X,Y) :- likes(X,Y); likes(Y,X).
+  %friendship(X,Y) :- likes(X,Y), \+ dating(X,Y).
+  %friendship(X,Y) :- likes(X,Y), not( dating(X,Y) ).
 
 * Live Demo 2
 
@@ -179,26 +181,9 @@ Or to express general rules:
 : (actor(_, A, _) ; actress(_, A, _)), director(_, A).
 : actor(M, john_goodman, _), actor(M, jeff_bridges, _).
 
-* Exercise 1
+* Exercise 10
 
-* Logical puzzles
-
-from: https://www.brainzilla.com/logic/logic-grid/superheroes/
-
-3 Kids: Bryan, Sean, Tony
-3 Ages: 6 years, 8 years, 10 years
-3 superheroes: Batman, Spiderman, Superman
-
-Solve this logic puzzle to find out the name, the age and the favorite superhero of each kid.
-
-1. Bryan likes Spiderman.
-2. Tony doesn't like Superman.
-3. The youngest kid likes Spiderman.
-4. The kid who likes Superman is 8.
-
-* Logical puzzles
-
-
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise10.md
 
 * Naming Conventions
 - When referring to facts, the notion `loves/2` refers to the predicate `loves` with two arguments
@@ -256,10 +241,28 @@ Split into head and tail:
     Head = 1,
     Tail = [2, a].
 
-There is also `reverse/2`, `append/2` and many more.
+There is also `reverse/2`, `append/2`, `member/2` and many more.
 
 .link https://www.swi-prolog.org/pldoc/man?section=builtinlist SWI Prolog built-in list operations
 
+* Demo: Logical puzzles
+
+.link https://www.brainzilla.com/logic/logic-grid/superheroes/
+
+3 Kids: Bryan, Sean, Tony
+3 Ages: 6 years, 8 years, 10 years
+3 superheroes: Batman, Spiderman, Superman
+
+Solve this logic puzzle to find out the name, the age and the favorite superhero of each kid.
+
+1. Bryan likes Spiderman.
+2. Tony doesn't like Superman.
+3. The youngest kid likes Spiderman.
+4. The kid who likes Superman is 8.
+
+* Exercise 10.2
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise10.md
 
 * Arithmetic
 - Standard operators +, -, *, /, >, <, =<, >=, =\=, =:= and `is` can be used
@@ -324,9 +327,6 @@ Two terms unify if they are the same term or if they contain variables that can 
 
     ?- loves(X,X) = loves(romeo,juliet).
     false.
-
-* Exercise 2
-
 
 * Not in Prolog
 \+ Goal (same as `not/1`) is true if Goal _cannot_ _be_ _proven_.
