@@ -26,14 +26,16 @@ go build -o lib.wasm main.go`
 
 * Copy the wasm JavaScript runtime from the GOROOT directory. 
 You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec file:
-`cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .`. 
-Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`
-* Execute via `node wasm_exec.js lib.wasm`
+ `cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .` and
+ `cp "$(go env GOROOT)/misc/wasm/wasm_exec_node.js" .`
+
+* Alternative path: `/usr/share/doc/go/misc/wasm/wasm_exec.js`
+* Execute via `node wasm_exec_node.js lib.wasm`
 ---
 
 * An HTTP file web server is provided in the folder `src/servers/fileserver`.
 Alternatively, you can use python `python -m http.server 8080`
-* Copy the index.html file and test your program
+* Copy the index.html file and test your program inside the browser
 
 ```HTML
 <html>
@@ -60,9 +62,9 @@ Alternatively, you can use python `python -m http.server 8080`
 
 Javascript or WebAssembly doesn't support concurrency and are single threaded.
 
-* Experiment with the Go concurrency in webassembly.
-  Try to run two or more goroutines in parallel. Does it work?
-* Webassembly does not support Coroutines either, e.g. blocking calls such as `time.Sleep(1 * time.Second)`.
+* Experiment with the Go concurrency in WebAssembly.
+  Try to run two or more Goroutines in parallel. Does it work?
+* Webassembly does not support Coroutines, e.g. blocking calls such as `time.Sleep(1 * time.Second)`.
   Test blocking calls together with concurrency. Does it work?
 * Try to run the dining philosophers problem in the web browser.
   Example source code `src/concurrent/channels/philosophers`
@@ -95,12 +97,12 @@ func main() {
 }
 ```
 
-This can be programed as a function with an input string and an output string. 
+This can be programmed as a function with an input string and an output string. 
 * Use a stack implementation from one of the first lectures and rewrite it, 
-  so that the calculator is separated into its own function.
-* Rewrite it, so that it can be used in webassembly.
+  so that the calculator is separated into its own function and not run inside the main routine.
+* Rewrite it, so that it can be used in WebAssembly.
 
-You can use the following code to create the necessary objects.
+You can use the following code to create the necessary objects such as input field, button and output text.
 
 ```html
 <html>
@@ -122,8 +124,8 @@ You can then access the elements in a Javascript `<script>` element via
 * Try to create the necessary HTML elements via Golang.
 Here is an example code.
 ```JavaScript
-	document := js.Global().Get("document")
-	p := document.Call("createElement", "p")
+	document = js.Global().Get("document")
+	p = document.Call("createElement", "p")
 	p.Set("innerHTML", "Hello WASM from Go!")
 	document.Get("body").Call("appendChild", p)
 ```

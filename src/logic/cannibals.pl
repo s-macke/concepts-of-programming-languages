@@ -5,7 +5,7 @@
 % zu müssen aufgefressen zu werden, dürfen die Missionare niemals
 % in Unterzahl gegenüber den Kannibalen sein.
 
-% We define the following data structure [Boot, M1, M2, M3, K1, K2, K3]
+% We define the following data structure State=[Boot, M1, M2, M3, K1, K2, K3]
 % First entry is the board, followed by missionaries and cannibals.
 % The state vector saves the position (a or b) for each actor.
 

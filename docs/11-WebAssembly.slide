@@ -1,6 +1,6 @@
 WebAssembly
 Concepts of Programming Languages
-13 Dec 2021
+19 Dec 2022
 Tags: go, programming, master, webassembly,  cross-compilation
 
 
@@ -22,7 +22,7 @@ https://www.qaware.de
 
 * What is WebAssembly?
 
-.link https://webassembly.org
+: .link https://webassembly.org
 
 - WebAssembly is a portable binary-code format for executable programs.
 
@@ -35,6 +35,7 @@ https://www.qaware.de
  - 2016: Google, Microsoft and Mozilla show their first implementations
  - 2017: WebAssembly is offically supported by all Web Browsers
  - 2019: A WebAssembly system interface is specified for portable applications outside the browser
+ - 2022: Docker suggests Wasm as an alternative to containers
  - Now:  WebAssembly is constantly enhanced (https://webassembly.org/roadmap/)
 
 *After* *the* *introduction* *of* *JavaScript* *in* *the* *90s,* *it* *is* *the* *second* *language* *supported* *directly* *by* *web* *browsers*
@@ -53,6 +54,8 @@ https://www.qaware.de
 
 - WebAssembly simplifies processing
 .image ./img/08-webassembly/0a-webassembly-compilation.png
+
+: Show example with int and double and deoptimizatzion in JavaScript
 
 * Design
 - *Binary* *format*:
@@ -91,7 +94,6 @@ https://www.qaware.de
 
 .image ./img/08-webassembly/0a-bytecode.png _ 1000
 
-
 * Demo in WebAssembly Text Format
 - Example in `src/webassembly/wat` folder
 add.wat
@@ -102,7 +104,7 @@ add.js
 
 .code ../src/webassembly/wat/add.js
 
-* Supported languages in 2020
+* Supported languages in 2022
 
 - Source:
 .link https://github.com/appcypher/awesome-wasm-langs
@@ -110,20 +112,19 @@ add.js
     🐥 Brainfuck                   🐥 C                       🐥 C#
     🐥 C++                         🐥 Clean                   🥚 Co
     🐥 COBOL                       🐣 D                       🐣 Eel
-    🐣 Elixir                      🐣 F#                      🥚 Faust
+    🐣 Elixir                      🐥 F#                      🥚 Faust
     🥚 Forest                      🐥 Forth                   🐥 Go
     🥚 Grain                       🥚 Haskell                 🐣 Java
     🐣 JavaScript                  🥚 Julia                   🐣 Idris Unmaintained
     🐣 Kotlin/Native               🥚 Kou                     🐣 Lisp
-    🐥 Lobster                     🐥 Lua                     🐣 Lys
+    🐥 Lobster                     🐥 Lua                    🐣 Lys
     🐥 Never                       🥚 Nim                     🥚 Ocaml
     🐣 Perl                        🐣 PHP                     🥚 Plorth
     🐣 Poetry                      🐣 Python                  🐣 Prolog
     🐣 Ruby                        🐥 Rust                    🐣 Scheme
     🐣 Scopes                      🐣 Speedy.js Unmaintained  🐣 Swift
-    🐣 Turboscript Unmaintained    🐥 TypeScript              🐥 Wah Unmaintained
-    🐣 Walt Unmaintained           🐣 Wam Unmaintained        🐥 WebAssembly
-    🥚 Wracket Unmaintained        🐥 Zig
+    🐣 Turboscript Unmaintained    🐥 TypeScript              🐥 WebAssembly
+    🐥 Zig
 
 * Demo in C
 
@@ -164,29 +165,27 @@ index.html
 
 - Go supports concurrency when you execute the Scheduler on purpose
 
-* Webassembly and Coroutines
+: * Webassembly and Coroutines
 
-- Webassembly does neither support concurrency, nor coroutines
-- However you can mimic coroutines without runtime support via switch case. Some sort of fake gotos.
+: - Webassembly does neither support concurrency, nor coroutines
+: - However you can mimic coroutines without runtime support via switch case. Some sort of fake gotos.
 
-    function foo(state *int, vars *local_vars) { // all variables must be handled in a global context
-        for(;;) {
-            switch(state) {
-                case 0:
-                    // do_this ....
-                    state = 1
-                    // you can temporarily return here
-                case 1:
-                    // do_that ....
-                    state = 2
-                case 2:
-                    // do_something
-                    return
-            }
-        }
-    }
-
-
+:    function foo(state *int, vars *local_vars) { // all variables must be handled in a global context
+:        for(;;) {
+:            switch(state) {
+:                case 0:
+:                    // do_this ....
+:                    state = 1
+:                    // you can temporarily return here
+:                case 1:
+:                    // do_that ....
+:                    state = 2
+:                case 2:
+:                    // do_something
+:                    return
+:            }
+:        }
+:    }
 
 * Applications
 .link https://webassembly.org/docs/use-cases/
