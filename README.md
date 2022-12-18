@@ -81,10 +81,11 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 ## Lecture 11 - Cross Compiling with WebAssembly 
 - Introduction to WebAssembly
 - WebAssembly implementation of Go
-- <a href="docs/08-WebAssembly.pdf">Slides</a>
-- <a href="docs/exercises/Exercise11.md">Exercise 11</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/11-WebAssembly.html)
+- [Exercise 11](docs/exercises/Exercise11.md)
 
-## Lecture 13 - Enterprise Programming
+## Lecture 12 - Enterprise Programming
 - Large Scale Programming with Modules
-- <a href="docs/10-Enterprise-Programming-Modules.pdf">Slides</a>
-- <a href="docs/exercises/Exercise10.md">Exercise 10</a>
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/12-Enterprise-Programming-Modules.html)
+- [Exercise 12](docs/exercises/Exercise12.md)
+
