@@ -1,5 +1,7 @@
 * Details semester work
 
+- See Learning Campus for all details
+
 The topic of the work is given and is a comparison of
 Go with specific features of programming languages
 
@@ -8,7 +10,7 @@ Presentation in January.
 Dates will be announced
 
 * Document
-- 5-10 pages Asciidoc document, written in English (15000 - 25000 Chars)
+- 7-10 pages Asciidoc document, written in English (15000 - 25000 Chars)
 - Github Repo Style with Readme
 - Must have table of contents
 - Must include references
@@ -26,7 +28,6 @@ Dates will be announced
 - Distributed Programming: Server who manages clients to calculate a mathematical problem.
 
 - Detailed description can be part of the document and the presentation
-- (> 80 code lines)
 - ask in case of doubt
 
 : Kopiere nicht einfach http://www.rosettacode.org/wiki/Rosetta_Code

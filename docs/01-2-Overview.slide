@@ -1,6 +1,5 @@
 Concepts of Programming Languages
 Overview
-10 Oct 2022
 Tags: go, programming, master
 
 Sebastian Macke
@@ -122,7 +121,7 @@ Programming languages can be categorized in many ways
 
     Sum the array of integers.
 
--  New development to declarative coding is *GitHub* *Copilot*. Can be used as converter from declarative to imperative code.
+-  New development to declarative coding is *GitHub* *Copilot* or *ChatGPT*. Can be used as converter from declarative to imperative code.
 
 * Categorization of Programming Language by Domains
 
@@ -171,11 +170,6 @@ Programming languages can be categorized in many ways
 
 * Language Design Trade-Offs
 
-“There are only two kinds of languages: the ones people complain about and the ones nobody uses.”
-( Bjarne Stroustrup, The C++ Programming Language)
-
-.html snippets/horizontal_line.html
-
 - Reliability vs. Performance
 Java bounds checking of all arrays accesses is expensive.
 
@@ -187,9 +181,16 @@ C pointers are powerful and very flexible but are unreliable and error prone.
 
 
 * Some Thoughts
+
+“There are only two kinds of languages: the ones people complain about and the ones nobody uses.”
+( Bjarne Stroustrup, The C++ Programming Language)
+
+.html snippets/horizontal_line.html
+
+
 : - There are many solutions for a given problem
 - The "best" language is nothing without a proper ecosystem (Libraries, Examples, Community, Developers)
-- There are straight forward choices for a given platform (Mac: Swift + Objectiv-C, Linux: C + Python, Android: Java)
+- There are straight forward choices for a given platform (Mac: Swift + Objective-C, Linux: C + Python, Android: Java)
 - Don't expect "Magic" from programming Languages
 - Clean code and good programming is orthogonal to the language
 - Learn more than one programming language at a professional level

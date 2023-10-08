@@ -4,7 +4,7 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Setup
 
-- Install Go from <https://golang.org> 
+- Install Go from <https://golang.org> or install via a repository manager 
 - Test if `go` can be executed from the command line.
 - Check the Go environment via `go env`, especially the variable GOPATH. There the external dependencies are installed.
 - Create your Go workspace directory
