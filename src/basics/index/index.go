@@ -26,6 +26,8 @@ func MakeIndex(book Book) Index {
 	return idx
 }
 
+// END OMIT
+
 // Stringer support
 func (idx Index) String() string {
 	result := ""

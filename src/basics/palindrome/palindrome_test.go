@@ -20,8 +20,8 @@ func TestPalindrome(t *testing.T) {
 	if IsPalindrome("ottos") {
 		t.Error("isPalindrome('ottos' should be false. But is true.")
 	}
-	//END OMIT
 }
+//END OMIT
 
 func TestPalindrome2(t *testing.T) {
 	testPalindromeUTF8(t, IsPalindrome2)

@@ -1,27 +1,18 @@
 package main
 
-import (
-	"fmt"
-	"reflect"
-)
+import "fmt"
 
 // START OMIT
-func PrintVariableDetails(v any) {
-	typeof := reflect.TypeOf(v)
-	fmt.Printf("The variable with type '%s' has the value '%v' and size %v\n", typeof.Name(), v, typeof.Size())
-}
-
 func main() {
-	var someValue any
-	someValue = 2
-	PrintVariableDetails(someValue)
+    var dynamicVar interface{}
 
-	someValue = "abcd"
-	PrintVariableDetails(someValue)
+    dynamicVar = 55
+    fmt.Println(dynamicVar)  // Outputs: 55
 
-	if tmp, ok := someValue.(string); ok {
-		fmt.Println("someValue is a string and has the value", tmp)
-	}
+    dynamicVar = "Hello, Golang!"
+    fmt.Println(dynamicVar)  // Outputs: Hello, Golang!
 }
+
+
 
 // END OMIT

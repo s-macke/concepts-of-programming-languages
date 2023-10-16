@@ -8,18 +8,27 @@ import "fmt"
 func main() {
 	var a, b = 1, 2
 	fmt.Printf("Initial : a=%d, b=%d\n", a, b)
+
 	a, b = b, a
 	fmt.Printf("After a,b = b,a : a=%d, b=%d\n", a, b)
+
+	swap0(a, b)
+	fmt.Printf("After swap0(a,b) : a=%d, b=%d\n", a, b)
+
 	a, b = swap0(a, b)
 	fmt.Printf("After a,b = swap0(a,b) : a=%d, b=%d\n", a, b)
+
 	swap1(a, b)
 	fmt.Printf("After swap1(a,b) : a=%d, b=%d\n", a, b)
+
 	swap2(&a, &b)
 	fmt.Printf("After swap2(&a,&b) : a=%d, b=%d\n", a, b)
+
 	pa, pb := &a, &b
 	swap3(&pa, &pb)
 	fmt.Printf("After swap3(&pa, &pb): a=%d, b=%d, *pa=%v, *pb=%v\n", a, b, *pa, *pb)
 }
+// END0 OMIT
 
 
 func swap0(x, y int) (int, int) {
