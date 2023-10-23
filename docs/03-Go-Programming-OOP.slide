@@ -1,20 +1,28 @@
 Go Programming - OOP
 Concepts of Programming Languages
-24 Oct 2022
 Tags: go, programming, master
 
-Sebastian Macke
+Sebastian Macke, Stefan Langer
 Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
+
+
+* Organisational matters
+- Email from Sebastian
+- Any other questions?
 
 * Last lecture
 - Types (string, int, bool, float64, ...)
 - weak vs. strong typing
 - Functions and Control Structures
-- Unit Tests
 - Arrays, Slices and Maps
 - Pointer
+- Unit Tests
+- Preview into interfaces
+
+* Last Exercise
+- Let's look at an example implementation
 
 : Ergebnisse der Übungen zeigen.
 
@@ -55,6 +63,7 @@ The "defer" statement lets us ensure that code runs before a function exits
 * Exception Pro and Cons
 
 - What do you think are the pros and cons of exceptions?
+- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
 
 : * Exception Pro and Cons
 
@@ -220,10 +229,14 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 : Object Oriented Programming - Custom Types
 : Go has no classes but types and functions
 
-* Syntax level OOP
-.play ../src/oop/oop_vs_procedural/bool.go
+* Composition VS. Inheritance?
+- Composition: A design principle where objects are formed by combining multiple smaller objects
+- Inheritance: A mechanism where a new class derives properties and behaviors from an existing class
 
-- Go seems to convert the OOP style to procedural style. (OOP only on syntax level)
+ 
+- Which Pros and Cons exist?
+- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
+
 
 * Embedding
 - Go does not support inheritance: Go supports embedding of other structs.
@@ -296,7 +309,7 @@ The print functions in the *fmt* package support the following interface
     }
 
 - Every type with a String() Method is detected by the print commands and the String function is executed
-- Detection identical to the dynamic slide type
+- Detection if object is type of interface
 
     if tmp, ok := object.(Stringer); ok {
         // The object implements stringer
@@ -306,29 +319,17 @@ The print functions in the *fmt* package support the following interface
 
 .play ../src/oop/stringer/stringer.go
 
-* Interfaces and Polymorphism
-.play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
-
 * Recap: Go does support a dynamic type
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
-
-- The type _any_ is actually just an empty _interface{}_
-
 
 * Example: Send Mail with Go: A minimal Interface
 .code ../src/oop/mail/mail.go /Message/,/END OMIT/
 - A example interface for a service-oriented component
 
 * Example: A type implements an interface when providing the required methods
-.code ../src/oop/mail/smtp/sender.go /Package/,/END OMIT/
+.code ../src/oop/mail/smtp/sender.go /type/,/END OMIT/
 
-* Example: The Go interface can be used as in Java
-.code ../src/oop/mail/client/client.go /Package/,/EOF OMIT/
-
-* Filesystem Mocking via Filesystem API
-
-- Live Demo
 
 * Summary
 - Go does support Encapsulation via an OOP style syntax
@@ -339,11 +340,6 @@ The print functions in the *fmt* package support the following interface
 - Go supports polymorphism only via interfaces, not through classes
 
 : Inheritance can cause weak encapsulation, tight coupling and surprising bugs
-
-* Video
-.link https://youtu.be/Ng8m5VXsn8Q?t=414
-: Start at 6:54 (Object orientation in Go)
-: Stop at 32:06 (Concurrency)
 
 : * Embedding
 : .code ../src/oop/embedding/embedding.go /Introducer/,/EOE OMIT/

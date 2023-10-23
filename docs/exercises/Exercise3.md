@@ -2,17 +2,7 @@
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Stack 3.1 (Containers)
-
-Write a generic LIFO container (stack) for all types by using `any` as dynamic type by using the OOP approach. 
-The stack should have at least two methods:
-
-- Push(object)
-- Pop()
-
-Use the array append function for Push and the slices feature for Pop 
-
-## Exercise 3.2 - Interfaces, Polymorphism and Embedding
+## Interfaces, Polymorphism and Embedding
 
 The image shows a typical UML design with inheritance, aggregation and polymorph methods.
 
