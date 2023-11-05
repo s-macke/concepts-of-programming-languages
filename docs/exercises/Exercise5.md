@@ -4,31 +4,89 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 5.1 - Warm Up
 
-Write a Go program which shows the following concepts:
+This is a Bubble Sort algorithm for ints.
 
-- Functions as Variables
-- Anonymous Functions
-- High Order Functions (functions as parameters or return values)
-- Closures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
+```go
+package main
 
-## Exercise 5.2 - Filter
+import "fmt"
+
+// Sorts an array of integers using the bubble sort algorithm.
+func BubbleSort(data []int) {
+    for i := 0; i < len(data); i++ {
+        for j := 0; j < len(data)-1; j++ {
+            if data[j] > data[j+1] {
+                data[j], data[j+1] = data[j+1], data[j] // Swap the values
+            }
+        }
+    }
+}
+
+func main() {
+    data := []int{27, 15, 8, 9, 12, 4, 17, 19, 21, 23, 25}
+    BubbleSort(data)
+    fmt.Println(data)
+}
+```
+
+Rewrite it, so that the Bubble Sort algorithm takes a comparison function as input
+```go
+BubbleSort(data, func(i, j int) bool {return data[i] > data[j]})
+```
+
+
+## Exercise 5.2a - Filter
 
 Given a list of strings, write a function `Filter` which takes a 
 filter function as argument and filters all elements of the array, which do 
 not match the filter function.
 
 What type must the filter function have?
-Filter out all strings which do not contain digits.
+Filter out all strings which contain digits.
 
 E.g.
 
 ```go
-    doesNotContainDigits := func .....
+    notDigit := func .....
     array := []strings{"a", "b3b", "c", "12", "D"}
-    result := Filter(strings, doesNotContainDigits)
-	fmt.Println(result) // "a", "bb", "c", "D" 
+    result := Filter(strings, notDigit)
+	fmt.Println(result) // "a", "c", "D" 
 ```
- 
+
+## Exercise 5.2b - Map
+
+Given a list of strings, write a function `Map` which takes a
+`map` function as argument. The `Map` function applies the `map` function to all elements of the array. 
+
+What type must the `map` function have?
+
+Write the `map` function to convert a string to uppercase.
+E.g.
+
+```go
+    toUppercase := func .....
+    array := []strings{"eVeRyThInG", "uPpErCaSe"}
+    result := Map(strings, toUppercase)
+    fmt.Println(result) // "EVERYTHING", "UPPERCASE" 
+```
+
+## Exercise 5.2c - Reduce
+
+Given a list of strings, write a function `Reduce` which takes a
+`reduce` function as argument. `Reduce` accumulates all elements of the 
+array into a single value.
+The `reduce` function takes two arguments, the first is the current result, 
+the second is the current element of the array.
+
+```go
+    concat := func concat(a string, b string) string {
+        return a + "," + b
+    }
+    array := []strings{"a", "b", "c", "d"}
+    result := Reduce(strings, concat)
+	fmt.Println(result) // "a,b,c,d" 
+```
+
 ## Exercise 5.3 - Map / Filter / Reduce
 
 Expand the Exercice 5.2 to a Map / Filter / Reduce streaming solution.
@@ -45,7 +103,8 @@ Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq
     	Reduce(a Accumulator) any
     }
 ```
-First Limit the Stream to a single type, e.g. a stream of strings.
+Hint: If you are unfamiliar with the type `any`, limit the Stream 
+elements to a single type like a `string`.
 
 The usage of the interface should be like this:
 ```go
@@ -66,8 +125,6 @@ The usage of the interface should be like this:
 - What is the type of Mapper, Predicate and Accumulator?
 - How can you make the types generic, so they work for any type, not only for string?
 
-TODO: trennung zwischen impl und beispiel
-TODO: evtl. kein Reduce. Zu komplex. Vorher gut erklären. Studenten kennen evtl. keine Streams.
 
 ## Exercise 5.4 - Word Count (WC)
 

@@ -11,12 +11,6 @@ https://www.qaware.de
 - Some missing students last time
 - Questions
 
-* Your expectations from this lecture
-- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
-
-* What makes a Programming Language great?
-- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
-
 * Characteristics of a Successful Language (Suggestion)
 - Simplicity and readability (Small instruction set and easy syntax)
 - Abstraction (types/classes, Generics, Procedures ....)
@@ -172,7 +166,6 @@ Go uses a strong typing system. But why?
 * Weak typing vs. Strong typing II
 
 .image img/02-typing.png 450 _
-- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
 
 * Where implicit type conversion in C goes wrong
 
@@ -192,7 +185,6 @@ Go uses a strong typing system. But why?
 
 * Javascript is very creative with type coercion
 .image ./img/banana_meme.png 400 _
-- Let's ask GPT for some examples
 
 : https://jsconsole.com/
 : 4 + "7"
@@ -226,10 +218,11 @@ Go uses a strong typing system. But why?
 
 * Golang - some details
 
-* Dynamic typing in Go is only possible through a workaround with interfaces
+* Go has a dynamic type: any
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
 
+: - The downcast is safe (== dynamic_cast in C++ or cast in Java)
 
 * Maps
 

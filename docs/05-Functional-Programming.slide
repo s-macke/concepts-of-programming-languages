@@ -1,6 +1,6 @@
 Functional Programming
 Concepts of Programming Languages
-7 Nov 2022
+
 Tags: go, programming, master
 
 Sebastian Macke
@@ -98,12 +98,13 @@ Access array outside of the function for sorting
 .play ../src/functional/basics/sort.go /func main/,
 
 * Exercise 5.1 - Warm Up
-Write a Go Programm which shows the following concepts:
+This is a Bubble Sort algorithm for ints.
 
-- Functions as Variables
-- Anonymous Functions
-- High Order Functions (functions as parameters or return values)
-- Closures (https://en.wikipedia.org/wiki/Closure_(computer_programming))
+.play ../src/functional/sort/simple/sort.go /func BubbleSort/,
+
+Rewrite it, so that the Bubble Sort algorithm takes a comparison function as input
+
+	BubbleSort(data, func(i, j int) bool {return data[i] > data[j]})
 
 * Pure Functions
 
@@ -199,6 +200,18 @@ Functional programming supports distributed computing
     ADDC(1)(2) -> 3
 
 : Benannt nach Haskell Brooks Curry (1900-1982, USA)
+
+* Currying allows for Partial Application
+
+	// Curried ADD
+	ADDC := func(x int) func(int) int {
+		return func(y int) int {
+			return x + y
+		}
+	}
+    partialApplicatedFunction := ADDC(1)
+    .... Do something else
+    partialApplicatedFunction(3) -> 4
 
 * Currying allows for Partial Application
 
@@ -300,10 +313,10 @@ _(λx.x)_ _a_
 : To apply a function
 : (λx.x) 5 = 5
 
-: (λa.λb (a+b)) 5 6 = 11
-: ((λa.λb (a+b)) 5) 6 = 11
-: (λ5.λb (5+b)) 6 = 11
-: ((λb (5+b)) 6
+: (λa.λb.(a+b)) 5 6 = 11
+: ((λa.λb.(a+b)) 5) 6 = 11
+: (λ5.λb.(5+b)) 6 = 11
+: ((λb.(5+b)) 6 = 11
 : (5+6) = 11
 
 : T := λa.λb.a is the function which takes two parameters and returns the first one
@@ -314,12 +327,25 @@ _(λx.x)_ _a_
 
 : NOT := λb.(b F T)
 : AND := λa.λb.(a b False)
-: AND True False = False
+: AND True False = True False False = False
+: AND True True = True True False = True
+: AND False True = False True False = False
+
+Alternative:
+: OR := λa.λb.(a b a)
+: OR := λa.λb.(a a b)
 
 : ifelse = λp.λa.λb.(p a b)
 : ifelse true 42 58 = true 42 58 = 42
 : or = λp.λq.(p p q)
 : alternative for not = λp.λa.λb.(p b a)
+
+: Y combinator
+: Y := λf.(λx.f (x x)) (λx.f (x x))
+: Y g = λf.(λx.f (x x)) (λx.f (x x)) g
+: Y g = (λx.g (x x)) (λx.g (x x))  (by function application)
+: Y g = g ((λx.g (x x)) (λx.g (x x))) (by function application of λx.g (x x) to argument λx.g (x x)
+: Y g = g (Y g) (by substitution of Y g)
 
 : falls mehr fragen kommen: http://www.cs.columbia.edu/~sedwards/classes/2012/w4115-fall/lambda.pdf
 : Fun: https://github.com/woodrush/lambda-8cc

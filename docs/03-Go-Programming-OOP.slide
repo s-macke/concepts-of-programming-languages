@@ -7,11 +7,6 @@ Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
-
-* Organisational matters
-- Email from Sebastian
-- Any other questions?
-
 * Last lecture
 - Types (string, int, bool, float64, ...)
 - weak vs. strong typing
@@ -63,7 +58,6 @@ The "defer" statement lets us ensure that code runs before a function exits
 * Exception Pro and Cons
 
 - What do you think are the pros and cons of exceptions?
-- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
 
 : * Exception Pro and Cons
 
