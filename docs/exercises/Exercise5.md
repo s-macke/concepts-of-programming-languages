@@ -48,8 +48,8 @@ E.g.
 
 ```go
     notDigit := func .....
-    array := []strings{"a", "b3b", "c", "12", "D"}
-    result := Filter(strings, notDigit)
+    array := []string{"a", "b3b", "c", "12", "D"}
+    result := Filter(array, notDigit)
 	fmt.Println(result) // "a", "c", "D" 
 ```
 
@@ -65,8 +65,8 @@ E.g.
 
 ```go
     toUppercase := func .....
-    array := []strings{"eVeRyThInG", "uPpErCaSe"}
-    result := Map(strings, toUppercase)
+    array := []string{"eVeRyThInG", "uPpErCaSe"}
+    result := Map(array, toUppercase)
     fmt.Println(result) // "EVERYTHING", "UPPERCASE" 
 ```
 
@@ -82,8 +82,8 @@ the second is the current element of the array.
     concat := func concat(a string, b string) string {
         return a + "," + b
     }
-    array := []strings{"a", "b", "c", "d"}
-    result := Reduce(strings, concat)
+    array := []string{"a", "b", "c", "d"}
+    result := Reduce(array, concat)
 	fmt.Println(result) // "a,b,c,d" 
 ```
 
