@@ -1,6 +1,6 @@
 Pure Functional Programming with Haskell
 Concepts of Programming Languages
-14 Nov 2022
+
 Tags: go, programming, master
 
 Sebastian Macke
@@ -116,6 +116,7 @@ Online editor:
   [1,2,3] ++ [4,5,6]     => [1,2,3,4,5,6]
   [1,2,3] !! 1           => 2
   "hey" == ['h','e','y'] => True  -- Strings are just lists of characters
+  "hey" !! 0             => 'h'
 
 : - Supports user-defined types such as data types, type synonyms, and newtypes
 : - Supports type classes
@@ -236,6 +237,11 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 :    max :: Ord a => a -> a -> a  (TODO)
 
+* Excercise
+
+- Write a signum function returns 1 if the number is positive, -1 if the number is negative and 0 if the number is 0.
+- Write the same function with guards that returns the signum of a number.
+
 * Haskell: Recursions
 
 - Using recursion (with the "if then else" expression)
@@ -268,8 +274,8 @@ They both work by grouping multiple values into a single combined value.
 
 - How to return multiple values from a function?
 
-  add a b = (a + b, a - b)
-  main = print $ add 1 2
+  addsub a b = (a + b, a - b)
+  main = print $ addsub 1 2
 
 - How to access the elements of a tuple?
 
@@ -318,8 +324,8 @@ They both work by grouping multiple values into a single combined value.
 - How to reverse a list?
 
   reverse [] = []
-  reverse (x:xs) = reverse xs ++ [x]
-  main = print $ reverse [1,2,3]
+  reverse (x:xs) = Main.reverse xs ++ [x]
+  main = print $ Main.reverse [1,2,3]
 
 - How to check if a list is a palindrome?
 
@@ -410,6 +416,7 @@ Also Haskell have to perform IO
   import Data.Time.Clock
   import Control.Concurrent
 
+  main :: IO ()   -- return type is IO (). The function is executed regardless of the return value
   main = do
     x <- getCurrentTime;
     print x;

@@ -56,7 +56,7 @@ E.g.
 ## Exercise 5.2b - Map
 
 Given a list of strings, write a function `Map` which takes a
-`map` function as argument. The `Map` function applies the `map` function to all elements of the array. 
+`map` function as argument. The `Map` function applies the `map` function to all elements of the array.
 
 What type must the `map` function have?
 
