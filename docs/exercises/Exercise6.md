@@ -93,7 +93,6 @@ Given the main function
 ```haskell
 main :: IO ()
 main = do secret <- getRandomFromTime
-          print secret
           putStrLn "Try to guess a secret number 1-100."
           input <- getLine
           let guess = read input :: Int
