@@ -2,7 +2,34 @@
 
 If you do not finish during the lecture period, please finish it as homework.
 
-## Exercise 7.1 - Generator
+## Exercise 7.1 - Waitgroup
+
+The following code starts 10000 threads that increment a counter.
+
+```go
+var myYoutubevideo struct {
+    likes int32
+}
+
+func Viewer() {
+    time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
+    atomic.AddInt32(&myYoutubevideo.likes, 1)
+}
+
+func main() {
+    for i := 0; i < 10000; i++ {
+        go Viewer()
+    }
+    for i := 0; i < 8; i++ {
+        fmt.Println(myYoutubevideo.likes, "likes")
+        time.Sleep(200 * time.Millisecond)
+    }
+}
+```
+
+Use a waitgroup to wait for all threads to finish before printing the final result.
+
+## Exercise 7.2 - Generator
 
 Write a generator for Fibonacci numbers, i.e. a function that returns a channel where the next Fibonacci number can be read.
 ```go
@@ -14,7 +41,7 @@ func main() {
 }
 ```
 
-## Exercise 7.2 - Timeout
+## Exercise 7.3 - Timeout
 
 Write a function `setTimeout()` that times out an operation after a given amount of time. Hint: Have a look at the built-in `time.After()` function and make use of the `select` statement.
 ```go
@@ -32,11 +59,12 @@ func main() {
 }
 ```
 
-## Exercise 7.3 - Dining Philosophers
+## Exercise 7.4 - Dining Philosophers
 
-Write a program to simulate the Dining Philosophers Problem by using Go Channels.
+Write a program to simulate the [Dining Philosophers](https://en.wikipedia.org/wiki/Dining_philosophers_problem) 
+Problem by using Go Channels.
 - There should be one Go Routine for each Philosopher
-- The table itself should be a Go Routine and should handle all forks. This makes synchronization easier.
+- The table itself should be a single Go Routine and should handle all forks via channels and a single select statement. This makes synchronization easier.
 - Make sure that:
   - The distribution of forks is fair - No philosopher dies on starvation 
   - Use the given Unit Test:

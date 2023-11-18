@@ -86,7 +86,7 @@ main = do secret <- getRandomFromTime
 
 ```
 
-#### Excercise 6.6b - Determine status
+#### Excercise 6.5b - Determine status
 
 Given the main function 
 
@@ -109,6 +109,6 @@ The function should have the following signature:
 status :: Int -> Int -> IO Bool
 ```
 
-#### Excercise 6.6c - Loop
+#### Excercise 6.5c - Loop
 
 Finally implement a loop until the user has guessed the correct number.

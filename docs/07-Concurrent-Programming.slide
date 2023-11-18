@@ -222,6 +222,13 @@ What will be the result?
 
 .play ../src/concurrent/waitgroup/parallel_for_loop.go /func/,
 
+* Excercise
+
+This is the previous code for atomic counting.
+
+.play ../src/concurrent/atomic/atomic.go /var/,
+
+Use a waitgroup to wait for all threads to finish before printing the final result.
 
 * Go Channels
 .image img/06-go-concurrency.jpeg
