@@ -59,6 +59,9 @@ func main() {
 }
 ```
 
+Hint: Within the function setTimeout, use two channels and wait for both channels with a select to return a value.
+One channel is the result of the function, the other channel is a timer channel that is created with time.After().
+
 ## Exercise 7.4 - Dining Philosophers
 
 Write a program to simulate the [Dining Philosophers](https://en.wikipedia.org/wiki/Dining_philosophers_problem) 
