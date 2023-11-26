@@ -18,12 +18,12 @@ https://www.qaware.de
 - Multi-way concurrent control (select)
 - Dining philosophers problem
 
-* Info
+-- * Info
 
-- Lecture in one week: Systems Programming
-- *Install* *Linux*!
-- For Windows, the Windows Subsystem (WSL2) is sufficient.
-- Otherwise install a virtual machine.
+-- - Lecture in one week: Systems Programming
+-- - *Install* *Linux*!
+-- - For Windows, the Windows Subsystem (WSL2) is sufficient.
+-- - Otherwise install a virtual machine.
 
 * About this Lecture
 
@@ -107,6 +107,19 @@ C language example
 
 Open a TCP connection to *simulationcorner.net* on port *54321* and, read from the data stream and write the output onto the screen in an infinite loop.
 
+* Exercise 8.2: Two way communication
+
+Open a TCP connection to *simulationcorner.net* on port *54322* and,
+read from the data stream and write the output onto the screen in an infinite loop.
+In addition, read from the keyboard and send the input to the server in an infinite loop.
+
+Create for each routine its own goroutine.
+As input use os.Stdin to read a rune from keyboard via
+
+    reader := bufio.NewReader(os.Stdin)
+    ....
+    input, err := reader.ReadString('\n')
+
 * Port Scanner
 
 .play ../src/servers/tcp/portscanner/simple/main.go /func/,
@@ -137,25 +150,25 @@ The client
 
 .play ../src/distributed/rpc/multiply/client/client.go /type/,
 
-* Exercise: Remote Procedure Call
+-- * Exercise: Remote Procedure Call
 
-Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
+-- Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
 
-A function, in which you receive a rune
+-- A function, in which you receive a rune
 
-    var dummy struct {}
-    var output rune
-    err := client.Call("Session.Read", &dummy, &output)
+--    var dummy struct {}
+--    var output rune
+--    err := client.Call("Session.Read", &dummy, &output)
 
-and a function in which you have to provide a rune
+-- and a function in which you have to provide a rune
 
-    var input rune
-    err := client.Call("Session.Write", &input, &dummy)
+--    var input rune
+--    err := client.Call("Session.Write", &input, &dummy)
 
-Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
+-- Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
 
-    reader := bufio.NewReader(os.Stdin)
-    input, _, err := reader.ReadRune()
+--    reader := bufio.NewReader(os.Stdin)
+--    input, _, err := reader.ReadRune()
 
 * Service-oriented Request-Response communication with gRPC
 
@@ -189,7 +202,7 @@ History:
 - HTTP 1.0: 1989 developed at CERN by Tim Berners-Lee
 - HTTP 1.1: Connection Pooling / Keep-Alive, Caching, Authentification, addtional metainformation, ...
 - HTTP 2.0: Binary-Protocol, Multiplexing, Encryption as Standard, Server-Push
-- HTTP 3.0: Still in development. Switch from TCP to UDP. Faster connection.
+- HTTP 3.0: Standardized 2023. Switch from TCP to UDP. Faster connection.
 
 * Example communication
 
@@ -359,12 +372,12 @@ To test the rest interface you can use tools such as
 * Exercise
 
 Create a Microservice with a REST API for a key value store.
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/WS_2021/docs/exercises/Exercise8.md
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md
 
-* Info
+-- * Info
 
-- Lecture in one week: Systems Programming
-- *Install* *Linux*!
-- Prefer a Debian based distribution.
-- For Windows, the Windows Subsystem (WSL2) is sufficient.
-- Otherwise install a virtual machine.
+-- - Lecture in one week: Systems Programming
+-- - *Install* *Linux*!
+-- - Prefer a Debian based distribution.
+-- - For Windows, the Windows Subsystem (WSL2) is sufficient.
+-- - Otherwise install a virtual machine.

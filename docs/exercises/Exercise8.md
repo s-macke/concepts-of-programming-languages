@@ -6,26 +6,19 @@ If you do not finish during the lecture period, please finish it as homework.
 
 Open a TCP connection to *simulationcorner.net* on port *54321*, read from the data stream and write the output onto the screen in an infinite loop.
 
-## Exercise 8.2 - Remote procedure call
+## Exercise 8.2 - TCP two way communication
 
-Implement in Go a net/rpc client TCP connection via RPC. Dial against the URL *simulationcorner.net:1234* . 
-This interface offers two remote procedures calls.
+Open a TCP connection to *simulationcorner.net* on port *54322* and,
+read from the data stream and write the output onto the screen in an infinite loop.
+In addition, read from the keyboard and send the input to the server in an infinite loop.
 
-A function, in which you receive a rune
-
-    var dummy struct {}
-    var output rune
-    err := client.Call("Session.Read", &dummy, &output)
-
-and a function in which you have to provide a rune
-
-    var input rune
-    err := client.Call("Session.Write", &input, &dummy)
-
-For each function create its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
-
+Create for each routine its own goroutine.
+As input use os.Stdin to read a rune from keyboard via
+```Go
     reader := bufio.NewReader(os.Stdin)
-    input, _, err := reader.ReadRune()
+    ....
+    input, err := reader.ReadString('\n')
+```
 
 ## Exercise 8.3 - Call Rest API
 
@@ -33,11 +26,15 @@ Call the Github API to receive the repositories with the most stars and the quer
 
 https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
 
-Use https://mholt.github.io/json-to-go/ to instantly create a Go structure from an arbitrary JSON.
+Use [https://mholt.github.io/json-to-go/](json-to-go) to instantly create a Go structure from an arbitrary JSON.
 
-## Exercise 8.4 - Microservice with API and embedded Web Site
+## Exercise 8.4 Modules and GIN
 
-Create a REST API for a key value store.
+Use the teacher-bot linked in the learning campus to learn how to use GIN.
+
+## Exercise 8.5 - Microservice with API and embedded Web Site
+
+Create a REST API for a simple in-memory key value store for strings.
 
 ```Go
     map[string]string
@@ -60,7 +57,7 @@ To test the rest interface you can use tools such as
 
 Add a Rest API GET call
 ```
-GET /api/list 
+GET /api/list
 ```
 call which returns the complete key value store as JSON
 
