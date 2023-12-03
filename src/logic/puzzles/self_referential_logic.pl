@@ -18,12 +18,12 @@ solution(Answers) :-
                answer(2, A2),
                answer(3, A3)
                ],
-    isInAcceptedAnwers(1, Answers),
-    isInAcceptedAnwers(2, Answers),
-    isInAcceptedAnwers(3, Answers),
+    isInAcceptedAnswers(1, Answers),
+    isInAcceptedAnswers(2, Answers),
+    isInAcceptedAnswers(3, Answers),
     member(answer(1, A2), Answers), % What is the answer to the second question?
     member(answer(2, X), Answers), count([A1, A2, A3], b, N), mapNumberToAnswer(N, X), % How many correct answers are B?
-    member(answer(3, Y), Answers), count([A1, A2, A3], a, M), mapNumberToAnswer(M, Y).  % Is there a question with the correct answer A?
+    member(answer(3, Y), Answers), count([A1, A2, A3], a, M), mapNumberToAnswer(M, Y). % Is there a question with the correct answer A?
 
 
 

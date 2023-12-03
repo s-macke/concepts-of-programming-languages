@@ -8,6 +8,15 @@ Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
+* Plan
+
+- Presentations & Forth
+- Logic programming
+- WebAssembly
+- (Summary) / Clean Code / What language to use for which problem?
+- Presentations
+
+
 * Last lecture
 - Exception Handling. Error return codes vs. Exceptions
 - Dynamic Types in Go
@@ -88,6 +97,15 @@ These notations are named as how they use operator in expressions.
 
 * Examples
 
+    a * b + c              =>
+    c * (a + b)            =>
+    (3 * a - b) / 4 + c    =>
+    (0.5 * a * b) / 100    =>
+    (n + 1) / n            =>
+    x * (7 * x + 5)        =>
+
+* Examples
+
     a * b + c              =>  a b * c +
     c * (a + b)            =>  c a b + *
     (3 * a - b) / 4 + c    =>  3 a * b - 4 / c +
@@ -154,7 +172,7 @@ Evaluate
 - Control structures, loops, and conditionals
 - Reflection
 - Direct access to call stack (return stack)
-- Able to invent new programming features on the fly
+- Able to invent new language features on the fly
 
 * Features
 
@@ -162,6 +180,8 @@ Evaluate
 - Debugging capabilities during runtime because of built in interpreter
 - Compiles to threaded code (something in between bytecode and compiled code). Contains an implicit compression
 - Entire development environment—including compiler, editor fits in a few kiloByte of machine language
+- Probably the most ported language ever
+
 
 * Websites to experiment with Forth
 

@@ -6,7 +6,7 @@
 % in Unterzahl gegenüber den Kannibalen sein.
 
 % We define the following data structure State=[Boot, M1, M2, M3, K1, K2, K3]
-% First entry is the board, followed by missionaries and cannibals.
+% First entry is the boat, followed by missionaries and cannibals.
 % The state vector saves the position (a or b) for each actor.
 
 % start  :- [a, a, a, a, a, a, a]

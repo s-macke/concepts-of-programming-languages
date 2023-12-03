@@ -108,23 +108,24 @@ add.js
 
 - Source:
 .link https://github.com/appcypher/awesome-wasm-langs
-    🐥 Net                         🐥 AssemblyScript          🥚 Astro Unmaintained
-    🐥 Brainfuck                   🐥 C                       🐥 C#
-    🐥 C++                         🐥 Clean                   🥚 Co
-    🐥 COBOL                       🐣 D                       🐣 Eel
-    🐣 Elixir                      🐥 F#                      🥚 Faust
-    🥚 Forest                      🐥 Forth                   🐥 Go
-    🥚 Grain                       🥚 Haskell                 🐣 Java
-    🐣 JavaScript                  🥚 Julia                   🐣 Idris Unmaintained
-    🐣 Kotlin/Native               🥚 Kou                     🐣 Lisp
-    🐥 Lobster                     🐥 Lua                    🐣 Lys
-    🐥 Never                       🥚 Nim                     🥚 Ocaml
-    🐣 Perl                        🐣 PHP                     🥚 Plorth
-    🐣 Poetry                      🐣 Python                  🐣 Prolog
-    🐣 Ruby                        🐥 Rust                    🐣 Scheme
-    🐣 Scopes                      🐣 Speedy.js Unmaintained  🐣 Swift
-    🐣 Turboscript Unmaintained    🐥 TypeScript              🐥 WebAssembly
-    🐥 Zig
+    In Production:
+    🐔 C              🐔 C++              🐔 Go           🐔 Rust
+    Stable for production:
+    🐥 .Net           🐥 AssemblyScript   🐥 Brainfuck    🐥 C#
+    🐥 Clean          🐥 COBOL            🐥 F#           🐥 Forth
+    🐥 Lobster        🐥 Lua              🐥 Never        🐥 Rego
+    🐥 TypeScript     🐥 WebAssembly      🐥 Zig
+    Unstable:
+    🐣 Ada            🐣 D                 🐣 Eel          🐣 Elixir
+    🐣 Java           🐣 JavaScript        🐣 Kotlin/Wasm  🐣 Lisp
+    🐣 Lys            🐣 Pascal            🐣 Perl         🐣 PHP
+    🐣 Poetry         🐣 Python            🐣 Prolog       🐣 R
+    🐣 Ruby           🐣 Scheme            🐣 Scopes       🐣 Swift
+    🐣 Tcl
+    Work in Progress:
+    🥚 Dart           🥚 Faust             🥚 Co            🥚 Forest
+    🥚 Haskell        🥚 Julia             🥚 Kou           🥚 Nim
+    🥚 Ocaml          🥚 Plorth
 
 * Demo in C
 
@@ -220,6 +221,18 @@ index.html
 - Server-side application.
 - Hybrid native apps on mobile devices.
 - Generic Plugins for your software.
+
+* What is WASI?
+
+- WebAssembly System Interface
+- A portable interface for applications that run outside the browser
+
+Question:
+
+You have an Hello world executable.
+What "Symbols" do you have export and import to execute the executable?
+
+
 
 * Calls from and to Go
 

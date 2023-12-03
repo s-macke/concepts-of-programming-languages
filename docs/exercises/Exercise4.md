@@ -5,8 +5,7 @@
 Use https://s-macke.github.io/Forthly/ to solve the following problems.
 
 - Write a function, which takes one integer as argument and calculates the cube x³ of that number.
-- Write a function which which prints the numbers from 1 to 10.
-- Write a function, which checks whether the given number on the stack is a prime number (loop over all odd numbers and test via the word "mod")
+- Write a function which prints the numbers from 1 to 10.
 - Write a function "swapv", which swaps the content of two variables
 
 ```Forth
@@ -17,7 +16,9 @@ Use https://s-macke.github.io/Forthly/ to solve the following problems.
   b @ .  ( outputs 1 )
 ```
 
-## Exercise 2 - Implement Shunting Yard Algorithm
+## Exercise 2 - Implement Shunting Yard Algorithm in Go
+
+You can use the [stack machine implementation](../../src/forth/reversepolish/main.go)
 
 Implement the Shunting Yard Algorithm
 - Take a string as input such as "1 + 2 * 3". Allowed operators are `+`, `-`, `*`, `/`

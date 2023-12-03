@@ -18,12 +18,12 @@ https://www.qaware.de
 - Multi-way concurrent control (select)
 - Dining philosophers problem
 
--- * Info
+: * Info
 
--- - Lecture in one week: Systems Programming
--- - *Install* *Linux*!
--- - For Windows, the Windows Subsystem (WSL2) is sufficient.
--- - Otherwise install a virtual machine.
+: - Lecture in one week: Systems Programming
+: - *Install* *Linux*!
+: - For Windows, the Windows Subsystem (WSL2) is sufficient.
+: - Otherwise install a virtual machine.
 
 * About this Lecture
 
@@ -114,7 +114,7 @@ read from the data stream and write the output onto the screen in an infinite lo
 In addition, read from the keyboard and send the input to the server in an infinite loop.
 
 Create for each routine its own goroutine.
-As input use os.Stdin to read a rune from keyboard via
+As input use os.Stdin to read a string from keyboard via
 
     reader := bufio.NewReader(os.Stdin)
     ....
@@ -374,10 +374,10 @@ To test the rest interface you can use tools such as
 Create a Microservice with a REST API for a key value store.
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md
 
--- * Info
+: * Info
 
--- - Lecture in one week: Systems Programming
--- - *Install* *Linux*!
--- - Prefer a Debian based distribution.
--- - For Windows, the Windows Subsystem (WSL2) is sufficient.
--- - Otherwise install a virtual machine.
+: - Lecture in one week: Systems Programming
+: - *Install* *Linux*!
+: - Prefer a Debian based distribution.
+: - For Windows, the Windows Subsystem (WSL2) is sufficient.
+: - Otherwise install a virtual machine.

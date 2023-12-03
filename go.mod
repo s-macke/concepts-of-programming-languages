@@ -1,15 +1,15 @@
 module github.com/s-macke/concepts-of-programming-languages
 
-go 1.19
+go 1.21
 
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20210930093333-01de314d7883
 	github.com/coreos/etcd v3.3.26+incompatible
 	github.com/fogleman/gg v1.3.0
 	github.com/jacobsa/fuse v0.0.0-20210904154839-95fc8d118111
-	golang.org/x/net v0.1.0 // indirect
-	golang.org/x/sys v0.1.0
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/net v0.5.0 // indirect
+	golang.org/x/sys v0.4.0
+	golang.org/x/text v0.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20211001223012-bfb93cce50d9 // indirect
 	google.golang.org/grpc v1.41.0
 	google.golang.org/protobuf v1.27.1
