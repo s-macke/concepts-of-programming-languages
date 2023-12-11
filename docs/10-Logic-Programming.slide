@@ -169,7 +169,9 @@ Or to express general rules:
 
 * Live Demo 2
 
-  https://swish.swi-prolog.org/example/movies.pl
+- Movies
+
+: https://swish.swi-prolog.org/example/movies.pl
 
 : movie(american_beauty, Y).
 : movie(M, 2000).
