@@ -222,6 +222,16 @@ index.html
 - Hybrid native apps on mobile devices.
 - Generic Plugins for your software.
 
+* Calls from and to Go
+
+.code ../src/webassembly/go/call/main.go
+
+* Calls from and to Go
+
+index.html
+
+.code ../src/webassembly/go/call/index.html /const/,/script/
+
 * What is WASI?
 
 - WebAssembly System Interface
@@ -232,17 +242,12 @@ Question:
 You have an Hello world executable.
 What "Symbols" do you have export and import to execute the executable?
 
+: export _start()
+: import proc_exit(int code)
+: import fd_write(int fd, int *buf, int len, int *written)
 
+* WASI Demo
 
-* Calls from and to Go
-
-.code ../src/webassembly/go/call/main.go
-
-* Calls from and to Go
-
-index.html
-
-.code ../src/webassembly/go/call/index.html /const/,/script/
 
 * Exercise
 

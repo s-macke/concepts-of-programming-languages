@@ -422,3 +422,7 @@ Find a solution for the six people to safely cross the river.
 
 .link https://www.swi-prolog.org/pldoc/man?section=builtin SWI Prolog Manual
 .link https://github.com/SWI-Prolog/packages-paxos PAXOS on GitHub
+
+* Applications: Authorization
+
+.link https://engineering.gusto.com/why-logic-programming-is-the-best-choice-for-authorization/
