@@ -207,6 +207,7 @@ Go uses a strong typing system. But why?
 : ....
 : ("NaN") => "NaN"
 : ({} + {} +[]) => ("[object Object][object Object]")
+: parseInt(0.0000001)
 
 * Strong typing in Go
 

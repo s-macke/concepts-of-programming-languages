@@ -7,13 +7,16 @@ Rosenheim Technical University
 
 * About me:
 
-- Site Reliability Engineer at QAware (Munich, Mainz, Rosenheim)
+- Lead Software Engineer at QAware (Munich, Mainz, Rosenheim)
 -- [[https://qaware.de]]
 -- Dienstleister für Cloud Native Anwendungen
 
 - Software Developer as a hobby (Reverse Engineering, Simulations, Emulations, AI):
 -- [[https://github.com/s-macke]]
 -- [[https://simulationcorner.net]]
+
+- AI enthusiast
+-- Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604580225024/]]
 
 - Email: Sebastian.Macke@th-rosenheim.de
 
@@ -42,7 +45,8 @@ Miro Board: https://miro.com/app/board/.....
 
 * Goal of the Course
 
-.image img/go.png
+.image img/go.png 200 _
+- Looking beyond the horizon
 - Gain knowledge about the concepts of existing programming languages
 - Increased ability to learn new languages
 - Learn how Go differs from other languages conceptually
@@ -60,17 +64,15 @@ Miro Board: https://miro.com/app/board/.....
 Lecture 1 - *About* *Overview* *Introduction*
 Lecture 2 - *Introduction* *to* *Golang*. *Types* *Control* *Structures*
 Lecture 3 - *Object* *Oriented* *Programming* *with* *Go*
-Lecture 4 - *Forth*, *Stack* *Machine*, *Meta* *Programming*
 Lecture 5 - *Large Language Models*, *Prompting*, *Copilot*
 Lecture 5 - *Functional* *Programming*
 Lecture 6 - *Pure* *Functional* *Programming* *With* *Haskell*
 Lecture 7 - *Concurrent* *Programming*
 Lecture 8 - *Distributed* *Programming*
 Lecture 9 - *Cross* *Compiling* *with* *WebAssembly*
-Lecture 10 - *Systems* *Programming*
-Lecture 11 - *Logic* *Programming*
-Lecture 12 - .....
-Lecture 13 - .... *Summary* ....
+Lecture 10 - *Logic* *Programming*
+Lecture 11 - .....
+Lecture .. - .... *Summary* ....
 
 : * Lectures
 
@@ -103,7 +105,7 @@ Lecture 13 - .... *Summary* ....
 
 * Material
 Learning Campus:
-.link https://learning-campus.fh-rosenheim.de/course/view.php?id=2993
+.link https://learning-campus.th-rosenheim.de/course/view.php?id=2993
 
 Github: Sources, Slides (Go Present Tool)
 
@@ -114,7 +116,7 @@ Github: Sources, Slides (Go Present Tool)
 
 - See Learning Campus for details
 
-15 Minutes presentation + 7-10 pages Asciidoc document (written in English) + Software Project to exemplify
+# 15 Minutes presentation + 7-10 pages Asciidoc document (written in English) + Software Project to exemplify
 
 Examples:
 
