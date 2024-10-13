@@ -39,7 +39,6 @@ func (idx Index) String() string {
 
 // MakePage constructs a page from a string array.
 func MakePage(words []string) Page {
-	var err error
 	page := words
 	return page
 }

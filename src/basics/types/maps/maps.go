@@ -1,35 +1,18 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-)
-
-// START OMIT
-func countWords(input string) map[string]int {
-
-	// Split the string into words using whitespace as a delimiter
-	words := strings.Fields(input)
-
-	// Initialize an empty map to store word counts
-	wordCounts := make(map[string]int)
-
-	// Iterate over the words and update the count in the map
-	for _, word := range words {
-		word = strings.ToLower(word) // Convert word to lowercase to ensure case-insensitivity
-		wordCounts[word]++           // Increment the count for this word
-	}
-
-	return wordCounts
-}
-// END OMIT
+import "fmt"
 
 func main() {
-	text := "If it is to be it is up to me to delegate"
-	wordCounts := countWords(text)
+	m := make(map[string]string) // Initialize an empty map
+	m["foo"] = "bar"             // insert a key-value pair into map
 
-	fmt.Println("Word counts:")
-	for word, count := range wordCounts {
-		fmt.Printf("%s: %d\n", word, count)
+	value, ok := m["asd"]  // check if key is present, return parameters can be ignored with "_"
+	fmt.Println(ok, value) // returns false, value is just an empty string ""
+
+	value, ok = m["foo"] // returns true, value contains "bar"
+	fmt.Println(ok, value)
+
+	for k, v := range m {
+		fmt.Println(k, v)
 	}
 }

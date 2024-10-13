@@ -2,14 +2,19 @@ Go Programming - Basics
 Concepts of Programming Languages
 Tags: go, programming, master
 
-Sebastian Macke, Stefan Langer
+Sebastian Macke
 Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
-* Organisational matters
-- Some missing students last time
-- Questions
+* Last Lecture:
+
+- Introduction
+- The many ways to characterize a language
+- Go Introduction
+
+- Characteristics of a Successful Language
+-- Miro Board ....
 
 * Characteristics of a Successful Language (Suggestion)
 - Simplicity and readability (Small instruction set and easy syntax)
@@ -19,7 +24,6 @@ https://www.qaware.de
 - Dependency management
 - Good support and documentation (public compilers, tutorials, community, IDE)
 - Orthogonality
-
 
 * What is an Orthogonal language
 
@@ -32,6 +36,13 @@ https://www.qaware.de
 
 : http://www.javawenti.com/?post=39930
 
+* Orthogonal Design by an example
+
+- Type System is a "feature"
+- Functions are a "feature"
+- Types are used in functions as parameters or return values.
+- Orthogonal would mean, that the type system is independent of the functions.
+- E. g. The behaviour of the type is not influenced by a function or vice-versa.
 
 * Types VS. Functions (Non-Orthogonal Design by example)
 - E. g. in C, the type system is not orthogonal to the function system.
@@ -126,8 +137,15 @@ https://www.qaware.de
 - The entry point for Go executable is always the function main in package main (main.main)
 - New packages need a new directory and can then be referenced
 - *Public* *functions* *begin* *with* *a* *capital* *letter*
+: - Package import names are hierarchical
+: - Package names are not hierarchical!
 
 : neues Verzeichnis mit Paket anlegen und zeigen, wie man von main darauf zugreift
+
+* Primitive Types
+- Basic building block of a programming language
+- They are not defined in terms of other data types
+- Usually designed with the CPU architecture in mind
 
 * Primitive Types
 .html snippets/basic_types.html
@@ -159,13 +177,13 @@ Languages differ of how serious they handle the type
 - statically typed: type checking at compile time
 - dynamically typed: type checking at runtime
 
-: Frage an Studenten: bitte ausfüllen.
-
 Go uses a strong typing system. But why?
 
-* Weak typing vs. Strong typing II
+: Frage an Studenten: bitte ausfüllen.
 
-.image img/02-typing.png 450 _
+: * Weak typing vs. Strong typing II
+
+: .image img/02-typing.png 450 _
 
 * Where implicit type conversion in C goes wrong
 
@@ -180,6 +198,9 @@ Go uses a strong typing system. But why?
         return 0;
     }
 
+Also: Change int to char
+
+
 : https://www.onlinegdb.com/online_c_compiler
 : change int to char
 
@@ -187,27 +208,36 @@ Go uses a strong typing system. But why?
 .image ./img/banana_meme.png 400 _
 
 : https://jsconsole.com/
-: 4 + "7"
-: 4 * "7"
+: 4 + "7" -> conversion to strings
+: "4" + 7
+: 4 - "7" -> conversion to number
+: "4" - "7" -> conversion to number
+: "" - "" => 0
+: 4 * "7" -> conversion to numbers
 : 2 + true
 : false - 3
-: 0 == "" -> true
 : "" - "" => 0
+: 0 == "" -> true
 : new Array() == false
 : {} + {} => "[object Object][object Object]"    (typeof ({} + {}) is string)
 : {} + [] => 0
 : {} + {} + [] => "NaN" as string
 : ({} + {}) + [] => ""
 : {} + ({} + []) => NaN as number
+: ({} + {} + []) => ("[object Object][object Object]")
+: ("NaN") => "NaN"
 : 0 > null => false
 : 0 >= null => true
 : 0 === null => false
 : [1,2,3] + [4,5,6] => "1,2,34,5,6"
 : http://www.jsfuck.com/
-: ....
-: ("NaN") => "NaN"
-: ({} + {} +[]) => ("[object Object][object Object]")
+: parseInt(1)
 : parseInt(0.0000001)
+: "" + 0.00000001
+
+* Dynamically typing in Python
+
+- Demo with state of the art AI libs
 
 * Strong typing in Go
 
@@ -217,19 +247,43 @@ Go uses a strong typing system. But why?
 - The compiler will complain if you try to compare different types.
 - You have to do the type conversion explicitly.
 
-* Golang - some details
+*  The many ways of variable declarations in Go
 
-* Go has a dynamic type: any
+    var foo int  // default value zero
+    foo = 32
+
+    var foo int = 32
+
+    var foo = 32
+
+    foo := 32  // infers (guesses) the type definition of type int
+
+    foo := int(32)
+
+    foo, ok := 32, true // foo is an int 32, ok is a boolean with value true
+
+
+* Go has also a dynamic type: any
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
 
 : - The downcast is safe (== dynamic_cast in C++ or cast in Java)
 
+
+* Type systems in other languages
+
+.image img/02-typing.png 450 _
+- Miro board ....
+
+* Golang - some details
+
+
 * Maps
 
 - Maps are Go's built-in associative data type (sometimes called hashes or dicts in other languages).
 
-.play ../src/basics/types/maps/maps.go /START OMIT/,/END OMIT/
+.play ../src/basics/types/maps/maps.go
+: /START OMIT/,/END OMIT/
 
 * Arrays and Slices
 - Arrays have a fixed length and can not be resized
@@ -238,20 +292,9 @@ Go uses a strong typing system. But why?
 - The underlying array grows automatically (if needed)
 - Both have a length and a capacity: What does that mean?
 
-	arr := [5]int{1, 2, 3, 4, 5}
+* Arrays and Slices
 
-	s := arr[0:2]
-
-	fmt.Println(len(s), cap(s)) // ==> 2, 5
-
-	s = append(s, 8)
-	s = append(s, 9)
-	s = append(s, 10)
-	s = append(s, 11)
-
-	fmt.Println(len(s), cap(s)) // ==> 6, 10
-
-: slicecap zeigen
+.play ../src/basics/types/slices/slices.go
 
 
 * Functions and Control Structures: Example Palindrome
@@ -275,6 +318,12 @@ Go uses a strong typing system. But why?
 - The range operator has two return values: the position and the current value
 
     pos, ch := range runes
+
+: * Functions and Control Structures: Example String Reverse (UTF-8)
+
+: Bad example of usage of multiple parameters
+: .code ../src/basics/types/strings/strings.go /Reverse/,/End OMIT/
+
 
 * Functions and Control Structures: Example Palindrome (Reverse)
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome3/,/END3 OMIT/
@@ -354,11 +403,46 @@ A pointer is a variable which contains a memory address
 * Exercise 2.1
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
 
+* Pointer arithmetic is a "DON'T DO" in Go!
+- There is some unsafe pointer arithmetic as in C / C ++
+
+.play ../src/basics/pointers/unsafe/main.go /func main/,
+
+- Because of garbage collection anything can happen here! Even more unsafe than in C!
+
+: In C wäre die Anpassung des Pointers nur y++
+
+: * What are references
+
+: References are kind of safe pointers. In different languages they have slighty different meanings and properties.
+
+: - They all have in common, that they don't allow pointer arithmetic.
+: - Usually no dererefence with * necessary
+: - Normally strongly typed
+: - In C++ a reference must be initialized at creation and can never be null. In this way C++ ist stricter than Java
+: - In Java because of Garbage Collection the reference might not be direct pointer to the object.
+: - In Go, nil is the zero value for pointers, interfaces, maps, slices, channels and function types, representing an uninitialized value.
+
 * Maps and Slices - Example Book Index
-.code ../src/basics/index/index.go /Page/,/END OMIT/
+
+Types can be defined with the keyword "type"
+
+    // Page contains an array of words.
+    type Page []string
+
+    // Book is an array of pages.
+    type Book []Page
+
+    // Index contains a list of pages for each word in a book.
+    type Index map[string][]int
+
+    // MakeIndex generates an index structure
+    func MakeIndex(book Book) Index {
+    ....
+    }
 
 * Stringer Interface
-.code ../src/basics/interfaces/interfaces.go 
+.play ../src/basics/stringer/stringer.go
 
 * The Flag API simplifies Command Line Utilities
 .play ../src/basics/flags/main.go /import/,/END OMIT/
@@ -367,6 +451,10 @@ A pointer is a variable which contains a memory address
 
 : vergleich https://stackoverflow.com/questions/7341683/parsing-arguments-to-a-java-command-line-program
 
+: * public static void
+: - Thoughts about language design:
+: .link https://www.youtube.com/watch?v=5kj5ApnhPAE
+
 * Summary
 
 - Compiled (cross compiler for OS: Mac, Windows, Linux and CPU: ARM, x86 + Amd64)
@@ -374,7 +462,6 @@ A pointer is a variable which contains a memory address
 - Focus on fast compile times (the entire Go codebase compiles in <20 seconds)
 - Simple (less keywords like C - 25/32) and Orthogonal
 - Strong type system with runtime support (Reflection, Dynamic Types)
-
 
 :  - Object-oriented, Functional, Parallel, Modular and Versioned
 
