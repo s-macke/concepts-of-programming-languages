@@ -8,10 +8,7 @@ A Book Index is an inverted index which lists all pages a word occurs in a book.
 Write a program which generates an inverted index out of an array of book pages.
 Each Page contains an array of words.
 
-- USe the "type" keyword to define custom types for Book, Page and Index. 
-- Make sure the Stringer() interface is implemented for Book and Index to make them printable
-  More details about the Stringer interface: https://tour.golang.org/methods/17
-  The stringer interface will be explained in more detail in the next lecture.
+- Use the "type" keyword to define custom types for Book, Page and Index. 
 - Write a unit test which generates a book and calculates the index and prints it to Stdout
 
 ## After this Exercise

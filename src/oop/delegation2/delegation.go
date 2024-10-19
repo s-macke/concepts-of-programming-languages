@@ -19,7 +19,7 @@ type B struct {
 
 func (b B) Foo() {
 	fmt.Print("b.foo ")
-	b.Bar() //b.A.Bar()
+	b.A.Foo()
 }
 
 func (b B) Bar() {
@@ -29,8 +29,7 @@ func (b B) Bar() {
 func main() {
 	a := A{}
 	a.Foo()
-	/*
-		b := B{}
-		b.Foo() // "a.bar" or "b.bar"?
-	*/
+
+	b := B{}
+	b.Foo() // "b.foo a.foo a.bar" or "b.foo a.foo b.bar"?
 }

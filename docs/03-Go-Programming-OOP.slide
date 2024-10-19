@@ -2,7 +2,7 @@ Go Programming - OOP
 Concepts of Programming Languages
 Tags: go, programming, master
 
-Sebastian Macke, Stefan Langer
+Sebastian Macke
 Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
@@ -58,6 +58,7 @@ The "defer" statement lets us ensure that code runs before a function exits
 * Exception Pro and Cons
 
 - What do you think are the pros and cons of exceptions?
+- Miro Board ...
 
 : * Exception Pro and Cons
 
@@ -223,17 +224,105 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 : Object Oriented Programming - Custom Types
 : Go has no classes but types and functions
 
+* Orthogonal: Encapsulation can be done with any type
+
+.play ../src/oop/orthogonal/int.go
+
+
+* Syntax level OOP
+
+.play ../src/oop/Syntax_OOP/syntax_oop.go
+
+* Syntax level OOP
+
+Encapsulation of methods is basically is just a syntax element.
+
+    func (r *Rational) Multiply(y Rational) Rational {
+     ....
+    }
+
+is internally transformed into
+
+    func Multiply(r *Rational, y Rational) Rational {
+     ....
+    }
+
+A lot of languages do it this way.
+
+* Syntax level OOP
+: .play ../src/oop/oop_vs_procedural/bool.go
+
+: - Go seems to convert the OOP style to procedural style. (OOP only on syntax level)
+
+
+* Composition VS. Inheritance
+
+Composition and inheritance are two ways to achieve code reuse and design modular systems
+
+- Composition
+
+    class Engine {
+        ....
+    }
+    class Car {
+        private Engine engine
+    }
+
+- Inheritance
+
+  class Animal {
+      ....
+  }
+
+  class Dog extends Animal {
+  }
+
+
 * Composition VS. Inheritance?
+
+Composition and inheritance are two ways to achieve code reuse and design modular systems
+
 - Composition: A design principle where objects are formed by combining multiple smaller objects
 - Inheritance: A mechanism where a new class derives properties and behaviors from an existing class
 
- 
 - Which Pros and Cons exist?
-- [[https://miro.com/app/board/uXjVNekj0S8=/?share_link_id=355865373286]]
+- Miro ...
 
+
+: Pros composition
+: - Flexibility
+: - Loose Coupling
+: - better encasulation
+: - avoids fragile base class problems with partial implementations
+: - easy to understand
+
+: Cons composition
+: - Could lead to more boilerplate
+: - manage more objects - indirection complexity
+: - no hierarchical relationship
+
+: Pro Inheritance
+: - natural hierarchies
+: - less boilerplate
+: - polymorphism
+
+: Cons inheritance
+: - tight coupling
+: - Fragile base class
+: - reduced flexibility
+: - inappropriate abstractions, force relationships that don't naturally fit
+: - single inheritance restriction
+: - More memory, harder to compile
+
+
+* The issue with inheritance
+
+- https://www.youtube.com/watch?v=Ng8m5VXsn8Q&t=414s
+- Runner and RunCounter
 
 * Embedding
-- Go does not support inheritance: Go supports embedding of other structs.
+- Go does of course support composition.
+- But Go does not support inheritance: Go supports embedding of other structs.
 .code ../src/oop/embedding0/embed.go /Point/,8
 
 .code ../src/oop/embedding0/embed.go /ColorPoint/,16
@@ -242,15 +331,18 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 
 - Access to embedded field is identical to a normal field inside a struct
 - Syntactically it is similar to inheritance in Java
-- In Java this can be done with delegation.
+- Overriding of methods is kind of supported, overloading is not!
 
 : Overloading is generally not possible in Go
 
 * Delegation of Functions in Go
 
-- Overriding of methods is kind of supported, overloading is not!
+comparison of behavior in Java and Go at
+- ../src/oop/delegation/delegation.go
+- ../src/oop/delegation/delegation.java
+- ../src/oop/delegation2/delegation.go
+- ../src/oop/delegation2/delegation.java
 
-.play ../src/oop/delegation/delegation.go /type A/,
 
 : prints "a.bar"
 : real delegation should print "b.bar", because delegation means
@@ -280,15 +372,15 @@ In Go:
 - Java interfaces are satisfied explicitly
 
   class Door implements Switch {
-    public void Open() {}
-    public void Close() {}
+    public void Open() { ... }
+    public void Close() { ... }
   }
 
 - Go interfaces are satisfied implicitly
 
   type Door struct {}
-  func (d *Door) Open() {}
-  func (d *Door) Close() {}
+  func (d *Door) Open() { ... }
+  func (d *Door) Close() { ... }
 
 Door implicitly satisfies the interface OpenCloser
 
@@ -309,21 +401,30 @@ The print functions in the *fmt* package support the following interface
         // The object implements stringer
     }
 
+- Issue: The detection is done at runtime.
+
 * Polymorphism III: The stringer interface
 
 .play ../src/oop/stringer/stringer.go
+
+* Interfaces and Polymorphism
+.play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
 
 * Recap: Go does support a dynamic type
 
 .play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
 
-* Example: Send Mail with Go: A minimal Interface
-.code ../src/oop/mail/mail.go /Message/,/END OMIT/
-- A example interface for a service-oriented component
+- any is an alias for an empty interface{} and hence matches all types
 
-* Example: A type implements an interface when providing the required methods
-.code ../src/oop/mail/smtp/sender.go /type/,/END OMIT/
+    type any = interface{}
 
+
+: * Example: Send Mail with Go: A minimal Interface
+: .code ../src/oop/mail/mail.go /Message/,/END OMIT/
+: - A example interface for a service-oriented component
+
+: * Example: A type implements an interface when providing the required methods
+: .code ../src/oop/mail/smtp/sender.go /type/,/END OMIT/
 
 * Summary
 - Go does support Encapsulation via an OOP style syntax
@@ -332,6 +433,7 @@ The print functions in the *fmt* package support the following interface
 - Several interfaces can be put together to form an interface
 - Interface embedding makes mocking easy
 - Go supports polymorphism only via interfaces, not through classes
+- https://youtu.be/Ng8m5VXsn8Q?t=414
 
 : Inheritance can cause weak encapsulation, tight coupling and surprising bugs
 

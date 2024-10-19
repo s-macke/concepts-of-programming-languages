@@ -28,21 +28,20 @@ func (p ColorPoint) String() string {
 
 func main() {
 	var p = Point{1, 2}
+	var cp = ColorPoint{Point{1, 2}, 3} // embeds Point
 	fmt.Println(p)
-
-	var cp = ColorPoint{Point{1, 2}, 3}
 	fmt.Println(cp)
 	fmt.Println(cp.x) // access inherited field
 
-	// p = cp // does not work: No type hierarchy, no polymorphism
-	//p = cp.Point // works
+	// p = cp       // does not work: No hierarchy, no polymorphism
+	// p = cp.Point // works
 
 	// s is an interface and supports Polymorphism
 	var s fmt.Stringer
-	s = p
-	fmt.Println(s.String())
+	s = p // check at compile time
+	fmt.Println(s)
 	s = cp
-	fmt.Println(s.String())
+	fmt.Println(s)
 }
 
 // END2 OMIT
