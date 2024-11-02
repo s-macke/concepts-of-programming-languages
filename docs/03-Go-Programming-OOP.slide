@@ -9,12 +9,11 @@ https://www.qaware.de
 
 * Last lecture
 - Types (string, int, bool, float64, ...)
-- weak vs. strong typing
+- weak vs. strong typing, statically vs. dynamically typed.
 - Functions and Control Structures
 - Arrays, Slices and Maps
 - Pointer
 - Unit Tests
-- Preview into interfaces
 
 * Last Exercise
 - Let's look at an example implementation
@@ -22,13 +21,14 @@ https://www.qaware.de
 : Ergebnisse der Übungen zeigen.
 
 * Error Handling
+.image ./img/error_meme.jpg 400 _
 
 * Errors in Go
 
 Go doesn't have try-catch exception based error handling.
 Go distinguishes between recoverable and unrecoverable errors.
 
-Recoverable: e. g. file not found
+_Recoverable_: e. g. file not found
 
 - Go returns the error as one of the return values
 
@@ -37,7 +37,7 @@ Recoverable: e. g. file not found
 		log.Error(err)
 	}
 
-Unrecoverable: array access outside its boundaries, out of memory
+_Unrecoverable_: array access outside its boundaries, out of memory
 
 * Go defer: run code before function exists
 

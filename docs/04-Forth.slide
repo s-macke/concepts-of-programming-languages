@@ -8,15 +8,6 @@ Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
-* Plan
-
-- Presentations & Forth
-- Logic programming
-- WebAssembly
-- (Summary) / Clean Code / What language to use for which problem?
-- Presentations
-
-
 * Last lecture
 - Exception Handling. Error return codes vs. Exceptions
 - Dynamic Types in Go
@@ -124,12 +115,13 @@ Evaluate
 .image img/stack1.png 200 _
 
   3  push 3 onto stack
-  9  push 9 onto stack
-  +  pop 9 and 3 and add them and push the result back on the stack
-  4  push 4 onto stack
-  6  push 6 onto stack
-  +  pop 6 and 4 and add them and push the result back on the stack
-  *  pop 9 and 17 and multiply them and push the result back on the stack
+  9 push 9 onto stack
+    + pop 3 and 9 from stack, add them, push result onto stack
+    4 push 4 onto stack
+    6 push 6 onto stack
+      + pop 4 and 6 from stack, add them, push result onto stack
+        * pop 12 and 15 from stack, multiply them, push result onto stack
+
 
 
 * Postfix via a stack machine
@@ -835,3 +827,9 @@ Algorithm:
 
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise4.md
 
+* Last lecture
+- Prefix, Infix and Post-Notation
+- Stack machine
+- Forth as one of the most simplistic languages
+- Metaprogramming, program new language features while programming
+- Shunting-Yard Algorithm

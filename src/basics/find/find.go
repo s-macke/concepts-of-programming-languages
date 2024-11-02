@@ -3,14 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
 )
 
 func ListDir(path string, pattern string) {
-	files, err := ioutil.ReadDir(path)
+	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -18,6 +17,7 @@ func ListDir(path string, pattern string) {
 		name := path + string(os.PathSeparator) + f.Name()
 		b, err := regexp.MatchString(pattern, f.Name())
 		if err != nil {
+
 			log.Fatal(err)
 		}
 		if b {

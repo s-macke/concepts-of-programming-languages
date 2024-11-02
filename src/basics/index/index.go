@@ -6,7 +6,9 @@ package index
 import "fmt"
 
 // Page contains an array of words.
-type Page []string
+type Page struct {
+	words []string
+}
 
 // Book is an array of pages.
 type Book []Page
@@ -17,8 +19,8 @@ type Index map[string][]int
 // MakeIndex generates an index structure
 func MakeIndex(book Book) Index {
 	idx := make(Index)
-	for i, page := range book {
-		for _, word := range page {
+	for i := range book {
+		for _, word := range book[i].words {
 			pages := idx[word]
 			idx[word] = append(pages, i)
 		}

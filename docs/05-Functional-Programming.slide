@@ -11,13 +11,22 @@ https://www.qaware.de
 : https://www.digicomp.ch/blog/2015/10/20/einfuehrung-in-die-funktionale-programmierung
 
 * Last lecture
-- Prefix, Infix and Post-Notation
-- Stack machine
-- Forth as one of the most simplistic languages
-- Metaprogramming, program new language features while programming
-- Shunting-Yard Algorithm
+- Exception Handling. Error return codes vs. Exceptions
+- Object Oriented Programming without class hierarchy
+- Embedding
+- Implicit satisfied interfaces with Polymorphism
 
 : Ergebnisse der Übungen zeigen.
+
+* The error interface
+
+.play ../src/oop/errors/error.go /START OMIT/,/END OMIT/
+
+The error is just an interface with one method that should return the error message:
+
+    type error interface {
+        Error() string
+    }
 
 * What is Functional programming?
 - Functional programming is a programming paradigm where functions can not only be defined and applied. Like data, functions can be linked together, used as parameters, and occur as function results.
@@ -38,7 +47,7 @@ Functional programming is old, but some major languages have adapted them quite 
 These types of functional languages support only the functional paradigms and have no state. For example − Haskell.
 
 - *Impure* Functional Languages
-These types of functional languages support the functional paradigms and imperative style programming. For example − LISP and Go.
+These types of functional languages support the functional paradigms and imperative style programming. For example all of the major languages today.
 
 * Impure Functional Languages
 
@@ -106,6 +115,30 @@ Rewrite it, so that the Bubble Sort algorithm takes a comparison function as inp
 
 	BubbleSort(data, func(i, j int) bool {return data[i] > data[j]})
 
+* Closures in JavaScript
+
+    const object1 = {
+        prop: 42,
+
+        func: function () {
+            return this.prop;
+       },
+    };
+
+    console.log(object1.prop)  // 42
+    console.log(object1.func())  // 42  // At creation time, this points to test.prop
+
+    const object2 = {
+        prop: 43,
+        func: object1.func  // take the function defined in object1.
+    }
+
+    console.log(object2.prop)  // 43
+    console.log(object2.func())  // 43. Now "this" points to object2.
+
+: https://onecompiler.com/javascript
+: object1.func = object1.func.bind(object1);
+
 * Pure Functions
 
 * What is a pure function?
@@ -124,23 +157,31 @@ Advantages
 
 * Every Function can be made pure
 
-"An interactive program is a pure function that takes the current 'state of the world' as its arg and produces a modified world as result" - unknown Twitter user
 
-- This one is pure (Go)
+- This one is impure
 
+    var count = 0
+    func increment() {
+        count++
+    }
+
+- This one is pure
+
+    func incrementPure(count int) int {
+        return count + 1 // This function is pure because it does not modify external state
+    }
+
+- Often functions are "pure enough" in the practical sense.
 	var array []int
 	newarray := append(array, 1)
-
-- This one is not (Java)
-
-    List<Integer> array = new ArrayList<Integer>
-    arrlist.add(1);
 
 - Question: How to make a pseudo random() function pure?
 - Question: How to make a real random() function pure?
 
+: "An interactive program is a pure function that takes the current 'state of the world' as its arg and produces a modified world as result" - unknown Twitter user
 : Question: How to make a real random() function pure?
 : How to make a quasi-random number pure?
+: newarray := append(array, 1)
 : TODO: separate slide maybe?
 
 * Pure Functional Languages
@@ -213,11 +254,11 @@ Functional programming supports distributed computing
     .... Do something else
     partialApplicatedFunction(3) -> 4
 
-* Currying allows for Partial Application
+: * Currying allows for Partial Application
 
-.play ../src/functional/currying/main.go
+: .play ../src/functional/currying/main.go
 
-- Partial application is used here as a form of a constructor
+: - Partial application is used here as a form of a constructor
 
 * Functional Composition
 Functions can be composed to new functions
@@ -313,6 +354,7 @@ _(λx.x)_ _a_
 : To apply a function
 : (λx.x) 5 = 5
 
+: schlechtes Beispiel
 : (λa.λb.(a+b)) 5 6 = 11
 : ((λa.λb.(a+b)) 5) 6 = 11
 : (λ5.λb.(5+b)) 6 = 11
@@ -321,6 +363,8 @@ _(λx.x)_ _a_
 
 : T := λa.λb.a is the function which takes two parameters and returns the first one
 : F := λa.λb.b is the function which takes two parameters and returns the second one
+: brackets ein zeichnen
+: T 3 5
 : (λx.3) 5 = 3
 : (λa.λb.a) 5 6 = 5
 : (λa.λb.b) 5 6 = 6
@@ -331,14 +375,14 @@ _(λx.x)_ _a_
 : AND True True = True True False = True
 : AND False True = False True False = False
 
-Alternative:
+: Alternative:
 : OR := λa.λb.(a b a)
 : OR := λa.λb.(a a b)
-
-: ifelse = λp.λa.λb.(p a b)
-: ifelse true 42 58 = true 42 58 = 42
 : or = λp.λq.(p p q)
 : alternative for not = λp.λa.λb.(p b a)
+
+: ifelse = λp.λa.λb.(p a b)
+: ifelse T 42 58 = T 42 58 = 42
 
 : Y combinator
 : Y := λf.(λx.f (x x)) (λx.f (x x))

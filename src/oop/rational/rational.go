@@ -15,11 +15,11 @@ type Rational struct {
 // END1 OMIT
 
 // NewRational constructor function
-func NewRational(numerator int, denominator int) Rational {
+func NewRational(numerator int, denominator int) *Rational {
 	if denominator == 0 {
 		panic("division by zero")
 	}
-	r := Rational{}
+	r := &Rational{}
 	divisor := gcd(numerator, denominator)
 	r.numerator = numerator / divisor
 	r.denominator = denominator / divisor
