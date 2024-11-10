@@ -2,7 +2,7 @@
 
 Use an online Haskell interpreter such as.
 
-* https://replit.com/languages/haskell (Login required)
+* https://play.haskell.org/
 * https://www.jdoodle.com/execute-haskell-online/
 * https://www.onlinegdb.com/online_haskell_compiler
 

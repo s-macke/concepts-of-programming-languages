@@ -81,8 +81,8 @@ Functional programming supports distributed computing
 
 * Websites to experiment with Hakell
 
-.link https://replit.com/languages/haskell
-.link https://www.jdoodle.com/execute-haskell-online/
+.link https://play.haskell.org/
+.link https://www.jdoodle.com/execute-haskell-online
 .link https://www.onlinegdb.com/online_haskell_compiler
 
 Online tutorials
@@ -100,7 +100,7 @@ Execute the function print, which takes one arbitrary argument. In this case a s
 - Printing text doesn't seem to have any side effects
 
 Online editor:
-.link https://replit.com/languages/haskell
+.link https://play.haskell.org/
 
 * Haskell: Type System
 
