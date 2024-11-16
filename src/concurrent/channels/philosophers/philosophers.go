@@ -49,15 +49,14 @@ func (p *Philosopher) takeForks() {
 	// try to get forks from table
 	gotForks := false
 	for !gotForks {
-		p.table.getTakeChannel() <- p.id
-		gotForks = <-p.table.getReservedChannel(p.id)
+		gotForks = p.table.askForFork(p.id)
 	}
 }
 
 // Put forks by channeling our id to the table. The table is responsible for the put logic.
 func (p *Philosopher) putForks() {
 	fmt.Printf("Philosopher #%d puts down forks\n", p.id)
-	p.table.getPutChannel() <- p.id
+	p.table.PutFork(p.id)
 }
 
 // Eating.

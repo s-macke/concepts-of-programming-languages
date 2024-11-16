@@ -35,19 +35,27 @@ type Table struct {
 
 // NewTable constructs a table with n seats.
 func NewTable(nbrOfSeats int) *Table {
-	table := &Table{}
-
-	// initialize channels
-	table.takeCh = make(chan int)
-	table.putCh = make(chan int)
+	table := &Table{
+		nbrOfSeats: nbrOfSeats,
+		forkInUse:  make([]bool, nbrOfSeats),
+		takeCh:     make(chan int),
+		putCh:      make(chan int),
+	}
 
 	table.reservedCh = make([]chan bool, nbrOfSeats)
 	for i := 0; i < nbrOfSeats; i++ {
 		table.reservedCh[i] = make(chan bool)
 	}
-	table.forkInUse = make([]bool, nbrOfSeats)
-	table.nbrOfSeats = nbrOfSeats
 	return table
+}
+
+func (t *Table) askForFork(id int) bool {
+	t.takeCh <- id
+	return <-t.reservedCh[id]
+}
+
+func (t *Table) PutFork(id int) {
+	t.putCh <- id
 }
 
 // Function run() contains the main loop for assigning forks and starting philosophers.
@@ -74,16 +82,4 @@ func (t *Table) run() {
 			}
 		}
 	}
-}
-
-func (t *Table) getTakeChannel() chan int {
-	return t.takeCh
-}
-
-func (t *Table) getPutChannel() chan int {
-	return t.putCh
-}
-
-func (t *Table) getReservedChannel(id int) chan bool {
-	return t.reservedCh[id]
 }

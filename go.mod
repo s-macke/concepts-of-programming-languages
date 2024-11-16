@@ -1,8 +1,6 @@
 module github.com/s-macke/concepts-of-programming-languages
 
-go 1.22.0
-
-toolchain go1.23.0
+go 1.23
 
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20210930093333-01de314d7883
