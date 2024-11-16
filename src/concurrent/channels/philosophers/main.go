@@ -1,9 +1,8 @@
 package main
 
 func main() {
-	nbrOfSeats := 5
-
 	// start table for 5
+	nbrOfSeats := 5
 	table := NewTable(nbrOfSeats)
 
 	// start philosophers

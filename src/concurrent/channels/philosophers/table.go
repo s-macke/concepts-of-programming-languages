@@ -27,7 +27,7 @@ type Table struct {
 	takeCh chan int
 	// channel to put fork requests.
 	putCh chan int
-	// direct communication between philosopher and table for getting fork response.
+	// channel to get signal if forks are available
 	reservedCh []chan bool
 	forkInUse  []bool
 	nbrOfSeats int
@@ -49,36 +49,42 @@ func NewTable(nbrOfSeats int) *Table {
 	return table
 }
 
-func (t *Table) askForFork(id int) bool {
+func (t *Table) askForForks(id int) bool {
 	t.takeCh <- id
 	return <-t.reservedCh[id]
 }
 
-func (t *Table) PutFork(id int) {
+func (t *Table) putForks(id int) {
 	t.putCh <- id
+}
+
+func (t *Table) SetForksInUse(id int, inuse bool) {
+	t.forkInUse[id] = inuse
+	t.forkInUse[(id+1)%t.nbrOfSeats] = inuse
+}
+
+func (t *Table) AreForksAvailable(id int) bool {
+	return !t.forkInUse[id] && !t.forkInUse[(id+1)%t.nbrOfSeats]
 }
 
 // Function run() contains the main loop for assigning forks and starting philosophers.
 func (t *Table) run() {
-
 	for {
 		select {
-		case requestedFork := <-t.takeCh:
+		case requestedForksId := <-t.takeCh:
 			{
-				if !t.forkInUse[requestedFork] && !t.forkInUse[(requestedFork+1)%t.nbrOfSeats] {
+				if t.AreForksAvailable(requestedForksId) {
 					// both forks are not in use -> reserve
-					t.forkInUse[requestedFork] = true
-					t.forkInUse[(requestedFork+1)%t.nbrOfSeats] = true
-					t.reservedCh[requestedFork] <- true
+					t.SetForksInUse(requestedForksId, true)
+					t.reservedCh[requestedForksId] <- true
 				} else {
-					t.reservedCh[requestedFork] <- false // not valid try again --> see loop in takeForks.
+					t.reservedCh[requestedForksId] <- false // not valid try again --> see loop in takeForks.
 				}
 			}
-		case putFork := <-t.putCh:
+		case putForksId := <-t.putCh:
 			{
 				// put forks
-				t.forkInUse[putFork] = false
-				t.forkInUse[(putFork+1)%t.nbrOfSeats] = false
+				t.SetForksInUse(putForksId, false)
 			}
 		}
 	}

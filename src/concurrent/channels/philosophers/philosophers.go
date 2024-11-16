@@ -49,14 +49,14 @@ func (p *Philosopher) takeForks() {
 	// try to get forks from table
 	gotForks := false
 	for !gotForks {
-		gotForks = p.table.askForFork(p.id)
+		gotForks = p.table.askForForks(p.id)
 	}
 }
 
 // Put forks by channeling our id to the table. The table is responsible for the put logic.
 func (p *Philosopher) putForks() {
 	fmt.Printf("Philosopher #%d puts down forks\n", p.id)
-	p.table.PutFork(p.id)
+	p.table.putForks(p.id)
 }
 
 // Eating.
