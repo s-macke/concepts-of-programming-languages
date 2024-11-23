@@ -20,13 +20,12 @@ status guess secret | guess == secret = do
                                   return False
 
 play :: Int -> IO ()
-play (-1) = return ()
 play secret = do
     input <- getLine
     let guess = read input :: Int
     isWin <- Main.status guess secret
     if isWin then
-        play (-1)
+        return ()
     else do
         play secret
 

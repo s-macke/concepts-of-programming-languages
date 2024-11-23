@@ -175,6 +175,11 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
   add a b = a + b
   main = print( (add 1) 2)
 
+* The return function
+
+TODO
+
+
 * Haskell: Type signatures
 
     add :: Int -> Int -> Int

@@ -17,7 +17,8 @@ https://www.qaware.de
 * Why Concurrent Programming?
 - Computer clock rates do not get higher anymore (since 2004!)
 - But Moores Law is still valid (Multicore!)
-.image img/06-moores-law.png 450 800
+
+.image ./img/06-moores-law.webp 450 _
 
 : https://github.com/qaware/cloudcomputing
 
@@ -218,9 +219,13 @@ What will be the result?
 
 - Atomics either use a atomic CPU feature or perform a low level blocking operation via a mutex
 
-* Waitgroups
+* Waitgroups (using global variableI)
 
 .play ../src/concurrent/waitgroup/parallel_for_loop.go /func/,
+
+* Waitgroups  (using functional programming)
+
+.play ../src/concurrent/waitgroup2/parallel_for_loop.go /func/,
 
 * Excercise
 
