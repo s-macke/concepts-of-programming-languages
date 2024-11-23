@@ -18,13 +18,6 @@ https://www.qaware.de
 - Multi-way concurrent control (select)
 - Dining philosophers problem
 
-: * Info
-
-: - Lecture in one week: Systems Programming
-: - *Install* *Linux*!
-: - For Windows, the Windows Subsystem (WSL2) is sufficient.
-: - Otherwise install a virtual machine.
-
 * About this Lecture
 
 - Go was designed in the era of multicore, networked machines as light weight alternative to Java and C++.
@@ -33,20 +26,14 @@ https://www.qaware.de
 - Virtual Threads with non-blocking behavior should be ideal for receiving requests and waiting for database etc.
 - So far, in all major languages, networking is not part of the language itself but provided via librarys.
 
-: * Message Passing
-: Message Passing is invoking behavior on a separate process (not necessarily on the same computer) by sending messages.
+* What makes networking a programming concept?
 
-: Models for exchanging messages:
+- Nowadays networking is closely linked to concurrency capabilities of a language.
+- Let's take a look at Java:
 
-: - point to point (symmetric/asymmetric, synchronous/asynchronous)
-: - remote procedure calls (RPC, RMI)
-: - broadcasting and multicasting
+Blog article
 
-: Sender schickt Nachricht an Empfänger
-: symmetrisch: beide kennen sich / asymmetrisch: nur ein eine Richtung
-: synchron: blockiert bis Nachricht gelesen
-: RPI: wie lokaler Prozeduraufruf
-: https://github.com/qaware/cloudcomputing/tree/master/01-kommunikation/vorlesung
+.link https://blog.qaware.de/posts/java-service-queues/ Don't Crack Under Pressure: Java Microservices and the Battle for Stability Under High Load
 
 * The Internet protocol stack
 .image ./img/protocols.svg 300 _
@@ -55,139 +42,139 @@ https://www.qaware.de
 - Each protocol operates at a different layer, building a stack of protocols
 - The diagram is very simplified
 
-* TCP - Transmission Control Protocol
+: * TCP - Transmission Control Protocol
 
-* TCP - Transmission Control Protocol
+: * TCP - Transmission Control Protocol
 
-- TCP is currently the basis for almost all network communication
-- TCP is a connection oriented protocol and prevents packet loss
-- Allows consistent data streams in both direction between two computers
-- It also uses port numbers to identify services on a host
+: - TCP is currently the basis for almost all network communication
+: - TCP is a connection oriented protocol and prevents packet loss
+: - Allows consistent data streams in both direction between two computers
+: - It also uses port numbers to identify services on a host
 
-* Networking was heavy weighted in the past
-C language example
+: * Networking was heavy weighted in the past
+: C language example
 
-   int main()
-   {
-       int sockfd, connfd, len;
-       struct sockaddr_in servaddr, cli;
-       sockfd = socket(AF_INET, SOCK_STREAM, 0);
-       if (sockfd == -1) {
-           printf("socket creation failed...\n"); exit(0);
-       }
-       bzero(&servaddr, sizeof(servaddr));
-       servaddr.sin_family = AF_INET;
-       servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-       servaddr.sin_port = htons(PORT);
+:    int main()
+:    {
+:        int sockfd, connfd, len;
+:        struct sockaddr_in servaddr, cli;
+:        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+:        if (sockfd == -1) {
+:            printf("socket creation failed...\n"); exit(0);
+:        }
+:        bzero(&servaddr, sizeof(servaddr));
+:        servaddr.sin_family = AF_INET;
+:        servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+:        servaddr.sin_port = htons(PORT);
 
-       if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-           printf("socket bind failed...\n"); exit(0);
-       }
-       if ((listen(sockfd, 5)) != 0) {  // equivalent in line 2 on next slide
-           printf("Listen failed...\n"); exit(0);
-       }
-   ....
+:        if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
+:            printf("socket bind failed...\n"); exit(0);
+:        }
+:        if ((listen(sockfd, 5)) != 0) {  // equivalent in line 2 on next slide
+:            printf("Listen failed...\n"); exit(0);
+:        }
+:    ....
 
-* Listen to a socket in Go
+: * Listen to a socket in Go
 
-.play ../src/servers/tcp/echo/server/echo.go /func/,
+: .play ../src/servers/tcp/echo/server/echo.go /func/,
 
-- Listens to a tcp socket on port 8081
-- Each accepted connection is executed in its own go routine
+: - Listens to a tcp socket on port 8081
+: - Each accepted connection is executed in its own go routine
 
-* HTTP Request via TCP
+: * HTTP Request via TCP
 
-.play ../src/servers/tcp/echo/client/client.go /func/,
+: .play ../src/servers/tcp/echo/client/client.go /func/,
 
-*io.Copy* copy data stream from second parameter to first parameter
-- First parameter implements write(p []byte) (n int, err error)
-- Second parameter implements read(p []byte) (n int, err error)
+: *io.Copy* copy data stream from second parameter to first parameter
+: - First parameter implements write(p []byte) (n int, err error)
+: - Second parameter implements read(p []byte) (n int, err error)
 
-* Exercise 8.1: Warm up
+: * Exercise 8.1: Warm up
 
-Open a TCP connection to *simulationcorner.net* on port *54321* and, read from the data stream and write the output onto the screen in an infinite loop.
+: Open a TCP connection to *simulationcorner.net* on port *54321* and, read from the data stream and write the output onto the screen in an infinite loop.
 
-* Exercise 8.2: Two way communication
+: * Exercise 8.2: Two way communication
 
-Open a TCP connection to *simulationcorner.net* on port *54322* and,
-read from the data stream and write the output onto the screen in an infinite loop.
-In addition, read from the keyboard and send the input to the server in an infinite loop.
+: Open a TCP connection to *simulationcorner.net* on port *54322* and,
+: read from the data stream and write the output onto the screen in an infinite loop.
+: In addition, read from the keyboard and send the input to the server in an infinite loop.
 
-Create for each routine its own goroutine.
-As input use os.Stdin to read a string from keyboard via
+: Create for each routine its own goroutine.
+: As input use os.Stdin to read a string from keyboard via
 
-    reader := bufio.NewReader(os.Stdin)
-    ....
-    input, err := reader.ReadString('\n')
+:     reader := bufio.NewReader(os.Stdin)
+:     ....
+:     input, err := reader.ReadString('\n')
 
-* Port Scanner
+: * Port Scanner
 
-.play ../src/servers/tcp/portscanner/simple/main.go /func/,
+: .play ../src/servers/tcp/portscanner/simple/main.go /func/,
 
-- Searches for open TCP ports on a remote machine
+: - Searches for open TCP ports on a remote machine
 
-* Remote Procedure Call
+: * Remote Procedure Call
 
-* Remote Procedure Call
+: * Remote Procedure Call
 
-RPC is an attempt to bring the style of programming into the network world
-It is a mechanism for calling remote procedures on a remote machine
+: RPC is an attempt to bring the style of programming into the network world
+: It is a mechanism for calling remote procedures on a remote machine
 
-- The client side packages the request into a network message and transfers it to the server.
-- The server receives the request and executes the procedure.
-- The server returns the result to the client.
-- The client receives the result and returns it to the caller.
+: - The client side packages the request into a network message and transfers it to the server.
+: - The server receives the request and executes the procedure.
+: - The server returns the result to the client.
+: - The client receives the result and returns it to the caller.
 
-Go offers a simple way to implement RPC via the *net/rpc* package via a TCP connection
+: Go offers a simple way to implement RPC via the *net/rpc* package via a TCP connection
 
-* RPC - Remote procedure call in Go
-The server
+: * RPC - Remote procedure call in Go
+: The server
 
-.play ../src/distributed/rpc/multiply/server/server.go /type/,
+: .play ../src/distributed/rpc/multiply/server/server.go /type/,
 
-* RPC - Remote procedure call in Go
-The client
+: * RPC - Remote procedure call in Go
+: The client
 
-.play ../src/distributed/rpc/multiply/client/client.go /type/,
+: .play ../src/distributed/rpc/multiply/client/client.go /type/,
 
--- * Exercise: Remote Procedure Call
+: -- * Exercise: Remote Procedure Call
 
--- Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
+: -- Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
 
--- A function, in which you receive a rune
+: -- A function, in which you receive a rune
 
---    var dummy struct {}
---    var output rune
---    err := client.Call("Session.Read", &dummy, &output)
+: --    var dummy struct {}
+: --    var output rune
+: --    err := client.Call("Session.Read", &dummy, &output)
 
--- and a function in which you have to provide a rune
+: -- and a function in which you have to provide a rune
 
---    var input rune
---    err := client.Call("Session.Write", &input, &dummy)
+: --    var input rune
+: --    err := client.Call("Session.Write", &input, &dummy)
 
--- Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
+: -- Create for each routine its own goroutine and call these functions in an infinite loop. Write the output of *Session.Read* to the terminal. As input for *Session.Write* use os.Stdin to read a rune from keyboard via
 
---    reader := bufio.NewReader(os.Stdin)
---    input, _, err := reader.ReadRune()
+: --    reader := bufio.NewReader(os.Stdin)
+: --    input, _, err := reader.ReadRune()
 
-* Service-oriented Request-Response communication with gRPC
+: * Service-oriented Request-Response communication with gRPC
 
-- Solution from Google for remote procedure communication, which is independent of the language
-- Developed by Google in 2015
-- HTTP/2 transport protocol
-- Protocol buffers for serialization
-- Communication ways
-- - Request-Response
-- - Client-side Streaming
-- - Server-side Streaming
-- - Bidirectional Streaming
+: - Solution from Google for remote procedure communication, which is independent of the language
+: - Developed by Google in 2015
+: - HTTP/2 transport protocol
+: - Protocol buffers for serialization
+: - Communication ways
+: - - Request-Response
+: - - Client-side Streaming
+: - - Server-side Streaming
+: - - Bidirectional Streaming
 
-- Generator for client and server
-Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
+: - Generator for client and server
+: Available for C++, C#, Dart, Go, Java, kotlin, Node-Js, Objective-C, PHP, Python, Ruby
 
-* gRPC
+: * gRPC
 
-.image ./img/grpc.png 500 _
+: .image ./img/grpc.png 500 _
 
 * HTTP
 
@@ -224,9 +211,9 @@ Server responds via
 
 - Responds is a *text/html* document with Unicode UTF-8 encoding and has a size of 155 bytes
 
-* HTTP Request via TCP
+: * HTTP Request via TCP
 
-.play ../src/servers/tcp/http/http.go /func/,
+: .play ../src/servers/tcp/http/http.go /func/,
 
 * A Simple HTTP File Server
 .play ../src/servers/fileserver/main.go /func/,
@@ -272,44 +259,45 @@ Types:
 - arrays
 - null
 
-* XML - eXtensible Markup Language
+: * XML - eXtensible Markup Language
 
-  <?xml version="1.0" encoding="UTF-8"?>
-  <WeatherResponse>
-    <coords lon="-122.08" lat="37.39"/>
-    <weather>
-      <main>Clear</main>
-      <description>clear sky</description>
-    </weather>
-  </WeatherResponse>
+:   <?xml version="1.0" encoding="UTF-8"?>
+:   <WeatherResponse>
+:     <coords lon="-122.08" lat="37.39"/>
+:     <weather>
+:       <main>Clear</main>
+:       <description>clear sky</description>
+:     </weather>
+:   </WeatherResponse>
 
-- XML is a subset of HTML
-- Huge ecosystem exists for XML. Schema definitions. XML transformation formats
+: - XML is a subset of HTML
+: - Huge ecosystem exists for XML. Schema definitions. XML transformation formats
 
-* Protocol Buffers
+: * Protocol Buffers
 
-  syntax = "proto3"
-  message SearchRequest {
-      string query = 1
-      int32 page_number = 2
-      int32 result_per_page = 3
-  }
+:   syntax = "proto3"
+:   message SearchRequest {
+:       string query = 1
+:       int32 page_number = 2
+:       int32 result_per_page = 3
+:   }
 
-- published by Google in 2008
-- language neutral
-- platform independent
-- binary format
-- Auto generated code by a protobuf compiler for the various languages
+: - published by Google in 2008
+: - language neutral
+: - platform independent
+: - binary format
+: - Auto generated code by a protobuf compiler for the various languages
 
 * Marshalling and Unmarshalling
 - Go offers a way to transform structs to the transfer formats and vice versa
+
 .play ../src/distributed/encoding/json/json.go /type Weather/,
 
-* XML
+: * XML
 
-.play ../src/distributed/encoding/xml/xml.go /type Weather/,
+: .play ../src/distributed/encoding/xml/xml.go /type Weather/,
 
-* Service-oriented Request-Response Communication with REST
+: * Service-oriented Request-Response Communication with REST
 
 * REST is a paradigm for application services
 
@@ -322,9 +310,9 @@ Types:
 
 * REST APIs with Go
 
-* Example: Weather API with Go
+: * Example: Weather API with Go
 
-.play ../src/servers/rest/client/client.go /func main/,
+: .play ../src/servers/rest/client/client.go /func main/,
 
 * Example: Weather API with Go: Short version
 
@@ -369,10 +357,10 @@ To test the rest interface you can use tools such as
 
 - Frameworks such as Spring Boot offer a declarative approach via annotations
 
-* Exercise
+: * Exercise
 
-Create a Microservice with a REST API for a key value store.
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md
+: Create a Microservice with a REST API for a key value store.
+: .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md
 
 : * Info
 

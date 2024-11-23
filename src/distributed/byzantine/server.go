@@ -2,10 +2,21 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 )
 
 func (node *Node) RunServer() {
+	http.HandleFunc("/attack", func(w http.ResponseWriter, r *http.Request) {
+		b, _ := io.ReadAll(r.Body)
+		fmt.Println("Attack at " + string(b))
+		w.WriteHeader(http.StatusOK)
+	})
+	http.HandleFunc("/commit", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Attack ")
+		w.WriteHeader(http.StatusOK)
+	})
+
 	http.HandleFunc("/heartbeat", func(w http.ResponseWriter, r *http.Request) {
 		node.SignalHeartbeat()
 		_, _ = fmt.Fprintf(w, "Node %d\n", node.nodeId)

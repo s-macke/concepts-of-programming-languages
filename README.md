@@ -64,7 +64,7 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 ## Lecture 8 - Distributed Programming 
 - Introduction to Networking in Go
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/08-Network-Programming.html)
-- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/15-Distributed-Programming-Raft.html)
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/08-Distributed-Programming-Raft.html)
 - [Exercise 8](docs/exercises/Exercise8.md)
 
 ## Lecture 9 - Systems Programming
