@@ -51,6 +51,14 @@ Terms are not always used consistently.
 - The two generals problem is a thought experiment in distributed computing and unsolvable when the communication might fail.
 - We need a pragmatic solution.
 
+* Discussion: How would you solve the problem?
+
+Three armies, each led by a general, plan to attack a fortified city. The armies may arrive at different times to surround the city, and none of the generals can be certain whether all the armies will arrive at all. Consequently, they have not appointed a single leader.
+For the attack to succeed, at least two armies must strike simultaneously. Therefore, the generals need to coordinate and agree on a precise time to launch the attack.
+
+- Under the assumption of reliable communication.
+- Under the assumption of unreliable communication.
+
 * What is Distributed Consensus?
 
 The consensus problem requires agreement among a number of processes on a single data value.
