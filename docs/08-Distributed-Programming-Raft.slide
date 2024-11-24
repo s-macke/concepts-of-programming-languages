@@ -151,11 +151,14 @@ Requirements and Decisions
 - Design: Timer implementation
 
 * Exercise 8.2: Be Creative!
+
+Three armies, each led by a general, plan to attack a fortified city. The armies may arrive at different times to surround the city, and none of the generals can be certain whether all the armies will arrive at all. Consequently, they have not appointed a single leader.
+For the attack to succeed, at least two armies must strike simultaneously. Therefore, the generals need to coordinate and agree on a precise time to launch the attack.
+To achieve this, they decide to use a simplified version of the Raft algorithm.
+
 - Write your own Raft Implementation!
 
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise8.md
-
-- Write your own Raft Implementation!
 
 * Summary
 - Go is an excellent choice to implement an distributed protocol like Raft
