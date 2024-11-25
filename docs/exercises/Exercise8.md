@@ -8,7 +8,7 @@ Call the Github API to receive the repositories with the most stars and the quer
 
 https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
 
-Use [https://mholt.github.io/json-to-go/](json-to-go) to instantly create a Go structure from an arbitrary JSON.
+Use [json-to-go](https://mholt.github.io/json-to-go/) to instantly create a Go structure from an arbitrary JSON.
 
 ## Exercise 8.2 - Coordinate an attack on a fortified city with Raft
 
@@ -35,11 +35,11 @@ var nodePortList = []string{
 On start of the program the node id should be read as argument from the console.
 ```raft --node 0```
 
-Use the `flag` [https://pkg.go.dev/flag](package) to read the arguments.
+Use the `flag` [packag](https://pkg.go.dev/flag) to read the arguments.
 
 ### State
 
-Define an [https://gobyexample.com/enums](enum) for the node state
+Define an [enum](https://gobyexample.com/enums) for the node state
 
 * Follower
 * Candidate
