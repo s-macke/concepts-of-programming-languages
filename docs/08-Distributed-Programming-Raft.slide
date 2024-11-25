@@ -54,7 +54,7 @@ Terms are not always used consistently.
 * Discussion: How would you solve the problem?
 
 Three armies, each led by a general, plan to attack a fortified city. The armies may arrive at different times to surround the city, and none of the generals can be certain whether all the armies will arrive at all. Consequently, they have not appointed a single leader.
-For the attack to succeed, at least two armies must strike simultaneously. Therefore, the generals need to coordinate and agree on a precise time to launch the attack.
+For the attack to succeed, at least two armies must strike simultaneously. Therefore, the generals need to coordinate and agree on a precise time to launch the attack. They can only communicate by sending messengers.
 
 - Under the assumption of reliable communication.
 - Under the assumption of unreliable communication.
@@ -94,15 +94,17 @@ CP = Cash Machine
 Phases:
 
 - Prepare Phase - Data is persisted on all members. Data is not visible but stored.
-- Commit Phase - Persisted data will be loaded into memory. Data gets visible.
+- Commit Phase - Persisted data will be executed. Data gets visible.
 - This is typically implemented with an append only log (transaction log) and a state machine which reads the log entries and loads them into memory.
+
+This is equivalent with two round trips in the two general problem.
 
 * What is Raft?
 - Raft is a protocol for distributed consensus
 - Raft is designed to be easy understandable
 - Raft predecessor Paxos was highly complex
 - Most Paxos implementations are buggy or academic 
-- Raft was developed 2014 in a phd thesis at Stanford University
+- Raft was developed 2014 in a PhD thesis at Stanford University
 - Zookeeper ZAB is an alternative but more complex solution
 .link https://raft.github.io/raft.pdf The Raft Paper
 .link https://github.com/lshmouse/reading-papers/blob/master/distributed-system/Zab:%20High-performance%20broadcast%20for%0Aprimary-backup%20systems.pdf The ZAB paper

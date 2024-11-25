@@ -35,11 +35,11 @@ var nodePortList = []string{
 On start of the program the node id should be read as argument from the console.
 ```raft --node 0```
 
-Use the `flag` [package](https://pkg.go.dev/flag) to read the arguments.
+Use the `flag` [https://pkg.go.dev/flag](package) to read the arguments.
 
 ### State
 
-Define an [enum](https://gobyexample.com/enums] containin) for the node state
+Define an [https://gobyexample.com/enums](enum) for the node state
 
 * Follower
 * Candidate
@@ -84,7 +84,7 @@ If the node is the leader, it should return "no" to the other nodes, otherwise "
 
 From now on all nodes start from the follower state. No one is the leader.
 
-- The nodes wait for heartbeats from the leader. E.g. for two seconds.(Example via the time.After function: [heartbeat.go](../../src/distributed/byzantine/heartbeat.go))
+- The nodes wait for heartbeats from the leader. E.g. for two seconds.(Example via the time.After function: [main.go](../../src/concurrent/channels/timeout/main.go)
 - Because there is no leader, the nodes become candidates and start an election. 
 - The nodes wait for a random time between 1 and 3 seconds and start a voting process.
 - For the voting they send a request to all other nodes to the voting endpoint.
