@@ -1,5 +1,5 @@
 # Concepts of Programming Languages
-Master Course: Concepts of Programming Languages - Rosenheim Technical University - 2020/2021
+Master Course: Concepts of Programming Languages - Rosenheim Technical University - 2025/2026
 
 <img src="docs/img/go.png" width="10%">
 
