@@ -34,17 +34,14 @@ Programming languages can be categorized in many ways
 .link img/01-languages.png
 .image img/01-languages.png 500 _
 
-* Fortran I looks familiar
+* Fortran I (1957) looks familiar
 
 .image img/01-fortran0.png 500 _
 
 : Zeige vielleicht https://www.youtube.com/watch?v=dUKWDxKAlk4
 
 * But not all used equal
-
-.image img/01_redmonk_2021.png 550 _
-
-: Umfrage, welche Sprachen kennt ihr?
+.image img/01_redmonk_2025.png 550 _
 
 * Programming language Paradigms
 - *Non-structured*: Assembler, First Programming languages with goto

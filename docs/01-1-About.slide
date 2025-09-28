@@ -1,5 +1,5 @@
 Welcome
-Concepts of Programming Languages - TH Rosenheim - WS 2024/2025
+Concepts of Programming Languages - TH Rosenheim - WS 2025/2026
 Tags: go, golang, programming, master
 
 Sebastian Macke
@@ -7,18 +7,29 @@ Rosenheim Technical University
 
 * About me:
 
-- Lead Software Engineer at QAware (Munich, Mainz, Rosenheim)
--- [[https://qaware.de]]
--- Dienstleister für Cloud Native Anwendungen
+- **Sebastian* **Macke*
+Email: Sebastian.Macke@th-rosenheim.de
+Studied Physics in Stuttgart
 
-- Software Developer as a hobby (Reverse Engineering, Simulations, Emulations, AI):
--- [[https://github.com/s-macke]]
--- [[https://simulationcorner.net]]
+- **Lead* **Software* **Engineer* **at* **QAware*
 
-- AI enthusiast
--- Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604580225024/]]
+- Software Developer as a Hobby (Reverse Engineering, Simulations, Emulations, AI):
+[[https://github.com/s-macke]]
+[[https://simulationcorner.net]]
 
-- Email: Sebastian.Macke@th-rosenheim.de
+- **AI* **enthusiast*
+Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604580225024/]]
+
+
+* Who is QAware?
+
+- [[https://qaware.de]]
+
+- Custom Software development (Cloud Native, modernization, AI, ... ) for large enterprises (e.g. BMW, Allianz, Telekom, ...)
+- Founded 2005
+- 230 Employees
+- Offices in Munich, Mainz, Rosenheim,Darmstadt
+
 
 * There are so many Languages ...
 .image ./img/00-programming-languages.jpeg 460 _
@@ -46,8 +57,8 @@ Miro Board: https://miro.com/app/board/.....
 * Goal of the Course
 
 .image img/go.png 200 _
-- Looking beyond the horizon
 - Gain knowledge about the concepts of existing programming languages
+- Looking beyond the horizon
 - Increased ability to learn new languages
 - Learn how Go differs from other languages conceptually
 - Learn how to write professional code with Golang
@@ -110,7 +121,6 @@ Learning Campus:
 Github: Sources, Slides (Go Present Tool)
 
 .link https://github.com/s-macke/concepts-of-programming-languages https://github.com/s-macke/concepts-of-programming-languages
-
 
 * Semester Work
 
@@ -176,10 +186,13 @@ Examples:
     Crystal,
     C#
 
-: Zettel ziehen Anfang November, Tauschen möglich, Anmeldung für Prüfung nicht vergessen
-: Abgabe der Arbeiten im Januar. Evtl. 10. Januar
-: Präsentation evtl. 16.1. und 23.1.
-: 01.11. Allerheiligen
+* This lecture is not yet AI ready
+
+- Companies will demand to use AI tools such as SWE-Agents in the future
+- This lecture (as any other lecture) it not yet designed for this future
+- This semester work at home might become too easy with AI tools
+- ⮕ More weight on the presentation
+
 
 : * Administration
 : - COVID-19 rules apply. See https://www.th-rosenheim.de/index.php?id=16926
@@ -188,6 +201,7 @@ Examples:
 * Books
 Donovan, Kernigham: The Go Programming Language 
 .image https://bilder.buecher.de/produkte/42/42375/42375234z.jpg 150 _
+
 
 Sebesta: Concepts of Programming Languages 
 .image https://pictures.abebooks.com/isbn/9780321493620-us.jpg 150 _
