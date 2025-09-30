@@ -39,53 +39,53 @@ Each student will compare Go to one of these languages as Semester Work: Modula,
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/03-Go-Programming-OOP.html)
 - [Exercise 3](docs/exercises/Exercise3.md)
 
-## Lecture 4 - Forth
-
-- Postfix Notation, Reverse Polish Notation, Stack Machine, Forth, Metaprogramming
-- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/04-Forth.html)
-- [Exercise 4](docs/exercises/Exercise4.md)
-
-## Lecture 5 - Functional Programming
+## Lecture 4 - Functional Programming
 
 - Introduction in Functional Programming, the Lambda Calculus and the implementation in Go
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/05-Functional-Programming.html)
 - [Exercise 5](docs/exercises/Exercise5.md)
 
-## Lecture 6 - Haskell
+## Lecture 5 - Haskell
 - Introduction to Haskell
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/06-Pure-Functional-Programming-with-Haskell.html)
 - [Exercise 6](docs/exercises/Exercise6.md)
 
-## Lecture 7 - Concurrent Programming
+## Lecture 6 - Concurrent Programming
 - Why concurrent programming matters! Go routines and channels, Go concurrency patterns, The dining philosophers problem
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/07-Concurrent-Programming.html)
 - [Exercise 7](docs/exercises/Exercise7.md)
 
-## Lecture 8 - Distributed Programming 
+## Lecture 7 - Distributed Programming 
 - Introduction to Networking in Go
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/08-Network-Programming.html)
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/08-Distributed-Programming-Raft.html)
 - [Exercise 8](docs/exercises/Exercise8.md)
 
-## Lecture 9 - Systems Programming
-- Introduction into systems programming
-- Using Cgo to communicate with native libraries
-- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/09-Systems-Programming.html)
-- [Exercise 9](docs/exercises/Exercise9.md)
 
-## Lecture 10 - Logic Programming
+## Lecture 8 - Logic Programming
 - Introduction to Prolog
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/10-Logic-Programming.html)
 - [Exercise 10](docs/exercises/Exercise10.md)
 
-## Lecture 11 - Cross Compiling with WebAssembly 
+## Lecture 9 - Cross Compiling with WebAssembly
 - Introduction to WebAssembly
 - WebAssembly implementation of Go
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/11-WebAssembly.html)
 - [Exercise 11](docs/exercises/Exercise11.md)
 
-## Lecture 12 - Enterprise Programming
+## Lecture 10 - Enterprise Programming
 - Large Scale Programming with Modules
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/12-Enterprise-Programming-Modules.html)
 - [Exercise 12](docs/exercises/Exercise12.md)
+
+## Obsolete Lecture - Systems Programming
+- Introduction into systems programming
+- Using Cgo to communicate with native libraries
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/09-Systems-Programming.html)
+- [Exercise 9](docs/exercises/Exercise9.md)
+
+## Obsolete Lecture - Forth
+- Postfix Notation, Reverse Polish Notation, Stack Machine, Forth, Metaprogramming
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/04-Forth.html)
+- [Exercise 4](docs/exercises/Exercise4.md)
 

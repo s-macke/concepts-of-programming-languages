@@ -16,20 +16,21 @@ https://www.qaware.de
 - Characteristics of a Successful Language
 -- Miro Board ....
 
-* Characteristics of a Successful Language (Suggestion)
-- Simplicity and readability (Small instruction set and easy syntax)
-- Abstraction (types/classes, Generics, Procedures ....)
-- Efficiency
-- Reliability (compatibility, error checking, no memory leaks)
-- Dependency management
-- Good support and documentation (public compilers, tutorials, community, IDE)
-- Orthogonality
+: * Characteristics of a Successful Language (Suggestion)
+: - Simplicity and readability (Small instruction set and easy syntax)
+: - Abstraction (types/classes, Generics, Procedures ....)
+: - Efficiency
+: - Reliability (compatibility, error checking, no memory leaks)
+: - Dependency management
+: - Good support and documentation (public compilers, tutorials, community, IDE)
+: - Orthogonality
 
 * What is an Orthogonal language
 
 - Def 1: A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
 - Def 2: We can combine the majority of the language constructs in many ways without any side effects
-- Other definitions: https://stackoverflow.com/questions/3272019/is-java-orthogonal
+- Other definitions:
+.link https://stackoverflow.com/questions/3272019/is-java-orthogonal
 - Associated with simplicity and consistency.
 - The more orthogonal the design, the fewer exceptions.
 - The Go language was designed with orthogonality in mind.
@@ -234,6 +235,8 @@ Also: Change int to char
 : parseInt(1)
 : parseInt(0.0000001)
 : "" + 0.00000001
+: 018 == '018'
+: 017 == '017'
 
 * Dynamically typing in Python
 

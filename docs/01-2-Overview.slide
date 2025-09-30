@@ -40,13 +40,13 @@ Programming languages can be categorized in many ways
 
 : Zeige vielleicht https://www.youtube.com/watch?v=dUKWDxKAlk4
 
-* But not all used equal
+* Categorization by Popularity
 .image img/01_redmonk_2025.png 550 _
 
 * Programming language Paradigms
 - *Non-structured*: Assembler, First Programming languages with goto
 - *Structured* *or* *Imperative*: conditionals, repetition, blocks, functions
-- *Procedural* (Control Structures and Procedures, functions with side effects): Fortran / Algol / Pascal / *C*
+- *Procedural* (Control Structures and Procedures, functions with side effects): Fortran 77 / Pascal / *C*
 - *Object* *Oriented* (Classes and Objects): Smalltalk / Objective C / C++ / Eifel / *Java* / C#
 - *Declarative*: (Tell what to do, not how): Domain Specific Languages, HTML, SQL, ... (A more general concept, See next slides)
 - *Functional* (Lambdas + Closures): Haskell, Erlang, F#
@@ -65,7 +65,7 @@ Programming languages can be categorized in many ways
 : Logisch = Aufgabenstellung und Prämissen als logische Ausdrücke
 : Es gibt so viele Ausprägungen, dass man Sprachen oder Features nicht eindeutig den Paradigmen zuordnen kann.
 
-* Imperative vs Declarative I
+* Imperative vs Declarative I in HTML/JavaScript
 
 : express what the function must do without defining how to achieve it
 
@@ -89,7 +89,7 @@ Programming languages can be categorized in many ways
         </body>
     </html>
 
-* Degress of Declarative Code
+* Degress of Declarative Code in Java
 
 - A list is given. Calculate the sum.
 
@@ -112,13 +112,13 @@ Programming languages can be categorized in many ways
 
     int sum = math.sum(integers);
 
-* Declarative
+* Degress of Declarative Code in Java (Part 2)
 
 - Fully Declarative.
 
     Sum the array of integers.
 
--  New development to declarative coding is *GitHub* *Copilot* or *ChatGPT*. Can be used as converter from declarative to imperative code.
+-  New development to declarative coding with *SWE-Agents*. Used as converter from declarative to imperative code. *Spec-Driven-Development*
 
 * Categorization of Programming Language by Domains
 
@@ -127,39 +127,31 @@ Programming languages can be categorized in many ways
 - Web Development (PHP, JavaScript, ...)
 - Science and Engineering (Matlab, Fortran, C++, ...)
 - Computer Science (Haskell, Prolog, ...)
-- Artificial Intelligence (Python, R, ...)
+- Artificial Intelligence, Data Science (Python, R, ...)
 - Administration (Bash, Powershell, Perl, ...)
-- Cloud Native such as Tooling, Infrastructure, Applications, ... (Go, ...)
+- Cloud Native such as Tooling, Infrastructure, Applications, (Go, ...)
 - Realtime (C, C++, Realtime Java, ...)
 
-: * Areas for Programming Languages
-: - Application Programming (small / large scale, web, central, cloud)
-: - Systems Programming
-: - Network Programming / Distributed Systems
-: - Realtime Systems
-: - User Interface Programming
-: - Embedded Systems
-
 * Orthogonal Classifications I
-- Static vs. Dynamic Typed
-- Compiled vs. Interpreted
-- Sequential vs. Parallel
-- Static Linked vs. Dynamic Linked
-- Safe vs. Unsafe (Crash a process or even the system)
-- Simple vs. Complex
-- Platform Independent Bytecode vs. Platform Dependent Assemblercode
-- Platform Dependent Compiler vs. Cross Compiler
+- Static vs. Dynamic Typed (*C++* vs. *Python*)
+- Compiled vs. Interpreted (*Java* vs. *Python*)
+- Sequential vs. Parallel (*C* vs. *Go*)
+- Static Linked vs. Dynamic Linked (*Go* vs. *C*)
+- Safe vs. Unsafe (Crash a process or even the system) (*C* vs. *Rust*)
+- Simple vs. Complex (*Go* vs. *Rust*)
+- Platform Independent Bytecode vs. Platform Dependent Assemblercode (*Java* vs. *C*)
+- Platform Dependent Compiler vs. Cross Compiler (*C* vs. *Go*)
 
 : Folie noch mal auflegen und mit Video vergleichen!
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
 : Golang: platform dependent assembler & cross compiler
 
-* Orthogonal classification II
-.html snippets/classification.html
+: * Orthogonal classification II
+: .html snippets/classification.html
 
-  * But uses just in time compiler
-  ** Depends on standard or version
-  *** interpreted languages are not linked
+:  * But uses just in time compiler
+:  ** Depends on standard or version
+:  *** interpreted languages are not linked
 
 : Folie noch mal auflegen und mit Video vergleichen!
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)

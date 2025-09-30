@@ -15,14 +15,13 @@ If you do not finish during the lecture period, please finish it as homework.
 - Try to run the hello world example code inside <https://goplay.tools/>
   Alternative: <https://play.golang.org/>
   Alternative: <https://go-playground-wasm.vercel.app/>
-- Learn the basics by understanding the first six examples at <https://gobyexample.com/>
+- Learn the basics by understanding the first seven examples at <https://gobyexample.com/>
 - Optional: Get familiar with the community. Look what others have done: <https://github.com/avelino/awesome-go>
 
 ## Answer the following question
-- In your opinion, what are the characteristics of a successful language?
+- In your opinion, what are the characteristics of a successful language? Add your answer to the Miro board.
 
 ## After this Exercise
 
 - You should have a working Go installation on your computer
 - You should know how to compile and run Go code
- 

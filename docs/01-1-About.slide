@@ -5,30 +5,30 @@ Tags: go, golang, programming, master
 Sebastian Macke
 Rosenheim Technical University
 
-* About me:
+* About me
 
-- **Sebastian* **Macke*
+- *Sebastian* *Macke*
 Email: Sebastian.Macke@th-rosenheim.de
 Studied Physics in Stuttgart
+Living in Munich
 
-- **Lead* **Software* **Engineer* **at* **QAware*
+- *Lead* *Software* *Engineer* *at* *QAware*
 
-- Software Developer as a Hobby (Reverse Engineering, Simulations, Emulations, AI):
+- *Software* *Developer* *as* *a* *Hobby* (Reverse Engineering, Simulations, Emulations, AI):
 [[https://github.com/s-macke]]
 [[https://simulationcorner.net]]
 
 - **AI* **enthusiast*
 Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604580225024/]]
 
-
 * Who is QAware?
 
-- [[https://qaware.de]]
+- [[https://qaware.de]] - Founded in 2005
 
+- Medium-sized IT company - 230 Employees
 - Custom Software development (Cloud Native, modernization, AI, ... ) for large enterprises (e.g. BMW, Allianz, Telekom, ...)
-- Founded 2005
-- 230 Employees
-- Offices in Munich, Mainz, Rosenheim,Darmstadt
+- Offices in Munich, Mainz, Rosenheim, Darmstadt and the whole world (remote work)
+.image ./img/01-qaware.png 260 _
 
 
 * There are so many Languages ...
@@ -75,15 +75,15 @@ Miro Board: https://miro.com/app/board/.....
 Lecture 1 - *About* *Overview* *Introduction*
 Lecture 2 - *Introduction* *to* *Golang*. *Types* *Control* *Structures*
 Lecture 3 - *Object* *Oriented* *Programming* *with* *Go*
-Lecture 5 - *Large Language Models*, *Prompting*, *Copilot*
+Lecture 4 - *SWE-Agents*, *Large* *Language* *Models*
 Lecture 5 - *Functional* *Programming*
-Lecture 6 - *Pure* *Functional* *Programming* *With* *Haskell*
+Lecture 6 - *Pure* *Functional* *Programming* *with* *Haskell*
 Lecture 7 - *Concurrent* *Programming*
-Lecture 8 - *Distributed* *Programming*
-Lecture 9 - *Cross* *Compiling* *with* *WebAssembly*
+Lecture 8 - *Flashlight* *Presentations* *of* *Languages*
+Lecture 9 - *Distributed* *Programming*
 Lecture 10 - *Logic* *Programming*
-Lecture 11 - .....
-Lecture .. - .... *Summary* ....
+Lecture 12 - (*Cross* *Compiling* *with* *WebAssembly*)
+Lecture 13 - (*Enterprise* *Programming*)
 
 : * Lectures
 
@@ -107,8 +107,7 @@ Lecture .. - .... *Summary* ....
 
 * Structure of this course
 - Recap
-- Lecture
-- Student Discussions
+- Lecture with (Student Discussions)
 - Introduction to Exercises
 - Exercises
 
@@ -116,11 +115,16 @@ Lecture .. - .... *Summary* ....
 
 * Material
 Learning Campus:
+
 .link https://learning-campus.th-rosenheim.de/course/view.php?id=2993
 
 Github: Sources, Slides (Go Present Tool)
 
 .link https://github.com/s-macke/concepts-of-programming-languages https://github.com/s-macke/concepts-of-programming-languages
+
+* Discussion: What is your expectation of the lecture
+
+Miro Board: https://miro.com/app/board/.....
 
 * Semester Work
 
@@ -200,10 +204,11 @@ Examples:
 
 * Books
 Donovan, Kernigham: The Go Programming Language 
-.image https://bilder.buecher.de/produkte/42/42375/42375234z.jpg 150 _
 
+.image ./img/01-go-book.png 150 _
 
-Sebesta: Concepts of Programming Languages 
-.image https://pictures.abebooks.com/isbn/9780321493620-us.jpg 150 _
+Sebesta: Concepts of Programming Languages
+
+.image ./img/01-sebesta-book.png 150 _
 
 Watt: Programming Language Design Concepts

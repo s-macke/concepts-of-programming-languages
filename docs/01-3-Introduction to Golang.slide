@@ -38,12 +38,23 @@ Rob Pike @ Google 2009 (60 Min)
 * Hello World
 .play ../src/basics/hello/main.go
 
-* Orthogonal classification II
-.html snippets/classification_go.html
+: * Orthogonal classification II
+: .html snippets/classification_go.html
+
+* Orthogonal classification for Go
+
+- Static
+- Compiled
+- Parallel
+- Static Linked
+- Safe
+- Assembler
+- Cross Platform
+
 
 * Some Questions
 - What are the characteristics of a successful language?
-- What makes Go different to other Languages? 
+- What makes Go different to other Languages?
 - What makes Go similar to other Languages?
 - Discuss your personal opinions in a group of students!
 
@@ -63,8 +74,4 @@ Rob Pike @ Google 2009 (60 Min)
 .link https://golang.org/
 .link https://golang.org/doc/
 .link https://github.com/avelino/awesome-go
-
-
-
-
 

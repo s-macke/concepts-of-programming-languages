@@ -17,6 +17,8 @@ https://www.qaware.de
 - You cannot give "steps" how to solve the problem
 - User posts a goal (query)
 - Prolog interpreter uses rules and facts to find a solution
+- Why Prolog:
+.link https://engineering.gusto.com/why-logic-programming-is-the-best-choice-for-authorization-70f95164dee7 Why Logic Programming Is the Best Choice for Authorization
 
 * Terms
 The single data type in prolog is a *term*. Terms can be either
