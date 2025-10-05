@@ -16,19 +16,20 @@ https://www.qaware.de
 - Characteristics of a Successful Language
 -- Miro Board ....
 
-: * Characteristics of a Successful Language (Suggestion)
-: - Simplicity and readability (Small instruction set and easy syntax)
-: - Abstraction (types/classes, Generics, Procedures ....)
-: - Efficiency
-: - Reliability (compatibility, error checking, no memory leaks)
-: - Dependency management
-: - Good support and documentation (public compilers, tutorials, community, IDE)
-: - Orthogonality
+* Characteristics of a Successful Language (Suggestion)
+- Simplicity and readability (Small instruction set and easy syntax)
+- Abstraction (types/classes, Generics, Procedures ....)
+- Efficiency
+- Reliability (compatibility, error checking, no memory leaks)
+- Dependency management
+- Good support and documentation (public compilers, tutorials, community, IDE)
+- Orthogonality
 
 * What is an Orthogonal language
 
-- Def 1: A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
-- Def 2: We can combine the majority of the language constructs in many ways without any side effects
+- *Def* *1:* A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
+- *Def* *2:* We can combine the majority of the language constructs in many ways without any side effects
+- *Def* *3:* A language is non-orthogonal when combinations of features behave inconsistently or unexpectedly.
 - Other definitions:
 .link https://stackoverflow.com/questions/3272019/is-java-orthogonal
 - Associated with simplicity and consistency.
@@ -68,6 +69,20 @@ https://www.qaware.de
 
 - But arrays in structs are allowed to return
 
+* Every number in Java is the same. Right?
+
+Numbers and classes might be non-orthogonal in Java.
+
+    Integer a = 1000;
+    Integer b = 1000;
+    System.out.println(a == b); // false
+
+    Integer a = 1;
+    Integer b = 1;
+    System.out.println(a == b); // true
+
+: https://www.jdoodle.com/online-java-compiler
+
 * Other non-orthogonal examples
 
 - In C, "a++" behaves different for an integer a than for a pointer a.
@@ -100,6 +115,16 @@ https://www.qaware.de
 - All essential components are written in Go: Docker, Kubernetes, Etcd, Prometheus, Grafana -> An important reason to take a closer look at Go
 
 
+* TypeScript will be written in Go
+
+- Some build systems for the JavaScript ecosystem  are already build in Go: esBuild, vite
+
+- Anders Hejsberg: Microsoft Technical Fellow and lead architect of TypeScript. Original designer of C#, Delphi, and Turbo Pascal.
+.link https://devblogs.microsoft.com/typescript/typescript-native-port/
+
+
+
+
 * Tools
 
 *go* *env*  Print Go environment information
@@ -119,6 +144,28 @@ https://www.qaware.de
 - module file contains language version information, module name and dependencies
 
 *go* *mod* *tidy* updates the go mod file if you add more dependencies
+
+* Golang compiler source code compiles in 36 seconds
+
+*Go* *compiles* *fast*
+
+    time ./make.bash
+    Building Go cmd/dist using /opt/homebrew/Cellar/go/1.23.0/libexec. (go1.23.0 darwin/arm64)
+    Building Go toolchain1 using /opt/homebrew/Cellar/go/1.23.0/libexec.
+    Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.
+    Building Go toolchain2 using go_bootstrap and Go toolchain1.
+    Building Go toolchain3 using go_bootstrap and Go toolchain2.
+    Building packages and commands for darwin/arm64.
+    ---
+    Installed Go for .../go-src/go
+    Installed commands in .../go-src/go/bin
+    *** You need to add /Users/sebastian.macke/projects/QAware/vorlesung/go-src/go/bin to your PATH.
+    ./make.bash  167,89s user 43,26s system 580% cpu 36,367 total
+
+GCC C++ compile time: several hours
+Rust: hours
+Java compile time: several hours
+
 
 : Live Demo
 : go.mod im Hauptverzeichnis vorher löschen
@@ -161,6 +208,13 @@ https://www.qaware.de
 .play ../src/basics/complex/complex.go
 - The assignment ':=' is used for short variable declarations. The type is deduced implicitly. Also called "type inference"
 .image img/02-complex.png 150 _
+
+* All primitive types are value types
+
+Value types are primitive data types (int, double, boolean, etc.) that directly store their values in memory rather than referencing an object.
+
+.play ../src/basics/types/values/value-type.go /func foo/,
+
 
 * Weak typing vs. Strong typing I
 Languages differ of how serious they handle the type
@@ -240,7 +294,25 @@ Also: Change int to char
 
 * Dynamically typing in Python
 
-- Demo with state of the art AI libs
+    x = 10        # x is an int
+    x = "hello"   # now x is a str
+
+---
+
+    def greet(**kwargs):
+        for key, value in kwargs.items():
+            print(f"{key} = {value}")
+
+    greet(name="Alice", age=30, city="Munich")
+
+---
+
+    def dynamic(value):
+        if value > 0:
+            return "positive"
+        else:
+            return -1
+
 
 * Strong typing in Go
 
@@ -278,7 +350,7 @@ Also: Change int to char
 .image img/02-typing.png 450 _
 - Miro board ....
 
-* Golang - some details
+* Golang - complex types
 
 
 * Maps
@@ -288,10 +360,16 @@ Also: Change int to char
 .play ../src/basics/types/maps/maps.go
 : /START OMIT/,/END OMIT/
 
+* Map is a reference type
+
+.play ../src/basics/types/references/reference-type.go
+
+
 * Arrays and Slices
 - Arrays have a fixed length and can not be resized
+- Slices are dynamic arrays and can be resized (`append()`)
+
 - Slices are views to underlying arrays or can be created dynamically
-- Slices can be resized (`append()`)
 - The underlying array grows automatically (if needed)
 - Both have a length and a capacity: What does that mean?
 
@@ -299,13 +377,37 @@ Also: Change int to char
 
 .play ../src/basics/types/slices/slices.go
 
+* Non-Orthogonal: Arrays are value types, but slices are reference types. But they use the same syntax.
+
+.play ../src/basics/types/non-orthogonal/non-orthogonal.go  /func/,
+
+* Pointer I
+A pointer is a variable which contains a memory address
+.play ../src/basics/pointers/pointer/pointer.go /func main/,
+
+* Pointer I
+.code ../src/basics/swap/main.go /func swap0/,/END0 OMIT/
+.code ../src/basics/swap/main.go /func swap1/,/END1 OMIT/
+.code ../src/basics/swap/main.go /func swap2/,/END2 OMIT/
+.code ../src/basics/swap/main.go /func swap3/,/END3 OMIT/
+- The double assignment saves a variable (tmp)!
+- Pointers are transferred as well as values ​​by copy
+
+* Pointer II
+.play ../src/basics/swap/main.go /func main/,/END0 OMIT/
+
+: evtl. story zu multi dimension arrays in C vs. multiplikation erzählen
+
+ Pointer arithmetic is a "DON'T DO" in Go!
+- There is some unsafe pointer arithmetic as in C / C ++
+
+
 
 * Functions and Control Structures: Example Palindrome
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome/,/END1 OMIT/
 - The return type of a function is behind the parameter list
 - Conditions (if, for) are not clipped with ()
 - if, for ... statements need curly braces {}
-- semicolons are omitted
 
 * Go directly supports Unit Tests via "go test"
 .code ../src/basics/palindrome/palindrome_test.go /START OMIT/,/END OMIT/
@@ -370,44 +472,15 @@ Also: Change int to char
 : - pass by value makes an internal copy, discards the value afterwards
 : - pass by reference provides a direct reference to the given variable. Changes have an effect on the original value
 
-
-: * Pass by value vs. pass by reference
-: .html snippets/pass_by_value_table.html
-
-: - In C a string is an array.
-: - You can also try array of structs, structs of arrays, .....
-: - Copying a structure or or array can be rather expensive and should be avoided!
-
 : As optimization some structures are not copied, but passed as reference but on the first access they are copied (Copy On Write)
 : Ich hatte vor kurzem eine Sprache, da konnte man auf die Funktionsparameter gar nicht schreibend zugreifen: WGSL
-
 
 * Pointers
 
 .image ./img/pointer_meme.jpeg 450 _
 
-* Pointer I
-A pointer is a variable which contains a memory address
-.play ../src/basics/pointers/pointer/pointer.go /func main/,
-
-* Pointer I
-.code ../src/basics/swap/main.go /func swap0/,/END0 OMIT/
-.code ../src/basics/swap/main.go /func swap1/,/END1 OMIT/
-.code ../src/basics/swap/main.go /func swap2/,/END2 OMIT/
-.code ../src/basics/swap/main.go /func swap3/,/END3 OMIT/
-- The double assignment saves a variable (tmp)!
-- Pointers are transferred as well as values ​​by copy
-
-* Pointer II
-.play ../src/basics/swap/main.go /func main/,/END0 OMIT/
-
-: evtl. story zu multi dimension arrays in C vs. multiplikation erzählen
-
 * Exercise 2.1
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
-
-* Pointer arithmetic is a "DON'T DO" in Go!
-- There is some unsafe pointer arithmetic as in C / C ++
 
 .play ../src/basics/pointers/unsafe/main.go /func main/,
 
@@ -444,8 +517,8 @@ Types can be defined with the keyword "type"
     ....
     }
 
-* Stringer Interface
-.play ../src/basics/stringer/stringer.go
+: * Stringer Interface
+: .play ../src/basics/stringer/stringer.go
 
 * The Flag API simplifies Command Line Utilities
 .play ../src/basics/flags/main.go /import/,/END OMIT/
