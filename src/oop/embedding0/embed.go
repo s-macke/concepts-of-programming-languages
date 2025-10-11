@@ -9,6 +9,7 @@ type Point struct{ x, y int }
 
 // ColorPoint extends Point by adding a color field.
 type ColorPoint struct {
+	// Point p // Composition is of cour supported
 	Point // Embedding simulates inheritance but it is (sort-of) delegation!
 	c     int
 }
@@ -20,14 +21,12 @@ func main() {
 	var cp = ColorPoint{Point{1, 2}, 3}
 
 	fmt.Println(p)
-
 	fmt.Println(cp)
 
 	fmt.Println(cp.x)       // access inherited field
 	fmt.Println(cp.Point.x) // access inherited field via composition
 
 	//p = cp // does not work: No type hierarchy, no polymorphism
-
 	p = cp.Point // works
 
 }

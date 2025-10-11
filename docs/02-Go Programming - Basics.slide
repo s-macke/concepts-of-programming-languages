@@ -145,27 +145,6 @@ Numbers and classes might be non-orthogonal in Java.
 
 *go* *mod* *tidy* updates the go mod file if you add more dependencies
 
-* Golang compiler source code compiles in 36 seconds
-
-*Go* *compiles* *fast*
-
-    time ./make.bash
-    Building Go cmd/dist using /opt/homebrew/Cellar/go/1.23.0/libexec. (go1.23.0 darwin/arm64)
-    Building Go toolchain1 using /opt/homebrew/Cellar/go/1.23.0/libexec.
-    Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.
-    Building Go toolchain2 using go_bootstrap and Go toolchain1.
-    Building Go toolchain3 using go_bootstrap and Go toolchain2.
-    Building packages and commands for darwin/arm64.
-    ---
-    Installed Go for .../go-src/go
-    Installed commands in .../go-src/go/bin
-    *** You need to add /Users/sebastian.macke/projects/QAware/vorlesung/go-src/go/bin to your PATH.
-    ./make.bash  167,89s user 43,26s system 580% cpu 36,367 total
-
-GCC C++ compile time: several hours
-Rust: hours
-Java compile time: several hours
-
 
 : Live Demo
 : go.mod im Hauptverzeichnis vorher löschen
@@ -177,6 +156,23 @@ Java compile time: several hours
 : go tool dist list
 : in git bash console
 : GOARCH=arm64 GOOS=darwin go build
+
+* Golang compiler source code compiles in 36 seconds
+
+*Go* *compiles* *fast*
+
+    > time ./make.bash
+    Building Go cmd/dist using /opt/homebrew/Cellar/go/1.23.0/libexec. (go1.23.0 darwin/arm64)
+    Building Go toolchain1 using /opt/homebrew/Cellar/go/1.23.0/libexec.
+    Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.
+    Building Go toolchain2 using go_bootstrap and Go toolchain1.
+    Building Go toolchain3 using go_bootstrap and Go toolchain2.
+    Building packages and commands for darwin/arm64.
+    ---
+    Installed Go for .../go-src/go
+    Installed commands in .../go-src/go/bin
+    *** You need to add .../go-src/go/bin to your PATH.
+    ./make.bash  167,89s user 43,26s system 580% cpu 36,367 total
 
 * Packages
 
@@ -207,7 +203,9 @@ Java compile time: several hours
 * Complex Numbers
 .play ../src/basics/complex/complex.go
 - The assignment ':=' is used for short variable declarations. The type is deduced implicitly. Also called "type inference"
-.image img/02-complex.png 150 _
+- Go itself (like Python) is not designed for number crunching
+
+: .image img/02-complex.png 130 _
 
 * All primitive types are value types
 
@@ -215,6 +213,20 @@ Value types are primitive data types (int, double, boolean, etc.) that directly 
 
 .play ../src/basics/types/values/value-type.go /func foo/,
 
+*  The many ways of variable declarations in Go
+
+    var foo int  // default value zero
+    foo = 32
+
+    var foo int = 32
+
+    var foo = 32
+
+    foo := 32  // infers (guesses) the type definition of type int
+
+    foo := int(32)
+
+    foo, ok := 32, true // foo is an int 32, ok is a boolean with value true
 
 * Weak typing vs. Strong typing I
 Languages differ of how serious they handle the type
@@ -292,6 +304,15 @@ Also: Change int to char
 : 018 == '018'
 : 017 == '017'
 
+* Strong typing in Go
+
+.play ../src/basics/types/cast/cast.go
+
+- In Go there is no implicit type cast.
+- The compiler will complain if you try to compare different types.
+- You have to do the type conversion explicitly.
+
+
 * Dynamically typing in Python
 
     x = 10        # x is an int
@@ -312,30 +333,6 @@ Also: Change int to char
             return "positive"
         else:
             return -1
-
-
-* Strong typing in Go
-
-.play ../src/basics/types/cast/cast.go
-
-- In Go there is no implicit type cast.
-- The compiler will complain if you try to compare different types.
-- You have to do the type conversion explicitly.
-
-*  The many ways of variable declarations in Go
-
-    var foo int  // default value zero
-    foo = 32
-
-    var foo int = 32
-
-    var foo = 32
-
-    foo := 32  // infers (guesses) the type definition of type int
-
-    foo := int(32)
-
-    foo, ok := 32, true // foo is an int 32, ok is a boolean with value true
 
 
 * Go has also a dynamic type: any
@@ -381,6 +378,10 @@ Also: Change int to char
 
 .play ../src/basics/types/non-orthogonal/non-orthogonal.go  /func/,
 
+* Pointers
+
+.image ./img/pointer_meme.jpeg 450 _
+
 * Pointer I
 A pointer is a variable which contains a memory address
 .play ../src/basics/pointers/pointer/pointer.go /func main/,
@@ -398,9 +399,27 @@ A pointer is a variable which contains a memory address
 
 : evtl. story zu multi dimension arrays in C vs. multiplikation erzählen
 
+* Don't do pointer arithmetric in Go
+
+.play ../src/basics/pointers/unsafe/main.go /func main/,
+
+- Because of garbage collection anything can happen here! Even more unsafe than in C!
+
+: In C wäre die Anpassung des Pointers nur y++
+
+: * What are references
+
+: References are kind of safe pointers. In different languages they have slighty different meanings and properties.
+
+: - They all have in common, that they don't allow pointer arithmetic.
+: - Usually no dererefence with * necessary
+: - Normally strongly typed
+: - In C++ a reference must be initialized at creation and can never be null. In this way C++ ist stricter than Java
+: - In Java because of Garbage Collection the reference might not be direct pointer to the object.
+: - In Go, nil is the zero value for pointers, interfaces, maps, slices, channels and function types, representing an uninitialized value.
+
  Pointer arithmetic is a "DON'T DO" in Go!
 - There is some unsafe pointer arithmetic as in C / C ++
-
 
 
 * Functions and Control Structures: Example Palindrome
@@ -475,18 +494,8 @@ A pointer is a variable which contains a memory address
 : As optimization some structures are not copied, but passed as reference but on the first access they are copied (Copy On Write)
 : Ich hatte vor kurzem eine Sprache, da konnte man auf die Funktionsparameter gar nicht schreibend zugreifen: WGSL
 
-* Pointers
-
-.image ./img/pointer_meme.jpeg 450 _
-
 * Exercise 2.1
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
-
-.play ../src/basics/pointers/unsafe/main.go /func main/,
-
-- Because of garbage collection anything can happen here! Even more unsafe than in C!
-
-: In C wäre die Anpassung des Pointers nur y++
 
 : * What are references
 

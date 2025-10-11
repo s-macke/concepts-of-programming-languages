@@ -26,7 +26,7 @@ https://www.qaware.de
 * Errors in Go
 
 Go doesn't have try-catch exception based error handling.
-Go distinguishes between recoverable and unrecoverable errors.
+Go distinguishes between recoverable and unrecoverable errors:
 
 _Recoverable_: e. g. file not found
 
@@ -153,9 +153,9 @@ The "defer" statement lets us ensure that code runs before a function exits
 
 * Principles of Object Oriented Programming
 
+- *Encapsulation:* Bundling of data with the methods that operate on that data. Select what is public accessible and what is private.  Ensure that the consistency of the data is maintained.
 - *Abstraction:* Provide abstraction of a class without the implementation. Manage the complexity by hiding.
 - *Inheritance:* Based class upon another class. Goal is reusing the parent class properties.
-- *Encapsulation:* Bundling of data with the methods that operate on that data. Select what is public accessible and what is private.  Ensure that the consistency of the data is maintained.
 - *Polymorphism:* Objects of different types can be accessed through the same interface or the use of a single variable to represent different types
 
 Go is not a pure object oriented programming language but
@@ -249,9 +249,8 @@ is internally transformed into
 
 A lot of languages do it this way.
 
-* Syntax level OOP
+:* Syntax level OOP
 : .play ../src/oop/oop_vs_procedural/bool.go
-
 : - Go seems to convert the OOP style to procedural style. (OOP only on syntax level)
 
 
@@ -285,8 +284,7 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 - Composition: A design principle where objects are formed by combining multiple smaller objects
 - Inheritance: A mechanism where a new class derives properties and behaviors from an existing class
 
-- Which Pros and Cons exist?
-- Miro ...
+- When to use which? What Pros and Cons exist?
 
 
 : Pros composition
@@ -315,10 +313,39 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 : - More memory, harder to compile
 
 
+
+
 * The issue with inheritance
 
-- https://www.youtube.com/watch?v=Ng8m5VXsn8Q&t=414s
-- Runner and RunCounter
+.link https://www.youtube.com/watch?v=Ng8m5VXsn8Q&t=414s
+
+    class Runner {
+        public void run(Task task) { task.run(); }
+        public void runAll(List<Task> tasks) { for (Task task : tasks) { run(task); } }
+    }
+
+    class RunCounter extends Runner {
+        private int count = 0;
+
+        @override public void run(Task task) {
+            count++;
+            super.run(task);
+        }
+
+        @override public void runAll(List<Task> tasks) {
+            count += tasks.size();
+            super.runAll(tasks);
+        }
+    }
+
+When I run 3 tasks with RunCounter.runAll, what value does *count* have?
+
+* According to the Go main architects inheritance causes
+
+- Tight Coupling
+- Weak Encapsulation
+- Surprising Bugs
+
 
 * Embedding
 - Go does of course support composition.
@@ -331,17 +358,30 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 
 - Access to embedded field is identical to a normal field inside a struct
 - Syntactically it is similar to inheritance in Java
-- Overriding of methods is kind of supported, overloading is not!
 
-: Overloading is generally not possible in Go
+* Polymorphism is not possible with embeddings.
+
+    // Point is a two dimensional point in a cartesian coordinate system.
+    type Point struct{ x, y int }
+
+    // ColorPoint extends Point by adding a color field.
+    type ColorPoint struct {
+        Point // Embedding simulates inheritance but it is (sort-of) delegation!
+        c     int
+    }
+
+    var Point p = Point{}
+    var ColorPoint cp = ColorPoint{}
+
+    p = cp // Compile Error
+    p = cp.Point // Works
+
 
 * Delegation of Functions in Go
 
-comparison of behavior in Java and Go at
-- ../src/oop/delegation/delegation.go
-- ../src/oop/delegation/delegation.java
-- ../src/oop/delegation2/delegation.go
-- ../src/oop/delegation2/delegation.java
+- Overriding of methods is kind of supported, overloading is not!
+
+- please check ../src/oop/delegation/delegation.go
 
 
 : prints "a.bar"
@@ -382,9 +422,9 @@ In Go:
   func (d *Door) Open() { ... }
   func (d *Door) Close() { ... }
 
-Door implicitly satisfies the interface OpenCloser
+*Door* implicitly satisfies the interface *OpenCloser*
 
-Go supports polymorphism only via interfaces, not through classes
+Go supports polymorphism only via interfaces
 
 * Polymorphism III: Example The stringer interface
 
@@ -407,14 +447,16 @@ The print functions in the *fmt* package support the following interface
 
 .play ../src/oop/stringer/stringer.go
 
+An implementation can support multiple interfaces at the same time.
+
 * Interfaces and Polymorphism
 .play ../src/oop/polymorphism/polymorphism.go /func main/,/END2 OMIT/
 
 * Recap: Go does support a dynamic type
 
-.play ../src/basics/dynamic/main.go /START OMIT/,/END OMIT/
+.play ../src/basics/dynamic/main.go /func main/,
 
-- any is an alias for an empty interface{} and hence matches all types
+- any is an alias for an empty *interface{}* and hence matches all types
 
     type any = interface{}
 
