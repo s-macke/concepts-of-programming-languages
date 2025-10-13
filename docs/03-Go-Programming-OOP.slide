@@ -381,8 +381,7 @@ When I run 3 tasks with RunCounter.runAll, what value does *count* have?
 
 - Overriding of methods is kind of supported, overloading is not!
 
-- please check ../src/oop/delegation/delegation.go
-
+- please check ../src/oop/runtask/runtask.go
 
 : prints "a.bar"
 : real delegation should print "b.bar", because delegation means
