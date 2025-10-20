@@ -42,7 +42,9 @@ func (idx Index) String() string {
 // MakePage constructs a page from a string array.
 func MakePage(words []string) Page {
 	page := words
-	return page
+	return Page{
+		words: page,
+	}
 }
 
 // MakeBook constructs a book from a page array.

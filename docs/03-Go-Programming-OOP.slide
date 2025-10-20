@@ -249,7 +249,7 @@ is internally transformed into
 
 A lot of languages do it this way.
 
-:* Syntax level OOP
+: * Syntax level OOP
 : .play ../src/oop/oop_vs_procedural/bool.go
 : - Go seems to convert the OOP style to procedural style. (OOP only on syntax level)
 

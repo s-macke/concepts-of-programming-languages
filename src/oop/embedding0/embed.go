@@ -9,7 +9,6 @@ type Point struct{ x, y int }
 
 // ColorPoint extends Point by adding a color field.
 type ColorPoint struct {
-	// Point p // Composition is of cour supported
 	Point // Embedding simulates inheritance but it is (sort-of) delegation!
 	c     int
 }
