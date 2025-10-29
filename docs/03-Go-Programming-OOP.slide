@@ -459,6 +459,17 @@ An implementation can support multiple interfaces at the same time.
 
     type any = interface{}
 
+ * The error interface
+
+.play ../src/oop/errors/error.go /START OMIT/,/END OMIT/
+
+The error is just an interface with one method that should return the error message:
+
+    type error interface {
+        Error() string
+    }
+
+
 
 : * Example: Send Mail with Go: A minimal Interface
 : .code ../src/oop/mail/mail.go /Message/,/END OMIT/

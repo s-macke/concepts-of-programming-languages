@@ -18,16 +18,6 @@ https://www.qaware.de
 
 : Ergebnisse der Übungen zeigen.
 
-* The error interface
-
-.play ../src/oop/errors/error.go /START OMIT/,/END OMIT/
-
-The error is just an interface with one method that should return the error message:
-
-    type error interface {
-        Error() string
-    }
-
 * What is Functional programming?
 - Functional programming is a programming paradigm where functions can not only be defined and applied. Like data, functions can be linked together, used as parameters, and occur as function results.
 - In short: Functions are treated as first-class citizens.
@@ -41,6 +31,7 @@ Functional programming is old, but some major languages have adapted them quite 
 - C++ in 2011
 - Java 8 in 2014
 - Rust 2015
+- Go 2009
 
 * Functional programming languages are categorized into two groups
 - *Pure* Functional Languages
@@ -78,7 +69,7 @@ These types of functional languages support the functional paradigms and imperat
 
 * Why functional programming is better - Odd Number Filter
 
-- With imperative programming. Generate a new array and copy only the correct values.
+- With imperative programming. Generate a new array and copy only the odd values.
 .play ../src/functional/genericstreams/filter/classic.go /array/,/fmt.Println/
 
 - With functional declarative programming. Filter the array via a stream.
@@ -87,7 +78,7 @@ These types of functional languages support the functional paradigms and imperat
 * Why functional programming is better - Sorting
 - A sorting algorithm needs to be able to compare two elements. This is done via a comparator function.
 - Before functional programming was a thing in Java, we had to provide a Comparator implementation via inheritance.
-Java:
+Java (unlearn this):
 .play ../src/functional/genericstreams/sort/SortDemo.java /class/,
 
 * Why functional programming is better - Sorting
@@ -105,6 +96,8 @@ Java:
 
 Access array outside of the function for sorting
 .play ../src/functional/basics/sort.go /func main/,
+
+In functional programming, closures encapsulate data, allowing functions to access necessary values without relying on global state or explicit access control.
 
 * Exercise 5.1 - Warm Up
 This is a Bubble Sort algorithm for ints.
@@ -134,7 +127,7 @@ Rewrite it, so that the Bubble Sort algorithm takes a comparison function as inp
     }
 
     console.log(object2.prop)  // 43
-    console.log(object2.func())  // 43. Now "this" points to object2.
+    console.log(object2.func())  // 42 or 43?
 
 : https://onecompiler.com/javascript
 : object1.func = object1.func.bind(object1);
@@ -198,7 +191,6 @@ Advantages
 The most prominent characteristics of functional programming are as follows
 
 - Functional programming languages are designed on the concept of mathematical functions that use conditional expressions and recursion to perform computation.
-- Functional programming supports higher-order functions and lazy evaluation features.
 - Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
   Hence, the declarative approach is prevalence rather than the imperative approach.
 - Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
@@ -309,7 +301,25 @@ Functions can be composed with functions as parameters
 - Clojure
 - F#
 - Scala
-- JavaScript
+
+* Lambda Calculus - Programming with Nothing
+
+: https://news.ycombinator.com/item?id=45678511
+
+
+* Motivation
+
+In the 1930s, mathematicians were trying to formalize the foundations of mathematics to describe all of math in purely logical terms.
+
+This was part of a movement called *Hilbert’s* *program*, which aimed to make mathematics fully rigorous and mechanically provable.
+
+*Alonzo* *Church* developed lambda calculus as part of this effort — he wanted a simple formal system that could
+precisely define what a “function” is and how functions can be applied.
+
+Church’s goal was to:
+- Create a minimal, formal language that captures the essence of computation through functions and function application.
+"What does it mean for something to be computable?"
+
 
 * History: The Lambda Calculus
 .image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
@@ -320,6 +330,7 @@ Functions can be composed with functions as parameters
 
 * The Lambda Calculus
 
+- Lambda calculus describes computation as the application of functions to arguments.
 - No lists, integers, strings, loop, if, switch, ...
 - Just anonymous functions
 
@@ -342,8 +353,8 @@ _λx.x_    (here the identity function as an example)
 - Functions have no internal state
 
 *Applications*
-_(λx.x)_ _a_
-- here the application of the identity function to a returns a)
+_(λx.x)_ _a_ _=_ _a_
+- here the application of the identity function to a returns a
 - also a can be a function
 - Parenthesis help to avoid ambiguity.
 
@@ -352,28 +363,33 @@ _(λx.x)_ _a_
 : Tafel
 : λx.x is the identity function
 : To apply a function
-: (λx.x) 5 = 5
+: (λx.x) a = a (Identity)
+: (λx.a) b = a
 
-: schlechtes Beispiel
-: (λa.λb.(a+b)) 5 6 = 11
-: ((λa.λb.(a+b)) 5) 6 = 11
-: (λ5.λb.(5+b)) 6 = 11
-: ((λb.(5+b)) 6 = 11
-: (5+6) = 11
+: was ist
+
+: (λx.λy.y) a = λy.y (partial application)
+: (λx.λy.y) a b = (λy.y) b = b
+: (λx.λb.a) c d = a
+: (λx.λy.a) x y = a
+: (λa.λb.a) x y = x
 
 : T := λa.λb.a is the function which takes two parameters and returns the first one
 : F := λa.λb.b is the function which takes two parameters and returns the second one
-: brackets ein zeichnen
-: T 3 5
-: (λx.3) 5 = 3
-: (λa.λb.a) 5 6 = 5
-: (λa.λb.b) 5 6 = 6
+: T x y
+: (λx.a) y = a
+: (λa.λb.a) a b = a
+: (λa.λb.b) a b = b
+
+: alternative for not := λp.λa.λb.(p b a)
+: not T = (λp.λa.λb.(p b a)) T = λa.λb.(T b a) = λa.λb.(λa.λb.a b a) = λa.λb.b = F
+
 
 : NOT := λb.(b F T)
-: AND := λa.λb.(a b False)
-: AND True False = True False False = False
-: AND True True = True True False = True
-: AND False True = False True False = False
+: AND := λa.λb.(a b F)
+: AND T F = True False False = False
+: AND T T = True True False = True
+: AND F T = False True False = False
 
 : Alternative:
 : OR := λa.λb.(a b a)
@@ -391,6 +407,12 @@ _(λx.x)_ _a_
 : Y g = g ((λx.g (x x)) (λx.g (x x))) (by function application of λx.g (x x) to argument λx.g (x x)
 : Y g = g (Y g) (by substitution of Y g)
 
+
+: Y := λf.((λx.f (x x)) (λx.f (x x)))
+: Y g = (λx.g (x x)) (λx.g (x x))
+: Y g = g ((λx.g (x x) (λx.g (x x)))
+: Y g = g (Y g)
+
 : falls mehr fragen kommen: http://www.cs.columbia.edu/~sedwards/classes/2012/w4115-fall/lambda.pdf
 : Fun: https://github.com/woodrush/lambda-8cc
 
@@ -402,6 +424,12 @@ _(λx.x)_ _a_
 : - It can encode any computation (Church-Turing thesis)
 
 : - Lambda Calculus is present in most major programming languages
+
+* Lambda calculus to the extreme
+
+.link https://github.com/woodrush/lambda-8cc
+
+* Lambda Calculus in Go - All functional languages are measured by their correspondence to the lambda calculus
 
 * Lambda Calculus in Go: Combinators
 : .image ./img/04-lambda.png 200 350
@@ -418,6 +446,7 @@ _(λx.x)_ _a_
 - Executes the function and provides two functions. If the first is executed it is true, if the second it is false
 
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /NAMER START OMIT/,/NAMER END OMIT/
+
 
 * Lambda Calculus in Go: Boolean Logic
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /Boolean/,/BOOL OMIT/
