@@ -14,7 +14,6 @@ https://www.qaware.de
 - Anonymous functions
 - Closures
 - Currying
-- Functional composition
 - Lambda Calculus
 - Streaming functionality in Go
 
@@ -39,7 +38,6 @@ Advantages
 The most prominent characteristics of functional programming are as follows
 
 - Functional programming languages are designed on the concept of mathematical functions that use conditional expressions and recursion to perform computation.
-- Functional programming supports higher-order functions and lazy evaluation features.
 - Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
   Hence, the declarative approach is prevalence rather than the imperative approach.
 - Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
@@ -59,6 +57,7 @@ Functional programs consist of independent units that can *run* *concurrently*. 
 Functional programming supports *lazy* *evaluation* like Lazy Lists, Lazy Maps, etc.
 
 - Distribution
+
 Functional programming supports distributed computing
 
 : Bug-free: Formal verification is also much easier
@@ -74,16 +73,25 @@ Functional programming supports distributed computing
 .link img/01-languages.png
 .image img/01-languages.png 250 _
 
+
+* Haskell is used
+
+- in finance for building reliable and mathematically sound trading and risk analysis systems.
+- by tech companies such as Facebook and GitHub for tools involving data analysis and code verification
+- in academia and research to explore programming language design, type systems, and formal verification
+- for developing compilers, interpreters, and domain-specific languages (DSLs) due to its strong abstraction capabilities
+
 * Ranking
 - 28th most popular programming language by Google searches for tutorials
 
-.image img/01_redmonk_2021.png 500 _
+.image img/01_redmonk_2025.png 500 _
 
 * Websites to experiment with Hakell
 
 .link https://play.haskell.org/
 .link https://www.jdoodle.com/execute-haskell-online
 .link https://www.onlinegdb.com/online_haskell_compiler
+.link https://haskell-wasm.github.io/ghc-in-browser/
 
 Online tutorials
 .link http://learnyouahaskell.com/chapters
@@ -175,11 +183,6 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
   add a b = a + b
   main = print( (add 1) 2)
 
-* The return function
-
-TODO
-
-
 * Haskell: Type signatures
 
     add :: Int -> Int -> Int
@@ -244,8 +247,8 @@ TODO
 
 * Excercise
 
-- Write a signum function returns 1 if the number is positive, -1 if the number is negative and 0 if the number is 0.
-- Write the same function with guards that returns the signum of a number.
+- A signum function returns 1 if the number is positive, -1 if the number is negative and 0 if the number is 0.
+- Write the signum function using if/else and guards.
 
 * Haskell: Recursions
 
@@ -271,6 +274,17 @@ TODO
 : - Using "where"
 : use diamater and radius
 : TODO
+
+: * The return function
+
+:  safeDivide :: Double -> Double -> Maybe Double
+:  safeDivide _ 0 = Nothing
+:  safeDivide x y = do
+:    let result = x / y
+:    return result
+
+:  main = print $ safeDivide 1 2
+
 
 * Haskell: Tuples
 
@@ -421,7 +435,7 @@ Also Haskell have to perform IO
   import Data.Time.Clock
   import Control.Concurrent
 
-  main :: IO ()   -- return type is IO (). The function is executed regardless of the return value
+  main :: IO ()   -- return type is IO ().
   main = do
     x <- getCurrentTime;
     print x;
@@ -430,6 +444,26 @@ Also Haskell have to perform IO
     print x
 
 The <- sign is used to assign the result of a non-pure function to a variable
+
+* IO Sequencing with do Notation and return in Haskell
+
+  import Data.Time.Clock
+  import Data.Time
+  import Control.Concurrent
+
+  waitOneSecond :: IO NominalDiffTime
+  waitOneSecond = do
+    t1 <- getCurrentTime;
+    print t1;
+    threadDelay 1000000;
+    t2 <- getCurrentTime;
+    print t2
+    return (diffUTCTime t2 t1)
+
+  main :: IO ()
+  main = do
+      result <- waitOneSecond
+      print $ "waited " ++ show result
 
 * Exercise 6
 

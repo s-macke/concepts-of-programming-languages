@@ -36,7 +36,10 @@ https://www.qaware.de
  - 2017: WebAssembly is offically supported by all Web Browsers
  - 2019: A WebAssembly system interface is specified for portable applications outside the browser
  - 2022: Docker suggests Wasm as an alternative to containers
+ - 2025: Webassembly 3.0
  - Now:  WebAssembly is constantly enhanced (https://webassembly.org/roadmap/)
+
+
 
 *After* *the* *introduction* *of* *JavaScript* *in* *the* *90s,* *it* *is* *the* *second* *language* *supported* *directly* *by* *web* *browsers*
 
