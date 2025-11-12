@@ -24,7 +24,7 @@ https://www.qaware.de
 
 * The modern world is parallel
 
-- Multicore
+- Multicore (mass market in 2005)
 
 - Networks
 
@@ -41,6 +41,17 @@ Shared memory systems are the most common types of multiprocessor computer syste
 
 : JavaScript hat Worker threads, die keinen gemeinsamen Speicher teilen, sondern nur über Events kommunizieren.
 : Bild von https://en.wikipedia.org/wiki/Shared_memory
+
+
+* History of Concurrent Software development
+
+- *Processes*: The original isolation mechanism. Each process had its own memory; concurrency was achieved via fork() and inter-process communication (IPC) like pipes, sockets, or shared memory.
+- *Threads*: Early 1990s, enabling multiple threads inside a single process.
+- *Thread* *Pools*: Abstractions to easier ways to utilize multiple cores.
+- *Futures,* *Promises,*: Abstractions for values that will be available “later”
+- *Asynchronous* *I/O* *and* *Event* *Loops*: Concurrency without parallelism. Instead of threads, a single event loop handles many tasks, suspending coroutines on await.
+- *Multiprocessing* *and* *Parallel* *Data* *Frameworks*: Parallel Data Frameworks. OpenMP, CUDA
+- Concepts still in development. Still no end in sight.
 
 * What are Software or Kernel Threads
 
@@ -221,7 +232,7 @@ What will be the result?
 
 * Waitgroups (using global variableI)
 
-.play ../src/concurrent/waitgroup/parallel_for_loop.go /func/,
+.play ../src/concurrent/waitgroup/parallel_for_loop.go /var/,
 
 * Waitgroups  (using functional programming)
 
@@ -238,6 +249,13 @@ Use a waitgroup to wait for all threads to finish before printing the final resu
 * Go Channels
 .image img/06-go-concurrency.jpeg
 - Don't communicate by sharing memory; share memory by communicating (Rob Pike)
+
+* Unbuffered Channels
+.image img/06-unbuffered-channel.png 500 _
+
+* Buffered Channels
+.image img/06-buffered-channel.png 400 _
+
 
 : * Lecturer 1: A simple example
 : No Goroutine used yet:
