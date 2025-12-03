@@ -10,9 +10,9 @@ https://www.qaware.de
 
 * Last lecture
 - Concurrent programming in general
-- Virtual threads of Go
 - Coroutines
-- Blocking calls
+- Virtual threads of Go
+- Mutex, Waitgroup
 - Atomic operations
 - Synchronization and messaging (channels)
 - Multi-way concurrent control (select)
@@ -186,10 +186,10 @@ Blog article
 
 History:
 
-- HTTP 1.0: 1989 developed at CERN by Tim Berners-Lee
-- HTTP 1.1: Connection Pooling / Keep-Alive, Caching, Authentification, addtional metainformation, ...
-- HTTP 2.0: Binary-Protocol, Multiplexing, Encryption as Standard, Server-Push
-- HTTP 3.0: Standardized 2023. Switch from TCP to UDP. Faster connection.
+- *HTTP* *1.0:* 1989 developed at CERN by Tim Berners-Lee
+- *HTTP* *1.1:* Connection Pooling / Keep-Alive, Caching, Authentification, addtional metainformation, ...
+- *HTTP* *2.0:* Binary-Protocol, Multiplexing, Encryption as Standard, Server-Push
+- *HTTP* *3.0:* Standardized 2023. Switch from TCP to UDP. Faster connection.
 
 * Example communication
 

@@ -56,8 +56,28 @@ Terms are not always used consistently.
 Three armies, each led by a general, plan to attack a fortified city. The armies may arrive at different times to surround the city, and none of the generals can be certain whether all the armies will arrive at all. Consequently, they have not appointed a single leader.
 For the attack to succeed, at least two armies must strike simultaneously. Therefore, the generals need to coordinate and agree on a precise time to launch the attack. They can only communicate by sending messengers.
 
-- Under the assumption of reliable communication.
-- Under the assumption of unreliable communication.
+- Under the assumption of an already selected leader and reliable communication.
+- Under the assumption of an already selected leader and unreliable communication.
+- Under the assumption of an unselected leader and an unreliable communication.
+
+: Reliable communication and all leaders are present: Just number the armies 0,1,2 and 0 is the leader. It sends the time to attack to 1 and 2.
+: They confirm back. After receiving both confirmations, 0 sends a final go message.
+
+* Algorithms under ideal conditions
+
+*Reliable* *communication* *and* *all* *leaders* *are* *present*
+- Just number the armies 0, 1, 2. Army 0 is the leader per definition.
+- It sends the time to attack to 1 and 2.
+
+*Unreliable* *communication* *and* *all* *leaders* *are* *present*
+Not solvable, but can be approximated by a two phase commit
+- Just number the armies 0, 1, 2. Army 0 is the leader per definition.
+- Leader 0 sends the time to attack to 1 and 2.
+- They confirm back.
+- After receiving both confirmations, army 0 sends a final go message.
+
+
+
 
 * What is Distributed Consensus?
 
@@ -78,8 +98,8 @@ In a distributed system the following requirements can be met:
 Pick Two: Only two requirements can be met -> CP, AP are typical (CA does not exists)
 .link https://codahale.com/you-cant-sacrifice-partition-tolerance/
 
-AP = DNS (Domain Name System)
-CP = Cash Machine
+Availability,Partition Tolerance = DNS (Domain Name System)
+Consistency,Partition Tolerance = Cash Machine
 
 * Securing C and P
 - All known algorithms use the concept of a quorum to detect network partition problems

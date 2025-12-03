@@ -4,7 +4,7 @@ If you do not finish during the lecture period, please finish it as homework.
 
 ## Exercise 8.1 - Call Rest API
 
-Call the Github API to receive the repositories with the most stars and the query "awesome"
+Call the GitHub API to receive the repositories with the most stars and the query "awesome"
 
 https://api.github.com/search/repositories?sort=stars&order=desc&q=awesome
 
@@ -52,9 +52,9 @@ It should apply the following rules, otherwise stop the program.
 * A candidate can only change to a leader or follower
 * A follower can only change to a candidate
 
-For now, node 0 starts as a leader, the others as followers.
-
 ### Attack Endpoint
+
+For now, node 0 starts as a leader, the others as followers. Hence, the leader election is skipped for now. Start with the attack coordination.
 
 Implement an "attack" endpoint and start the server on the port defined by the port list.
 The "attack" endpoint uses the REST Method POST, receives the time of the attack as string, prints the attack time on screen and returns a 200 status code.
