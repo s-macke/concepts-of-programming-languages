@@ -1,0 +1,58 @@
+Systems Programming
+Concepts of Programming Languages
+
+Tags: go, programming, concurrent, go routines, channels
+
+Sebastian Macke
+Rosenheim Technical University
+Sebastian.Macke@th-rosenheim.de
+https://www.qaware.de
+
+
+* Other Concepts I
+
+- Memory (Garbage Collector, Smart Pointers, Compile Time Memory Handling)
+- Annotations / Decorators (Java, Python)
+- Reflection (Java)
+- Dependency Injection (Java)
+- Templates / Generics
+- Lexer / Parser / Compiler
+- Preprocessor (C)
+- Operator Overloading
+
+* Other Concepts II
+
+- Coroutines
+- Reactive Programming or async functions
+- GPU Programming (WebGL)
+- Dependencies / Versioning (npm, Go)
+- Enterprise Programming (More modern Libraries)
+- Metaprogramming and Forth
+- System Programming
+
+* Calling C Code from Go with cgo
+
+.play ../src/system/samples/random/ascomment/main.go
+
+- C code is embedded just before the "import "C" " part of the Go code
+- The C main function cannot be called "main" because of linker conflicts
+- To build cgo packages, just use go build or go install as usual. The go tool recognizes the special "C" import and automatically uses cgo for those files.
+
+* Generics
+
+- Go is either type safe + use-case specific or type-unsafe + use-case agnostic.
+- This has changed with Go 1.18
+
+    type comparable interface {
+    	int | int8 | int16 | int32 | int64 |
+    	uint | uint8 | uint16 | uint32 | uint64 |
+    	float32 | float64
+    }
+
+    func max[T comparable](x T, y T) T {
+    	if x > y {
+    		return x
+    	}
+    	return y
+    }
+
