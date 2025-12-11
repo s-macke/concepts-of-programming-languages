@@ -215,16 +215,14 @@ Server responds via
 
 : .play ../src/servers/tcp/http/http.go /func/,
 
-* A Simple HTTP File Server
-.play ../src/servers/fileserver/main.go /func/,
-- File server for static content.
-- Already optimized for maximum performance. No tweaking in any form necessary.
+: * A Simple HTTP File Server
+: .play ../src/servers/fileserver/main.go /func/,
+: - File server for static content.
+: - Already optimized for maximum performance. No tweaking in any form necessary.
 
-Python equivalent is still simpler
+:Python equivalent is still simpler
 
-   python -m http.server 8080
-
-
+:   python -m http.server 8080
 
 * Transfer formats
 
