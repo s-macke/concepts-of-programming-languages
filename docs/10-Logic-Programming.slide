@@ -20,6 +20,26 @@ https://www.qaware.de
 - Why Prolog:
 .link https://engineering.gusto.com/why-logic-programming-is-the-best-choice-for-authorization-70f95164dee7 Why Logic Programming Is the Best Choice for Authorization
 
+* Motivation from Hacker News comments
+
+1. Prolog really is such a fantastic system, if I can justify its usage then I won't hesitate to do so. Most of the time I'll call a language that I find to be powerful a "power tool", but that doesn't apply here. Prolog is beyond a power tool. A one-off bit of experimental tech built by the greatest minds of a forgotten generation.
+
+2. In university, Learning prolog was my first encounter with the idea that my IQ may not be as high as I thought
+
+3. Always felt this would be language that Sherlock Holmes would use...so be sure to wear the hat when learning it
+
+4. I really enjoyed learning Prolog in university, but it is a weird language. I think that 98% of tasks I would not want to use Prolog for, but for that remaining 2% of tasks it's extremely well suited for.
+
+
+* Motivation from Hacker News comments
+
+5.
+When I entered university for my Bachelors, I was 28 years old and already worked for 5 or 6 years as a self-taught programmer in the industry. In the first semester, we had a Logic Programming class and it was solely taught in Prolog. At first, I was mega overwhelmed. It was so different than anything I did before and I had to unlearn a lot of things that I was used to in "regular" programming. At the end of the class, I was a convert! It also opened up my mind to functional programming and mathematical/logical thinking in general.
+
+I still think that Prolog should be mandatory for every programmer. It opens up the mind in such a logical way... Love it.
+
+Unfortunately, I never found an opportunity in my 11 years since then to use it in my professional practice. Or maybe I just missed the opportunities?????
+
 * Terms
 The single data type in prolog is a *term*. Terms can be either
 
@@ -48,7 +68,7 @@ Examples:
   'Pizza'
   'foo bar'
 
-The closest thing to an atom in other languages is a constant string, which contains the name of the variable.
+The closest thing to an atom in other languages is a non-mutable string, which contains the name of the variable.
 
   const string pizza = "pizza"
 
