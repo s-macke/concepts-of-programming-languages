@@ -238,7 +238,7 @@ What will be the result?
 
 .play ../src/concurrent/waitgroup2/parallel_for_loop.go /func/,
 
-* Excercise
+* Exercise
 
 This is the previous code for atomic counting.
 
@@ -256,6 +256,23 @@ Use a waitgroup to wait for all threads to finish before printing the final resu
 * Buffered Channels
 .image img/06-buffered-channel.png 400 _
 
+* Channel Constraints
+
+Constraints can improve the expression of intent and tighten the type system
+
+  chan   // read-write
+  <-chan // read only
+  chan<- // write only
+
+E. g. from this channel, you are only allowed to read:
+
+    func log(cs <-chan string) { ...
+
+- These added constraints can improve the expression of intent and tighten the type system
+- It is considered a good practice to specify the direction of your channels in public APIs.
+
+
+: https://stackoverflow.com/questions/31920353/whats-the-difference-between-chan-and-chan-as-a-function-return-type
 
 : * Lecturer 1: A simple example
 : No Goroutine used yet:
