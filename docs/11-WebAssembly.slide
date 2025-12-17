@@ -19,12 +19,27 @@ https://www.qaware.de
 : - Exercise
 : - Future of WebAssembly
 
+* What is WebAssembly?
+
+What is it?
+
+- WebAssembly is a portable binary-code format for fast, safe execution in the browser and beyond.
+
+Why it exists?
+
+- To run computationally heavy code (e.g., C/C++, Rust) at near-native speed on the web.
+- To complement JavaScript. Not replace it.
+
+.image ./img/08-webassembly/wasi-twitter.png 200 _
+
+* WebAssembly is a new type of (virtual) machine and architecture.
+
+.image ./img/08-webassembly/comparison.png 450 _
+
 
 * What is WebAssembly?
 
-: .link https://webassembly.org
-
-- WebAssembly is a portable binary-code format for executable programs.
+.link https://webassembly.org
 
  - 1995: JavaScript is developed within 10 days by Brendan Eich
 
@@ -36,10 +51,8 @@ https://www.qaware.de
  - 2017: WebAssembly is offically supported by all Web Browsers
  - 2019: A WebAssembly system interface is specified for portable applications outside the browser
  - 2022: Docker suggests Wasm as an alternative to containers
- - 2025: Webassembly 3.0
+ - 2025: Webassembly 3.0 (64-Bit, Garbage Collector, ...)
  - Now:  WebAssembly is constantly enhanced (https://webassembly.org/roadmap/)
-
-
 
 *After* *the* *introduction* *of* *JavaScript* *in* *the* *90s,* *it* *is* *the* *second* *language* *supported* *directly* *by* *web* *browsers*
 
@@ -85,6 +98,10 @@ https://www.qaware.de
     - 64kB segment. Enables hardware-supported boundary check
     - Size adaptable at runtime
 
+-  Garbage collection engine
+
+    - Memory management for high-level languages
+
 - Interface via defined interface
 
     - Export/import of functions, global variables and so-called tables
@@ -97,6 +114,22 @@ https://www.qaware.de
 
 .image ./img/08-webassembly/0a-bytecode.png _ 1000
 
+* Example of a stack machine
+
+Evaluate
+
+  i64.const 3   ;; push 3 onto stack
+  i64.const 9   ;; push 9 onto stack
+  i64.add       ;; pop 3 and 9 from stack, add them, push result onto stack
+  i64.const 4   ;; push 4 onto stack
+  i64.const 6   ;; push 6 onto stack
+  i64.add       ;; pop 4 and 6 from stack, add them, push result onto stack
+  i64.mul       ;; pop 12 and 15 from stack, multiply them, push result onto stack
+
+.image img/stack1.png 200 _
+
+
+
 * Demo in WebAssembly Text Format
 - Example in `src/webassembly/wat` folder
 add.wat
@@ -107,7 +140,7 @@ add.js
 
 .code ../src/webassembly/wat/add.js
 
-* Supported languages in 2022
+* Supported languages in 2025
 
 - Source:
 .link https://github.com/appcypher/awesome-wasm-langs
@@ -115,20 +148,21 @@ add.js
     🐔 C              🐔 C++              🐔 Go           🐔 Rust
     Stable for production:
     🐥 .Net           🐥 AssemblyScript   🐥 Brainfuck    🐥 C#
-    🐥 Clean          🐥 COBOL            🐥 F#           🐥 Forth
-    🐥 Lobster        🐥 Lua              🐥 Never        🐥 Rego
-    🐥 TypeScript     🐥 WebAssembly      🐥 Zig
+    🐥 Clean          🐥 COBOL            🐥 Dart         🐥 F#
+    🐥 Forth          🐥 Grain            🐥 Lobster      🐥 Lua
+    🐥 Never          🐥 Rego             🐥 TypeScript   🐥 WebAssembly
+    🐥 Zig
     Unstable:
-    🐣 Ada            🐣 D                 🐣 Eel          🐣 Elixir
-    🐣 Java           🐣 JavaScript        🐣 Kotlin/Wasm  🐣 Lisp
-    🐣 Lys            🐣 Pascal            🐣 Perl         🐣 PHP
-    🐣 Poetry         🐣 Python            🐣 Prolog       🐣 R
-    🐣 Ruby           🐣 Scheme            🐣 Scopes       🐣 Swift
+    🐣 Ada            🐣 D                🐣 Eel          🐣 Elixir
+    🐣 Java           🐣 JavaScript       🐣 Lisp         🐥 Kotlin/Wasm
+    🐣 Lys            🐣 Pascal           🐣 Perl         🐣 PHP
+    🐣 Poetry         🐣 Python           🐣 Prolog       🐣 R
+    🐣 Ruby           🐣 Scheme           🐣 Scopes       🐣 Swift
     🐣 Tcl
     Work in Progress:
-    🥚 Dart           🥚 Faust             🥚 Co            🥚 Forest
-    🥚 Haskell        🥚 Julia             🥚 Kou           🥚 Nim
-    🥚 Ocaml          🥚 Plorth
+    🥚 Faust          🥚 Co               🥚 Forest       🥚 Haskell
+    🥚 Julia          🥚 Kou              🥚 Nim          🥚 Ocaml
+    🥚 Plorth
 
 * Demo in C
 
@@ -194,8 +228,10 @@ index.html
 * Applications
 .link https://webassembly.org/docs/use-cases/
 
+- Run every code in your browser without full rewrite.
+- Migrate legacy native apps to web apps.
 - Better execution for languages and toolkits that are currently cross-compiled to the Web (C/C++, GWT, …).
-- Image / video editing.
+- Image / video editing
 - Games:
  - Casual games that need to start quickly.
  - AAA games that have heavy assets.
@@ -209,10 +245,8 @@ index.html
 -  VR and augmented reality (very low latency).
 -  CAD applications.
 -  Scientific visualization and simulation.
--  Interactive educational software, and news articles.
 -  Platform simulation / emulation (ARC, DOSBox, QEMU, MAME, …).
 -  Language interpreters and virtual machines.
--  POSIX user-space environment, allowing porting of existing POSIX applications.
 -  Developer tooling (editors, compilers, debuggers, …).
 -  Remote desktop.
 -  VPN.
@@ -221,9 +255,20 @@ index.html
 * Outside the browser
 - Game distribution service (portable and secure).
 - Server-side compute of untrusted code.
-- Server-side application.
 - Hybrid native apps on mobile devices.
-- Generic Plugins for your software.
+- Generic Plugins for your software. (e. g. Microsoft Flight Simulator)
+- Universal Docker containers
+- Universal standalone applications (see WASI)
+
+* Used by
+
+- Google in Google Sheet
+- Figma
+- AutoCAD Web
+- Unity WebGL games/apps
+- Cloudflare Workers
+- Plugin mechanisms in Flight Simulator
+
 
 * Calls from and to Go
 
@@ -242,15 +287,15 @@ index.html
 
 Question:
 
-You have an Hello world executable.
-What "Symbols" do you have export and import to execute the executable?
+1. What are the issues with virtualization such as Docker?
+2. You have an Hello world executable and a binary executable, that can only be access through
+exported and imported functions. What functions do you have export and import to execute the executable?
 
 : export _start()
 : import proc_exit(int code)
 : import fd_write(int fd, int *buf, int len, int *written)
 
 * WASI Demo
-
 
 * Exercise
 
@@ -259,38 +304,16 @@ What "Symbols" do you have export and import to execute the executable?
 - Reverse Polish Calculator in the browser
 - Show generated image in the browser
 
-* Future - The Skill Tree
-.image ./img/08-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 800
-
-* Future - MVP
-.image ./img/08-webassembly/01-01-mvp-03-final-e1539905426663-768x664.png _ 600
-
-* Future
-.image ./img/08-webassembly/01-02-heavyweight-03-P-07-e1540219610872-768x551.png _ 700
-
-* Future
-.image ./img/08-webassembly/01-02-heavyweight-04-final-e1540219657102-768x696.png _ 500
-
-* Future
-.image ./img/08-webassembly/01-04-js-interop-02-P-05-e1540220264112-768x395.png _ 700
-
 * Future
 
-.image ./img/08-webassembly/01-04-js-interop-03-final-e1540220313636-768x415.png _ 900
+- WebAssembly Roadmap
+.link https://webassembly.org/roadmap/
 
-* Future
+- WebAssembly Proposals
+https://github.com/WebAssembly/proposals
 
-.image ./img/08-webassembly/01-05-high-level-03-P-04-e1540220662110-768x240.png _ 800
-
-* Future
-
-.image ./img/08-webassembly/01-05-high-level-04-final-e1540220704600-768x621.png _ 700
-
-* Future
-
-.image ./img/08-webassembly/01-07-runtime-09-final-e1539904436477-768x489.png _ 900
-
-
+- WASI Proposals
+https://github.com/WebAssembly/WASI/blob/main/docs/Proposals.md
 
 * Links
 
@@ -300,6 +323,9 @@ What "Symbols" do you have export and import to execute the executable?
 - WasmWeekly, WebAssembly Today, Newletter
 .link https://wasmweekly.news/
 .link https://webassemblytoday.substack.com/
+
+- Webassembly CLI Tools
+.link https://github.com/bytecodealliance/wasm-tools
 
 - Webassembly Binary Toolkit
 .link https://github.com/WebAssembly/wabt
