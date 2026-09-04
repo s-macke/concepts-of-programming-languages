@@ -116,11 +116,14 @@ func parseCode(ctx *Context, sourceFile string, sourceLine int, cmd string) (Ele
 	}
 
 	lines := codeLines(textBytes, lo, hi)
+	formattedLines := formatLines(lines, highlight)
+	formattedLines, syntaxHighlighted := highlightCode(formattedLines, filename)
 
 	data := &codeTemplateData{
-		Lines:   formatLines(lines, highlight),
-		Edit:    strings.Contains(flags, "-edit"),
-		Numbers: strings.Contains(flags, "-numbers"),
+		Lines:             formattedLines,
+		Edit:              strings.Contains(flags, "-edit"),
+		Numbers:           strings.Contains(flags, "-numbers"),
+		SyntaxHighlighted: syntaxHighlighted,
 	}
 
 	// Include before and after in a hidden span for playground code.
@@ -176,9 +179,10 @@ func rawCode(lines []codeLine) []byte {
 }
 
 type codeTemplateData struct {
-	Lines          []codeLine
-	Prefix, Suffix []byte
-	Edit, Numbers  bool
+	Lines             []codeLine
+	Prefix, Suffix    []byte
+	Edit, Numbers     bool
+	SyntaxHighlighted bool
 }
 
 var leadingSpaceRE = regexp.MustCompile(`^[ \t]*`)
@@ -193,8 +197,8 @@ const codeTemplateHTML = `
 
 <pre{{if .Edit}} contenteditable="true" spellcheck="false"{{end}}{{if .Numbers}} class="numbers"{{end}}>{{/*
 	*/}}{{range .Lines}}<span num="{{.N}}">{{/*
-	*/}}{{if .HL}}{{leadingSpace .L}}<b>{{trimSpace .L}}</b>{{/*
-	*/}}{{else}}{{.L}}{{end}}{{/*
+	*/}}{{if .HL}}{{leadingSpace .L}}<b>{{if $.SyntaxHighlighted}}{{.HTML}}{{else}}{{trimSpace .L}}{{end}}</b>{{/*
+	*/}}{{else}}{{if $.SyntaxHighlighted}}{{.HTML}}{{else}}{{.L}}{{end}}{{end}}{{/*
 */}}</span>
 {{end}}</pre>
 {{with .Suffix}}<pre style="display: none"><span>{{printf "%s" .}}</span></pre>{{end -}}
@@ -202,9 +206,10 @@ const codeTemplateHTML = `
 
 // codeLine represents a line of code extracted from a source file.
 type codeLine struct {
-	L  string // The line of code.
-	N  int    // The line number from the source file.
-	HL bool   // Whether the line should be highlighted.
+	L    string        // The line of code.
+	HTML template.HTML // Syntax-highlighted line, when available.
+	N    int           // The line number from the source file.
+	HL   bool          // Whether the line should be highlighted.
 }
 
 // codeLines takes a source file and returns the lines that

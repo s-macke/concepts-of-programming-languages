@@ -7,9 +7,16 @@ package present
 import (
 	"fmt"
 	"html/template"
+	"regexp"
 	"strings"
 	"testing"
 )
+
+var syntaxSpanRE = regexp.MustCompile(`<span style="[^"]*">([^<]*)</span>`)
+
+func withoutSyntaxHighlighting(value template.HTML) template.HTML {
+	return template.HTML(syntaxSpanRE.ReplaceAllString(string(value), "$1"))
+}
 
 func TestParseCode(t *testing.T) {
 	// Enable play but revert the change at the end.
@@ -218,7 +225,7 @@ func main() { // HLfunc
 		if got, wants := trimBytes(c.Raw), trimBytes(tt.Raw); got != wants {
 			t.Errorf("%s: expected Raw \n%q\n; got \n%q\n", tt.name, wants, got)
 		}
-		if got, wants := trimHTML(c.Text), trimHTML(tt.Text); got != wants {
+		if got, wants := trimHTML(withoutSyntaxHighlighting(c.Text)), trimHTML(tt.Text); got != wants {
 			t.Errorf("%s: expected Text \n%q\n; got \n%q\n", tt.name, wants, got)
 		}
 	}

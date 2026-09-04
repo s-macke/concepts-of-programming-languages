@@ -37,6 +37,7 @@ func TestTestdata(t *testing.T) {
 			if err != nil {
 				t.Fatalf("%s: %v", file, err)
 			}
+			data = bytes.ReplaceAll(data, []byte("\r\n"), []byte("\n"))
 			marker := []byte("\n---\n")
 			i := bytes.Index(data, marker)
 			if i < 0 {
