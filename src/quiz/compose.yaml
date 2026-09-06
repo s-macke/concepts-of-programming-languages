@@ -1,0 +1,18 @@
+# Run the quiz server for a lecture:
+#
+#   docker compose -f src/quiz/compose.yaml up --build
+#
+# then open http://localhost:8080
+services:
+  quiz:
+    build:
+      # The whole repository is the build context, see the Dockerfile.
+      context: ../..
+      dockerfile: src/quiz/Dockerfile
+    ports:
+      - "8080:8080"
+    # Mount the quiz files read-only so that editing a YAML file and restarting
+    # the container is enough; no rebuild needed.
+    volumes:
+      - ./quizzes:/app/quizzes:ro
+    restart: unless-stopped

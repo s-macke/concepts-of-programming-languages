@@ -1,0 +1,60 @@
+title: Concurrency in Go
+description: Goroutines, channels and what the runtime does with them.
+
+questions:
+  - type: single
+    text: What does this program print?
+    code:
+      lang: go
+      source: |
+        ch := make(chan int)
+        close(ch)
+        fmt.Println(<-ch)
+    options:
+      - {id: a, text: "0"}
+      - {id: b, text: "It blocks forever (deadlock)"}
+      - {id: c, text: "It panics"}
+      - {id: d, text: "Undefined, the value is random"}
+    answer: a
+    explanation: >-
+      Receiving from a closed channel returns immediately with the zero value of
+      the element type. Only sending on a closed channel panics.
+
+  - type: truefalse
+    text: An unbuffered channel synchronises sender and receiver.
+    answer: "true"
+    explanation: >-
+      A send on an unbuffered channel completes only when a receiver is ready,
+      so both goroutines meet at that point. This is a rendezvous.
+
+  - type: multiple
+    text: Which of these can cause a data race in Go?
+    points: 2
+    options:
+      - {id: a, text: "Two goroutines writing the same map without a lock"}
+      - {id: b, text: "Two goroutines sending on the same channel"}
+      - {id: c, text: "Two goroutines incrementing the same int with ++"}
+      - {id: d, text: "Two goroutines reading the same immutable slice"}
+    answer: [a, c]
+    explanation: >-
+      Channels are safe for concurrent use, and concurrent reads of data that is
+      never written are fine. Unsynchronised map writes and ++ on a shared int
+      are races.
+
+  - type: text
+    text: Which keyword starts a new goroutine?
+    answer: ["go"]
+    explanation: The go statement runs a function call in a new goroutine.
+
+  - type: single
+    text: The picture shows a goroutine sending a value into a channel. What is the channel operator in Go?
+    image:
+      data: iVBORw0KGgoAAAANSUhEUgAAAPAAAABQCAIAAACoK28rAAABQUlEQVR4nOzbwUnEUBhGUZXZW8PYgV24tRULcWsrdmEHpo3wVnZgNuE9uDlnPYsP5vJDILmNsT9AxdPqAXAmQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETcrt8BevH99Tlkzy8/m2esJsl/oHXWhSBE2KoEkRNCmCJkXQpAiaFEGTImhSBE2KoEkRNCmCJkXQpAiaFEGTcvyCf8zL/b56wmzP71+rJ8zjQpMiaFIETYqgSbncQ+Hvtq2eMFvsq+//udCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYIm5XGMffUGOI0LTYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KX8BAAD//7PAEdLOZF1JAAAAAElFTkSuQmCC
+      mime: image/png
+      alt: Two boxes connected by an arrow
+    options:
+      - {id: a, text: "->"}
+      - {id: b, text: "<-"}
+      - {id: c, text: "=>"}
+      - {id: d, text: "<<"}
+    answer: b

@@ -1,0 +1,28 @@
+title: Go Basics
+description: Types, slices and values.
+
+questions:
+  - type: single
+    text: What is the length and capacity of s?
+    code:
+      lang: go
+      source: |
+        s := make([]int, 3, 10)
+    options:
+      - {id: a, text: "len 3, cap 10"}
+      - {id: b, text: "len 10, cap 10"}
+      - {id: c, text: "len 0, cap 10"}
+      - {id: d, text: "len 3, cap 3"}
+    answer: a
+    explanation: make([]T, len, cap) sets length and capacity separately.
+
+  - type: truefalse
+    text: Go passes arguments to functions by reference.
+    answer: "false"
+    explanation: >-
+      Go is always pass by value. A pointer, slice or map argument copies the
+      pointer or header, which is why the pointed-to data still appears shared.
+
+  - type: text
+    text: Which built-in function appends to a slice?
+    answer: ["append"]
