@@ -22,26 +22,9 @@ func TestMapFilterReduce(t *testing.T) {
 	if result != "A,B,C,D" {
 		t.Error(fmt.Sprintf("Result should be 'A,B,C,D' but is: %v", result))
 	}
-	// lambda (inline)
-	result = ToStream(stringSlice).
-		Map(func(o any) any {
-			return strings.ToUpper(o.(string))
-		}).
-		Filter(func(o any) bool {
-			s := o.(string)
-			result := true
-			for _, v := range s {
-				if v >= '0' && v <= '9' {
-					result = false
-					break
-				}
-			}
-			return result
-		}).
-		Reduce(func(a any, b any) any {
-			return a.(string) + "," + b.(string)
-		}).(string)
 }
+
+// MFR END OMIT
 
 // toUpperCase converts a given string to upper case.
 func toUpperCase(o any) any {
@@ -73,6 +56,13 @@ func concat(a any, b any) any {
 // ========================
 // Classic wordcount sample
 // ========================
+
+// Pair of two values.
+type Pair struct {
+	k any
+	v any
+}
+
 func TestWordCount(t *testing.T) {
 	strings := []any{"a", "a", "b", "b", "D", "a"}
 

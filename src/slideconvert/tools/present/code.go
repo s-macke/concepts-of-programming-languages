@@ -17,7 +17,7 @@ import (
 
 // PlayEnabled specifies whether runnable playground snippets should be
 // displayed in the present user interface.
-var PlayEnabled = false
+var PlayEnabled = true
 
 // TODO(adg): replace the PlayEnabled flag with something less spaghetti-like.
 // Instead this will probably be determined by a template execution Context

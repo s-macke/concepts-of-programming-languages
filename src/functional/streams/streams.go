@@ -29,12 +29,6 @@ type Accumulator func(any, any) any
 
 // EXERCISE 5.3 END OMIT
 
-// Pair of two values.
-type Pair struct {
-	k any
-	v any
-}
-
 // Stream interface is implemented for container types.
 type Stream interface {
 	Map(m Mapper) Stream

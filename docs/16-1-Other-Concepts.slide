@@ -1,4 +1,4 @@
-Systems Programming
+Other Concepts
 Concepts of Programming Languages
 
 Tags: go, programming, concurrent, go routines, channels
@@ -29,6 +29,7 @@ https://www.qaware.de
 - Enterprise Programming (More modern Libraries)
 - Metaprogramming and Forth
 - System Programming
+- Enterprise Programming
 
 * Calling C Code from Go with cgo
 

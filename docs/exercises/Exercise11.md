@@ -20,7 +20,7 @@ The result will be a file called `lib.wasm`
 * In case you run Windows command shell you have to execute three commands
 ```powershell
 set GOARCH=wasm 
-set GOOS=js 
+set GOOS=js
 go build -o lib.wasm main.go`
 ```
 
@@ -34,7 +34,7 @@ You will find the GOROOT directory via  `go env GOROOT` and copy the wasm_exec f
 ---
 
 * An HTTP file web server is provided in the folder `src/servers/fileserver`.
-Alternatively, you can use python `python -m http.server 8080`
+Alternatively, you can use python `python3 -m http.server 8080`
 * Copy the index.html file and test your program inside the browser
 
 ```HTML
@@ -71,7 +71,7 @@ Javascript or WebAssembly doesn't support concurrency and are single threaded.
 
 ## Exercise 11.3 - Execute a Go function inside Go
 
-In one of our last lectures I showed a very simple reverse polish notation calculator 
+A very simple reverse polish notation calculator with a stack implementation in Go can be written as:
 
 ```
 func main() {

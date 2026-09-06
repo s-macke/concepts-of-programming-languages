@@ -504,7 +504,7 @@ _(λx.x)_ _a_ _=_ _a_
 
 * Go does not have an API similar to Java Streams
 - It is possible to build such an API in Go
-.code ../src/functional/streams/streams_test.go /array/,/lambda/
+.code ../src/functional/streams/streams_test.go /array/,/MFR END/
 
 * Exercise 5.2 - Map / Filter / Reduce
 

@@ -44,7 +44,7 @@ func initTemplates(base string) error {
 
 		// Read and parse the input.
 		tmpl := present.Template()
-		tmpl = tmpl.Funcs(template.FuncMap{"playable": func(c present.Code) bool { return false }})
+		tmpl = tmpl.Funcs(template.FuncMap{"playable": playable})
 		if _, err := tmpl.ParseFiles(actionTmpl, contentTmpl); err != nil {
 			return err
 		}
@@ -54,6 +54,12 @@ func initTemplates(base string) error {
 	var err error
 	dirListTemplate, err = template.ParseFiles(filepath.Join(base, "templates/dir.tmpl"))
 	return err
+}
+
+// playable reports whether a code block can be executed by the remote Go
+// Playground. The Playground only accepts Go source files.
+func playable(c present.Code) bool {
+	return present.PlayEnabled && c.Play && c.Ext == ".go"
 }
 
 // renderDoc reads the present file, gets its template representation,
