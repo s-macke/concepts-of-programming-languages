@@ -3,7 +3,7 @@
 # 
 PKGS := $(shell go list ./... | grep -v /raft)
 
-.PHONY: test all build test install clean slideshow help coverage
+.PHONY: test all build test install clean slideshow html help coverage
 
 help:
 	clear
@@ -18,6 +18,7 @@ help:
 	@echo "       make clean : Clean up and clears caches."
 	@echo "       make coverage : Executes the tests with coverage and starts the go tool cover"
 	@echo "       make slideshow : Starts a golang present slideshow on port 3999. Blocks until CTRL-C ist pressed. "
+	@echo "       make html : Renders all docs/*.slide files to static .html files.                              "
 	@echo "       make help : This info.                                                                            "
 	@echo "---------------------------------------------------------------------------------------------------------"
 
@@ -41,3 +42,6 @@ coverage:
 
 slideshow:
 	cd docs; present -notes -use_playground
+
+html:
+	cd src/slideconvert && sh build_and_run.sh

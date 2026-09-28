@@ -1,5 +1,5 @@
 Welcome
-Concepts of Programming Languages - TH Rosenheim - WS 2025/2026
+Concepts of Programming Languages - TH Rosenheim
 Tags: go, golang, programming, master
 
 Sebastian Macke
@@ -18,72 +18,165 @@ Living in Munich
 [[https://github.com/s-macke]]
 [[https://simulationcorner.net]]
 
-- **AI* **enthusiast*
+- *AI* *enthusiast*
 Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604580225024/]]
 
 * Who is QAware?
 
 - [[https://qaware.de]] - Founded in 2005
 
-- Medium-sized IT company - 230 Employees
-- Custom Software development (Cloud Native, modernization, AI, ... ) for large enterprises (e.g. BMW, Allianz, Telekom, ...)
-- Offices in Munich, Mainz, Rosenheim, Darmstadt and the whole world (remote work)
+- Medium-sized IT company - 240 Employees
+- Custom software development (cloud native, modernization, AI, ...) for large enterprises (e.g. BMW, Allianz, Telekom, ...)
+- Offices in Munich, Mainz, Rosenheim and Darmstadt, plus remote work worldwide
 .image ./img/01-qaware.png 260 _
 
 
-* There are so many Languages ...
+* There are so many languages ...
 .image ./img/00-programming-languages.jpeg 460 _
 
-Miro Board: https://miro.com/app/board/.....
+Which languages do you know? Miro Board: [[https://miro.com/app/board/uXjVHNiaxvc=/?moveToWidget=3458764685014689743][Programming Languages]]
 
-: Miro Bord
+: Miro Board
 : Fragen, welche Sprachen ihr so alle kennt.
 : https://en.wikipedia.org/wiki/List_of_programming_languages
 
+* What does this print in JavaScript?
+
+    "5" + 3
+
+: Raten lassen, dann weiterklicken.
+
+* What does this print in JavaScript?
+
+    "5" + 3
+
+⮕ *"53"*: The `+` operator concatenates strings as soon as one operand is a string.
+
+: Auflösen und kurz erklären.
+
+* What does this print in JavaScript?
+
+    "5" + 3
+
+⮕ *"53"*: The `+` operator concatenates strings as soon as one operand is a string.
+
+    "5" - 3
+
+: Raten lassen, dann weiterklicken.
+
+* What does this print in JavaScript?
+
+    "5" + 3
+
+⮕ *"53"*: The `+` operator concatenates strings as soon as one operand is a string.
+
+    "5" - 3
+
+⮕ *2*: The `-` operator only works on numbers, so the string is converted to the number 5.
+
+: Auflösen und kurz erklären.
+
+* What does this print in JavaScript?
+
+    "5" + 3
+
+⮕ *"53"*: The `+` operator concatenates strings as soon as one operand is a string.
+
+    "5" - 3
+
+⮕ *2*: The `-` operator only works on numbers, so the string is converted to the number 5.
+
+    "b" + "a" + +"a" + "a"
+
+: Raten lassen, dann weiterklicken.
+
+* What does this print in JavaScript?
+
+    "5" + 3
+
+⮕ *"53"*: The `+` operator concatenates strings as soon as one operand is a string.
+
+    "5" - 3
+
+⮕ *2*: The `-` operator only works on numbers, so the string is converted to the number 5.
+
+    "b" + "a" + +"a" + "a"
+
+⮕ *"baNaNa"*: The unary `+` tries to convert the string to a number. That fails and gives `NaN`, which is then concatenated as text.
+
+: Auflösen und kurz erklären.
+
+* These are not bugs. These are concepts.
+
+- Implicit type conversion (weak typing)
+- Operator overloading: `+` means addition and concatenation
+- Unary operators and special values like `NaN`
+
+: Pointe: Das ist kein kaputtes JavaScript, sondern jede Zeile folgt einer festen Regel.
+: Wer die Konzepte kennt, versteht jede Zeile. Genau darum geht es in dieser Vorlesung.
+
 * What are concepts of programming languages?
 
-- Syntax (Basic vocabulary, grammar)
-- Semantics (The meaning of the program)
-- Names (variabes, types, functions, classes, objects, but also scope, visibility, lifetime)
-- Data Types (simple, structured)
-- Flow control (for, if, ....)
-- Functional programming (function as first class citizen)
-- Object Oriented Programming
-- Debugging
-- Exception handling
-- Concurrency handling
-- Memory management
+A concept is a general idea that many languages share, but each language implements it differently.
+
+- *Syntax* and *semantics*: how a program looks and what it means
+- *Names,* *binding* and *scope*: variables, functions, visibility, lifetime
+- *Type* *systems*: static vs. dynamic, strong vs. weak
+- *Control* *flow* and *error* *handling*
+- *Abstraction*: functions, objects, modules
+- *Concurrency*
+- *Memory* *management*
+
+Example: iteration is a concept. It is a `for` loop in C, a `range` loop in Go, recursion in Haskell and `map` in JavaScript.
 
 * Goal of the Course
 
 .image img/go.png 200 _
 - Gain knowledge about the concepts of existing programming languages
-- Looking beyond the horizon
-- Increased ability to learn new languages
+- "Understand when to use which concept, and when not to"
+- Look beyond the horizon
+- Increase your ability to learn new languages
 - Learn how Go differs from other languages conceptually
-- Learn how to write professional code with Golang
-- Gain skills to pick the right language for a given problem
+- Learn to pick the right language for a given problem
+
+* This course and the age of AI
+
+- Coding agents write more and more of our code, often in languages we don't know well
+- Syntax becomes less important, *concepts* and *ways* *of* *thinking* become more important
+- To review, debug and judge generated code, you need to understand the concepts behind it
+- Your studies teach you ways of thinking, not tools. You will rarely use most of it directly.
+- We will use coding agents in this course: in dedicated lectures and in the exercises
+
+: Kernbotschaft: KI ersetzt nicht das Verständnis von Konzepten, sondern macht es wichtiger.
+: Wer generierten Code nicht beurteilen kann, kann ihn auch nicht verantworten.
+: Im Studium lernt ihr vor allem eine Denkweise, keinen Werkzeugkasten. Prolog oder Haskell werden die wenigsten im Job schreiben, aber die Ideen tauchen überall wieder auf (Pattern Matching, Immutability, deklarative Ansätze).
 
 * Course Requirements
-- The course is designed as a master course.
+- The course is designed as a master's course.
 - Solid programming skills in at least one language are required.
-- It is assumed that students have some skills in other programming languages.
-- For most of the code examples, we will use Go (Golang) as language.
+- Some experience with other programming languages is assumed.
+- Most code examples use Go (Golang).
 
-* Lectures so far planned
+* Planned Topics (1/2)
 
-Lecture 1 - *About* *Overview* *Introduction*
-Lecture 2 - *Introduction* *to* *Golang*. *Types* *Control* *Structures*
-Lecture 3 - *Object* *Oriented* *Programming* *with* *Go*
-Lecture 4 - *SWE-Agents*, *Large* *Language* *Models*
-Lecture 5 - *Functional* *Programming*
-Lecture 6 - *Pure* *Functional* *Programming* *with* *Haskell*
-Lecture 7 - *Concurrent* *Programming*
-Lecture 8 - *Flashlight* *Presentations* *of* *Languages*
-Lecture 9 - *Distributed* *Programming*
-Lecture 10 - *Logic* *Programming*
-Lecture 12 - (*Cross* *Compiling* *with* *WebAssembly*)
-Lecture 13 - (*Enterprise* *Programming*)
+- Overview and Introduction
+- Go Basics (Types, Functions, ...)
+- Object-Oriented Programming
+- Coding Agents
+- Harness Engineering with Coding Agents
+- Functional Programming
+- Pure Functional Programming with Haskell
+- Concurrent Programming
+
+* Planned Topics (2/2)
+
+- Network Programming and the Raft Algorithm
+- Systems Programming
+- Logic Programming
+- Software Engineering Agents
+- Cross Compiling with WebAssembly
+- GPU Programming
+- Let us write a Lexer, Parser, Interpreter and Compiler in one Lecture
 
 : * Lectures
 
@@ -106,10 +199,10 @@ Lecture 13 - (*Enterprise* *Programming*)
 : Lecture xx - Summary
 
 * Structure of this course
-- Recap
-- Lecture with (Student Discussions)
-- Introduction to Exercises
-- Exercises
+- Recap (from November: quiz of the last student presentation as warm-up)
+- Lecture with student discussions
+- From November: student presentation (30 minutes + questions)
+- Exercises (+ homework)
 
 : Pause in der Mitte?
 
@@ -118,92 +211,52 @@ Learning Campus:
 
 .link https://learning-campus.th-rosenheim.de/course/view.php?id=2993
 
-Github: Sources, Slides (Go Present Tool)
+GitHub: sources and slides (Go present tool)
 
 .link https://github.com/s-macke/concepts-of-programming-languages https://github.com/s-macke/concepts-of-programming-languages
 
-* Discussion: What is your expectation of the lecture
+* Discussion: What do you expect from this lecture?
 
-Miro Board: https://miro.com/app/board/.....
+Miro Board: [[https://miro.com/app/board/uXjVHNiaxvc=/]]
+
+* Semester Work in the Age of AI
+
+- Companies will demand the use of AI tools such as SWE-Agents
+- A written semester work at home has become too easy with AI tools
+- You may use AI tools, but you have to disclose how you used them
+- You are responsible for everything you hand in and must be able to explain it
+- ⮕ More weight on the presentation and the questions afterwards
+- ⮕ More weight on *explaining*: How do you teach a concept to your fellow students?
+- ⮕ *Peer* *reviews*: You learn from giving and receiving feedback
 
 * Semester Work
 
-- See Learning Campus for details
+- *Presentation* of a topic, followed by questions
+- Short written paper with code examples
+- Quiz for your fellow students
+- *Peer* *reviews* of other presentations
 
-# 15 Minutes presentation + 7-10 pages Asciidoc document (written in English) + Software Project to exemplify
+All details: Learning Campus
 
-Examples:
+* Semester Work: Topics
 
-- Compare Go *Object* *Oriented* *Programming* with:
-    Ada,
-    Smalltalk,
-    Pascal,
-    Ruby,
-    C++,
-    Swift,
-    Eiffel,
-    Objective C,
-    Modula,
-    Lua,
-    TypeScript,
-    Fortran,
-    Kotlin
+Choose one of:
 
-- Compare Go *Functional* *Programming* with:
-    Elixir,
-    Haskell,
-    Clojure,
-    F#,
-    Javascript
+- A *concept* (e.g. generics, coroutines, ownership, pattern matching)
+- A *programming* *language* with a special concept (e.g. Zig, Elixir, Julia, Forth, APL)
+- A *theoretical* topic
+- A topic *off* *the* *beaten* *track* (e.g. "Why is JavaScript so fast?", "What happens before main()?")
 
-- Compare Go *Concurrency* with:
-    C via OpenMP,
-    C++,
-    Fortran,
-    Erlang,
-    Python,
-    Scala,
-    D,
-    Occam,
-    CUDA
+Suggestions: Miro Board [[https://miro.com/app/board/uXjVHNiaxvc=/]]
 
-- Compare Go *Systems* *Programming* with:
-    C / C++,
-    Rust,
-    Ada,
-    D,
-    Swift
-
-- Compare Go *Distributed* *Programming* with:
-    NodeJs / JavaScript,
-    Java / Quarkus,
-    Python,
-    Kotlin
-
-- Compare *Go* with:
-    Typescript,
-    Ruby,
-    Python,
-    Kotlin,
-    Elm,
-    Elixir,
-    Crystal,
-    C#
-
-* This lecture is not yet AI ready
-
-- Companies will demand to use AI tools such as SWE-Agents in the future
-- This lecture (as any other lecture) it not yet designed for this future
-- This semester work at home might become too easy with AI tools
-- ⮕ More weight on the presentation
-
+Send me your *three* *prioritized* *topics* by email. Details: Learning Campus
 
 : * Administration
 : - COVID-19 rules apply. See https://www.th-rosenheim.de/index.php?id=16926
 : - All participants *must* be signed up to the lecture on the Learning Campus platform
 
 * Books
-Donovan, Kernigham: The Go Programming Language 
+Donovan, Kernighan: The Go Programming Language
 
 .image ./img/01-go-book.png 150 _
 

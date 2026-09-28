@@ -13,10 +13,10 @@ https://www.qaware.de
 
 : Taschenratte (heimisch in Mittel- und Nordamerika)
 
-* Google Trend von "golang"
+* Google Trends: "golang"
 .image img/01-trend.png 250 _
-- 2007: Development Start: Robert Griesemer, Rob Pike und Ken Thompson
-- 2009: First Presentation
+- 2007: Start of development: Robert Griesemer, Rob Pike and Ken Thompson
+- 2009: First public presentation
 - 2012: Version 1
 - 2014: First Gopher conference
 
@@ -25,8 +25,8 @@ https://www.qaware.de
 .link https://www.cncf.io/
 .image ./img/01-cncf-projects.png 100 1024
 - The most important components are written in Go: Docker, Kubernetes, etcd, Prometheus, Grafana, ...
-- Go is Open Source and maintained by Google
-- Go is a distributed, parallel language designed for systems programming at Google to solve the problems of C++ code.
+- Go is open source and maintained by Google
+- Go was designed at Google for concurrent systems programming, to address problems of large C++ code bases (slow builds, complexity).
 
 * Introduction to Golang
 Rob Pike @ Google 2009 (60 Min)
@@ -43,26 +43,26 @@ Rob Pike @ Google 2009 (60 Min)
 
 * Orthogonal classification for Go
 
-- Static
+- Statically typed
 - Compiled
-- Parallel
-- Static Linked
-- Safe
-- Assembler
-- Cross Platform
+- Concurrent
+- Statically linked
+- Memory safe (except for the unsafe package)
+- Native machine code
+- Cross compiler
 
 
 * Some Questions
-- What are the characteristics of a successful language?
-- What makes Go different to other Languages?
-- What makes Go similar to other Languages?
+- What are the characteristics of a successful language? Miro Board: [[https://miro.com/app/board/uXjVHNiaxvc=/?moveToWidget=3458764685017334110][Successful Languages]]
+- What makes Go different from other languages?
+- What makes Go similar to other languages?
 - Discuss your personal opinions in a group of students!
 
 : Paradigmen: nebenläufig, imperativ, strukturiert, modular, objektorientiert
 : Ziele: Kompiliergeschwindigkeit, Nebenläufigkeit, Netzwerk- und Cloudcomputing
-: Keine dynamisch Typumwandlung, Typen müssen immer konvertiert werden
+: Keine dynamische Typumwandlung, Typen müssen immer konvertiert werden
 : Zeiger, aber keine Zeigerarithmetik; Komposition statt Vererbung (Mixin)
-: OOP, aber nicht klassenbasiert; Polymorophie über Interfaces mit dynamische Bindung (zur Laufzeit passende Methode aufgerufen)
+: OOP, aber nicht klassenbasiert; Polymorphie über Interfaces mit dynamischer Bindung (zur Laufzeit passende Methode aufgerufen)
 : Nebenläufigkeit: Goroutinen, Channels
 
 * Exercise 1

@@ -23,10 +23,10 @@ Programming languages can be categorized in many ways
 
 - Chronologically
 - Popularity
-- Language Paradigma
+- Language paradigm
 - Usage (Programming Domains)
 - Orthogonal Properties of the language (e. g. compiled vs. interpreted)
-- Features
+- Features (concepts)
 
 .link https://en.wikipedia.org/wiki/Category:Lists_of_programming_languages Wikipedia list of Programming Languages Categorization Lists
 
@@ -43,17 +43,17 @@ Programming languages can be categorized in many ways
 * Categorization by Popularity
 .image img/01_redmonk_2025.png 550 _
 
-* Programming language Paradigms
+* Programming Language Paradigms
 - *Non-structured*: Assembler, First Programming languages with goto
 - *Structured* *or* *Imperative*: conditionals, repetition, blocks, functions
 - *Procedural* (Control Structures and Procedures, functions with side effects): Fortran 77 / Pascal / *C*
-- *Object* *Oriented* (Classes and Objects): Smalltalk / Objective C / C++ / Eifel / *Java* / C#
-- *Declarative*: (Tell what to do, not how): Domain Specific Languages, HTML, SQL, ... (A more general concept, See next slides)
+- *Object* *Oriented* (Classes and Objects): Smalltalk / Objective C / C++ / Eiffel / *Java* / C#
+- *Declarative*: (Tell what to do, not how): Domain Specific Languages, HTML, SQL, ... (a more general concept, see next slides)
 - *Functional* (Lambdas + Closures): Haskell, Erlang, F#
 - *Logic*: (facts/statements): Prolog
-- *Best* *of* *Breed*: Kotlin, Scala, Rust, JS, *Go*
+- *Multi-paradigm*: Kotlin, Scala, Rust, JS, *Go*
 
-: Game Of Live ist nicht in der Liste.
+: Game of Life ist nicht in der Liste.
 : TODO: Read https://dev.to/tamerlang/the-simple-guide-to-programming-paradigms-36o#structured-programming
 
 : Imperativ = Skripte schreiben
@@ -89,7 +89,7 @@ Programming languages can be categorized in many ways
         </body>
     </html>
 
-* Degress of Declarative Code in Java
+* Degrees of Declarative Code in Java
 
 - A list is given. Calculate the sum.
 
@@ -112,9 +112,9 @@ Programming languages can be categorized in many ways
 
     int sum = math.sum(integers);
 
-* Degress of Declarative Code in Java (Part 2)
+* Degrees of Declarative Code in Java (Part 2)
 
-- Fully Declarative.
+- Fully declarative
 
     Sum the array of integers.
 
@@ -131,16 +131,19 @@ Programming languages can be categorized in many ways
 - Administration (Bash, Powershell, Perl, ...)
 - Cloud Native such as Tooling, Infrastructure, Applications, (Go, ...)
 - Realtime (C, C++, Realtime Java, ...)
+- Mobile Apps (Kotlin, Swift, Dart, ...)
+- Games (C++, C#, ...)
+- Embedded Systems (C, C++, Rust, ...)
 
 * Orthogonal Classifications I
-- Static vs. Dynamic Typed (*C++* vs. *Python*)
-- Compiled vs. Interpreted (*Java* vs. *Python*)
+- Statically vs. dynamically typed (*C++* vs. *Python*)
+- Compiled vs. Interpreted (*C* vs. *Python*)
 - Sequential vs. Parallel (*C* vs. *Go*)
-- Static Linked vs. Dynamic Linked (*Go* vs. *C*)
+- Statically vs. dynamically linked (*Go* vs. *C*)
 - Safe vs. Unsafe (Crash a process or even the system) (*C* vs. *Rust*)
 - Simple vs. Complex (*Go* vs. *Rust*)
-- Platform Independent Bytecode vs. Platform Dependent Assemblercode (*Java* vs. *C*)
-- Platform Dependent Compiler vs. Cross Compiler (*C* vs. *Go*)
+- Platform-independent bytecode vs. platform-dependent machine code (*Java* vs. *C*)
+- Platform-dependent compiler vs. cross compiler (*C* vs. *Go*)
 
 : Folie noch mal auflegen und mit Video vergleichen!
 : Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
@@ -153,14 +156,30 @@ Programming languages can be categorized in many ways
 :  ** Depends on standard or version
 :  *** interpreted languages are not linked
 
-: Folie noch mal auflegen und mit Video vergleichen!
-: Golang: strongly static typed, compiled, parallel, static(+dynamic) linked (flags); safe(+unsafe)
-: Golang: platform dependent assembler & cross compiler
+
+* There are so many concepts ...
+.image ./img/01-concepts.svg _ 900
+
+Which concepts do you already know?
+Miro Board: [[https://miro.com/app/board/uXjVHNiaxvc=/?moveToWidget=3458764685020309195][Programming Concepts]]
+
+: Concepts of programming languages, e.g.:
+: - Syntax (basic vocabulary, grammar)
+: - Semantics (the meaning of the program)
+: - Names (variables, types, functions, classes, objects, but also scope, visibility, lifetime)
+: - Data Types (simple, structured)
+: - Flow control (for, if, ...)
+: - Functional programming (functions as first-class citizens)
+: - Object-oriented programming
+: - Debugging
+: - Exception handling
+: - Concurrency handling
+: - Memory management
 
 * Language Design Trade-Offs
 
 - Reliability vs. Performance
-Java bounds checking of all arrays accesses is expensive.
+Java bounds checking of all array accesses is expensive.
 
 - Readability vs. Conciseness
 C++ allows for many abstractions, allows complex computations to be written in a compact form, but is hard to read.
@@ -179,8 +198,8 @@ C pointers are powerful and very flexible but are unreliable and error prone.
 
 : - There are many solutions for a given problem
 - The "best" language is nothing without a proper ecosystem (Libraries, Examples, Community, Developers)
-- There are straight forward choices for a given platform (Mac: Swift + Objective-C, Linux: C + Python, Android: Java)
-- Don't expect "Magic" from programming Languages
+- There are straightforward choices for a given platform (Mac: Swift + Objective-C, Linux: C + Python, Android: Java)
+- Don't expect "magic" from programming languages
 - Clean code and good programming is orthogonal to the language
 - Learn more than one programming language at a professional level
 
