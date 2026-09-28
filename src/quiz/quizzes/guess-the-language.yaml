@@ -1,0 +1,198 @@
+title: Guess the Language
+description: Which programming language is this? Every language has its own concepts.
+
+questions:
+  - type: single
+    text: Which language is this?
+    code:
+      lang: apl
+      source: |
+        avg ← {(+/⍵) ÷ ≢⍵}
+        avg 1 2 3 4
+    options:
+      - {id: a, text: "APL"}
+      - {id: b, text: "Perl"}
+      - {id: c, text: "Haskell"}
+      - {id: d, text: "Brainfuck"}
+    answer: a
+    explanation: >-
+      APL (1966) is an array programming language. Operations work on whole
+      arrays at once, and special symbols replace keywords: +/ sums the array,
+      ≢ counts its elements. The result is 2.5.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: forth
+      source: |
+        : square ( n -- n*n ) dup * ;
+        5 square .
+    options:
+      - {id: a, text: "Assembly"}
+      - {id: b, text: "Forth"}
+      - {id: c, text: "Lisp"}
+      - {id: d, text: "Smalltalk"}
+    answer: b
+    explanation: >-
+      Forth is a stack-based language. Words take their arguments from a stack
+      and use postfix notation: dup copies the top value, * multiplies the two
+      top values. The program prints 25.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: prolog
+      source: |
+        parent(tom, bob).
+        parent(bob, ann).
+        grandparent(X, Z) :- parent(X, Y), parent(Y, Z).
+
+        ?- grandparent(tom, Who).
+    options:
+      - {id: a, text: "Erlang"}
+      - {id: b, text: "SQL"}
+      - {id: c, text: "Prolog"}
+      - {id: d, text: "Haskell"}
+    answer: c
+    explanation: >-
+      Prolog is a logic programming language. You describe facts and rules, and
+      the system searches for solutions: the query finds Who = ann. Erlang
+      borrowed parts of its syntax from Prolog, which makes the two look alike.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: haskell
+      source: |
+        quicksort [] = []
+        quicksort (p:xs) =
+          quicksort [x | x <- xs, x < p] ++ [p] ++ quicksort [x | x <- xs, x >= p]
+    options:
+      - {id: a, text: "Python"}
+      - {id: b, text: "Haskell"}
+      - {id: c, text: "Scala"}
+      - {id: d, text: "Go"}
+    answer: b
+    explanation: >-
+      Haskell is a purely functional language. The function is defined by
+      pattern matching on the list ([] and p:xs), and list comprehensions build
+      the two partitions without any loop or mutable variable.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: cobol
+      source: |
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. HELLO.
+        PROCEDURE DIVISION.
+            DISPLAY "Hello World".
+            STOP RUN.
+    options:
+      - {id: a, text: "Fortran"}
+      - {id: b, text: "BASIC"}
+      - {id: c, text: "Ada"}
+      - {id: d, text: "COBOL"}
+    answer: d
+    explanation: >-
+      COBOL (1959) was designed for business applications and tries to read like
+      English. Programs are split into fixed divisions. A lot of COBOL code still
+      runs in banks and insurance companies today.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: clojure
+      source: |
+        (defn factorial [n]
+          (reduce * (range 1 (inc n))))
+
+        (factorial 5)
+    options:
+      - {id: a, text: "Clojure"}
+      - {id: b, text: "Python"}
+      - {id: c, text: "Erlang"}
+      - {id: d, text: "JavaScript"}
+    answer: a
+    explanation: >-
+      Clojure is a Lisp on the Java Virtual Machine. Code is written as lists in
+      prefix notation, so code and data share the same structure
+      (homoiconicity). The result is 120.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: erlang
+      source: |
+        start() ->
+            Pid = spawn(fun() ->
+                receive Msg -> io:format("~p~n", [Msg]) end
+            end),
+            Pid ! hello.
+    options:
+      - {id: a, text: "Prolog"}
+      - {id: b, text: "Go"}
+      - {id: c, text: "Erlang"}
+      - {id: d, text: "Ruby"}
+    answer: c
+    explanation: >-
+      Erlang implements the actor model. spawn starts a lightweight process,
+      and processes communicate only by sending messages with ! and receiving
+      them with receive. There is no shared memory between processes.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: go
+      source: |
+        for i := 0; i < 3; i++ {
+            defer fmt.Println(i)
+        }
+    options:
+      - {id: a, text: "C"}
+      - {id: b, text: "Go"}
+      - {id: c, text: "Rust"}
+      - {id: d, text: "Swift"}
+    answer: b
+    explanation: >-
+      This is Go. It looks like C, but := declares a variable with type
+      inference, there are no parentheses around the loop header, and defer
+      delays a call until the function returns. The program prints 2, 1, 0.
+
+  - type: single
+    text: Which language is this? And does it compile?
+    code:
+      lang: rust
+      source: |
+        fn main() {
+            let s = String::from("hi");
+            let t = s;
+            println!("{}", s);
+        }
+    options:
+      - {id: a, text: "Rust, it prints hi"}
+      - {id: b, text: "Rust, it does not compile"}
+      - {id: c, text: "Swift, it prints hi"}
+      - {id: d, text: "Kotlin, it does not compile"}
+    answer: b
+    explanation: >-
+      This is Rust, and the compiler rejects it. let t = s moves the ownership
+      of the string to t, so s can no longer be used. Ownership and borrowing
+      let Rust manage memory safely without a garbage collector.
+
+  - type: single
+    text: Which language is this?
+    code:
+      lang: brainfuck
+      source: |
+        ++++++++[>++++++++<-]>+.
+    options:
+      - {id: a, text: "Whitespace"}
+      - {id: b, text: "Malbolge"}
+      - {id: c, text: "Brainfuck"}
+      - {id: d, text: "APL"}
+    answer: c
+    explanation: >-
+      Brainfuck is an esoteric language with only eight commands, and it is
+      still Turing complete. The program computes 8 × 8 + 1 = 65 and prints the
+      character A.
