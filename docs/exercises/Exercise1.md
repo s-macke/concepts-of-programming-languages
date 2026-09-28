@@ -78,7 +78,7 @@ Compare the first two snippets: Why do they print different results? And how doe
 - Pick an unfamiliar language from the concepts board in Miro, e.g. Zig, Elixir or Forth. Write and run a Hello World in an online playground. Which concepts do you notice that differ from Go? This might also be an inspiration for the topic of your semester work.
 
 ## Answer the following question
-- In your opinion, what are the characteristics of a successful language? Add your answer to the [Miro board](https://miro.com/app/board/uXjVHNiaxvc=/?moveToWidget=3458764685017334110).
+- In your opinion, what are the characteristics of a successful language? Add your answer to the Miro board.
 
 ## After this Exercise
 

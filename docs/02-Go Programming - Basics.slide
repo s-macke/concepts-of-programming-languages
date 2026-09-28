@@ -7,14 +7,14 @@ Rosenheim Technical University
 Sebastian.Macke@th-rosenheim.de
 https://www.qaware.de
 
-* Last Lecture:
+* Last Lecture
 
-- Introduction
-- The many ways to characterize a language
-- Go Introduction
+- Surprising results are not bugs, but concepts ("5" + 3)
+- There are so many languages and concepts
+- The many ways to categorize a language
+- Introduction to Go
 
-- Characteristics of a Successful Language
--- Miro Board ....
+- Characteristics of a successful language ⮕ Miro Board
 
 * Characteristics of a Successful Language (Suggestion)
 - Simplicity and readability (Small instruction set and easy syntax)
@@ -345,7 +345,7 @@ Also: Change int to char
 * Type systems in other languages
 
 .image img/02-typing.png 450 _
-- Miro board ....
+- ⮕ Miro Board
 
 * Golang - complex types
 
