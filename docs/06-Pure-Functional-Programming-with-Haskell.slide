@@ -39,7 +39,7 @@ The most prominent characteristics of functional programming are as follows
 
 - Functional programming languages are designed on the concept of mathematical functions that use conditional expressions and recursion to perform computation.
 - Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
-  Hence, the declarative approach is prevalence rather than the imperative approach.
+  Hence, the declarative approach is prevalent rather than the imperative approach.
 - Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
 
 * Recap: Functional programming offers the following advantages
@@ -86,7 +86,7 @@ Functional programming supports distributed computing
 
 .image img/01_redmonk_2025.png 500 _
 
-* Websites to experiment with Hakell
+* Websites to experiment with Haskell
 
 .link https://play.haskell.org/
 .link https://www.jdoodle.com/execute-haskell-online
@@ -191,7 +191,7 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 - Function signatures are optional, but they provide documentation for other programmers and help the Haskell system to spot type errors
 - The function signature can be read as "add" takes two Int arguments and returns an Int
-- However with partial application in mind you can read is as "add" takes one Int argument and returns a function that takes one Int argument and returns an Int
+- However with partial application in mind you can read it as "add" takes one Int argument and returns a function that takes one Int argument and returns an Int
 
   add :: Int -> (Int -> Int)
 
@@ -245,7 +245,7 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 :    max :: Ord a => a -> a -> a  (TODO)
 
-* Excercise
+* Exercise
 
 - A signum function returns 1 if the number is positive, -1 if the number is negative and 0 if the number is 0.
 - Write the signum function using if/else and guards.
@@ -272,7 +272,7 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 : * Haskell: Local bindings
 : - Using "where"
-: use diamater and radius
+: use diameter and radius
 : TODO
 
 : * The return function
@@ -360,7 +360,7 @@ They both work by grouping multiple values into a single combined value.
 :   fib n = fib (n-1) + fib (n-2)
 :   main = print (fib 10)
 
-: 1. Define a function fib with takes an argument of type int and returns an int
+: 1. Define a function fib which takes an argument of type int and returns an int
 : 2. Define the function fib which takes as input the number 0 and return 0
 : 3. Else: Define the function fib which takes as input the number 1 and return 1
 : 4. Else: Define the function fib for an arbitrary integer n and execute the function itself with the arguments n-1 and n-2 and add the result

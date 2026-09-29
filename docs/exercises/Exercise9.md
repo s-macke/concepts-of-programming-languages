@@ -99,7 +99,7 @@ var db *C.sqlite3
 
 ## Exercise 9.3 - FUSE Filesystem
 
-Choose either the FUSE Filesystem Exercise or the Containerer Exercise.
+Choose either the FUSE Filesystem Exercise or the Container Exercise.
 
 ### Try out the test filesystem
 

@@ -40,7 +40,7 @@ func (l *Lexer) NextToken() string
 
 that iterates over the tokens.
 
-**Disclaimer:** Feel free you use your very own software design.
+**Disclaimer:** Feel free to use your very own software design.
 
 🤥 **Write tests! Otherwise it does not happen!** 🤥
 
@@ -120,4 +120,4 @@ You need to do the following things:
 - Generate lexer and parser source code
 - Use the generated files to parse boolean expressions
 
-Should be not to hard 🤙
+Should be not too hard 🤙

@@ -103,7 +103,7 @@ The rule "Juliet loves Romeo as long as Romeo loves Juliet." can be expressed as
 
 - :- denotes logic implication (similar to an `if`)
 - Left side is true if right side is true
-- You can read it as an reversed implication arrow
+- You can read it as a reversed implication arrow
 
 Rules end with a dot (just like a semicolon in Java).
 
@@ -210,9 +210,9 @@ Or to express general rules:
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise10.md
 
 * Naming Conventions
-- When referring to facts, the notion `loves/2` refers to the predicate `loves` with two arguments
+- When referring to facts, the notation `loves/2` refers to the predicate `loves` with two arguments
 - More examples: `true/0`, `length/2`, `,/2`, `call/1`, `call/2`, ...
-- It is possible to define facts with a different number of arguments (differnt *arity*)
+- It is possible to define facts with a different number of arguments (different *arity*)
 
 
 * Hello World
@@ -324,7 +324,7 @@ Term1 *==* Term2 is true if Term1 is *equivalent* to Term2
     ?- 1 == 1+1-1.
     false.
 
-Expr1 *=:=* Expr2 is to true if expression Expr1 evaluates to a number *equal* to Expr2, i.e. float 1.0 =:= integer 1.
+Expr1 *=:=* Expr2 is true if expression Expr1 evaluates to a number *equal* to Expr2, i.e. float 1.0 =:= integer 1.
 
     ?- 1 =:= 1+1-1.
     true.

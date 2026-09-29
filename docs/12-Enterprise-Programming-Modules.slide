@@ -40,11 +40,11 @@ https://www.qaware.de
 - Large codebases
 - Conflicting dependencies
 - Stable dependencies
-- Compatiblity requirements
+- Compatibility requirements
 
 * What is a Module?
-- A module is an unit of Programming, Testing, Distribution, Versioning and Visibility
-- Languages have diffent interpretations and focus
+- A module is a unit of Programming, Testing, Distribution, Versioning and Visibility
+- Languages have different interpretations and focus
 - Decomposition into modules is a well understood
 
   The major advancement in the area of modular programming has been the
@@ -68,7 +68,7 @@ https://www.qaware.de
 - Structuring code into functional modules
 
 * Visibility / Information Hiding Principle
-- Makes sure that certain content of a module is private and can not be accessed be other modules
+- Makes sure that certain content of a module is private and can not be accessed by other modules
 - The benefits are the same like OO encapsulation but at larger scale 
 - Other modules can only depend on the public (API) part of a module
 - Modules hide complexity from clients (information hiding) 
@@ -127,7 +127,7 @@ Make sure that released code stays compatible. Make incompatible changes explici
 
 *Cooperation* 
 The package ecosystem is the most important factor for Go’s success.
-Make sure your code ist stable with the latest minor version of a dependent library
+Make sure your code is stable with the latest minor version of a dependent library
 
 * Semantic Versioning
 - Distinguish MAJOR, MINOR and PATCH version numbers

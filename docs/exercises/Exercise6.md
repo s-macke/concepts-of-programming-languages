@@ -65,7 +65,7 @@ The game continues until the player guesses the correct number.
 
 Implement this game in Haskell.
 
-#### Excercise 6.5a - random numbers
+#### Exercise 6.5a - random numbers
 
 Check that the function getRandomFromTime indeed returns a random number.
 
@@ -86,7 +86,7 @@ main = do secret <- getRandomFromTime
 
 ```
 
-#### Excercise 6.5b - Determine status
+#### Exercise 6.5b - Determine status
 
 Given the main function 
 
@@ -102,13 +102,13 @@ main = do secret <- getRandomFromTime
 ```
 
 Implement the status function, which returns a boolean if the guess is correct.
-It should also print a message if the guess is too high or too low or it you have won
+It should also print a message if the guess is too high or too low or if you have won
 The function should have the following signature:
 
 ```haskell
 status :: Int -> Int -> IO Bool
 ```
 
-#### Excercise 6.5c - Loop
+#### Exercise 6.5c - Loop
 
 Finally implement a loop until the user has guessed the correct number.

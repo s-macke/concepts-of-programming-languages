@@ -26,7 +26,7 @@ https://www.qaware.de
 Functional programming is old, but some major languages have adapted them quite recently
 
 - LISP in 1950. Introduced functional paradigm in its programming language
-- JavaScript 1995 (originally idea was to embed Scheme into HTML, a functional language)
+- JavaScript 1995 (original idea was to embed Scheme into HTML, a functional language)
 - C# in 2008
 - C++ in 2011
 - Java 8 in 2014
@@ -192,7 +192,7 @@ The most prominent characteristics of functional programming are as follows
 
 - Functional programming languages are designed on the concept of mathematical functions that use conditional expressions and recursion to perform computation.
 - Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
-  Hence, the declarative approach is prevalence rather than the imperative approach.
+  Hence, the declarative approach is prevalent rather than the imperative approach.
 - Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
 
 * Functional programming offers the following advantages
@@ -325,7 +325,7 @@ Church’s goal was to:
 .image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
 - What is it?
 - Why is it useful?
-- Where did it came from?
+- Where did it come from?
 .link https://www.youtube.com/watch?v=eis11j_iGMs Professor Graham Hutton explains the Lambda Calculus (Cool Stuff :-)
 
 * The Lambda Calculus
@@ -480,7 +480,7 @@ _(λx.x)_ _a_ _=_ _a_
 * Exercise
 
 * Functions as First Class Citizens in Go
-- Go supports functions as 1st Class Citizens: Closures und Lambdas
+- Go supports functions as 1st Class Citizens: Closures and Lambdas
 - Functions can be assigned to variables
 - Functions can be used as function parameters and return values (High Order Functions)
 - Functions can be created inside functions

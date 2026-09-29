@@ -48,7 +48,7 @@ Test via curl, httpie, wget or a browser
 
 ### State
 
-Define an [enum](https://gobyexample.com/enums] containin) for the node state
+Define an [enum](https://gobyexample.com/enums] containing) for the node state
 
 * Follower
 * Candidate

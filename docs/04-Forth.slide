@@ -25,7 +25,7 @@ https://www.qaware.de
 - They had unique ideas from which we can learn from
 - These languages are used only a niche language today
 - Forth is one of these candidates
-- While Forth might be a niche language, its concepts are wildly used in other contexts
+- While Forth might be a niche language, its concepts are widely used in other contexts
 - It is so easy, that it is used in embedded systems or because of its zero dependencies can even work as a stand alone operating system
 
 * Prefix notation, Infix notation, and Postfix notation
@@ -46,10 +46,10 @@ These notations are named as how they use operator in expressions.
   a - b + c
 
 - *Infix* notation is the most common notation in the world.
-- It is easy for us humans to understand, but it is hard for computers to understand. An algorithm to process info infix nitation could be difficult and costly in terms of time and space consumption
+- It is easy for us humans to understand, but it is hard for computers to understand. An algorithm to process infix notation could be difficult and costly in terms of time and space consumption
 
 - The order of operations is important
-- Parantheses are neccecary to group expressions
+- Parentheses are necessary to group expressions
 - Evaluate 2 + 3 * 5
 
   + First: ( 2 + 3 ) * 5 = 5 * 5 = 25
@@ -202,13 +202,13 @@ e. g.
   3 9 + 4 6 + * .
 
 -  '+' '*' '.', '.s' 'words' '."' are called words
-- The interpreter only differs between words and numbers. It the word is not found in the dictionary, it is interpreted as a number, which is pushed onto the stack
+- The interpreter only differs between words and numbers. If the word is not found in the dictionary, it is interpreted as a number, which is pushed onto the stack
 
 * Stack operations
 
 As a stack machine, there are a few operations that on manipulating the stack.
 
-- *dup* - Duplicated the top of the stack
+- *dup* - Duplicates the top of the stack
 - *swap* - swaps the top 2 elements
 - *drop* - drops the top element of the stack
 - *rot* - rotate the top 3 numbers
@@ -363,7 +363,7 @@ do loop copies these two values onto the call stack
 * Exercise
 
 - Write a function, which takes one integer as argument and calculates the cube x³ of that number
-- Write a function which which prints the numbers from 1 to 10
+- Write a function which prints the numbers from 1 to 10
 - Write a function, which checks whether the given number on the stack is a prime number (loop over all odd numbers and test via the word "mod")
 - Write a function "swapv", which swaps the content of two variables
 
@@ -427,11 +427,11 @@ Only 215 lines of C code and 2800 lines of bootstrap Forth code.
 : - write a word, which "encrypts" a whole string via rot 13
 
 : * Some thoughts
-: - You can write a forth interpreter in less then 512 bytes
+: - You can write a forth interpreter in less than 512 bytes
 : https://www.slideserve.com/holly/the-forth-language
 
 : * Forth Cheat Sheet
-:    words           lists all word in the dictionary
+:    words           lists all words in the dictionary
 :    .s              show the stack
 
 :    +, -, *, /     math operations

@@ -89,7 +89,7 @@ the second is the current element of the array.
 
 ## Exercise 5.3 - Map / Filter / Reduce
 
-Expand the Exercice 5.2 to a Map / Filter / Reduce streaming solution.
+Expand the Exercise 5.2 to a Map / Filter / Reduce streaming solution.
 
 Map/Reduce is a famous functional construct implemented in many parallel and distributed collection frameworks like
 Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq

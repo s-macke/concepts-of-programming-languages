@@ -48,7 +48,7 @@ Why it exists?
 
  - 2015: First presentation of WebAssembly from the W3C WebAssembly Working Group
  - 2016: Google, Microsoft and Mozilla show their first implementations
- - 2017: WebAssembly is offically supported by all Web Browsers
+ - 2017: WebAssembly is officially supported by all Web Browsers
  - 2019: A WebAssembly system interface is specified for portable applications outside the browser
  - 2022: Docker suggests Wasm as an alternative to containers
  - 2025: Webassembly 3.0 (64-Bit, Garbage Collector, ...)
@@ -71,7 +71,7 @@ Why it exists?
 - WebAssembly simplifies processing
 .image ./img/08-webassembly/0a-webassembly-compilation.png
 
-: Show example with int and double and deoptimizatzion in JavaScript
+: Show example with int and double and deoptimization in JavaScript
 
 * Design
 - *Binary* *format*:
@@ -288,7 +288,7 @@ index.html
 Question:
 
 1. What are the issues with virtualization such as Docker?
-2. You have an Hello world executable and a binary executable, that can only be access through
+2. You have an Hello world executable and a binary executable, that can only be accessed through
 exported and imported functions. What functions do you have export and import to execute the executable?
 
 : export _start()
@@ -320,7 +320,7 @@ https://github.com/WebAssembly/WASI/blob/main/docs/Proposals.md
 - Awesome-wasm, Curated list of awesome things regarding WebAssembly
 .link https://github.com/mbasso/awesome-wasm
 
-- WasmWeekly, WebAssembly Today, Newletter
+- WasmWeekly, WebAssembly Today, Newsletter
 .link https://wasmweekly.news/
 .link https://webassemblytoday.substack.com/
 

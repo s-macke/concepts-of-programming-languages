@@ -26,7 +26,7 @@ https://www.qaware.de
 Typical programs include the operating system and firmware, programming tools such as compilers, assemblers, I/O routines, interpreters, scheduler, loaders and linkers as well as the runtime libraries of the computer programming languages."
 
 * Systems Programming Today
-- Todays OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
+- Today's OSs are built on a kernel of Assembler and C-Code (Linux, OSX/Darwin, Win32)
 - This includes the Kernel, Drivers, Graphics Subsystem, HAL ...
 - The higher layers are built in languages with good support to call C or Assembler code (C, C++, Objective C)
 - Tools and Low Level Applications on top are typically written in languages like Python, Perl, C++, Go
@@ -39,7 +39,7 @@ Typical programs include the operating system and firmware, programming tools su
 - Java compiler written in Java, Java runtime written in C++
 - Rust was originally written in C then Rust
 - Go originally programmed in C, then Go,
-- C# original writte in C and C++ then C#
+- C# originally written in C and C++ then C#
 - Haskell written in C and C--
 - PHP written in C and C++
 - Python written in C
@@ -98,7 +98,7 @@ Build flags for the cgo command can be set in the Go source file as comments:
     // #include <png.h>
     import "C"
 
-When calling functions from a library outside libc, the Go programm must be linked with that library (here: png.lib/png.so).
+When calling functions from a library outside libc, the Go program must be linked with that library (here: png.lib/png.so).
 
 This can be done by adding cgo build flags to the comment section.
 
@@ -220,7 +220,7 @@ Package runtime contains operations that interact with Go's runtime system, such
 * What's a File System?
 - A file system map file paths (e. g. , /etc/hostname to file contents and metadata
 - metadata includes modification times, permissions etc.
-- File systems are mounted ov er a particular directory
+- File systems are mounted over a particular directory
 
 .image ./img/FilesystemCall.png 200 _
 
@@ -241,7 +241,7 @@ Package runtime contains operations that interact with Go's runtime system, such
 
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/src/system/fuse/main.go
 
-An inode (index node) descripes a file-system object such as a file or directory.
+An inode (index node) describes a file-system object such as a file or directory.
 
 * What do people do with FUSE?
 
@@ -261,7 +261,7 @@ An inode (index node) descripes a file-system object such as a file or directory
 - Containers are started from container images. An image packs the application together with the required libraries and tools. 
 - In many cases a full unix filesystem is packed inside the image. 
 - An image for a Go application could be empty, since Go has static linking. 
-- The required dependend code is linked into the binary.  
+- The required dependent code is linked into the binary.  
 
 
 * The grandfather of containerization: Change Root (chroot, year 1982)
@@ -361,7 +361,7 @@ First we need a program to check our changes in visibility
 Second, we need a way to run the program inside go
 .play ../src/system/container/container_simple0.go /func/,
 
-we just fordward
+we just forward
 
 - standard input (stdin),
 - standard output (stdout)
@@ -406,7 +406,7 @@ The code shows the main functionality of the "docker run" command:
 
 * How to build a Container in Go 
 The run() function starts a new process (a clone) with a unique namespace
-The child() function function is called in the new process and configures the new namespace (setHostname ...)
+The child() function is called in the new process and configures the new namespace (setHostname ...)
 
     func run() {
         log.Printf("Running %v \n", os.Args[1:])

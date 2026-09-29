@@ -21,7 +21,7 @@ https://www.qaware.de
 : 1 - A boolean expression with placeholders (A, B, C)
 : 2 - Grammatik (Token & Rules)
 : 3 - Tokenizer
-: 4 - Boolscher Wert
+: 4 - Boolescher Wert
 : 5 - Syntaxbaum
 : 6 - Variablenbelegung
 : 7 - Parser Übersetzt Eingabe in neue Struktur (Syntaxbaum)
@@ -43,7 +43,7 @@ https://www.qaware.de
     <not> ::= ‘!’
     <var> ::= ‘[a-zA-Z0-9]+’
 
-- Parser rules: Defines how the _Abstract_ _Syntax_ _Tree_ or _Parse_ _Tree_ is build
+- Parser rules: Defines how the _Abstract_ _Syntax_ _Tree_ or _Parse_ _Tree_ is built
 
     expression ::= <term> {<or> <term>}
     term ::= <factor> {<and> <factor>}
@@ -103,7 +103,7 @@ https://www.qaware.de
 
 
 * We will implement a recursive descent parser to build the AST
-- Top-Down: identity root first, move down the subtrees, until leaves are found
+- Top-Down: identify root first, move down the subtrees, until leaves are found
 - LL-Parser: Left-to-right (input); Leftmost derivation (replace left most non-terminal (leaf))
 - Usually one method for each rule of the grammar -> structure of the parser mirrors the structure of the grammar
 
@@ -188,7 +188,7 @@ Algorithm (high level):
 What is: "A & B | !C"?
 
 - The first three letters of the alphabet
-- A grammer to parse expressions
+- A grammar to parse expressions
 - A boolean expression with placeholders (A, B, C)
 
 

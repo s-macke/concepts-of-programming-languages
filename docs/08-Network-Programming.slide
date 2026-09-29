@@ -24,7 +24,7 @@ https://www.qaware.de
 - Hence we should take a look into the network capabilities of Go.
 - Go provides a simple way to implement networking.
 - Virtual Threads with non-blocking behavior should be ideal for receiving requests and waiting for database etc.
-- So far, in all major languages, networking is not part of the language itself but provided via librarys.
+- So far, in all major languages, networking is not part of the language itself but provided via libraries.
 
 * What makes networking a programming concept?
 
@@ -139,7 +139,7 @@ Blog article
 
 : -- * Exercise: Remote Procedure Call
 
-: -- Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedures calls.
+: -- Implement in Go a *net/rpc* client TCP connection via rpc.Dial against the URL *simulationcorner.net:1234* . This interface offers two remote procedure calls.
 
 : -- A function, in which you receive a rune
 
@@ -187,7 +187,7 @@ Blog article
 History:
 
 - *HTTP* *1.0:* 1989 developed at CERN by Tim Berners-Lee
-- *HTTP* *1.1:* Connection Pooling / Keep-Alive, Caching, Authentification, addtional metainformation, ...
+- *HTTP* *1.1:* Connection Pooling / Keep-Alive, Caching, Authentication, additional metainformation, ...
 - *HTTP* *2.0:* Binary-Protocol, Multiplexing, Encryption as Standard, Server-Push
 - *HTTP* *3.0:* Standardized 2023. Switch from TCP to UDP. Faster connection.
 
@@ -209,7 +209,7 @@ Server responds via
     <html>
     ....
 
-- Responds is a *text/html* document with Unicode UTF-8 encoding and has a size of 155 bytes
+- Response is a *text/html* document with Unicode UTF-8 encoding and has a size of 155 bytes
 
 : * HTTP Request via TCP
 
@@ -301,7 +301,7 @@ Types:
 
 - Used mainly for Web Application Programming Interfaces
 - Based on the HTTP Protocol
-- Data is transfered via JSON or XML
+- Data is transferred via JSON or XML
 - Stateless: The communication between server and client is stateless. The server "forgets" you after the request is done.
 - Everything is a resource: A resource in the system should have only one logical URI
 - Uniform interfaces based on HTTP. (GET , POST, PUT, DELETE). Errors are returned via HTTP status codes.

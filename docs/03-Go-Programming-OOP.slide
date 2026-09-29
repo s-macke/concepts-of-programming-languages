@@ -39,7 +39,7 @@ _Recoverable_: e. g. file not found
 
 _Unrecoverable_: array access outside its boundaries, out of memory
 
-* Go defer: run code before function exists
+* Go defer: run code before function exits
 
 The "defer" statement lets us ensure that code runs before a function exits
 
@@ -235,7 +235,7 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 
 * Syntax level OOP
 
-Encapsulation of methods is basically is just a syntax element.
+Encapsulation of methods is basically just a syntax element.
 
     func (r *Rational) Multiply(y Rational) Rational {
      ....
@@ -290,7 +290,7 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 : Pros composition
 : - Flexibility
 : - Loose Coupling
-: - better encasulation
+: - better encapsulation
 : - avoids fragile base class problems with partial implementations
 : - easy to understand
 
@@ -512,7 +512,7 @@ The error is just an interface with one method that should return the error mess
 
 * Questions
 - What is the difference between inheritance in Java and embedding in Go?
-- How does Go support multiple inheritance? Is is supported for interfaces and types?
+- How does Go support multiple inheritance? Is it supported for interfaces and types?
 
 * Multiple embeddings of same variable or function names
 .code ../src/oop/multiple_inheritance/multi.go /Foo/,

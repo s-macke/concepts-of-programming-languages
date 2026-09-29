@@ -67,7 +67,7 @@ These are suggestions to inspire your design.
 
 **Remember**: Your spec defines what you'll build. Start simple and expand if time permits. 
 
-## Step 1: Write anb initial Mini-Spec (Markdown Document)
+## Step 1: Write an initial Mini-Spec (Markdown Document)
 
 Create a specification document that describes what your Learning Campus Light will do and how it will work. Your spec should include:
 

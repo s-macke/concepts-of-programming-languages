@@ -16,7 +16,7 @@ https://www.qaware.de
 
 * Why Concurrent Programming?
 - Computer clock rates do not get higher anymore (since 2004!)
-- But Moores Law is still valid (Multicore!)
+- But Moore's Law is still valid (Multicore!)
 
 .image ./img/06-moores-law.webp 450 _
 
@@ -228,9 +228,9 @@ What will be the result?
 
 - Lock-free thread-safe programming on single variables
 
-- Atomics either use a atomic CPU feature or perform a low level blocking operation via a mutex
+- Atomics either use an atomic CPU feature or perform a low level blocking operation via a mutex
 
-* Waitgroups (using global variableI)
+* Waitgroups (using global variable)
 
 .play ../src/concurrent/waitgroup/parallel_for_loop.go /var/,
 
@@ -460,7 +460,7 @@ A hungry philosopher sits down, takes the right fork, then the left, eats, then 
     }
 
 : * Wrong Solutions
-: - There are many wrong solution on the web.
+: - There are many wrong solutions on the web.
 : - Most of them share the problem that the Philosopher picks up the left fork (implemented with channels or locks) and immediately the right fork.
 : - The problem arises, when the second fork is in use. There is a potential deadlock, when all Philosophers wait on the second fork.
 : - In theory a deadlock occurs if there is a cycle in the Resource Allocation Graph.

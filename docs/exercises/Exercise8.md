@@ -35,7 +35,7 @@ var nodePortList = []string{
 On start of the program the node id should be read as argument from the console.
 ```raft --node 0```
 
-Use the `flag` [packag](https://pkg.go.dev/flag) to read the arguments.
+Use the `flag` [package](https://pkg.go.dev/flag) to read the arguments.
 
 ### State
 

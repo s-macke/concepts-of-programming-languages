@@ -34,7 +34,7 @@ https://www.qaware.de
 - Example of elegant minimalist language (uniform syntax, s-expressions)
 - First functional language
 - First language with garbage collection
-- First language with with built in support for lists and tree like data structures
+- First language with built in support for lists and tree like data structures
 - First language with dynamic typing
 - Code is data, Data is Code
 - Metaprogramming
@@ -123,7 +123,7 @@ https://www.tutorialspoint.com/execute_forth_online.php
 - The order of operations in Forth is Postfix (or Reverse Polish Notation)
 
 * Stack operations
-- dup - Duplicated the top of the stack
+- dup - Duplicates the top of the stack
 - swap - swaps the top 2 elements
 - drop - drops the top element of the stack
 - rot - rotate the top 3 numbers
@@ -148,7 +148,7 @@ https://www.tutorialspoint.com/execute_forth_online.php
 
 * Some thoughts
 
-- You can write a forth interpreter in less then 512 bytes
+- You can write a forth interpreter in less than 512 bytes
 
 https://www.slideserve.com/holly/the-forth-language
 

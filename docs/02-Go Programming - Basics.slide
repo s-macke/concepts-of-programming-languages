@@ -488,12 +488,12 @@ A pointer is a variable which contains a memory address
 
 : * What are references
 
-: References are kind of safe pointers. In different languages they have slighty different meanings and properties.
+: References are kind of safe pointers. In different languages they have slightly different meanings and properties.
 
 : - They all have in common, that they don't allow pointer arithmetic.
-: - Usually no dererefence with * necessary
+: - Usually no dereference with * necessary
 : - Normally strongly typed
-: - In C++ a reference must be initialized at creation and can never be null. In this way C++ ist stricter than Java
+: - In C++ a reference must be initialized at creation and can never be null. In this way C++ is stricter than Java
 : - In Java because of Garbage Collection the reference might not be direct pointer to the object.
 : - In Go, nil is the zero value for pointers, interfaces, maps, slices, channels and function types, representing an uninitialized value.
 
@@ -578,12 +578,12 @@ A pointer is a variable which contains a memory address
 
 : * What are references
 
-: References are kind of safe pointers. In different languages they have slighty different meanings and properties.
+: References are kind of safe pointers. In different languages they have slightly different meanings and properties.
 
 : - They all have in common, that they don't allow pointer arithmetic.
-: - Usually no dererefence with * necessary
+: - Usually no dereference with * necessary
 : - Normally strongly typed
-: - In C++ a reference must be initialized at creation and can never be null. In this way C++ ist stricter than Java
+: - In C++ a reference must be initialized at creation and can never be null. In this way C++ is stricter than Java
 : - In Java because of Garbage Collection the reference might not be direct pointer to the object.
 : - In Go, nil is the zero value for pointers, interfaces, maps, slices, channels and function types, representing an uninitialized value.
 
