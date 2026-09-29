@@ -383,6 +383,24 @@ And what happens if you change int to char?
 .image img/02-typing.png 450 _
 - ⮕ Miro Board
 
+* Which languages do LLMs like? And why?
+
+- In which language does a coding agent produce the best code?
+- Does the type system matter?
+
+: Kurz sammeln lassen, bevor die Antwort kommt.
+
+* Which languages do LLMs like? The answer
+
+- *Training* *data:* Languages with a lot of public code (Python, JavaScript, Java) work best. Rare languages work noticeably worse.
+- *Static* *typing:* The compiler gives the agent immediate and precise feedback. Generate, compile, fix. In dynamic languages many errors only show up at runtime.
+- *Types* *as* *documentation:* A function signature tells the model what goes in and what comes out.
+- *Simple* *and* *uniform* *languages:* Few ways to do the same thing, one code style (gofmt). Less room for mistakes.
+
+: Typen helfen also nicht nur dem Menschen, sondern auch dem Agenten.
+: Trend: TypeScript wächst stark, auch wegen KI-Tools (GitHub Octoverse 2025: TypeScript hat Python bei der Zahl der Contributors überholt).
+: Offene Frage an die Studierenden: Wenn Agenten den Code schreiben, welche Sprache würdet ihr dann wählen?
+
 * Golang - complex types
 
 

@@ -459,7 +459,7 @@ An implementation can support multiple interfaces at the same time.
 
     type any = interface{}
 
- * The error interface
+* The error interface
 
 .play ../src/oop/errors/error.go /START OMIT/,/END OMIT/
 
