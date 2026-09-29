@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 440" width="1100" height="440" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#00B86B"/></marker></defs>
+<rect width="1100" height="440" rx="16" fill="#F5F7FA"/>
+<text x="40" y="44" font-size="22" font-weight="700" fill="#E53935">swap1(a, b): copies of the values</text>
+<rect x="40" y="70" width="480" height="130" rx="12" fill="#FFFFFF" stroke="#6B7280" stroke-width="2" stroke-dasharray="6,5"/><text x="56" y="98" font-size="18" font-weight="700" fill="#6B7280">main</text>
+<rect x="110" y="120" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#6B7280" stroke-width="2.5"/><text x="185.0" y="156.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">1</text><text x="98" y="155.0" text-anchor="end" font-size="19" font-weight="700" fill="#6B7280">a</text>
+<rect x="340" y="120" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#6B7280" stroke-width="2.5"/><text x="415.0" y="156.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">2</text><text x="328" y="155.0" text-anchor="end" font-size="19" font-weight="700" fill="#6B7280">b</text>
+<rect x="40" y="240" width="480" height="130" rx="12" fill="#FFFFFF" stroke="#E53935" stroke-width="2" stroke-dasharray="6,5"/><text x="56" y="268" font-size="18" font-weight="700" fill="#E53935">swap1</text>
+<rect x="110" y="290" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#E53935" stroke-width="2.5"/><text x="185.0" y="326.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">2</text><text x="98" y="325.0" text-anchor="end" font-size="19" font-weight="700" fill="#E53935">x</text>
+<rect x="340" y="290" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#E53935" stroke-width="2.5"/><text x="415.0" y="326.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">1</text><text x="328" y="325.0" text-anchor="end" font-size="19" font-weight="700" fill="#E53935">y</text>
+<text x="40" y="405" font-size="18" fill="#1a1a1a">x and y are swapped, a and b stay unchanged</text>
+<text x="580" y="44" font-size="22" font-weight="700" fill="#00B86B">swap2(&amp;a, &amp;b): copies of the addresses</text>
+<rect x="580" y="70" width="480" height="130" rx="12" fill="#FFFFFF" stroke="#6B7280" stroke-width="2" stroke-dasharray="6,5"/><text x="596" y="98" font-size="18" font-weight="700" fill="#6B7280">main</text>
+<rect x="650" y="120" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#00B86B" stroke-width="2.5"/><text x="725.0" y="156.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">2</text><text x="638" y="155.0" text-anchor="end" font-size="19" font-weight="700" fill="#00B86B">a</text>
+<rect x="880" y="120" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#00B86B" stroke-width="2.5"/><text x="955.0" y="156.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">1</text><text x="868" y="155.0" text-anchor="end" font-size="19" font-weight="700" fill="#00B86B">b</text>
+<rect x="580" y="240" width="480" height="130" rx="12" fill="#FFFFFF" stroke="#00B86B" stroke-width="2" stroke-dasharray="6,5"/><text x="596" y="268" font-size="18" font-weight="700" fill="#00B86B">swap2</text>
+<rect x="650" y="290" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#00B86B" stroke-width="2.5"/><text x="725.0" y="326.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">&amp;a</text><text x="638" y="325.0" text-anchor="end" font-size="19" font-weight="700" fill="#00B86B">x</text>
+<rect x="880" y="290" width="150" height="56" rx="8" fill="#FFFFFF" stroke="#00B86B" stroke-width="2.5"/><text x="955.0" y="326.0" text-anchor="middle" font-size="22" fill="#1a1a1a" font-family="Menlo, monospace">&amp;b</text><text x="868" y="325.0" text-anchor="end" font-size="19" font-weight="700" fill="#00B86B">y</text>
+<line x1="725" y1="290" x2="725" y2="182" stroke="#00B86B" stroke-width="3" marker-end="url(#g)"/>
+<line x1="955" y1="290" x2="955" y2="182" stroke="#00B86B" stroke-width="3" marker-end="url(#g)"/>
+<text x="580" y="405" font-size="18" fill="#1a1a1a">*x and *y change a and b in main</text>
+</svg>

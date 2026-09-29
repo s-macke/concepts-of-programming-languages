@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 340" width="900" height="340" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2D9BF0"/></marker></defs>
+<rect width="900" height="340" rx="16" fill="#F5F7FA"/>
+<text x="30" y="40" font-size="20" font-weight="700" fill="#1a1a1a">Memory</text>
+<text x="236" y="121.0" text-anchor="end" font-size="16" fill="#6B7280" font-family="Menlo, monospace">0xc000012008</text><rect x="250" y="80" width="220" height="70" rx="8" fill="#FFFFFF" stroke="#2D9BF0" stroke-width="2.5"/><text x="360.0" y="123.0" text-anchor="middle" font-size="24" fill="#1a1a1a" font-family="Menlo, monospace">42</text><text x="250" y="70" font-size="20" font-weight="700" fill="#2D9BF0">num</text>
+<text x="236" y="261.0" text-anchor="end" font-size="16" fill="#6B7280" font-family="Menlo, monospace">0xc000012010</text><rect x="250" y="220" width="220" height="70" rx="8" fill="#FFFFFF" stroke="#2D9BF0" stroke-width="2.5"/><text x="360.0" y="263.0" text-anchor="middle" font-size="24" fill="#1a1a1a" font-family="Menlo, monospace">0xc000012008</text><text x="250" y="210" font-size="20" font-weight="700" fill="#2D9BF0">ptr</text>
+<path d="M 470 255 C 570 255, 570 115, 478 115" fill="none" stroke="#2D9BF0" stroke-width="3" marker-end="url(#a)"/>
+<text x="580" y="190" font-size="18" fill="#6B7280">ptr points to num</text>
+<text x="620" y="120" font-size="17" fill="#1a1a1a" font-family="Menlo, monospace">num := 42</text>
+<text x="620" y="250" font-size="17" fill="#1a1a1a" font-family="Menlo, monospace">ptr := &amp;num</text>
+<text x="620" y="275" font-size="17" fill="#1a1a1a" font-family="Menlo, monospace">*ptr = 43  // changes num</text>
+</svg>

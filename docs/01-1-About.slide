@@ -151,6 +151,14 @@ Example: iteration is a concept. It is a `for` loop in C, a `range` loop in Go, 
 : Wer generierten Code nicht beurteilen kann, kann ihn auch nicht verantworten.
 : Im Studium lernt ihr vor allem eine Denkweise, keinen Werkzeugkasten. Prolog oder Haskell werden die wenigsten im Job schreiben, aber die Ideen tauchen überall wieder auf (Pattern Matching, Immutability, deklarative Ansätze).
 
+* Quick survey: Coding agents
+
+- Do you already use coding agents? For what?
+- Which tools do you use? (e.g. Claude Code, GitHub Copilot, Cursor, Codex, ...)
+- Does the university provide coding agents for you?
+
+: Per Handzeichen abfragen, kurz Beispiele sammeln.
+
 * Course Requirements
 - The course is designed as a master's course.
 - Solid programming skills in at least one language are required.

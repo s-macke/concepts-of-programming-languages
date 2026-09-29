@@ -71,17 +71,32 @@ https://www.qaware.de
 
 * Every number in Java is the same. Right?
 
-Numbers and classes might be non-orthogonal in Java.
+What does this print?
+
+    Integer a = 1000;
+    Integer b = 1000;
+    System.out.println(a == b);
+
+    Integer c = 1;
+    Integer d = 1;
+    System.out.println(c == d);
+
+: Raten lassen, dann weiterklicken.
+: https://www.jdoodle.com/online-java-compiler
+
+* Every number in Java is the same. Right? The answer
 
     Integer a = 1000;
     Integer b = 1000;
     System.out.println(a == b); // false
 
-    Integer a = 1;
-    Integer b = 1;
-    System.out.println(a == b); // true
+    Integer c = 1;
+    Integer d = 1;
+    System.out.println(c == d); // true
 
-: https://www.jdoodle.com/online-java-compiler
+- `==` compares the references of the two Integer objects, not their values
+- Java caches Integer objects from -128 to 127, so small numbers share the same object
+- Numbers and classes are non-orthogonal in Java
 
 * Other non-orthogonal examples
 
@@ -101,14 +116,22 @@ Numbers and classes might be non-orthogonal in Java.
 : https://www.cs.csub.edu/~melissa/cs350-f15/notes/notes01.html
 
 
+* Your turn
+
+Do you know a non-orthogonal feature in your favorite programming language!
+
+: 2-3 Minuten nachdenken lassen, dann ein paar Beispiele aus dem Publikum sammeln.
+: Mögliche Beispiele: Java primitive Typen vs. Objekte (int vs. Integer), Python: Default-Argumente werden nur einmal ausgewertet,
+: JavaScript: typeof null == "object", C: Arrays können nicht zurückgegeben werden, aber Structs mit Arrays schon.
+
 * Golang
 .image ./img/golang_meme.jpeg 500 _
 
 * Golang
 - Go is an open source programming language for distributed and parallel systems
-- Go addresses the problems of C ++ backend development at Google
-- The Go core team is prominent: Robert Griesheimer (Hotspot VM), Ken Thompson (UX / B) and Rob Pike (UTF-8)
-- Go is actively developed since 2008
+- Go addresses the problems of C++ backend development at Google
+- The Go core team is prominent: Robert Griesemer (HotSpot VM), Ken Thompson (Unix / B) and Rob Pike (UTF-8)
+- Go has been actively developed since 2007
 - Go is *THE* language behind the Cloud Native Stack
 .link https://www.cncf.io/
 .image ./img/01-cncf-projects.png 100 1024
@@ -117,9 +140,9 @@ Numbers and classes might be non-orthogonal in Java.
 
 * TypeScript will be written in Go
 
-- Some build systems for the JavaScript ecosystem  are already build in Go: esBuild, vite
+- Some build tools for the JavaScript ecosystem are already built in Go, e.g. esbuild
 
-- Anders Hejsberg: Microsoft Technical Fellow and lead architect of TypeScript. Original designer of C#, Delphi, and Turbo Pascal.
+- Anders Hejlsberg: Microsoft Technical Fellow and lead architect of TypeScript. Original designer of C#, Delphi, and Turbo Pascal.
 .link https://devblogs.microsoft.com/typescript/typescript-native-port/
 
 
@@ -229,7 +252,7 @@ Value types are primitive data types (int, double, boolean, etc.) that directly 
     foo, ok := 32, true // foo is an int 32, ok is a boolean with value true
 
 * Weak typing vs. Strong typing I
-Languages differ of how serious they handle the type
+Languages differ in how strictly they handle types
 
 - type conversions implicit or explicit
 - strict or loose typing rules at compile time
@@ -254,18 +277,31 @@ Go uses a strong typing system. But why?
 
 * Where implicit type conversion in C goes wrong
 
+Is the message printed?
+
     int main() {
         signed int a = -1;
         unsigned int b = 0;
 
         if (a < b) {
-            printf("a ís smaller than b\n");
+            printf("a is smaller than b\n");
         }
 
         return 0;
     }
 
-Also: Change int to char
+: Raten lassen, dann weiterklicken.
+
+* Where implicit type conversion in C goes wrong: The answer
+
+*No*, nothing is printed.
+
+- For the comparison, C implicitly converts `a` to unsigned int
+- -1 becomes 4294967295, which is not smaller than 0
+
+And what happens if you change int to char?
+
+- Then the message *is* printed: both values are promoted to int before the comparison
 
 
 : https://www.onlinegdb.com/online_c_compiler
@@ -313,7 +349,7 @@ Also: Change int to char
 - You have to do the type conversion explicitly.
 
 
-* Dynamically typing in Python
+* Dynamic typing in Python
 
     x = 10        # x is an int
     x = "hello"   # now x is a str
@@ -374,6 +410,21 @@ Also: Change int to char
 
 .play ../src/basics/types/slices/slices.go
 
+* Arrays vs. Slices: What does this print?
+
+    func modifyArray(a [3]int) { a[0] = 99 }
+    func modifySlice(s []int)  { s[0] = 99 }
+
+    arr := [3]int{1, 2, 3}
+    modifyArray(arr)
+    fmt.Println(arr)
+
+    slice := []int{1, 2, 3}
+    modifySlice(slice)
+    fmt.Println(slice)
+
+: Raten lassen, dann weiterklicken.
+
 * Non-Orthogonal: Arrays are value types, but slices are reference types. But they use the same syntax.
 
 .play ../src/basics/types/non-orthogonal/non-orthogonal.go  /func/,
@@ -386,20 +437,48 @@ Also: Change int to char
 A pointer is a variable which contains a memory address
 .play ../src/basics/pointers/pointer/pointer.go /func main/,
 
+* Pointer I: A look into memory
+.image ./img/02-pointer.svg _ 800
+
+- A pointer stores the *address* of another variable
+- `*ptr` reads and writes the variable it points to
+
 * Pointer I
 .code ../src/basics/swap/main.go /func swap0/,/END0 OMIT/
 .code ../src/basics/swap/main.go /func swap1/,/END1 OMIT/
 .code ../src/basics/swap/main.go /func swap2/,/END2 OMIT/
 .code ../src/basics/swap/main.go /func swap3/,/END3 OMIT/
 - The double assignment saves a variable (tmp)!
-- Pointers are transferred as well as values ​​by copy
+- Pointers are passed by copy, just like values
+
+* Which calls really swap a and b?
+
+    a, b := 1, 2
+
+    swap0(a, b)
+    a, b = swap0(a, b)
+    swap1(a, b)
+    swap2(&a, &b)
+
+    pa, pb := &a, &b
+    swap3(&pa, &pb)
+
+: Abstimmen lassen (Handzeichen) für jeden Aufruf, dann weiterklicken und ausführen.
+: Antwort: a, b = swap0(a, b) und swap2(&a, &b) tauschen a und b. swap0 ohne Zuweisung und swap1 ändern nichts.
+: swap3 tauscht nur die Zeiger pa und pb, nicht a und b.
 
 * Pointer II
 .play ../src/basics/swap/main.go /func main/,/END0 OMIT/
 
+* Why swap1 fails and swap2 works
+.image ./img/02-swap.svg _ 900
+
+- Go always passes arguments by copy
+- With pointers, the copy is an address, so the function can change the original variables
+
 : evtl. story zu multi dimension arrays in C vs. multiplikation erzählen
 
-* Don't do pointer arithmetric in Go
+* Don't do pointer arithmetic in Go
 
 .play ../src/basics/pointers/unsafe/main.go /func main/,
 
@@ -437,7 +516,7 @@ A pointer is a variable which contains a memory address
 
 * Functions and Control Structures: Example Palindrome (UTF-8)
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome2/,/END2 OMIT/
-- The rune type is an alias for int32 and can store all UTF-8 characters
+- The rune type is an alias for int32 and can store every Unicode code point
 - `[]rune(string)` converts a string into a slice of runes
 - The range operator has two return values: the position and the current value
 
@@ -452,7 +531,7 @@ A pointer is a variable which contains a memory address
 * Functions and Control Structures: Example Palindrome (Reverse)
 .code ../src/basics/palindrome/palindrome.go /IsPalindrome3/,/END3 OMIT/
 - Strings, arrays are compared in Go with ==
-- Slices, Maps are compared with cmp.Equal 
+- Slices and maps are compared with slices.Equal and maps.Equal
 
 : * Special comparison with the cmp package
 :    opt := cmp.Comparer (func (x, y float64) bool {
@@ -529,10 +608,10 @@ Types can be defined with the keyword "type"
 : * Stringer Interface
 : .play ../src/basics/stringer/stringer.go
 
-* The Flag API simplifies Command Line Utilities
-.play ../src/basics/flags/main.go /import/,/END OMIT/
+: * The Flag API simplifies Command Line Utilities
+: .play ../src/basics/flags/main.go /import/,/END OMIT/
 
-- execute the program with the argument "--help" to see the possible arguments and the suggestions
+: - execute the program with the argument "--help" to see the possible arguments and the suggestions
 
 : vergleich https://stackoverflow.com/questions/7341683/parsing-arguments-to-a-java-command-line-program
 
@@ -544,8 +623,8 @@ Types can be defined with the keyword "type"
 
 - Compiled (cross compiler for OS: Mac, Windows, Linux and CPU: ARM, x86 + Amd64)
 - Static linker (Single Binary) -> Ideal for Docker containers
-- Focus on fast compile times (the entire Go codebase compiles in <20 seconds)
-- Simple (less keywords like C - 25/32) and Orthogonal
+- Focus on fast compile times (the entire Go toolchain compiles in about 36 seconds)
+- Simple (fewer keywords than C: 25 vs. 32) and orthogonal
 - Strong type system with runtime support (Reflection, Dynamic Types)
 
 :  - Object-oriented, Functional, Parallel, Modular and Versioned
