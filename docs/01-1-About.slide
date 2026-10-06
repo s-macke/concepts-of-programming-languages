@@ -30,6 +30,25 @@ Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604
 - Offices in Munich, Mainz, Rosenheim and Darmstadt, plus remote work worldwide
 .image ./img/01-qaware.png 260 _
 
+* My programming languages
+
+- BASIC 2.0 (C64)
+- QBasic (DOS)
+- Pascal (DOS)
+- Delphi (Windows 95)
+- C / C++ (Windows 2000 / XP)
+- JavaScript
+- Java
+- Go
+
+These are my main programming languages, but I have used dozens of others.
+
+And you?
+
+: Kurz zu jeder Sprache erzählen: wann, wofür, was daran neu war.
+: Botschaft: Im Laufe eines Entwicklerlebens lernt man viele Sprachen. Die Konzepte bleiben, die Syntax wechselt.
+: Überleitung: Das sind meine. Welche kennt ihr?
+
 
 * There are so many languages ...
 .image ./img/00-programming-languages.jpeg 460 _
@@ -151,6 +170,17 @@ Example: iteration is a concept. It is a `for` loop in C, a `range` loop in Go, 
 : Wer generierten Code nicht beurteilen kann, kann ihn auch nicht verantworten.
 : Im Studium lernt ihr vor allem eine Denkweise, keinen Werkzeugkasten. Prolog oder Haskell werden die wenigsten im Job schreiben, aber die Ideen tauchen überall wieder auf (Pattern Matching, Immutability, deklarative Ansätze).
 
+* Coding agents make software engineering harder
+
+"The more time I spend working with coding agents, the more convinced I am that they make software engineering even harder.
+
+We can do amazing things with them, but unlocking their full potential requires extraordinary discipline and knowledge."
+
+— Simon Willison
+
+: Simon Willison: Mitentwickler von Django, schreibt viel und fundiert über LLMs und Coding Agents.
+: Kernaussage: Agenten nehmen einem das Denken nicht ab. Disziplin und Wissen werden wichtiger, nicht unwichtiger.
+
 * Quick survey: Coding agents
 
 - Do you already use coding agents? For what?
@@ -169,19 +199,22 @@ Example: iteration is a concept. It is a `for` loop in C, a `range` loop in Go, 
 
 - Overview and Introduction
 - Go Basics (Types, Functions, ...)
-- Object-Oriented Programming
+- Object-Oriented Programming without Inheritance
 - Coding Agents
-- Harness Engineering with Coding Agents
+- Harness Engineering with Coding Agents (Learning and presenting with Coding Agents)
 - Functional Programming
 - Pure Functional Programming with Haskell
 - Concurrent Programming
 
 * Planned Topics (2/2)
 
+- Rust (Guest Speaker)
+
+maybe:
+
 - Network Programming and the Raft Algorithm
 - Systems Programming
 - Logic Programming
-- Software Engineering Agents
 - Cross Compiling with WebAssembly
 - GPU Programming
 - Let us write a Lexer, Parser, Interpreter and Compiler in one Lecture

@@ -39,6 +39,27 @@ _Recoverable_: e. g. file not found
 
 _Unrecoverable_: array access outside its boundaries, out of memory
 
+* The problem: Cleanup on every return path
+
+    func process(name string) error {
+        f, err := os.Open(name)
+        if err != nil {
+            return err
+        }
+        if err := step1(f); err != nil {
+            f.Close()
+            return err
+        }
+        if err := step2(f); err != nil {
+            f.Close()
+            return err
+        }
+        f.Close()
+        return nil
+    }
+
+- Every return path needs *f.Close()*. Forget one and the file handle leaks.
+
 * Go defer: run code before function exits
 
 The "defer" statement lets us ensure that code runs before a function exits
@@ -50,6 +71,9 @@ The "defer" statement lets us ensure that code runs before a function exits
     defer f.Close() // Will be executed on function exit, even in case of an unrecoverable error.
     ....
     // read, write
+
+- One line directly after opening, for every return path
+- Careful: defer runs at the end of the function, not at the end of a block (e.g. inside loops)
 
 * unrecoverable error: panic and recover by using defer
 .play ../src/basics/panic/panic.go  /func getElement/,/EOF OMIT/
@@ -214,6 +238,9 @@ allows an object-oriented style of programming
 
 The variable *r* is in both cases similar to the Java *this*, which reference to the class instance
 
+- *Why* *methods?* Go has no overloading. A package cannot have a function *Multiply* for *Rational* and another one for *Matrix*. Methods give each type its own namespace.
+- Interfaces are built on methods (see later)
+
 : .code ../src/oop/rational/rational.go /Rational/,/END1 OMIT/
 : .code ../src/oop/rational/rational.go /Multiply/,/Multiply OMIT/
 : .code ../src/oop/rational/rational.go /NewRational/,/END2 OMIT/
@@ -376,6 +403,8 @@ When I run 3 tasks with RunCounter.runAll, what value does *count* have?
     p = cp // Compile Error
     p = cp.Point // Works
 
+- How can we use *Point* and *ColorPoint* in the same place? ⮕ Interfaces
+
 
 * Delegation of Functions in Go
 
@@ -383,9 +412,17 @@ When I run 3 tasks with RunCounter.runAll, what value does *count* have?
 
 - please check ../src/oop/runtask/runtask.go
 
+- Remember *RunCounter:* The embedded type never calls back into the outer type. The inner *RunAll* calls its own *Run*, so the double counting cannot happen.
+
 : prints "a.bar"
 : real delegation should print "b.bar", because delegation means
 : evaluating the receiver member method Foo() of A in the context of the sender object B
+
+* Polymorphism: The problem
+
+- *p* *=* *cp* does not compile. How do we put different shapes into one list and call *Paint()* on each?
+- A function *Save(w)* should write to a file, a network connection or a buffer in a unit test
+- Go's answer: interfaces
 
 * Polymorphism I
 An interface is a set of methods
@@ -422,6 +459,8 @@ In Go:
   func (d *Door) Close() { ... }
 
 *Door* implicitly satisfies the interface *OpenCloser*
+
+- *Benefit:* The user of a type defines the interface, even for types from other packages that have never heard of it. In Java you would need an adapter.
 
 Go supports polymorphism only via interfaces
 

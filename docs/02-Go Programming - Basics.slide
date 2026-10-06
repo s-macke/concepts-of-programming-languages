@@ -25,6 +25,35 @@ https://www.qaware.de
 - Good support and documentation (public compilers, tutorials, community, IDE)
 - Orthogonality
 
+* Every number in Java is the same. Right?
+
+What does this print?
+
+    Integer a = 1000;
+    Integer b = 1000;
+    System.out.println(a == b);
+
+    Integer c = 1;
+    Integer d = 1;
+    System.out.println(c == d);
+
+: Raten lassen, dann weiterklicken.
+: https://www.jdoodle.com/online-java-compiler
+
+* Every number in Java is the same. Right? The answer
+
+    Integer a = 1000;
+    Integer b = 1000;
+    System.out.println(a == b); // false
+
+    Integer c = 1;
+    Integer d = 1;
+    System.out.println(c == d); // true
+
+- `==` compares the references of the two Integer objects, not their values
+- Java caches Integer objects from -128 to 127, so small numbers share the same object
+- Numbers and classes are non-orthogonal in Java
+
 * What is an Orthogonal language
 
 - *Def* *1:* A language is orthogonal if its features are built upon a small, mutually *independent* set of primitive operations.
@@ -68,35 +97,6 @@ https://www.qaware.de
     }
 
 - But arrays in structs are allowed to return
-
-* Every number in Java is the same. Right?
-
-What does this print?
-
-    Integer a = 1000;
-    Integer b = 1000;
-    System.out.println(a == b);
-
-    Integer c = 1;
-    Integer d = 1;
-    System.out.println(c == d);
-
-: Raten lassen, dann weiterklicken.
-: https://www.jdoodle.com/online-java-compiler
-
-* Every number in Java is the same. Right? The answer
-
-    Integer a = 1000;
-    Integer b = 1000;
-    System.out.println(a == b); // false
-
-    Integer c = 1;
-    Integer d = 1;
-    System.out.println(c == d); // true
-
-- `==` compares the references of the two Integer objects, not their values
-- Java caches Integer objects from -128 to 127, so small numbers share the same object
-- Numbers and classes are non-orthogonal in Java
 
 * Other non-orthogonal examples
 
@@ -383,6 +383,26 @@ And what happens if you change int to char?
 .image img/02-typing.png 450 _
 - ⮕ Miro Board
 
+* Sooner or later, every professional language gets types
+
+- JavaScript ⮕ *TypeScript:* static types on top of JavaScript, compiled to plain JavaScript
+- Python ⮕ *type* *hints:* checked by tools like mypy or pyright, ignored at runtime
+
+    def dynamic(value: int) -> str | int:
+        if value > 0:
+            return "positive"
+        else:
+            return -1
+
+    dynamic("5")  # crashes at runtime, but the type checker reports it immediately
+
+- Also: PHP type declarations, Ruby (Sorbet, RBS)
+- *Why?* Large code bases, many developers, refactoring, IDE support. Types document the interface.
+- Types can be added step by step (gradual typing)
+
+: Dynamische Typisierung ist gut für kleine Skripte und Prototypen. Sobald der Code groß wird und viele Leute daran arbeiten, kommen die Typen.
+: Überleitung: Und nicht nur Menschen profitieren davon.
+
 * Which languages do LLMs like? And why?
 
 - In which language does a coding agent produce the best code?
@@ -417,6 +437,7 @@ And what happens if you change int to char?
 
 
 * Arrays and Slices
+- *Problem:* An array needs its length at compile time. How many lines does a file have?
 - Arrays have a fixed length and can not be resized
 - Slices are dynamic arrays and can be resized (`append()`)
 
@@ -450,6 +471,20 @@ And what happens if you change int to char?
 * Pointers
 
 .image ./img/pointer_meme.jpeg 450 _
+
+* The problem: Go copies every argument
+
+    func increment(x int) {
+        x++
+    }
+
+    counter := 0
+    increment(counter)
+    fmt.Println(counter) // 0
+
+- How can a function change a variable of the caller?
+- How do we avoid copying large structs on every call?
+- How do we express "no value"?
 
 * Pointer I
 A pointer is a variable which contains a memory address
