@@ -30,7 +30,7 @@ Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604
 - Offices in Munich, Mainz, Rosenheim and Darmstadt, plus remote work worldwide
 .image ./img/01-qaware.png 260 _
 
-* My programming languages
+* My programming language history
 
 - BASIC 2.0 (C64)
 - QBasic (DOS)
@@ -40,6 +40,7 @@ Newsletter: [[https://www.linkedin.com/newsletters/qaware-ai-insights-7222227604
 - JavaScript
 - Java
 - Go
+- Python
 
 These are my main programming languages, but I have used dozens of others.
 
@@ -201,7 +202,7 @@ We can do amazing things with them, but unlocking their full potential requires 
 - Go Basics (Types, Functions, ...)
 - Object-Oriented Programming without Inheritance
 - Coding Agents
-- Harness Engineering with Coding Agents (Learning and presenting with Coding Agents)
+- Harness Engineering with Coding Agents
 - Functional Programming
 - Pure Functional Programming with Haskell
 - Concurrent Programming
@@ -212,6 +213,7 @@ We can do amazing things with them, but unlocking their full potential requires 
 
 maybe:
 
+- Learning and presenting with Coding Agents
 - Network Programming and the Raft Algorithm
 - Systems Programming
 - Logic Programming
