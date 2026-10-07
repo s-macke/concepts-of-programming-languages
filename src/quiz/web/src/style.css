@@ -131,3 +131,15 @@ h2 { font-size: 1.05rem; margin: 0 0 .25rem; }
 }
 
 .score { font-size: 1.5rem; font-weight: 600; margin: 0 0 .25rem; }
+
+.join-qr { display: block; max-width: 100%; height: auto !important; margin: 1rem auto; }
+.join-link { width: 100%; padding: .7rem; margin: .5rem 0; font: inherit; }
+.group-stats { margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--border); border-radius: .5rem; }
+.stat-row { margin: .8rem 0; }
+.stat-row span, .stat-row progress { display: block; width: 100%; }
+.stat-row progress { accent-color: var(--accent); }
+.actions { flex-wrap: wrap; }
+.hint { overflow-wrap: anywhere; }
+.quiz-list li > .primary { margin-top: .4rem; }
+.upload label { display: block; }
+@media (max-width: 480px) { #app { padding: 1.25rem .8rem 3rem; } .quiz-choice { flex-wrap: wrap; gap: .25rem; } }

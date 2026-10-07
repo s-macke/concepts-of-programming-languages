@@ -1,0 +1,4 @@
+node_modules/
+# This frontend is embedded in Go and its build output is intentionally tracked.
+!dist/
+!dist/**

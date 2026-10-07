@@ -1,9 +1,11 @@
+import { hostGroup, showGroup } from "./group";
 import { api, ApiError } from "./api";
 import { el, renderInputs, renderPrompt } from "./render";
 import type { SessionInfo } from "./types";
 import "./style.css";
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
+let routeGeneration = 0;
 
 /** Replaces the whole view. The app is small enough not to need diffing. */
 function show(...nodes: (Node | string)[]): void {
@@ -17,16 +19,23 @@ function showError(message: string): void {
 
 /** Start page: the quizzes on the server plus an upload field for testing. */
 async function showStartPage(): Promise<void> {
+  const generation = routeGeneration;
+  const hash = location.hash;
+  // A response from an earlier navigation must not replace the current screen.
+  const isCurrent = () => generation === routeGeneration && hash === location.hash;
   show(el("p", { className: "loading", textContent: "Loading quizzes…" }));
 
   let quizzes;
   try {
     quizzes = await api.listQuizzes();
   } catch (err) {
+    if (!isCurrent()) return;
     show(el("h1", { textContent: "Quiz" }));
     showError(`Cannot load quizzes: ${(err as Error).message}`);
     return;
   }
+
+  if (!isCurrent()) return;
 
   const list = el("ul", { className: "quiz-list" });
   for (const quiz of quizzes) {
@@ -35,7 +44,9 @@ async function showStartPage(): Promise<void> {
       el("span", { className: "quiz-meta", textContent: `${quiz.numQuestions} questions` }));
     button.addEventListener("click", () => void start(() => api.startSession(quiz.id)));
 
-    const item = el("li", {}, button);
+    const host = el("button", { type: "button", className: "primary", textContent: "Host group quiz" });
+    host.onclick = async () => { host.disabled = true; try { await hostGroup(quiz.id); } catch (err) { showError((err as Error).message); } finally { host.disabled = false; } };
+    const item = el("li", {}, button, host);
     if (quiz.description) item.append(el("p", { className: "quiz-description", textContent: quiz.description }));
     list.append(item);
   }
@@ -43,10 +54,15 @@ async function showStartPage(): Promise<void> {
     list.append(el("li", { className: "empty", textContent: "No quizzes on the server yet." }));
   }
 
+  const groupUpload = el("input", { type: "checkbox" });
+  const uploadMode = el("label", {}, groupUpload, " Host uploaded quiz as a group");
   const file = el("input", { type: "file", accept: ".yaml,.yml", id: "upload" });
   file.addEventListener("change", () => {
     const chosen = file.files?.[0];
-    if (chosen) void start(() => api.upload(chosen));
+    if (chosen) {
+      if (groupUpload.checked) void hostGroup(chosen).catch(err => showError((err as Error).message));
+      else void start(() => api.upload(chosen));
+    }
   });
 
   show(
@@ -55,7 +71,7 @@ async function showStartPage(): Promise<void> {
     el("section", { className: "upload" },
       el("h2", { textContent: "Test your own quiz" }),
       el("p", { className: "hint", textContent: "Upload a YAML quiz file. It stays in memory and is never stored on the server." }),
-      file),
+      uploadMode, file),
   );
 }
 
@@ -141,4 +157,13 @@ async function showResult(info: SessionInfo): Promise<void> {
   );
 }
 
-void showStartPage();
+let stopGroup: (() => void) | undefined;
+function route(): void {
+  routeGeneration++;
+  stopGroup?.(); stopGroup = undefined;
+  const match = location.hash.match(/^#\/group\/([a-f0-9]{32})$/);
+  if (match) stopGroup = showGroup(app, match[1]);
+  else void showStartPage();
+}
+window.addEventListener("hashchange", route);
+route();

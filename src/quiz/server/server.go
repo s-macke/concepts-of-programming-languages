@@ -1,8 +1,7 @@
 // Package server exposes the quiz engine over HTTP.
 //
-// The API deliberately never sends the correct answer of an unanswered
-// question to the browser: the client asks for a sanitized question, posts a
-// choice and only then learns whether it was right.
+// Solo questions reveal their answer only after submission. Group questions
+// reveal answers and statistics only when the host closes the question.
 package server
 
 import (
@@ -11,27 +10,32 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
+	"github.com/s-macke/concepts-of-programming-languages/src/quiz/group"
 	"github.com/s-macke/concepts-of-programming-languages/src/quiz/quiz"
 	"github.com/s-macke/concepts-of-programming-languages/src/quiz/session"
 )
 
 // Server holds the quizzes read from disk and the running sessions.
 type Server struct {
-	quizzes  map[string]*quiz.Quiz
-	sessions *session.Store
-	static   fs.FS
+	quizzes   map[string]*quiz.Quiz
+	sessions  *session.Store
+	static    fs.FS
+	groups    *group.Store
+	publicURL string
 }
 
 // New creates a server serving the given quizzes and the web UI from static.
 func New(quizzes map[string]*quiz.Quiz, sessions *session.Store, static fs.FS) *Server {
-	return &Server{quizzes: quizzes, sessions: sessions, static: static}
+	return &Server{quizzes: quizzes, sessions: sessions, static: static, groups: group.NewStore(time.Hour)}
 }
 
 // Routes builds the HTTP handler. It uses the method and wildcard patterns
 // introduced in Go 1.22, so no third party router is needed.
 func (s *Server) Routes() http.Handler {
 	mux := http.NewServeMux()
+	s.groupRoutes(mux)
 
 	mux.HandleFunc("GET /api/quizzes", s.handleListQuizzes)
 	mux.HandleFunc("POST /api/sessions", s.handleCreateSession)
@@ -187,10 +191,11 @@ func writeError(w http.ResponseWriter, status int, msg string) {
 }
 
 // logRequests is a minimal middleware, mostly so that a lecture demo shows
-// what the browser actually does.
+// what the browser actually does. Log route templates only: real paths contain
+// session credentials or room identifiers. Never log bodies, headers or IPs.
 func logRequests(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("%s %s", r.Method, r.URL.Path)
 		next.ServeHTTP(w, r)
+		log.Printf("%s %s", r.Method, r.Pattern)
 	})
 }

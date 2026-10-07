@@ -1,9 +1,8 @@
 // Package session tracks the state of a running quiz.
 //
-// The Session interface is the seam that keeps a future live, classroom wide
-// mode cheap to add: question delivery and grading are defined here, so a
-// hosted session with many participants and a WebSocket hub can be added
-// beside SoloSession without touching the HTTP API or the domain model.
+// The Session interface describes a solo run. Host-led rooms live in the group
+// package, sharing the quiz domain model but exposing separate authorization
+// and lifecycle operations for multiple participants.
 package session
 
 import (

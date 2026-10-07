@@ -129,7 +129,90 @@ dropped after an hour of inactivity (`-ttl`).
 
 Each question is answered once. A reload does not give a second attempt.
 
-## HTTP API
+## Anonymous group quizzes
+
+Choose **Host group quiz** beside a quiz, or check **Host uploaded quiz as a
+group** before uploading YAML. The host lobby displays a locally generated QR
+code and a copyable join link. Participants scan it and tap **Join**, without
+entering a name or creating an account.
+
+The host starts the quiz, reveals results for each question, and advances to
+the next question. Participants answer independently on their phones, once per
+question. Before reveal, only submission progress is visible. After reveal,
+everyone sees aggregate results and the authored explanation; each participant
+also sees their own feedback. Late arrivals can join the current phase, with
+earlier questions left unanswered. There is no timer or leaderboard.
+
+Choice results show option counts and percentages of submissions. Multiple-choice
+percentages can sum above 100%. Text results show only correct/incorrect counts
+and the authored accepted answer; submitted text is discarded after grading and
+never displayed. The final summary shows participation, completion, per-question
+accuracy and average percentage score across people who submitted at least once.
+All quiz questions count toward that score, even when the host finishes early;
+unanswered questions earn zero. The per-question summary covers opened questions.
+With no submissions or a zero-point quiz, the average is shown as zero.
+
+**Finish early** closes submissions and joining. **Delete room** immediately
+removes the room and all results. Otherwise, rooms expire after `-ttl` without
+successful authenticated activity, or disappear on server restart. Open host or
+participant tabs poll every two seconds and keep the room alive. Public join-page
+views do not extend expiry.
+
+### Phone access and QR links
+
+Phones need access to the running server. `localhost` on a phone refers to that
+phone, not the presenter's computer. Open the host page using a reachable LAN or
+public address, or explicitly configure the QR link base URL:
+
+```sh
+go run ./src/quiz/cmd/quizserver -dir src/quiz/quizzes \
+  -public-url http://192.168.1.42:8080
+```
+
+Replace the example address with your server's reachable address. The default is
+the host browser's origin and page path. Production deployments should use HTTPS.
+The QR is generated in the browser; no external QR service receives the link.
+
+### Anonymity and recovery
+
+The application collects no names, emails, IP-based identities, fingerprints, or
+analytics. Random room-specific bearer tokens distinguish participants and give
+the host control. Tokens stay in tab-scoped session storage, so refreshing or
+reconnecting in the same tab restores access. Clearing storage or starting in a
+fresh browser creates a different participation; the application cannot enforce
+one human per entry. There is no participant list or individual-score API for
+the host. Only group totals are shared, although small groups can still make
+individual outcomes inferable.
+
+Application request logs contain route templates, not actual session/room IDs,
+credentials, answer bodies, or client IPs. Configure hosting and reverse-proxy
+logs accordingly: this application does not guarantee network-level anonymity.
+
+### Group HTTP API
+
+Host creation returns `{id, token, publicURL}`. Joining returns `{token}`. The join
+link contains only the room ID. Authenticated requests use
+`Authorization: Bearer <token>`; never put a credential in a URL.
+
+| Method | Path | Purpose |
+|---|---|---|
+| `POST` | `/api/groups` | Create a room, body `{"quizId":"…"}` |
+| `POST` | `/api/groups/upload` | Create from multipart field `file` (8 MiB request limit) |
+| `POST` | `/api/groups/{id}/join` | Join without authentication while the room is open |
+| `GET` | `/api/groups/{id}` | Authenticated state; only the caller's personal feedback |
+| `POST` | `/api/groups/{id}/answers/{n}` | Participant submission, body `{"answer":["a"]}` |
+| `POST` | `/api/groups/{id}/actions` | Host action, body `{"action":"reveal","revision":1}` |
+
+State includes `phase` (`lobby`, `question`, `reveal`, `finished`), `revision`,
+question number, participant/submission counts and the sanitized current question.
+`correctAnswer`, `explanation`, `stats` and `personal` appear only after reveal or
+finish; `summary` appears on finish. Host actions are `start`, `reveal`, `next`,
+`finish`, and `delete`. Transitions require the current revision; stale requests
+return 409 and cannot advance twice. Deletion requires only the host credential.
+Repeated answers return the original acceptance without changing any count.
+Invalid credentials return 403; unknown, deleted or expired rooms return 404.
+
+## Solo HTTP API
 
 The correct answer is **never** sent to the browser before the question has
 been answered. `GET .../questions/{n}` returns a sanitized question without
@@ -154,7 +237,8 @@ The session id is the only thing protecting a session, so it is 128 random bits.
 |---|---|---|
 | `-addr` | `:8080` | Listen address |
 | `-dir` | `src/quiz/quizzes` | Directory with quiz YAML files |
-| `-ttl` | `1h` | How long an idle session is kept |
+| `-ttl` | `1h` | How long an idle session or group room is kept |
+| `-public-url` | browser origin/path | Reachable base URL used for group QR join links |
 
 ## Docker
 
@@ -192,12 +276,31 @@ The interesting parts, as Go concepts:
   mutable state done deliberately, next to all the channel examples.
 * **Method and wildcard routing** (`GET /api/sessions/{id}`) from Go 1.22 means
   no third party router.
-* **The `Session` interface** is a seam: a live, classroom wide mode with many
-  participants and a WebSocket hub can be added as a second implementation
-  without changing the API or the domain model.
+* **The `Session` interface** supports solo sessions. Group rooms have their own
+  store and API because host controls and multiple participants need different
+  authorization rules. Both modes reuse the same quiz domain model and grading.
+* **A mutex around group transitions** makes answering versus revealing atomic;
+  a revision number prevents duplicate host requests from advancing twice.
 
 ## Tests
 
 ```
 go test ./src/quiz/...
 ```
+
+Group concurrency and privacy checks:
+
+```sh
+go test -race ./src/quiz/...
+cd src/quiz/web
+npm ci
+npm run build
+npx playwright install chromium
+npm run test:group
+```
+
+Alternatively set `QUIZ_BROWSER_BIN=/path/to/chrome` to use an installed browser.
+The browser test builds and starts its own temporary Go server and checks QR
+decoding, all question types, independent participants, uploads, late joining,
+refresh, offline recovery, input preservation, mobile layout, statistics, and
+room deletion. Optional `QUIZ_SCREENSHOT_DIR` retains summary screenshots.

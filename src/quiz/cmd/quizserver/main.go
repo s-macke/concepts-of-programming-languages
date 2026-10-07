@@ -9,6 +9,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"time"
@@ -23,7 +24,14 @@ func main() {
 	addr := flag.String("addr", ":8080", "address to listen on")
 	dir := flag.String("dir", "src/quiz/quizzes", "directory with quiz YAML files")
 	ttl := flag.Duration("ttl", time.Hour, "how long an idle session is kept")
+	publicURL := flag.String("public-url", "", "public HTTP(S) base URL for group join links")
 	flag.Parse()
+	if *publicURL != "" {
+		u, err := url.Parse(*publicURL)
+		if err != nil || (u.Scheme != "http" && u.Scheme != "https") || u.Host == "" || u.RawQuery != "" || u.Fragment != "" || u.User != nil {
+			log.Fatal("public-url must be an HTTP(S) base URL without credentials, query or fragment")
+		}
+	}
 
 	quizzes, problems := quiz.LoadDir(*dir)
 	for _, p := range problems {
@@ -37,9 +45,11 @@ func main() {
 	store := session.NewStore(*ttl)
 	go store.Janitor(ctx, time.Minute)
 
+	handler := server.New(quizzes, store, web.Assets())
+	handler.ConfigureGroups(ctx, *ttl, *publicURL)
 	srv := &http.Server{
 		Addr:              *addr,
-		Handler:           server.New(quizzes, store, web.Assets()).Routes(),
+		Handler:           handler.Routes(),
 		ReadHeaderTimeout: 10 * time.Second,
 	}
 
