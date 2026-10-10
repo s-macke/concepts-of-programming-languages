@@ -13,3 +13,14 @@ Source included with `.code` and `.play` is syntax-highlighted during
 rendering. The language is selected from the source filename, with content
 detection as a fallback, so the generated slides remain static and work
 without client-side JavaScript.
+
+Indented code blocks written directly in a .slide file are highlighted only
+when a `#lang` line precedes them. For the original present tool this line is
+an ordinary comment, so `make slideshow` keeps working. The hint is invisible
+and applies to the next code block only. Any Chroma language name works, e.g. `go`, `c`,
+`java`, `python` or `javascript`:
+
+    #lang python
+
+        def greet(name: str) -> str:
+            return "Hello " + name

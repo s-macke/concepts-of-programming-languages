@@ -128,3 +128,31 @@ func joinHighlightedLines(lines []codeLine) string {
 	}
 	return strings.Join(values, "\n")
 }
+
+func TestLangHintHighlightsPreBlock(t *testing.T) {
+	src := "Title\n\n* Slide\n\n#lang python\n\n    def f(x: int) -> str:\n        return \"a\"\n\n- bullet\n\n    plain text block\n"
+	ctx := &Context{ReadFile: func(string) ([]byte, error) { return nil, nil }}
+	doc, err := ctx.Parse(strings.NewReader(src), "test.slide", 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	elems := doc.Sections[0].Elem
+	if len(elems) != 3 {
+		t.Fatalf("got %d elements, want 3", len(elems))
+	}
+	first := elems[0].(Text)
+	if !strings.Contains(string(first.HTML), "color:") || !strings.Contains(string(first.HTML), "\n") {
+		t.Errorf("python block not highlighted line by line: %q", first.HTML)
+	}
+	if second := elems[2].(Text); second.HTML != "" {
+		t.Errorf("hint must only apply to the next block, got %q", second.HTML)
+	}
+}
+
+func TestLangHintUnknownLanguage(t *testing.T) {
+	src := "Title\n\n* Slide\n\n#lang nosuchlang\n\n    x\n"
+	ctx := &Context{ReadFile: func(string) ([]byte, error) { return nil, nil }}
+	if _, err := ctx.Parse(strings.NewReader(src), "test.slide", 0); err == nil {
+		t.Error("expected an error for an unknown language")
+	}
+}

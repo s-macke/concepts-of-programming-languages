@@ -38,6 +38,39 @@ func highlightCode(lines []codeLine, filename string) ([]codeLine, bool) {
 	if isFallbackLexer(lexer) {
 		return lines, false
 	}
+	return highlightWithLexer(lines, lexer)
+}
+
+// highlightPre highlights an inline preformatted block from a .slide file.
+// The language is given explicitly by a preceding "#lang" comment.
+func highlightPre(source, lang string) (template.HTML, bool) {
+	lexer := lexers.Get(lang)
+	if isFallbackLexer(lexer) {
+		return "", false
+	}
+	sourceLines := strings.Split(source, "\n")
+	lines := make([]codeLine, len(sourceLines))
+	for i, l := range sourceLines {
+		lines[i] = codeLine{L: l, N: i + 1}
+	}
+	lines, ok := highlightWithLexer(lines, lexer)
+	if !ok {
+		return "", false
+	}
+	rendered := make([]string, len(lines))
+	for i, l := range lines {
+		rendered[i] = string(l.HTML)
+	}
+	return template.HTML(strings.Join(rendered, "\n")), true
+}
+
+// highlightWithLexer renders each source line as HTML with inline styles.
+func highlightWithLexer(lines []codeLine, lexer chroma.Lexer) ([]codeLine, bool) {
+	sourceLines := make([]string, len(lines))
+	for i, line := range lines {
+		sourceLines[i] = line.L
+	}
+	source := strings.Join(sourceLines, "\n")
 
 	iterator, err := chroma.Coalesce(lexer).Tokenise(nil, source)
 	if err != nil {

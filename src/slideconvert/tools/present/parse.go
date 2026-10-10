@@ -20,6 +20,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
+	"github.com/alecthomas/chroma/v2/lexers"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer/html"
@@ -204,7 +205,8 @@ func execTemplate(t *template.Template, name string, data interface{}) (template
 type Text struct {
 	Lines []string
 	Pre   bool
-	Raw   string // original text, for Pre==true
+	Raw   string        // original text, for Pre==true
+	HTML  template.HTML // syntax-highlighted text, for Pre==true with a "#lang" hint
 }
 
 func (t Text) TemplateName() string { return "text" }
@@ -221,6 +223,7 @@ type Lines struct {
 	line    int // 0 indexed, so has 1-indexed number of last line returned
 	text    []string
 	comment string
+	lang    string // language from the last "#lang" comment, for the next preformatted block
 }
 
 func readLines(r io.Reader) (*Lines, error) {
@@ -232,7 +235,7 @@ func readLines(r io.Reader) (*Lines, error) {
 	if err := s.Err(); err != nil {
 		return nil, err
 	}
-	return &Lines{0, lines, "#"}, nil
+	return &Lines{line: 0, text: lines, comment: "#"}, nil
 }
 
 func (l *Lines) next() (text string, ok bool) {
@@ -247,6 +250,11 @@ func (l *Lines) next() (text string, ok bool) {
 		if l.comment == "" || !strings.HasPrefix(text, l.comment) {
 			ok = true
 			break
+		}
+		// "#lang go" is a comment for the original present tool, but sets
+		// the highlighting language of the next preformatted block here.
+		if fields := strings.Fields(text); len(fields) == 2 && fields[0] == "#lang" {
+			l.lang = fields[1]
 		}
 	}
 	return
@@ -424,7 +432,15 @@ func parseSections(ctx *Context, name, prefix string, lines *Lines, number []int
 				raw := pre
 				pre = strings.Replace(pre, "\t", "    ", -1) // browsers treat tabs badly
 				pre = strings.TrimRightFunc(pre, unicode.IsSpace)
-				e = Text{Lines: []string{pre}, Pre: true, Raw: raw}
+				t := Text{Lines: []string{pre}, Pre: true, Raw: raw}
+				if lines.lang != "" {
+					if isFallbackLexer(lexers.Get(lines.lang)) {
+						return nil, fmt.Errorf("%s:%d: unknown language in \"#lang %s\"", name, lines.line, lines.lang)
+					}
+					t.HTML, _ = highlightPre(pre, lines.lang)
+					lines.lang = ""
+				}
+				e = t
 			case !isMarkdown && strings.HasPrefix(text, "- "):
 				var b []string
 				for {

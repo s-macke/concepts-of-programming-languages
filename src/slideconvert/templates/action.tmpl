@@ -17,7 +17,9 @@ It determines how the formatting actions are rendered.
 {{end}}
 
 {{define "text"}}
-  {{if .Pre}}
+  {{if .HTML}}
+  <div class="code"><pre>{{.HTML}}</pre></div>
+  {{else if .Pre}}
   <div class="code"><pre>{{range .Lines}}{{.}}{{end}}</pre></div>
   {{else}}
   <p>

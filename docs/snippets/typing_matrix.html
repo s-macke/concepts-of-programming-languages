@@ -1,0 +1,41 @@
+<style>
+    table.typing {
+        border-collapse: collapse;
+        font-size: 22px;
+        line-height: 1.3;
+        font-family: inherit;
+        margin: 10px 0 20px 0;
+    }
+    table.typing th, table.typing td {
+        border: 2px solid #444;
+        padding: 12px 18px;
+        text-align: left;
+        vertical-align: top;
+    }
+    table.typing th {
+        background: #eee;
+    }
+    table.typing th small {
+        font-weight: normal;
+    }
+    table.typing code {
+        font-size: 20px;
+    }
+</style>
+<table class="typing">
+    <tr>
+        <th></th>
+        <th>weak<br><small>implicit conversions</small></th>
+        <th>strong<br><small>no implicit conversions</small></th>
+    </tr>
+    <tr>
+        <th>dynamic<br><small>checked at runtime</small></th>
+        <td><b>JavaScript</b><br><code>"53"</code></td>
+        <td><b>Python</b><br><code>TypeError</code> at runtime</td>
+    </tr>
+    <tr>
+        <th>static<br><small>checked at compile time</small></th>
+        <td><b>C</b><br>compiles: pointer arithmetic,<br>undefined behavior</td>
+        <td><b>Go</b><br>compile error</td>
+    </tr>
+</table>

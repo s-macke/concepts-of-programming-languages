@@ -1,0 +1,131 @@
+title: Overview and Introduction to Go
+description: Lecture 1 recap. Surprising results, paradigms, classifications and why Go.
+
+questions:
+  - type: single
+    text: What does this print in JavaScript?
+    code:
+      lang: javascript
+      source: |
+        console.log("5" + 3);
+        console.log("5" - 3);
+    options:
+      - {id: a, text: "8 and 2"}
+      - {id: b, text: "53 and 2"}
+      - {id: c, text: "53 and an error"}
+      - {id: d, text: "An error in both lines"}
+    answer: b
+    explanation: >-
+      + with a string means string concatenation, so 3 is converted to "3".
+      - is only defined for numbers, so "5" is converted to 5. This is
+      implicit type coercion, a concept, not a bug.
+
+  - type: text
+    text: What does this expression evaluate to in JavaScript?
+    code:
+      lang: javascript
+      source: |
+        "b" + "a" + +"a" + "a"
+    answer: ["baNaNa"]
+    explanation: >-
+      The unary + in +"a" tries to convert "a" to a number, which results in
+      NaN. Concatenated with the other strings this gives "baNaNa".
+
+  - type: single
+    text: To which paradigm does Prolog belong?
+    options:
+      - {id: a, text: "Procedural"}
+      - {id: b, text: "Object oriented"}
+      - {id: c, text: "Functional"}
+      - {id: d, text: "Logic"}
+    answer: d
+    explanation: >-
+      In Prolog you describe facts and rules, and the system searches for
+      solutions. You will see it in the lecture on logic programming.
+
+  - type: multiple
+    text: Which of these are declarative? You describe what you want, not how to get it.
+    options:
+      - {id: a, text: "A SQL query"}
+      - {id: b, text: "An HTML page with a <button> element"}
+      - {id: c, text: "A for loop that sums up a list"}
+      - {id: d, text: "A Dockerfile"}
+    answer: [a, b, d]
+    explanation: >-
+      SQL, HTML and a Dockerfile describe the result. The database, the browser
+      and Docker decide how to get there. The for loop spells out every single
+      step, so it is imperative.
+
+  - type: truefalse
+    text: Go is a multi-paradigm language.
+    answer: "true"
+    explanation: >-
+      Go is mainly procedural, but it supports an object-oriented style with
+      methods and interfaces, and functions are first-class values.
+
+  - type: multiple
+    text: Which of these orthogonal classifications apply to Go?
+    options:
+      - {id: a, text: "Statically typed"}
+      - {id: b, text: "Interpreted"}
+      - {id: c, text: "Cross compiler"}
+      - {id: d, text: "Platform-independent bytecode"}
+      - {id: e, text: "Statically linked"}
+    answer: [a, c, e]
+    explanation: >-
+      Go is statically typed, compiled to native machine code, statically
+      linked, and one compiler can build for many target platforms. Java, in
+      contrast, compiles to platform-independent bytecode.
+
+  - type: single
+    text: Java checks every array access for its bounds. Which design trade-off is this?
+    options:
+      - {id: a, text: "Reliability vs. performance"}
+      - {id: b, text: "Readability vs. conciseness"}
+      - {id: c, text: "Flexibility vs. restriction"}
+      - {id: d, text: "Simplicity vs. complexity"}
+    answer: a
+    explanation: >-
+      The check prevents memory corruption, so the program is more reliable.
+      But every access costs a little extra time.
+
+  - type: single
+    text: Why was Go designed at Google?
+    options:
+      - {id: a, text: "To replace JavaScript in the browser"}
+      - {id: b, text: "To address slow builds and complexity of large C++ code bases"}
+      - {id: c, text: "To build a purely functional language"}
+      - {id: d, text: "To run on the Java Virtual Machine"}
+    answer: b
+    explanation: >-
+      Go was designed for concurrent systems programming. Fast compilation and a
+      small, simple language were explicit goals.
+
+  - type: multiple
+    text: Which of these projects are written in Go?
+    options:
+      - {id: a, text: "Docker"}
+      - {id: b, text: "Kubernetes"}
+      - {id: c, text: "The Linux kernel"}
+      - {id: d, text: "Prometheus"}
+    answer: [a, b, d]
+    explanation: >-
+      Go is the major language behind the Cloud Native stack: Docker,
+      Kubernetes, etcd, Prometheus and Grafana. The Linux kernel is written in C,
+      with some parts now in Rust.
+
+  - type: truefalse
+    text: Clean code and good programming mainly depend on the programming language.
+    answer: "false"
+    explanation: >-
+      Clean code and good programming are orthogonal to the language. You can
+      write good and bad code in every language.
+
+  - type: text
+    text: >-
+      Complete the quote by Bjarne Stroustrup: "There are only two kinds of
+      languages: the ones people complain about and the ones ..."
+    answer: ["nobody uses", "no one uses", "that nobody uses", "that no one uses"]
+    explanation: >-
+      From "The C++ Programming Language". Every language that is really used
+      has its weak spots, and people talk about them.

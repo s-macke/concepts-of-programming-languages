@@ -29,6 +29,8 @@ https://www.qaware.de
 
 What does this print?
 
+#lang java
+
     Integer a = 1000;
     Integer b = 1000;
     System.out.println(a == b);
@@ -41,6 +43,8 @@ What does this print?
 : https://www.jdoodle.com/online-java-compiler
 
 * Every number in Java is the same. Right? The answer
+
+#lang java
 
     Integer a = 1000;
     Integer b = 1000;
@@ -78,6 +82,8 @@ What does this print?
 * Types VS. Functions (Non-Orthogonal Design by example)
 - E. g. in C, the type system is not orthogonal to the function system.
 
+#lang c
+
     // Ints are allowed to return
     int returnint() {
         return 1;
@@ -107,6 +113,8 @@ What does this print?
 --  In Go, there is only one loop: for
 
 - In Java the way variables are stored depends on their types.
+
+#lang java
 
     int x; // x is a value
     MyClass y; // y is a reference
@@ -138,9 +146,10 @@ Do you know a non-orthogonal feature in your favorite programming language!
 - All essential components are written in Go: Docker, Kubernetes, Etcd, Prometheus, Grafana -> An important reason to take a closer look at Go
 
 
-* TypeScript will be written in Go
+* TypeScript was rewritten in Go
 
 - Some build tools for the JavaScript ecosystem are already built in Go, e.g. esbuild
+- 20 times faster
 
 - Anders Hejlsberg: Microsoft Technical Fellow and lead architect of TypeScript. Original designer of C#, Delphi, and Turbo Pascal.
 .link https://devblogs.microsoft.com/typescript/typescript-native-port/
@@ -236,7 +245,18 @@ Value types are primitive data types (int, double, boolean, etc.) that directly 
 
 .play ../src/basics/types/values/value-type.go /func foo/,
 
+* Value types: Strings and why it matters
+
+- In Go, *string* is a primitive type, too. The function gets a copy and cannot change the caller's string.
+- In Java, *String* is a class, i.e. a reference type. It behaves the same here only because strings are immutable.
+- *Why* *is* *this* *good?* No hidden side effects. A function can only change the caller's variable if you explicitly pass a pointer. This makes code easier to understand, to test and to run concurrently.
+
+: Java kopiert die Referenz, nicht den String. Gegenprobe: StringBuilder als Parameter, dann ist die Änderung beim Aufrufer sichtbar.
+: In Go dasselbe mit []byte statt string. Ob der Aufrufer Änderungen sieht, hängt davon ab, ob die geteilten Daten veränderbar sind.
+
 *  The many ways of variable declarations in Go
+
+#lang go
 
     var foo int  // default value zero
     foo = 32
@@ -251,12 +271,33 @@ Value types are primitive data types (int, double, boolean, etc.) that directly 
 
     foo, ok := 32, true // foo is an int 32, ok is a boolean with value true
 
-* Weak typing vs. Strong typing I
+* What should "5" + 3 do?
+
+What should this do?
+
+#lang javascript
+
+    "5" + 3
+
+- Return 8? Return "53"? Report an error?
+- And if it is an error: When do you want to find out? While compiling or in production?
+
+: Raten und diskutieren lassen. Die erste Frage ist stark vs. schwach, die zweite statisch vs. dynamisch.
+
+* "5" + 3 in four languages
+
+.html snippets/typing_matrix.html
+
 Languages differ in how strictly they handle types
 
 - type conversions implicit or explicit
 - strict or loose typing rules at compile time
 - dynamic types (runtime types) allowed or not
+
+: C: "5" + 3 ist Zeigerarithmetik auf dem String-Literal und zeigt hinter das Ende. Der Compiler warnt nur (-Wstring-plus-int).
+: Python: TypeError: can only concatenate str (not "int") to str
+: Go: invalid operation: mismatched types untyped string and untyped int
+: Stark/schwach ist eher ein Spektrum als eine feste Definition.
 
 * Weak typing vs. Strong typing II
 
@@ -278,6 +319,8 @@ Go uses a strong typing system. But why?
 * Where implicit type conversion in C goes wrong
 
 Is the message printed?
+
+#lang c
 
     int main() {
         signed int a = -1;
@@ -351,10 +394,14 @@ And what happens if you change int to char?
 
 * Dynamic typing in Python
 
+#lang python
+
     x = 10        # x is an int
     x = "hello"   # now x is a str
 
 ---
+
+#lang python
 
     def greet(**kwargs):
         for key, value in kwargs.items():
@@ -363,6 +410,8 @@ And what happens if you change int to char?
     greet(name="Alice", age=30, city="Munich")
 
 ---
+
+#lang python
 
     def dynamic(value):
         if value > 0:
@@ -387,6 +436,8 @@ And what happens if you change int to char?
 
 - JavaScript ⮕ *TypeScript:* static types on top of JavaScript, compiled to plain JavaScript
 - Python ⮕ *type* *hints:* checked by tools like mypy or pyright, ignored at runtime
+
+#lang python
 
     def dynamic(value: int) -> str | int:
         if value > 0:
@@ -451,6 +502,8 @@ And what happens if you change int to char?
 
 * Arrays vs. Slices: What does this print?
 
+#lang go
+
     func modifyArray(a [3]int) { a[0] = 99 }
     func modifySlice(s []int)  { s[0] = 99 }
 
@@ -473,6 +526,8 @@ And what happens if you change int to char?
 .image ./img/pointer_meme.jpeg 450 _
 
 * The problem: Go copies every argument
+
+#lang go
 
     func increment(x int) {
         x++
@@ -505,6 +560,8 @@ A pointer is a variable which contains a memory address
 - Pointers are passed by copy, just like values
 
 * Which calls really swap a and b?
+
+#lang go
 
     a, b := 1, 2
 
@@ -572,6 +629,8 @@ A pointer is a variable which contains a memory address
 - The rune type is an alias for int32 and can store every Unicode code point
 - `[]rune(string)` converts a string into a slice of runes
 - The range operator has two return values: the position and the current value
+
+#lang go
 
     pos, ch := range runes
 
@@ -644,6 +703,8 @@ A pointer is a variable which contains a memory address
 
 Types can be defined with the keyword "type"
 
+#lang go
+
     // Page contains an array of words.
     type Page []string
 
@@ -683,4 +744,8 @@ Types can be defined with the keyword "type"
 :  - Object-oriented, Functional, Parallel, Modular and Versioned
 
 * Exercise 2.2
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.1.md
+
 .link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise2.2.md
+
