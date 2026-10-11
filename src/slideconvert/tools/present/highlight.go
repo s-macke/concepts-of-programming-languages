@@ -107,6 +107,12 @@ func highlightWithLexer(lines []codeLine, lexer chroma.Lexer) ([]codeLine, bool)
 				rendered.WriteString(escaped)
 				continue
 			}
+			// Tokens the lexer does not understand get a red background in
+			// most themes. Render them as plain text instead.
+			if token.Type == chroma.Error {
+				rendered.WriteString(escaped)
+				continue
+			}
 			css := chromahtml.StyleEntryToCSS(theme.Get(token.Type).Sub(background))
 			if css == "" {
 				rendered.WriteString(escaped)

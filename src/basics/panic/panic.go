@@ -14,8 +14,8 @@ func getElementWithRecover(array []int, index int) (value int) {
 		r := recover()
 		if r != nil {
 			fmt.Println("Recovered with message '", r, "'")
+			value = -1
 		}
-		value = -1
 	}()
 	return getElement(array, index)
 }

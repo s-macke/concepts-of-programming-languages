@@ -100,6 +100,8 @@ Online tutorials
 
 * Haskell I: Hello world
 
+#lang haskell
+
   main = print "Hello, World!"
 
 1. Define a function with name "main" with no input and output parameters.
@@ -113,6 +115,8 @@ Online editor:
 * Haskell: Type System
 
 - Supports typical basic types such as Int, Float, Double, Char, String, Bool, etc.
+
+#lang haskell
 
   2 + 15                 => 17
   40 * 100               => 4900
@@ -135,6 +139,8 @@ Online editor:
 - Variables are immutable
 - Variables are defined locally using the let keyword
 
+#lang haskell
+
   r = 5 -- globally defined variable
   main = do
          let n = r  -- local defined "variable"
@@ -153,10 +159,14 @@ matches that in any imperative language
 
 Defines a function *inc* that takes one argument *x* and returns *x* + 1
 
+#lang haskell
+
   inc x = x + 1
   main = print (inc 1)
 
 - Alternative syntax for function calling
+
+#lang haskell
 
   inc x = x + 1
   main = print $ inc 1
@@ -168,10 +178,14 @@ The *$* operator is used to avoid parentheses. It has the lowest precedence of a
 Function, which takes multiple arguments, can be partially applied
 Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
+#lang haskell
+
   add a b = a + b
   main = print $ add 1 2
 
 - Alternative syntax
+
+#lang haskell
 
   add a b = a + b
   main = do
@@ -180,10 +194,14 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 - So this makes sense
 
+#lang haskell
+
   add a b = a + b
   main = print( (add 1) 2)
 
 * Haskell: Type signatures
+
+#lang haskell
 
     add :: Int -> Int -> Int
     add a b = a + b
@@ -193,12 +211,16 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 - The function signature can be read as "add" takes two Int arguments and returns an Int
 - However with partial application in mind you can read it as "add" takes one Int argument and returns a function that takes one Int argument and returns an Int
 
+#lang haskell
+
   add :: Int -> (Int -> Int)
 
 : * Haskell: Type classes
 : TODO
 
 * Haskell: Functional Composition
+
+#lang haskell
 
   square x = x * x
   tripleSquare = square . square . square
@@ -231,10 +253,14 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 - with if-then-else
 
+#lang haskell
+
   max a b = if a > b then a else b
   main = print $ Main.max 1 2  -- max already exists, so be more specific
 
 - with guards
+
+#lang haskell
 
     max a b | a > b = a
             | otherwise = b
@@ -254,6 +280,8 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
 
 - Using recursion (with the "if then else" expression)
 
+#lang haskell
+
   factorial n = if n < 2
                 then 1
                 else n * factorial (n - 1)
@@ -261,6 +289,8 @@ Here, the function *add* takes two arguments *a* and *b* and returns *a* + *b*
   main = print $ factorial 10
 
 - Using recursion (with pattern matching)
+
+#lang haskell
 
   factorial 0 = 1
   factorial n = n * factorial (n - 1)
@@ -293,10 +323,14 @@ They both work by grouping multiple values into a single combined value.
 
 - How to return multiple values from a function?
 
+#lang haskell
+
   addsub a b = (a + b, a - b)
   main = print $ addsub 1 2
 
 - How to access the elements of a tuple?
+
+#lang haskell
 
       add a b = (a + b, a - b)
       main = do
@@ -314,6 +348,8 @@ They both work by grouping multiple values into a single combined value.
 - Lists are homogenous, i.e. all elements of a list must have the same type
 - Lists are immutable
 
+#lang haskell
+
   main = do
        print [1,2,3]
        print (1:2:3:[])    -- same as [1,2,3]
@@ -326,6 +362,8 @@ They both work by grouping multiple values into a single combined value.
        print $ init [1,2,3] -- all elements except the last one
 
 * Haskell: Functional usage of lists
+
+#lang haskell
 
   myhead (x:xs) = x
   mytail (x:xs) = xs
@@ -342,11 +380,15 @@ They both work by grouping multiple values into a single combined value.
 
 - How to reverse a list?
 
+#lang haskell
+
   reverse [] = []
   reverse (x:xs) = Main.reverse xs ++ [x]
   main = print $ Main.reverse [1,2,3]
 
 - How to check if a list is a palindrome?
+
+#lang haskell
 
   isPalindrome [] = True
   isPalindrome [x] = True
@@ -369,6 +411,8 @@ They both work by grouping multiple values into a single combined value.
 
 * Haskell: Functional Composition with Lists
 
+#lang haskell
+
   import Data.List
   revsort = (reverse . sort)
   main = print $ revsort [2,8,7,10,1,9,5,3,4,6]
@@ -377,6 +421,8 @@ They both work by grouping multiple values into a single combined value.
 2. prints the result of revsort for the given table
 
 * Haskell: Lazy evaluation
+
+#lang haskell
 
   osc :: [Integer]
   osc = 0 : 1 : osc
@@ -397,6 +443,8 @@ The list osc is evaluated only as much as needed.
 - A function that takes another function as an argument or returns a function as a result is called a higher order function
 - map takes a function and a list as arguments and returns a list
 
+#lang haskell
+
   map :: (a -> b) -> [a] -> [b]
   map f [] = []
   map f (x:xs) = f x : map f xs
@@ -404,6 +452,8 @@ The list osc is evaluated only as much as needed.
   main = print $ map (+1) [1,2,3]
 
 - Can also be used with partial application
+
+#lang haskell
 
   add x y = x + y
 
@@ -418,9 +468,13 @@ The list osc is evaluated only as much as needed.
 
 With the filter function
 
+#lang haskell
+
    main = print $ filter (<3) [4,3,2,1,2,3,4]    -- returns [2,1,2]
 
 we can finally define the famous quicksort algorithm
+
+#lang haskell
 
   quickSort []     = []
   quickSort (x:xs) = quickSort (filter (<x) xs)
@@ -431,6 +485,8 @@ we can finally define the famous quicksort algorithm
 * Communication with the outside world
 
 Also Haskell have to perform IO
+
+#lang haskell
 
   import Data.Time.Clock
   import Control.Concurrent
@@ -446,6 +502,8 @@ Also Haskell have to perform IO
 The <- sign is used to assign the result of a non-pure function to a variable
 
 * IO Sequencing with do Notation and return in Haskell
+
+#lang haskell
 
   import Data.Time.Clock
   import Data.Time

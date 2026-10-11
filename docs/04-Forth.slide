@@ -110,6 +110,8 @@ These notations are named as how they use operator in expressions.
 
 Evaluate
 
+#lang forth
+
   3 9 + 4 6 + *
 
 .image img/stack1.png 200 _
@@ -192,12 +194,16 @@ Online tutorial
 - *Dictionary:* Stores all command *words* and their definitions
 - *Interpreter:* Interpretively executes commands found in the dictionary using the stack to store calculations
 
+#lang forth
+
   ." Hello World!" cr - prints "Hello World" and a newline (carriage return)
   .                   - pops the top of the stack and prints its value
   .s                  - shows the content of the stack
   words               - shows all the available words in the dictionary
 
 e. g.
+
+#lang forth
 
   3 9 + 4 6 + * .
 
@@ -216,25 +222,35 @@ As a stack machine, there are a few operations that on manipulating the stack.
 
 * Constants
 
+#lang forth
+
   constant <name>
 
 The *constant* *<name>* word adds a new word into the dictionary which pushes the constant value of *<name>* onto the stack.
+
+#lang forth
 
    42 constant fourtytwo
    fourtytwo .   ( outputs 42 )
 
 What is the output of the following code?
 
+#lang forth
+
     2 constant 3
     3 4 + .
 
 *Comments*
+
+#lang forth
 
   ( This is a comment )
 
 "(" and ")" are words in the dictionary. They are used to mark the beginning and end of a comment. The word "(" searches for the next ")" word and jumps to it.
 
 * Store and fetch variables
+
+#lang forth
 
   variable <name>
 
@@ -243,6 +259,8 @@ What is the output of the following code?
 - *@* - fetches the value of the variable from the given pointer on the stack
 - *!* - stores the top of the stack into the variable
 
+#lang forth
+
   variable x    ( equivalent to var x int )
   1 x !         ( equivalent to x = 1 )
   x @ .         ( equivalent to print(x) )
@@ -250,6 +268,8 @@ What is the output of the following code?
 
 
 * Functions: Adding a word
+
+#lang forth
 
   : <name> <body> ;
 
@@ -265,6 +285,8 @@ What is the output of the following code?
 - In Forth, *true* has the numeric value of -1 and *false* has the value of 0.
 - a 32-bit binary with the value -1 is in binary 11111111111111111111111111111111b
 - Conditional operators pops the top 2 values on the stack and push the boolean onto the stack
+
+#lang forth
 
    false invert .  ( outputs true )
    1 2 < .         ( outputs true )
@@ -288,6 +310,8 @@ other words:  <, >, =, <>, <=, >=, 0=, and, or, xor
 
 Absolute value:
 
+#lang forth
+
    : absolute  ( returns the absolute value )
      dup 0 < if -1  *  then ;
 
@@ -295,6 +319,8 @@ Absolute value:
 
 
 Boolean output:
+
+#lang forth
 
    : .bool ( prints the boolean )
      -1 = if ." true" else ." false" then ;
@@ -314,6 +340,8 @@ do loop copies these two values onto the call stack
 - j is like i and is used for nested do loops
 - leave or unloop breaks out of a do loop
 
+#lang forth
+
   : countdown  ( count down from ten to zero )
     11 0 do
            10 i - .
@@ -331,6 +359,8 @@ do loop copies these two values onto the call stack
 
 - Similar to a while loop
 
+#lang forth
+
   : countdown
     0
     begin
@@ -342,9 +372,13 @@ do loop copies these two values onto the call stack
 
 * strings
 
+#lang forth
+
   s" <string>"
 
 - Stores the <string> in the heap and pushes the address of the string and its length onto the stack
+
+#lang forth
 
   : printEachChar
   0 do    ( the length of the string is already on the stack )
@@ -367,6 +401,8 @@ do loop copies these two values onto the call stack
 - Write a function, which checks whether the given number on the stack is a prime number (loop over all odd numbers and test via the word "mod")
 - Write a function "swapv", which swaps the content of two variables
 
+#lang forth
+
   variable a   1 a !   ( a = 1 )
   variable b   2 b !   ( b = 2 )
   a b swapv
@@ -388,6 +424,8 @@ do loop copies these two values onto the call stack
 
 array with initialization
 
+#lang forth
+
   create [myarray] 10 , 20 , 30 ,
   [myarray] @ .  ( outputs 10 )
   [myarray] cell+ @ .  ( outputs 20 )
@@ -395,6 +433,8 @@ array with initialization
   [myarray] 2 cells + @ .  ( outputs 30 )
 
 alloc 12 bytes
+
+#lang forth
 
   create [myarray] 12 allot
   [myarray] 4 + c@  ( access byte number 4 )
@@ -404,6 +444,8 @@ alloc 12 bytes
 Forth has a lot of built-in words. But most of them are just made of other words.
 
 - The words ":", "variable", "constant" use all the next word as a name and use "create" to allocate a new word
+
+#lang forth
 
     : variable   create  0 , ;
     : constant   create  ,  DOES> @ ;
@@ -460,6 +502,8 @@ Only 215 lines of C code and 2800 lines of bootstrap Forth code.
 : https://www.tutorialspoint.com/execute_forth_online.php
 
 * Java bytecode is actually a stack machine
+
+#lang java
 
     public int Add(int a, int b, int c) {
         return a + b + c;

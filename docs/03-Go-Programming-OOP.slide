@@ -23,6 +23,20 @@ https://www.qaware.de
 * Error Handling
 .image ./img/error_meme.jpg 400 _
 
+* The problem: How does the caller learn about an error?
+
+- *C:* return -1 or NULL and set errno. Easy to ignore:
+
+#lang c
+
+    FILE *f = fopen("data.txt", "r");
+    fprintf(f, "hello");   // crashes if fopen failed
+
+- *Java:* exceptions. Invisible control flow: any call might throw.
+- *Go:* the error is an explicit return value. You see it in the signature, and ignoring it needs an explicit *_*.
+
+: Frage ans Publikum: Wie meldet eure Lieblingssprache Fehler?
+
 * Errors in Go
 
 Go doesn't have try-catch exception based error handling.
@@ -32,14 +46,18 @@ _Recoverable_: e. g. file not found
 
 - Go returns the error as one of the return values
 
-	err := ioutil.WriteFile(src.Name(), []byte("hello"), 0644)
+#lang go
+
+	err := os.WriteFile("hello.txt", []byte("hello"), 0644)
 	if err != nil {
-		log.Error(err)
+		log.Println(err)
 	}
 
-_Unrecoverable_: array access outside its boundaries, out of memory
+_Unrecoverable_ (panic): array access outside its boundaries, nil pointer dereference. The program crashes, unless the panic is caught with recover.
 
 * The problem: Cleanup on every return path
+
+#lang go
 
     func process(name string) error {
         f, err := os.Open(name)
@@ -64,25 +82,63 @@ _Unrecoverable_: array access outside its boundaries, out of memory
 
 The "defer" statement lets us ensure that code runs before a function exits
 
+#lang go
+
     f, err := os.Open("myfile.txt")
     if err != nil {
         return err
     }
-    defer f.Close() // Will be executed on function exit, even in case of an unrecoverable error.
+    defer f.Close() // Will be executed on function exit, even in case of a panic.
     ....
     // read, write
 
 - One line directly after opening, for every return path
 - Careful: defer runs at the end of the function, not at the end of a block (e.g. inside loops)
 
+* What does this print?
+
+.play ../src/basics/defer/main.go /func printNumbers/,
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* What does this print? The answer
+
+    2
+    1
+    0
+
+- Deferred calls run in reverse order (last in, first out)
+- The arguments are evaluated immediately, when the defer statement runs
+
 * unrecoverable error: panic and recover by using defer
 .play ../src/basics/panic/panic.go  /func getElement/,/EOF OMIT/
 
 
+* What do these calls return?
+
+#lang go
+
+    array := []int{3, 4, 5}
+    fmt.Println(getElementWithRecover(array, 1))
+    fmt.Println(getElementWithRecover(array, 3))
+
+: Raten lassen, dann im Demo ausprobieren.
+: Antwort: 4, dann "Recovered with message ' Out of bounds '" und -1.
+: Die deferred Funktion kann den benannten Rückgabewert value nach dem panic noch ändern.
+
+* When to use panic and recover?
+
+- *panic* is for bugs, not for expected errors. A missing file is an error, not a panic.
+- *recover* belongs at a boundary. Example: A web server catches the panic of one request, logs it and keeps serving all other requests. Go's *net/http* server does exactly this.
+- Don't use panic and recover as a replacement for exceptions.
+
 * Exception Pro and Cons
 
-- What do you think are the pros and cons of exceptions?
-- Miro Board ...
+- What do you think are the pros and cons of exceptions? ⮕ Miro Board
 
 : * Exception Pro and Cons
 
@@ -161,11 +217,32 @@ The "defer" statement lets us ensure that code runs before a function exits
 : * The Base Type for Container is the Empty Interface (interface{})
 : .code ../src/oop/stack/stack.go /Stack/,/END OMIT/
 
+* Is Go an object-oriented language?
+
+- Yes or no? Vote!
+
+: Per Handzeichen abstimmen lassen und das Ergebnis merken. Am Ende der Vorlesung noch einmal fragen.
+
+* The problem: Who protects the data?
+
+#lang c
+
+    struct Rational {
+        int numerator;
+        int denominator;
+    };
+
+    r.denominator = 0;   // possible anywhere in the program
+
+- Data and the functions that keep it consistent are separate
+- Every function can break the rule "denominator is never 0"
+- OOP bundles the data with the code that guards it
+
 * Structure of object oriented programming
 
 *Wikipedia*: Object-oriented programming (OOP) is a programming paradigm based on the concept of "objects", which can contain data and code: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).
 
-- *Classes*: Data and methods which acts on the data. Blueprint for objects
+- *Classes*: Data and methods which act on the data. Blueprint for objects
 
 - *Objects*: instances of classes
 
@@ -179,7 +256,7 @@ The "defer" statement lets us ensure that code runs before a function exits
 
 - *Encapsulation:* Bundling of data with the methods that operate on that data. Select what is public accessible and what is private.  Ensure that the consistency of the data is maintained.
 - *Abstraction:* Provide abstraction of a class without the implementation. Manage the complexity by hiding.
-- *Inheritance:* Based class upon another class. Goal is reusing the parent class properties.
+- *Inheritance:* Base a class upon another class. Goal is reusing the parent class properties.
 - *Polymorphism:* Objects of different types can be accessed through the same interface or the use of a single variable to represent different types
 
 Go is not a pure object oriented programming language but
@@ -208,11 +285,36 @@ allows an object-oriented style of programming
 : https://flaviocopes.com/golang-is-go-object-oriented/
 : https://code.egym.de/introduction-to-oop-in-golang-e4841a9c4e3e
 
+* Your guess: Which principles does Go support?
+
+- Encapsulation?
+- Abstraction?
+- Inheritance?
+- Polymorphism?
+
+: Kurz raten lassen. Die Antwort ist der Fahrplan für den Rest der Vorlesung.
+
+* Our roadmap for today
+
+- *Encapsulation:* yes, via packages and capitalization
+- *Abstraction:* yes, via interfaces
+- *Inheritance:* no, but embedding
+- *Polymorphism:* yes, via interfaces
+
+* How do you make a field private?
+
+- In Java?
+- In Python?
+- In Go?
+
+: Kurze Runde im Publikum.
+: Java: private. Python: nur Konvention _x, mit __x Name Mangling. JavaScript: #x. Go: kleiner Anfangsbuchstabe, sichtbar im ganzen Package.
+
 * Encapsulation I: No classes, but structs
 
 .play ../src/oop/constructor/rational.go /Rational/,/END OMIT/
 
-- Capitalized fields are public outside of the package. E. g. *Rational* and *NewRational* are public while *Rational.numerator* and *Rational.denominator* are not.
+- Capitalized identifiers (types, functions, fields) are public outside of the package. E. g. *Rational* and *NewRational* are public while *Rational.numerator* and *Rational.denominator* are not.
 
 : Go has no classes but types and functions
 
@@ -220,12 +322,16 @@ allows an object-oriented style of programming
 
 - Classical Procedural syntax (Used often in C)
 
+#lang go
+
   // Multiply method for rational numbers
   func Multiply(r Rational, y Rational) Rational {
       return NewRational(r.numerator*y.numerator, r.denominator*y.denominator)
   }
 
 - Object Oriented style syntax
+
+#lang go
 
   // Multiply method for rational numbers
   func (r *Rational) Multiply(y Rational) Rational {
@@ -236,7 +342,7 @@ allows an object-oriented style of programming
   r2 := NewRational(2, 4)
   r3 := r1.Multiply(r2)
 
-The variable *r* is in both cases similar to the Java *this*, which reference to the class instance
+The variable *r* is in both cases similar to the Java *this*, which refers to the instance
 
 - *Why* *methods?* Go has no overloading. A package cannot have a function *Multiply* for *Rational* and another one for *Matrix*. Methods give each type its own namespace.
 - Interfaces are built on methods (see later)
@@ -256,6 +362,13 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 .play ../src/oop/orthogonal/int.go
 
 
+* What does this print?
+
+.play ../src/oop/Syntax_OOP/syntax_oop.go /type Bar/,
+
+: Raten lassen, dann auf der nächsten Folie ausführen.
+: Antwort: <nil>, <nil>, Hello. Die Methode ist nur eine Funktion mit b als Parameter, b wird nie dereferenziert.
+
 * Syntax level OOP
 
 .play ../src/oop/Syntax_OOP/syntax_oop.go
@@ -264,11 +377,15 @@ The variable *r* is in both cases similar to the Java *this*, which reference to
 
 Encapsulation of methods is basically just a syntax element.
 
+#lang go
+
     func (r *Rational) Multiply(y Rational) Rational {
      ....
     }
 
 is internally transformed into
+
+#lang go
 
     func Multiply(r *Rational, y Rational) Rational {
      ....
@@ -287,6 +404,8 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 
 - Composition
 
+#lang java
+
     class Engine {
         ....
     }
@@ -295,6 +414,8 @@ Composition and inheritance are two ways to achieve code reuse and design modula
     }
 
 - Inheritance
+
+#lang java
 
   class Animal {
       ....
@@ -346,6 +467,8 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 
 .link https://www.youtube.com/watch?v=Ng8m5VXsn8Q&t=414s
 
+#lang java
+
     class Runner {
         public void run(Task task) { task.run(); }
         public void runAll(List<Task> tasks) { for (Task task : tasks) { run(task); } }
@@ -354,12 +477,12 @@ Composition and inheritance are two ways to achieve code reuse and design modula
     class RunCounter extends Runner {
         private int count = 0;
 
-        @override public void run(Task task) {
+        @Override public void run(Task task) {
             count++;
             super.run(task);
         }
 
-        @override public void runAll(List<Task> tasks) {
+        @Override public void runAll(List<Task> tasks) {
             count += tasks.size();
             super.runAll(tasks);
         }
@@ -367,12 +490,36 @@ Composition and inheritance are two ways to achieve code reuse and design modula
 
 When I run 3 tasks with RunCounter.runAll, what value does *count* have?
 
+* The issue with inheritance: The answer
+
+*count* is *6*, not 3.
+
+- *RunCounter.runAll* adds 3
+- *super.runAll* calls *run()* for each task. Because of dynamic dispatch, this is *RunCounter.run*, which adds 1 each time.
+- The subclass depends on an implementation detail of the base class (fragile base class problem)
+
 * According to the Go main architects inheritance causes
 
 - Tight Coupling
 - Weak Encapsulation
 - Surprising Bugs
 
+
+* The problem: Composition needs boilerplate
+
+#lang go
+
+    type ColorPoint struct {
+        point Point
+        c     int
+    }
+
+    func (cp *ColorPoint) Move(dx, dy int) { cp.point.Move(dx, dy) }
+    func (cp ColorPoint) String() string   { return cp.point.String() }
+    // ... one forwarding method for every method of Point
+
+- Every field access goes through *cp.point.x*
+- Every method of *Point* needs a forwarding method in *ColorPoint*
 
 * Embedding
 - Go does of course support composition.
@@ -388,6 +535,8 @@ When I run 3 tasks with RunCounter.runAll, what value does *count* have?
 
 * Polymorphism is not possible with embeddings.
 
+#lang go
+
     // Point is a two dimensional point in a cartesian coordinate system.
     type Point struct{ x, y int }
 
@@ -397,8 +546,8 @@ When I run 3 tasks with RunCounter.runAll, what value does *count* have?
         c     int
     }
 
-    var Point p = Point{}
-    var ColorPoint cp = ColorPoint{}
+    var p Point = Point{}
+    var cp ColorPoint = ColorPoint{}
 
     p = cp // Compile Error
     p = cp.Point // Works
@@ -408,15 +557,14 @@ When I run 3 tasks with RunCounter.runAll, what value does *count* have?
 
 * Delegation of Functions in Go
 
-- Overriding of methods is kind of supported, overloading is not!
+- A method of the outer type shadows the method of the embedded type. This looks like overriding, but it is not. Overloading is not supported!
 
 - please check ../src/oop/runtask/runtask.go
 
 - Remember *RunCounter:* The embedded type never calls back into the outer type. The inner *RunAll* calls its own *Run*, so the double counting cannot happen.
 
-: prints "a.bar"
-: real delegation should print "b.bar", because delegation means
-: evaluating the receiver member method Foo() of A in the context of the sender object B
+: runtask.go: Den auskommentierten RunCounter-Teil einkommentieren. count ist 3, nicht 6, weil Runner.RunAll das eigene Run aufruft und nicht RunCounter.Run.
+: Echte Delegation würde die Methode im Kontext des äußeren Objekts (RunCounter) auswerten.
 
 * Polymorphism: The problem
 
@@ -429,12 +577,16 @@ An interface is a set of methods
 
 In Java:
 
+#lang java
+
   interface Switch {
       void open();
       void close();
   }
 
 In Go:
+
+#lang go
 
   type OpenCloser interface {
       Open()
@@ -447,12 +599,16 @@ In Go:
 
 - Java interfaces are satisfied explicitly
 
+#lang java
+
   class Door implements Switch {
-    public void Open() { ... }
-    public void Close() { ... }
+    public void open() { ... }
+    public void close() { ... }
   }
 
 - Go interfaces are satisfied implicitly
+
+#lang go
 
   type Door struct {}
   func (d *Door) Open() { ... }
@@ -468,12 +624,16 @@ Go supports polymorphism only via interfaces
 
 The print functions in the *fmt* package support the following interface
 
+#lang go
+
     type Stringer interface {
         String() string
     }
 
 - Every type with a String() Method is detected by the print commands and the String function is executed
 - Detection if object is type of interface
+
+#lang go
 
     if tmp, ok := object.(Stringer); ok {
         // The object implements stringer
@@ -496,6 +656,8 @@ An implementation can support multiple interfaces at the same time.
 
 - any is an alias for an empty *interface{}* and hence matches all types
 
+#lang go
+
     type any = interface{}
 
 * The error interface
@@ -503,6 +665,8 @@ An implementation can support multiple interfaces at the same time.
 .play ../src/oop/errors/error.go /START OMIT/,/END OMIT/
 
 The error is just an interface with one method that should return the error message:
+
+#lang go
 
     type error interface {
         Error() string
@@ -517,12 +681,34 @@ The error is just an interface with one method that should return the error mess
 : * Example: A type implements an interface when providing the required methods
 : .code ../src/oop/mail/smtp/sender.go /type/,/END OMIT/
 
+* Why is error an interface?
+
+#lang go
+
+    type NotFoundError struct {
+        Path string
+    }
+
+    func (e *NotFoundError) Error() string {
+        return "not found: " + e.Path
+    }
+
+- Every error type can carry its own data (file path, HTTP status, ...)
+- The caller still handles every error the same way: *if* *err* *!=* *nil*
+- If the details are needed: *errors.As* finds the concrete type
+
+* Is Go an object-oriented language? Vote again!
+
+- Has your answer changed?
+- The Go FAQ says: "Yes and no."
+
+.link https://go.dev/doc/faq#Is_Go_an_object-oriented_language
+
 * Summary
 - Go does support Encapsulation via an OOP style syntax
 - Go does not support inheritance but type embedding (delegation without syntactic ballast)
 - Implicit polymorphism means fewer dependencies and no type hierarchy
 - Several interfaces can be put together to form an interface
-- Interface embedding makes mocking easy
 - Go supports polymorphism only via interfaces, not through classes
 - https://youtu.be/Ng8m5VXsn8Q?t=414
 
@@ -552,6 +738,28 @@ The error is just an interface with one method that should return the error mess
 * Questions
 - What is the difference between inheritance in Java and embedding in Go?
 - How does Go support multiple inheritance? Is it supported for interfaces and types?
+
+* Does this compile?
+
+#lang go
+
+    type Foo struct {
+        Name string
+    }
+
+    type Bar struct {
+        Name string
+    }
+
+    type X struct {
+        Foo
+        Bar
+    }
+
+    var y X
+    fmt.Print(y.Name)
+
+: Raten lassen, dann weiterklicken.
 
 * Multiple embeddings of same variable or function names
 .code ../src/oop/multiple_inheritance/multi.go /Foo/,

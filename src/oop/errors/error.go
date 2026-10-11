@@ -14,7 +14,7 @@ func divide(a, b int) (int, error) {
 }
 
 func main() {
-	// Successful division
+	// Division by zero returns an error
 	result, err := divide(10, 0)
 	if err != nil {
 		fmt.Println("Error:", err)

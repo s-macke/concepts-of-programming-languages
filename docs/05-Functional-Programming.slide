@@ -49,6 +49,8 @@ These types of functional languages support the functional paradigms and imperat
 
 - Function variable can be copied.
 
+#lang go
+
     ANOTHERADD := ADD;
     ANOTHERADD(1, 2);
 
@@ -106,9 +108,13 @@ This is a Bubble Sort algorithm for ints.
 
 Rewrite it, so that the Bubble Sort algorithm takes a comparison function as input
 
+#lang go
+
 	BubbleSort(data, func(i, j int) bool {return data[i] > data[j]})
 
 * Closures in JavaScript
+
+#lang javascript
 
     const object1 = {
         prop: 42,
@@ -153,6 +159,8 @@ Advantages
 
 - This one is impure
 
+#lang go
+
     var count = 0
     func increment() {
         count++
@@ -160,11 +168,15 @@ Advantages
 
 - This one is pure
 
+#lang go
+
     func incrementPure(count int) int {
         return count + 1 // This function is pure because it does not modify external state
     }
 
 - Often functions are "pure enough" in the practical sense.
+#lang go
+
 	var array []int
 	newarray := append(array, 1)
 
@@ -217,12 +229,16 @@ Functional programming supports distributed computing
 * Many Functional Languages only support Single Argument Functions 
 - Currying : Converting a function with n arguments in n functions with one argument
 
+#lang go
+
     // ADD with 2 parameters
     ADD := func(x, y int) int {
         return x + y
     }
  
     ADD(1,2) -> 3
+
+#lang go
 
 	// Curried ADD
 	ADDC := func(x int) func(int) int {
@@ -235,6 +251,8 @@ Functional programming supports distributed computing
 : Benannt nach Haskell Brooks Curry (1900-1982, USA)
 
 * Currying allows for Partial Application
+
+#lang go
 
 	// Curried ADD
 	ADDC := func(x int) func(int) int {
@@ -255,6 +273,8 @@ Functional programming supports distributed computing
 * Functional Composition
 Functions can be composed to new functions
     g(f(x)) -> (g ◦ f)(x)
+
+#lang go
 
     // Function f()
     f := func(x int) int {
@@ -463,6 +483,8 @@ _(λx.x)_ _a_ _=_ _a_
 : .play ../src/functional/lambdacalculus/successor/main.go /Functional Numbers SUCCESSOR/,/EOF OMIT/
 
 * Lambda Calculus in JavaScript
+#lang javascript
+
   TRUE = a => b => a;
   FALSE = a => b => b;
   NOT = f => a => b => f(b)(a);
@@ -489,12 +511,16 @@ _(λx.x)_ _a_ _=_ _a_
 * Sample from the Go Standard Library
 - strings.map
 
+#lang go
+
     // Map returns a copy of the string s with all its characters modified
     // according to the mapping function. If mapping returns a negative value, the character is
     // dropped from the string with no replacement.
     func Map(mapping func(rune) rune, s string) string
 
 - Usage
+
+#lang go
 
     s := "Hello, world!"
     s = strings.Map(func(r rune) rune {
@@ -512,6 +538,8 @@ _(λx.x)_ _a_ _=_ _a_
 Map/Reduce is a famous functional construct implemented in many parallel and distributed collection frameworks like Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq
 
 - Implement a custom M/R API with the following interface:
+
+#lang go
 
     type Stream interface {
         Map(m Mapper) Stream
