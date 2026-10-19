@@ -1,0 +1,171 @@
+title: Go Basics and Type Systems
+description: Lecture 2 recap. Orthogonality, typing, values, pointers, slices and maps.
+
+questions:
+  - type: truefalse
+    text: >-
+      A language is orthogonal if its features can be combined in many ways
+      without unexpected side effects.
+    answer: "true"
+    explanation: >-
+      The more orthogonal the design, the fewer exceptions you have to
+      remember. Go was designed with orthogonality in mind.
+
+  - type: single
+    text: Which combination describes JavaScript?
+    code:
+      lang: javascript
+      source: |
+        "5" + 3   // "53"
+    options:
+      - {id: a, text: "weak and dynamic"}
+      - {id: b, text: "strong and dynamic"}
+      - {id: c, text: "weak and static"}
+      - {id: d, text: "strong and static"}
+    answer: a
+    explanation: >-
+      JavaScript converts types implicitly (weak) and checks types at runtime
+      (dynamic). Python is strong and dynamic, C is weak and static, Go is
+      strong and static.
+
+  - type: truefalse
+    text: This Go code compiles.
+    code:
+      lang: go
+      source: |
+        var i int = 1
+        var f float64 = i
+    answer: "false"
+    explanation: >-
+      Go has no implicit type conversion. You have to write float64(i).
+
+  - type: text
+    text: What is the type of x?
+    code:
+      lang: go
+      source: |
+        x := 1.0
+    answer: ["float64"]
+    explanation: >-
+      := infers the type from the value. 1.0 is a floating point constant, so
+      the default type is float64. With x := 1 it would be int.
+
+  - type: single
+    text: What does this print?
+    points: 2
+    code:
+      lang: go
+      source: |
+        func appendSlice(s []int) {
+            s = append(s, 4)
+        }
+
+        slice := []int{1, 2, 3}
+        appendSlice(slice)
+        fmt.Println(slice)
+    options:
+      - {id: a, text: "[1 2 3]"}
+      - {id: b, text: "[1 2 3 4]"}
+      - {id: c, text: "It panics"}
+    answer: a
+    explanation: >-
+      The slice descriptor is passed by value. append changes the length (and
+      maybe the pointer) of the local copy only. That is why you always write
+      s = append(s, ...).
+
+  - type: multiple
+    text: Which calls really swap a and b?
+    points: 2
+    code:
+      lang: go
+      source: |
+        func swap0(a, b int) (int, int) { return b, a }
+        func swap1(a, b int)            { a, b = b, a }
+        func swap2(a, b *int)           { *a, *b = *b, *a }
+
+        a, b := 1, 2
+    options:
+      - {id: a, text: "swap0(a, b)"}
+      - {id: b, text: "a, b = swap0(a, b)"}
+      - {id: c, text: "swap1(a, b)"}
+      - {id: d, text: "swap2(&a, &b)"}
+    answer: [b, d]
+    explanation: >-
+      Go always passes arguments by copy. swap0 only helps if you assign the
+      result. With pointers, the copy is an address, so swap2 changes the
+      original variables.
+
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        type Item struct {
+            Name  string
+            Price int
+        }
+
+        func discount(items []Item) {
+            for _, it := range items {
+                it.Price = it.Price / 2
+            }
+        }
+
+        items := []Item{{"book", 20}}
+        discount(items)
+        fmt.Println(items[0].Price)
+    options:
+      - {id: a, text: "10"}
+      - {id: b, text: "20"}
+      - {id: c, text: "It does not compile"}
+    answer: b
+    explanation: >-
+      range copies every element into the loop variable it. Changing it does
+      not change the slice. Use items[i].Price instead.
+
+  - type: truefalse
+    text: In Go, returning the address of a local variable is a bug.
+    code:
+      lang: go
+      source: |
+        func newCounter() *int {
+            x := 0
+            return &x
+        }
+    answer: "false"
+    explanation: >-
+      In C this is a classic bug. In Go the compiler sees that x escapes the
+      function (escape analysis) and puts it on the heap. The garbage collector
+      frees it later.
+
+  - type: truefalse
+    text: Iterating over a map with range returns the entries in the same order every time.
+    answer: "false"
+    explanation: >-
+      The order is not specified, and Go even randomizes it on purpose, so that
+      nobody depends on it.
+
+  - type: truefalse
+    text: This line works even if the word is not yet in the map.
+    code:
+      lang: go
+      source: |
+        index[word] = append(index[word], page)
+    answer: "true"
+    explanation: >-
+      A missing key returns the zero value of the element type. For a slice,
+      that is nil, and append works on a nil slice. No containsKey or
+      computeIfAbsent is needed as in Java.
+
+  - type: single
+    text: Why do coding agents often produce better code in statically typed languages?
+    options:
+      - {id: a, text: "Static languages have more training data"}
+      - {id: b, text: "The compiler gives immediate and precise feedback, so the agent can fix its errors"}
+      - {id: c, text: "Dynamic languages cannot be generated by LLMs"}
+      - {id: d, text: "Static languages are always simpler"}
+    answer: b
+    explanation: >-
+      Generate, compile, fix: the compiler is a fast feedback loop for the
+      agent. In dynamic languages many errors only show up at runtime. Types
+      also document what goes in and out of a function.
