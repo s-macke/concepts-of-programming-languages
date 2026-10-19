@@ -357,6 +357,34 @@ The variable *r* is in both cases similar to the Java *this*, which refers to th
 : Object Oriented Programming - Custom Types
 : Go has no classes but types and functions
 
+* What does this print?
+
+.play ../src/oop/receiver/main.go /type Counter/,
+
+: Raten lassen, dann ausführen.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Value receiver vs. pointer receiver
+
+- It prints *0*. The receiver is a normal parameter and is copied, like every argument in Go.
+- With a pointer receiver the method changes the original. This is what *this* is in Java:
+
+#lang go
+
+    func (c *Counter) Inc() { c.n++ }
+
+- In Java, *this* is always a reference. In Go, you decide for every method.
+
+Rules of thumb:
+
+- Pointer receiver if the method changes the state or the struct is large
+- Value receiver for small, immutable types (e.g. *Point*, *time.Time*)
+- Be consistent: If one method of a type needs a pointer receiver, give all methods one
+- *c.Inc()* works without *&*. Go automatically calls *(&c).Inc()*.
+
 * Orthogonal: Encapsulation can be done with any type
 
 .play ../src/oop/orthogonal/int.go
@@ -619,6 +647,40 @@ In Go:
 - *Benefit:* The user of a type defines the interface, even for types from other packages that have never heard of it. In Java you would need an adapter.
 
 Go supports polymorphism only via interfaces
+
+* Does this compile?
+
+#lang go
+
+    type OpenCloser interface {
+        Open()
+        Close()
+    }
+
+    type Door struct{}
+
+    func (d *Door) Open()  { ... }
+    func (d *Door) Close() { ... }
+
+    var s OpenCloser = Door{}
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Does this compile? The answer
+
+*No:* Door does not implement OpenCloser (method Close has pointer receiver)
+
+#lang go
+
+    var s OpenCloser = Door{}    // compile error
+    var s OpenCloser = &Door{}   // works
+
+- The methods are defined for `*Door`, not for `Door`
+- A *Door* value inside an interface is a copy. A pointer method on it could not change the original.
 
 * Polymorphism III: Example The stringer interface
 
