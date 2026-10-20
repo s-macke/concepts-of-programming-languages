@@ -63,13 +63,20 @@ Every pixel is computed by the CPU, and that at only 320 × 200 pixels.
 
 * History: More pixels per second
 
-- 1990s: 3D games need millions of triangles and pixels per second
-- The CPU computes geometry and lighting, one after another
+- 1990s: 3D games want as many triangles and pixels per second as possible
+- A single-core CPU computes geometry and lighting, one after another. Multi-core CPUs only came around 2005.
+
+*Problem:* *the* *CPU* *is* *too* *slow:* low resolution, few details
+
+- 1996: 3dfx Voodoo, a 3D add-on card: it draws the pixels of the triangles. The CPU still computes the geometry.
 - 1999: NVIDIA GeForce 256, marketed as the "world's first GPU"
-- Transform and lighting in hardware. The CPU is relieved.
+- Transform and lighting in hardware. Now the CPU is relieved of the geometry, too.
 
-*Problem:* *the* *CPU* *is* *too* *slow* *for* *the* *pixels* ⮕ special parallel hardware
+⮕ special parallel hardware
 
+: Erste Dual-Core-CPUs für Desktop-PCs 2005 (AMD Athlon 64 X2, Intel Pentium D). Hyper-Threading (zwei Threads auf einem Kern) ab 2002 beim Pentium 4.
+: Voodoo: reine 3D-Zusatzkarte, die neben der normalen 2D-Grafikkarte steckte und über ein Durchschleifkabel angeschlossen war. Erste Karten Ende 1996.
+: Quelle: Wikipedia "3dfx": https://en.wikipedia.org/wiki/3dfx
 : Quelle: Wikipedia "GeForce 256": https://en.wikipedia.org/wiki/GeForce_256
 
 * History: Developers want their own effects
@@ -519,6 +526,51 @@ Why?
 
 : Fall 1 ist der kritische Pfad, das wäre auch bei einer CPU mit 5000 Kernen so.
 : Fall 2 ist der eigentliche SIMT-Effekt: Die 31 wartenden Lanes können keine andere Arbeit übernehmen.
+
+* Inside a warp: one instruction pointer for 32 threads
+
+- A warp has only *one* instruction pointer. All 32 threads execute the same instruction at the same time.
+- Every thread has its own registers: its own *i*, its own data
+- Every thread has an *active* *flag*. If the flag is off, the thread does not execute the instruction and waits.
+- So what happens with an *if*, if the threads disagree?
+
+: Vereinfachtes Modell. Seit Volta (2017) hat bei NVIDIA zwar jeder Thread einen eigenen Befehlszeiger, divergente Zweige werden aber trotzdem nacheinander ausgeführt. Apple nennt die Warps SIMD-Groups, ebenfalls 32 breit.
+
+* An if in a warp
+
+#lang c
+
+    if (x > 0) { y = a; } else { y = b; }
+    z = y * 2;
+
+.html snippets/12-gpu-warp-if.html
+
+- First the *if* branch for the active threads, then the *else* branch for the others
+- If the threads disagree, the warp executes *both* branches, one after the other
+
+: Bei 8 statt 32 Lanes gezeichnet, damit es auf die Folie passt.
+: Gehen alle Threads eines Warps in denselben Zweig, wird der andere Zweig ganz übersprungen. Ein if ist also nur teuer, wenn die Threads sich uneinig sind (Divergenz).
+
+* A loop in a warp: the prime numbers
+
+.html snippets/12-gpu-warp-loop.html
+
+- Lane 3 has a large number and needs 8 iterations, all others only 3
+- The finished threads switch off their flag and wait
+- The warp only finishes when its *slowest* thread is done
+- You can see this very clearly in the power consumption of the GPU
+
+: Stromverbrauch: Bei der Messung mit wenigen großen Zahlen die Leistungsaufnahme der GPU zeigen (auf dem Mac z. B. sudo powermetrics --samplers gpu_power). Die meisten Lanes sind untätig.
+: Genau das passiert beim Primzahl-Beispiel: Die Schleife läuft so lange, wie der Thread mit der größten Zahl braucht. Die anderen Lanes sind in dieser Zeit untätig.
+
+* What does an if cost on the GPU?
+
+- All threads of a warp take the same branch: only this branch is executed. Cheap.
+- The threads disagree: both branches are executed, one after the other
+- A loop costs as much as the longest loop in the warp
+- That is why *min*, *max*, *step* and *mix* are often better than an *if*: no branch at all
+
+: Überleitung zur Regel: den Algorithmus so umformulieren, dass alle Threads gleich viel arbeiten.
 
 * What if the large numbers are next to each other? Guess!
 

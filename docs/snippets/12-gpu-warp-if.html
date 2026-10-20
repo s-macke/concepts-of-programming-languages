@@ -1,0 +1,28 @@
+<style>
+    table.warp {
+        width: auto;
+        border-collapse: collapse;
+        font-size: 22px;
+        line-height: 1.2;
+        font-family: inherit;
+        margin: 10px 0;
+    }
+    table.warp th, table.warp td {
+        border: 1px solid #888;
+        padding: 6px 12px;
+        text-align: center;
+    }
+    table.warp th { background: #eee; }
+    table.warp td.code { text-align: left; font-family: 'Droid Sans Mono', 'Courier New', monospace; font-size: 20px; }
+    table.warp td.on { background: #8bc34a; }
+    table.warp td.off { background: #f2f2f2; color: #bbb; }
+</style>
+
+<table class="warp">
+<tr><th>instruction</th><th>lane 0</th><th>lane 1</th><th>lane 2</th><th>lane 3</th><th>lane 4</th><th>lane 5</th><th>lane 6</th><th>lane 7</th></tr>
+<tr><td class="code">x =</td><td>3</td><td>-1</td><td>5</td><td>-2</td><td>7</td><td>8</td><td>-4</td><td>1</td></tr>
+<tr><td class="code">if (x &gt; 0)</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td></tr>
+<tr><td class="code">y = a;</td><td class="on">active</td><td class="off">idle</td><td class="on">active</td><td class="off">idle</td><td class="on">active</td><td class="on">active</td><td class="off">idle</td><td class="on">active</td></tr>
+<tr><td class="code">else: y = b;</td><td class="off">idle</td><td class="on">active</td><td class="off">idle</td><td class="on">active</td><td class="off">idle</td><td class="off">idle</td><td class="on">active</td><td class="off">idle</td></tr>
+<tr><td class="code">z = y * 2;</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td><td class="on">active</td></tr>
+</table>
