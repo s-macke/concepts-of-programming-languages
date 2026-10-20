@@ -526,14 +526,36 @@ Why?
 
 - Only a few warps contain large numbers
 - The GPU is hardly slower
-
-How to make the GPU fast again:
-
-- *Sort* the input, so that the threads of a warp do the same amount of work
-- *Parallelize* over the divisors instead of the numbers: every thread tests one divisor
-- *Rule:* reformulate the algorithm, so that all threads do the same amount of work
+- So: *sort* the input, so that the threads of a warp do the same amount of work?
 
 : TODO Dozent: Vergleichsgrafik CPU gegen GPU.
+
+* Random, unknown numbers: What now? Guess!
+
+- In reality, the numbers are random and unknown
+- Sorting does not help: you only know how much work a number needs *after* you have tested it
+- How do you make the GPU fast again?
+
+: Diskutieren lassen. Mehrere richtige Antworten.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Random, unknown numbers: The answer
+
+- *Parallelize* *over* *the* *divisors:* every thread tests a range of divisors of one number. Same work for every thread.
+- *Work* *in* *rounds:* test the next 1,000 divisors of every unfinished number. Then remove the finished numbers and pack the rest densely.
+- *Work* *queue:* a free thread takes the next number from a shared counter, like on the CPU
+- *Another* *algorithm:* Miller-Rabin needs the same work for every 32-bit number (3 tests with the bases 2, 7 and 61)
+
+*Rule:* reformulate the algorithm, so that all threads do the same amount of work
+
+: Divisoren parallelisieren braucht am Ende eine Reduktion: Hat irgendein Thread einen Teiler gefunden?
+: Runden mit Kompaktierung: Die fertigen Zahlen fliegen raus, die restlichen liegen danach dicht in wenigen Warps.
+: Work Queue: Ein atomarer Zähler im Speicher, jeder Thread holt sich das nächste Element. Innerhalb eines Warps laufen die Lanes trotzdem im Gleichschritt, aber keine Lane bleibt lange leer.
+: Miller-Rabin mit den Basen 2, 7 und 61 ist für alle n < 4 759 123 141 deterministisch, deckt also alle 32-Bit-Zahlen ab.
+: Quelle: Wikipedia "Miller–Rabin primality test", Abschnitt "Testing against small sets of bases": https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
 
 * Memory: The data has to get to the GPU first
 

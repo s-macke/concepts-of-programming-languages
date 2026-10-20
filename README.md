@@ -77,7 +77,12 @@ Each student presents a concept, a programming language with a special concept, 
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/11-WebAssembly.html)
 - [Exercise 11](docs/exercises/Exercise11.md)
 
-## Lecture 10 - Enterprise Programming
+## Lecture 10 - GPU Programming
+- Why GPUs became so important, the GPU as a Parallel For, warps and divergence, shaders and GLSL
+- [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/12-GPU-Programming.html)
+- [Exercise GPU](docs/exercises/ExerciseGPU.md) (Shadertoy)
+
+## Lecture 11 - Enterprise Programming
 - Large Scale Programming with Modules
 - [Slides](https://s-macke.github.io/concepts-of-programming-languages/docs/12-Enterprise-Programming-Modules.html)
 - [Exercise 12](docs/exercises/Exercise12.md)
