@@ -35,22 +35,31 @@ Why? What is so special about a graphics card?
 * History: My youth
 
 - *1989,* *Stunt* *Car* *Racer* *(C64):* filled 3D graphics with about 5 to 6 frames per second
-- *1993,* *Doom:* needs at least a 386. On a 286, it did not run at all.
-- *1996,* *Quake:* every pixel is computed by the CPU
-- *1997,* *GLQuake* *with* *a* *3dfx* *Voodoo* *card:* 70 instead of 41 frames per second, and much nicer
+- *1993,* *Doom* *on* *a* *386* *DX-25:* 4.6 frames per second
+- *1996,* *Quake* *on* *a* *386* *DX-40* (with math coprocessor): 2 frames per second
+- *Quake* *on* *a* *486* *DX2/66:* 8 frames per second
+- *Quake* *on* *a* *486* *DX4/100:* 11 frames per second
+- *Quake* *on* *a* *Pentium* *100:* 27 frames per second
+
+Every pixel is computed by the CPU, and that at only 320 × 200 pixels.
+
+*1997,* *the* *same* *486* *DX4/100* *with* *a* *3dfx* *Voodoo* *graphics* *card:* about 20 frames per second, at 640 × 480 pixels. Twice the frame rate at twice the resolution.
 
 : Zeit: 12 Minuten (Block 2, Historie). Jede Station mit dem Problem, das den nächsten Schritt erzwungen hat.
-: TODO Dozent: Kollage als GIF oder MP4 einfügen, z. B. .image img/12-gpu-history-games.gif 450 _ (eigene Aufnahmen: VICE für den C64, DOSBox mit gedrosselten cycles für Doom, Screenshots Quake Software gegen GLQuake).
+: TODO Dozent: Kollage als GIF oder MP4 einfügen, z. B. .image img/12-gpu-history-games.gif 450 _ (eigene Aufnahmen: VICE für den C64, DOSBox mit gedrosselten cycles, Quake in DOSBox, gedrosselt auf einen 486).
 : Pointe Stunt Car Racer: Die Reifen sind Sprites, die mit 50 Hz aktualisiert werden. Die eigentliche Grafik läuft viel langsamer. So täuscht das Spiel Geschwindigkeit vor.
-: Doom auf dem 286 gibt es erst heute über den Fan-Port Doom8088, mit vielen Einschränkungen.
-: GLQuake-Zahlen: Pentium 200 MHz, Software-Rendering 41 fps, mit Voodoo 70 fps.
+: Voodoo-Wert: Im VOGONS-Vergleich mehrerer 486-Systeme mit Voodoo-Karten lag der i486 DX4-100 im Schnitt bei 19,7 fps (Mittelwert über die getesteten Spiele, GLQuake typischerweise in 640 x 480). Kein einzelner, sauber dokumentierter GLQuake-Messwert.
+: Quelle: VOGONS, "A brief comparison of Voodoo-Quake results on a 486": https://www.vogons.org/viewtopic.php?f=46&t=42880
+: Doom auf einem 386 DX-25: 4,6 fps (Timedemo demo3, Doom 1.9 Shareware, Standardeinstellungen). 386 SX-25: 3,4 fps.
+: Quake-Zahlen (Timedemo, 320 x 200, ohne Sound): i486 DX2/66 7,8 fps, i486 DX4/100 11,2 fps, Pentium 75 20,0 fps, Pentium 100 26,7 fps.
+: Quake braucht einen Mathe-Koprozessor (FPU), offiziell einen Pentium 75. Auf einem 386 läuft es nur mit 387-Koprozessor: 386 DX-40 mit 387 etwa 1,7 bis 2 fps (Quake-Timedemo).
+: Quelle: VOGONS, "386 Rig running quake, amazing 1.5 frames per second": https://www.vogons.org/viewtopic.php?t=100318
+: Quelle: thandor.net, Doom-Benchmark (i386 DX25: 4,60 fps): https://thandor.net/benchmark/32
+: Quelle: thandor.net, Quake-Benchmark: https://thandor.net/benchmark/33
+: Quelle: Blue's News, The Guide: Quake (Systemanforderungen): https://www.bluesnews.com/guide/quake.htm
 : Quelle: Wikipedia "Stunt Car Racer": https://en.wikipedia.org/wiki/Stunt_Car_Racer
 : Quelle: FRGCB Blog (fps geschätzt): http://frgcb.blogspot.com/2013/08/stunt-car-racer-microstyle-1989.html
 : Quelle: Codetapper (Reifen als Sprites): https://codetapper.com/amiga/sprite-tricks/stunt-car-racer/
-: Quelle: DOS Days "Doom": https://www.dosdays.co.uk/topics/Games/game_doom.php
-: Quelle: Doom8088: https://github.com/FrenkelS/Doom8088
-: Quelle: Wikipedia "3dfx": https://en.wikipedia.org/wiki/3dfx
-: Quelle: The Digital Antiquarian, "The Next Generation in Graphics, Part 3": https://www.filfre.net/2023/05/the-next-generation-in-graphics-part-3-software-meets-hardware/
 
 * History: More pixels per second
 
