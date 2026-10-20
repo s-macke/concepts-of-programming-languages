@@ -1,0 +1,760 @@
+GPU Programming
+Concepts of Programming Languages
+
+Tags: go, programming, master, gpu, shader, cuda
+
+
+Sebastian Macke
+Rosenheim Technical University
+Sebastian.Macke@th-rosenheim.de
+https://www.qaware.de
+
+: * Content
+: - Why GPUs?
+: - History: Which problems made GPUs important?
+: - The programming model: Parallel For
+: - Example: Prime numbers on CPU and GPU
+: - Memory
+: - Matrix multiplication and AI
+: - Shaders as pure functions
+: - CUDA and GLSL
+: - Exercise in Shadertoy
+
+* Why GPUs?
+
+- In October 2025, NVIDIA became the first company worth 5 trillion US dollars
+- Every large language model is trained on GPUs and runs on GPUs
+- Originally, a GPU was just a graphics card for games
+
+Why? What is so special about a graphics card?
+
+: Zeit: 3 Minuten (Block 1, Aufhänger)
+: Kurz sammeln lassen: Wer hat eine Grafikkarte? Wofür?
+: Quelle: CNN, 2025-10-29: https://www.cnn.com/2025/10/29/tech/nvidia-5-trillion-valuation-ai
+
+* History: My youth
+
+- *1989,* *Stunt* *Car* *Racer* *(C64):* filled 3D graphics with about 5 to 6 frames per second
+- *1993,* *Doom:* needs at least a 386. On a 286, it did not run at all.
+- *1996,* *Quake:* every pixel is computed by the CPU
+- *1997,* *GLQuake* *with* *a* *3dfx* *Voodoo* *card:* 70 instead of 41 frames per second, and much nicer
+
+: Zeit: 12 Minuten (Block 2, Historie). Jede Station mit dem Problem, das den nächsten Schritt erzwungen hat.
+: TODO Dozent: Kollage als GIF oder MP4 einfügen, z. B. .image img/12-gpu-history-games.gif 450 _ (eigene Aufnahmen: VICE für den C64, DOSBox mit gedrosselten cycles für Doom, Screenshots Quake Software gegen GLQuake).
+: Pointe Stunt Car Racer: Die Reifen sind Sprites, die mit 50 Hz aktualisiert werden. Die eigentliche Grafik läuft viel langsamer. So täuscht das Spiel Geschwindigkeit vor.
+: Doom auf dem 286 gibt es erst heute über den Fan-Port Doom8088, mit vielen Einschränkungen.
+: GLQuake-Zahlen: Pentium 200 MHz, Software-Rendering 41 fps, mit Voodoo 70 fps.
+: Quelle: Wikipedia "Stunt Car Racer": https://en.wikipedia.org/wiki/Stunt_Car_Racer
+: Quelle: FRGCB Blog (fps geschätzt): http://frgcb.blogspot.com/2013/08/stunt-car-racer-microstyle-1989.html
+: Quelle: Codetapper (Reifen als Sprites): https://codetapper.com/amiga/sprite-tricks/stunt-car-racer/
+: Quelle: DOS Days "Doom": https://www.dosdays.co.uk/topics/Games/game_doom.php
+: Quelle: Doom8088: https://github.com/FrenkelS/Doom8088
+: Quelle: Wikipedia "3dfx": https://en.wikipedia.org/wiki/3dfx
+: Quelle: The Digital Antiquarian, "The Next Generation in Graphics, Part 3": https://www.filfre.net/2023/05/the-next-generation-in-graphics-part-3-software-meets-hardware/
+
+* History: More pixels per second
+
+- 1990s: 3D games need millions of triangles and pixels per second
+- The CPU computes geometry and lighting, one after another
+- 1999: NVIDIA GeForce 256, marketed as the "world's first GPU"
+- Transform and lighting in hardware. The CPU is relieved.
+
+*Problem:* *the* *CPU* *is* *too* *slow* *for* *the* *pixels* ⮕ special parallel hardware
+
+: Quelle: Wikipedia "GeForce 256": https://en.wikipedia.org/wiki/GeForce_256
+
+* History: Developers want their own effects
+
+- The first GPUs had a fixed pipeline: only the effects built into the hardware
+- 2001: GeForce 3 and DirectX 8: programmable vertex and pixel shaders
+- For the first time, small programs run on the graphics card. For every pixel.
+
+*Problem:* *fixed* *effects* ⮕ programmable shaders
+
+: Quelle: Wikipedia "GeForce 3 series": https://en.wikipedia.org/wiki/GeForce_3_series
+: Quelle: IEEE Computer Society, "The Evolution of Shaders"
+
+* History: Compute instead of draw
+
+- Researchers notice: the GPU is a massively parallel computer
+- But you can only program it with graphics APIs: data as textures, computations as pixel shaders
+- 2004: BrookGPU (Stanford) hides the graphics APIs behind C extensions
+- 2006/2007: NVIDIA CUDA: programming the GPU in C, without any graphics API
+
+*Problem:* *computing* *disguised* *as* *drawing* ⮕ CUDA
+
+: NVIDIA stellte 2004 den Brook-Entwickler Ian Buck ein. Aus Brook wurde CUDA.
+: CUDA angekündigt im November 2006 mit der G80-Architektur, Version 1.0 im Juni 2007.
+: Quelle: Wikipedia "BrookGPU": https://en.wikipedia.org/wiki/BrookGPU
+: Quelle: TechSpot, "History of the Modern Graphics Processor, Part 4": https://www.techspot.com/article/659-history-of-the-gpu-part-4/
+
+* History: One open standard, and everybody does their own thing
+
+2008: *OpenCL*, an open standard for GPU computing (Khronos Group), initiated by Apple.
+But every vendor builds its own platform:
+
+- *NVIDIA:* CUDA (2007)
+- *AMD:* ROCm and HIP (2016)
+- *Intel:* oneAPI and SYCL
+- *Apple:* Metal. In 2018, Apple deprecated its own OpenCL.
+
+NVIDIA invested continuously: libraries (cuBLAS, cuDNN), tools, documentation. PyTorch and TensorFlow build on them.
+
+*Problem:* *fragmentation* ⮕ the de facto standard is proprietary: CUDA
+
+: Persönliche Einschätzung: Eigentlich hat nur NVIDIA das Thema über Jahre wirklich ernst genommen. Deshalb ist der Vorsprung heute so groß.
+: HIP ist bewusst fast identisch zu CUDA, damit man CUDA-Code portieren kann.
+: Quelle: Khronos, "The Khronos Group Releases OpenCL 1.0 Specification" (9.12.2008): https://www.khronos.org/news/press/the_khronos_group_releases_opencl_1.0_specification
+: Quelle: AppleInsider, OpenGL und OpenCL in macOS 10.14 Mojave deprecated (2018): https://forums.appleinsider.com/discussion/205791/opengl-opencl-deprecated-in-favor-of-metal-2-in-macos-10-14-mojave
+: Quelle: Wikipedia "ROCm": https://en.wikipedia.org/wiki/ROCm
+: Quelle: Wikipedia "oneAPI (compute acceleration)": https://en.wikipedia.org/wiki/OneAPI_(compute_acceleration)
+
+* History: A niche for a long time
+
+A conference around 2012: How can we speed up physics simulations with GPUs?
+
+- GPU programming is really hard
+- The work was often done by people without experience in it, e.g. students
+- The hardware changed all the time. With every new generation, you started again from scratch.
+
+For a long time, computing on the GPU outside of graphics was a niche, almost a curiosity: some image processing, rendering, simulations.
+
+*Problem:* *hard* *to* *program,* *no* *stable* *platform* ⮕ a niche, until AI came
+
+: Persönliche Story erzählen: Konferenz um 2012, Thema Beschleunigung physikalischer Simulationen auf der GPU.
+: Überleitung: Erst mit Deep Learning wird aus der Nische der Massenmarkt.
+: Quelle: eigene Erfahrung des Dozenten (Konferenz um 2012)
+
+* History: Neural networks are matrix multiplications
+
+- 2012: AlexNet wins the ImageNet challenge: 15.3 % top-5 error, the runner-up 26.2 %
+- Trained for 5 to 6 days on two NVIDIA GTX 580 gaming cards
+- Neural networks consist mostly of matrix multiplications. A perfect job for GPUs.
+
+*Problem:* *training* *takes* *too* *long* ⮕ GPUs for AI
+
+: Das Netz passte nicht in den Speicher einer GPU (3 GB) und wurde auf zwei GPUs aufgeteilt.
+: Quelle: Wikipedia "AlexNet": https://en.wikipedia.org/wiki/AlexNet
+
+* History: GPUs grow up
+
+In the beginning, the GPU belonged to exactly one program.
+If a game crashed, the graphics card was in an undefined state. Sometimes you had to restart the computer.
+
+- *2007,* *Windows* *Vista* *(WDDM):* the operating system schedules several programs on the GPU and manages the video memory. A hanging GPU is reset after 2 seconds, without a restart.
+- *2010,* *NVIDIA* *Fermi:* one unified address space, ECC memory, IEEE floating point. The first GPU really built for computing.
+- *2020,* *NVIDIA* *A100* *(MIG):* one GPU split into up to 7 isolated GPUs, each with its own memory. A crash in one instance does not affect the others.
+
+*Problem:* *one* *GPU,* *one* *program,* *no* *isolation* ⮕ memory protection and sharing ⮕ GPUs in the cloud
+
+: Persönliche Erfahrung erzählen: Spiel abgestürzt, Grafikkarte hängt, Neustart.
+: Parallele zur CPU: Speicherschutz und mehrere Prozesse gab es auf der CPU schon Jahrzehnte früher. Die GPU musste das erst lernen.
+: TDR = Timeout Detection and Recovery: Ein Befehlspuffer, der länger als zwei Sekunden läuft, gilt als hängend. Windows beendet alle Grafik-Kontexte, setzt den Chip zurück und lädt den Treiber neu.
+: Quelle: OpenGL.org, "OpenGL and Windows Vista": https://www.opengl.org/pipeline/article/vol003_7/
+: Quelle: NVIDIA Fermi Whitepaper: https://www.nvidia.com/content/pdf/fermi_white_papers/nvidia_fermi_compute_architecture_whitepaper.pdf
+: Quelle: NVIDIA Blog, "What Is a Multi-Instance GPU?": https://blogs.nvidia.com/blog/multi-instance-gpus/
+
+* History: The clock speed wall
+
+- Until about 2005, CPUs became faster mainly by a higher clock speed
+- Then Dennard scaling ended: chips became too hot (power wall)
+- Since then, clock speeds have stagnated at about 4 to 6 GHz
+- More performance only through more cores: parallelism instead of speed
+
+*Problem:* *the* *clock* *speed* *does* *not* *grow* *anymore* ⮕ parallelism is the only way
+
+: Bezug zur Vorlesung Concurrent Programming (Moore's Law).
+: Beispiel: Intel stoppte 2004 ein 4-GHz-Projekt wegen der Leistungsdichte.
+: Quelle: Wikipedia "Dennard scaling": https://en.wikipedia.org/wiki/Dennard_scaling
+
+* History: Today
+
+- July 2025: NVIDIA is worth 4 trillion US dollars, October 2025: 5 trillion
+- The most valuable company in the world
+- A company that started with graphics cards for games
+
+: Quelle: CNBC, 2025-07-09: https://www.cnbc.com/2025/07/09/nvidia-4-trillion.html
+: Quelle: CNN, 2025-10-29: https://www.cnn.com/2025/10/29/tech/nvidia-5-trillion-valuation-ai
+
+* The GPU programming model: a Parallel For
+
+A normal loop on the CPU:
+
+#lang java
+
+    for (int i = 0; i < n; i++) {
+        result[i] = f(data[i]);
+    }
+
+The same loop in parallel with Java:
+
+#lang java
+
+    IntStream.range(0, n).parallel().forEach(i -> {
+        result[i] = f(data[i]);
+    });
+
+On the GPU, you *only* *write* *the* *body*. The GPU runs it for every *i*.
+
+: Zeit: 10 Minuten (Block 3, das Modell)
+: Das ist das zentrale Bild der ganzen Vorlesung.
+
+* Parallel For in 1, 2 and 3 dimensions
+
+: Ausgabe (Übersicht, kein Code)
+
+    1D:  for i              ⮕ lists, arrays
+    2D:  for y, for x       ⮕ images, matrices
+    3D:  for z, for y, for x ⮕ volumes, simulations
+
+- You write the body
+- The GPU gives you the index: *i*, or *x*, *y*, or *x*, *y*, *z*
+- Shadertoy is a 2D Parallel For: one call of your function for every pixel
+
+* There is no outer loop
+
+On the CPU, you prepare things *before* the loop:
+
+#lang go
+
+    table := buildTable()   // once
+    for i := range data {
+        result[i] = lookup(table, data[i])
+    }
+
+On the GPU, there is no "before". You only write the body:
+
+#lang go
+
+    table := buildTable()   // for every element again!
+    result[i] = lookup(table, data[i])
+
+- Setup code runs for every element again
+- Maybe the compiler optimizes it. Maybe not.
+
+: Pseudocode in Go-Syntax.
+: In Shadertoy kommt Setup "von außen" über Uniforms (iTime, iResolution) oder über einen Buffer, der einmal vorberechnet.
+
+* Which loops can you run as a GPU Parallel For?
+
+#lang go
+
+    // A
+    for i := range data {
+        result[i] = data[i] * 2
+    }
+
+    // B
+    for i := range data {
+        sum += data[i]
+    }
+
+    // C
+    for i := 1; i < len(data); i++ {
+        data[i] = data[i-1] + 1
+    }
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Which loops can you run as a GPU Parallel For? The answer
+
+- *A:* yes. Every iteration is independent.
+- *B:* not directly. All iterations write to the same *sum* (reduction).
+- *C:* no. Every iteration needs the result of the previous one.
+
+Three rules of the GPU Parallel For:
+
+- *No* *order:* the iterations run in any order
+- *No* *communication:* one iteration cannot wait for the result of another
+- *Lockstep:* groups of 32 iterations (a *warp*) execute the same instruction at the same time
+
+: B geht mit einer Reduktion in mehreren Schritten (Baum). Das ist auf der GPU aufwendig.
+: Warp ist der NVIDIA-Begriff (32 Threads). AMD spricht von Wavefronts.
+
+* Example: Prime numbers
+
+How do you test whether a number is prime?
+
+: Zeit: 25 Minuten (Block 4, Primzahl-Beispiel)
+: TODO Dozent: eigene Folien zum Primzahl-Beispiel (Code, Messungen, Grafiken)
+: Gemeinsam mit den Studierenden entwickeln, nicht vorgeben: Probedivision, Abbruch bei sqrt(n), gerade Zahlen.
+: Wichtig: Bei einer geraden Zahl ist man sofort fertig, bei einer großen Primzahl läuft die Schleife bis sqrt(n).
+
+* Prime numbers in Java
+
+.code ../src/gpu/primes/Primes.java /START1 OMIT/,/END1 OMIT/
+
+.code ../src/gpu/primes/Primes.java /START2 OMIT/,/END2 OMIT/
+
+- One array, every element is the same prime number: 1,000,003
+- A Parallel For over the array: every element is tested on its own
+- Deliberately naive: we test all divisors up to n, not only up to √n. So every element has a lot of work.
+
+: Erst nach der gemeinsamen Entwicklung zeigen.
+: Ausführbar: cd src/gpu/primes && java Primes.java 10000 (Anzahl der Elemente als Argument, gibt die Laufzeit aus).
+: 1 000 003 ist prim (mit BigInteger.isProbablePrime und Probedivision geprüft).
+: Der Test ist bewusst naiv (Teiler bis n, nicht bis Wurzel n): Die Schleife läuft etwa 1 000 000 Mal pro Element, und die Arbeit wächst linear mit n. Schlagen die Studierenden die Wurzel vor: richtig, aber für das Experiment brauchen wir viel Arbeit pro Element.
+: Alles in 32 Bit, damit derselbe Test auch auf der GPU läuft. Alle Messungen, Grafiken und Tabellen: src/gpu/primes/run.sh (für Apple M3 Max eingestellt)
+
+* Prime numbers: Java and CUDA
+
+: TODO Dozent: der gemeinsam entwickelte Primzahltest in Java (Parallel For) und in CUDA nebeneinander.
+: Botschaft: gleicher Code, anderes Ausführungsmodell.
+
+* Prime numbers on the CPU
+
+- Every element of the array: the same prime number 1,000,003
+- How long does it take for 1, 2, 11, 12, 13, 24, 25 elements?
+
+: Erst raten lassen. Dann die Tabelle Zeile für Zeile aufdecken, vor jeder Zeile neu raten lassen.
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-0.html
+
+: Die Werte stammen aus der Messung (src/gpu/primes, plot.py schreibt die Tabellen). Vor jeder Zeile raten lassen.
+: Gemessen mit 12 Threads (java Benchmark.java results 12), damit nur die 12 Performance-Kerne des M3 Max rechnen. Schwellen bei 12 -> 13 und 24 -> 25. Zeilen in Benchmark.java (TABLE_ELEMENTS) anpassen. Jeder Wert ist der schnellste von 100 Läufen.
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-1.html
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-2.html
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-3.html
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-4.html
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-5.html
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-6.html
+
+* Prime numbers on the CPU: Measured
+
+.html snippets/12-gpu-cpu-table-7.html
+
+* Prime numbers on the CPU: Zoomed in
+
+.image img/12-gpu-cpu-1000003-zoom.svg _ 750
+
+- Steps at 12, 24, 36, ...: 12 threads on the 12 performance cores of the CPU
+- Every 12 elements, a new round starts
+
+: Gemessen mit 12 Threads: macOS legt sie auf die 12 Performance-Kerne. Mit allen 16 Kernen (inklusive der 4 langsameren Effizienz-Kerne) werden die Stufen unscharf. Abschalten kann man Kerne auf dem Mac nicht. Ein Element dauert etwa 0,5 ms.
+: TODO Dozent: eigene Messung auf dem Laptop mit der RTX 2060 ergänzen bzw. vergleichen.
+
+* Prime numbers on the CPU: Up to 12,000 elements
+
+.image img/12-gpu-cpu-1000003.svg _ 900
+
+: Messung auf dem Mac (Apple M3 Max, 16 Kerne): src/gpu/primes, java Benchmark.java results, dann uv run plot.py.
+: Fast perfekt linear: 10 000 Elemente in etwa 0,5 s.
+
+* Prime numbers on the GPU: Guess!
+
+The same array with the same prime number 1,000,003. How long does the GPU take?
+
+.html snippets/12-gpu-compare-table-0.html
+
+: Erst raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Prime numbers on the GPU: Measured
+
+.html snippets/12-gpu-compare-table-1.html
+
+: Gemessen auf dem Mac (Apple M3 Max GPU, Metal): src/gpu/primes, swift Benchmark.swift results, dann uv run plot.py. Schnellster von 20 Läufen, nur die Rechenzeit auf der GPU.
+: Botschaft: Ein Element ist auf der GPU etwa 100-mal langsamer als auf der CPU (niedriger Takt, teure Ganzzahl-Division). Aber die Zeit bleibt fast gleich, egal wie viele Elemente.
+
+* When does the GPU take longer? Guess!
+
+- On the CPU, the time grows every 12 elements
+- At which number of elements does the GPU time grow for the first time?
+
+: Raten lassen. Antwort: erst bei etwa 10 000 Elementen.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* When does the GPU take longer? The answer
+
+.html snippets/12-gpu-large-table.html
+
+: Bis 10 000 Elemente bleibt die Zeit fast gleich, bei 20 000 springt sie. Die Zeilen kommen aus Benchmark.swift (largeElements).
+
+* Prime numbers on the GPU: The answer
+
+.image img/12-gpu-gpu-1000003-zoom.svg _ 750
+
+- Apple M3 Max: 40 GPU cores, each with 4 × 32 lanes ⮕ about 5,120 lanes
+- Steps at about 10,240 elements: 40 cores × 256 threads run at the same time
+
+: Messung mit Metal auf dem Mac. Die SIMD-Breite (threadExecutionWidth) ist 32, wie ein Warp bei NVIDIA.
+: Es laufen mehr Threads gleichzeitig (10 240) als es Rechenwerke gibt (5 120): Während ein Thread auf Speicher wartet, rechnet ein anderer.
+: Die 128 Rechenwerke pro Apple-GPU-Kern sind aus der üblichen Angabe zu Apple-GPUs abgeleitet (M1: 8 Kerne, 1 024 Rechenwerke). Apple veröffentlicht das für den M3 Max nicht explizit.
+
+* A word of honesty
+
+- GPUs are extremely complex: schedulers, caches, clock boosting, drivers, compilers
+- Some of my own measurements, I cannot fully explain either
+- Rules of thumb help. But in practice: *measure,* *don't* *guess*
+
+: Zeit: 2 Minuten (Block 5, Disclaimer)
+: Steht direkt nach der ersten GPU-Grafik, weil dort schon die ersten Artefakte in den Messungen auftreten.
+
+* CPU and GPU in comparison
+
+.image img/12-gpu-cpu-vs-gpu.svg _ 680
+
+- Up to about 1,800 elements, the CPU is faster
+- Then the GPU wins: 12,000 elements take 150 ms on the GPU and 640 ms on the CPU
+- At about 10,240 elements, the GPU makes its first step
+
+: Zoom auf die ersten 128 Elemente: img/12-gpu-cpu-vs-gpu-zoom.svg (CPU 0,5 bis 7 ms, GPU 60 bis 70 ms).
+
+* A prime number twice as large: Guess!
+
+- Now every element is the prime number 2,000,003, about twice as large
+- Does it take twice as long?
+
+: Raten lassen. Mit dem naiven Test (Teiler bis n) wächst die Arbeit linear. Mit dem Wurzel-Test wäre es nur Faktor 1,41.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* A prime number twice as large: The answer
+
+.image img/12-gpu-cpu-2000003.svg _ 800
+
+- Yes: twice as long
+- The loop runs up to n, so the work grows linearly with the number
+
+: Gemessen auf dem Mac: Die Arbeit verdoppelt sich, die Zeit auch (Faktor etwa 2,0).
+
+* A prime number twice as large: The GPU
+
+.image img/12-gpu-gpu-2000003.svg _ 800
+
+- The same on the GPU: twice as long
+
+* 95 % small, 5 % large: Guess!
+
+- 95 % of the elements: the small prime number
+- 5 % of the elements: the large prime number
+- Two variants: the large numbers are *randomly* *distributed*, or all *together* in one bunch
+- What happens on the CPU? What happens on the GPU?
+
+: Raten lassen.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* 95 % small, 5 % large: The answer
+
+.image img/12-gpu-cpu-mix.svg _ 700
+
+- CPU: only 5 % slower, as expected for 5 % more work
+
+* 95 % small, 5 % large: The GPU
+
+.image img/12-gpu-gpu-mix.svg _ 780
+
+- 1,000 elements: random 90 % slower, together 67 %
+- 100,000 elements: random 73 % slower, together only 7 %
+
+: Fall 1 (1 000 Elemente, alles läuft gleichzeitig): kritischer Pfad, das langsamste Element bestimmt die Zeit.
+: Fall 2 (100 000 Elemente): Warp-Effekt. Zufällig verteilt trifft es etwa 81 % der Warps, am Stück nur 157 von 3 125 Warps.
+: TODO Dozent: Leistungsaufnahme (Watt) der GPU zeigen. Auf dem Mac z. B. mit sudo powermetrics --samplers gpu_power.
+
+* Why?
+
+- Only 5 % of the numbers take longer
+- The CPU hardly notices it
+- The GPU becomes much slower, although the GPU is busy all the time
+
+Why?
+
+: Die große Frage an die Studierenden. Diskutieren lassen.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Why? The answer: warps
+
+- 32 threads of a warp execute the same instruction (lockstep)
+- If one thread loops longer, the other 31 threads of the warp wait
+- *Small* *array:* all elements run at the same time. The total time is the time of the slowest element.
+- *Large* *array:* every warp with one large number is slow. With 5 % randomly distributed, this is 1 − 0.95³² ≈ 81 % of all warps.
+- *CPU:* a free thread simply takes the next element
+
+: Fall 1 ist der kritische Pfad, das wäre auch bei einer CPU mit 5000 Kernen so.
+: Fall 2 ist der eigentliche SIMT-Effekt: Die 31 wartenden Lanes können keine andere Arbeit übernehmen.
+
+* What if the large numbers are next to each other? Guess!
+
+- Again 5 % large prime numbers
+- But this time, they are all together in one block of the array
+
+: Raten lassen.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* What if the large numbers are next to each other? The answer
+
+- Only a few warps contain large numbers
+- The GPU is hardly slower
+
+How to make the GPU fast again:
+
+- *Sort* the input, so that the threads of a warp do the same amount of work
+- *Parallelize* over the divisors instead of the numbers: every thread tests one divisor
+- *Rule:* reformulate the algorithm, so that all threads do the same amount of work
+
+: TODO Dozent: Vergleichsgrafik CPU gegen GPU.
+
+* Memory: The data has to get to the GPU first
+
+- A graphics card has its own memory (VRAM)
+- Copy the input to the GPU, compute, copy the result back
+- Copying takes time, compared to the computation itself
+
+Guess: Is the GPU worth it for ...
+
+- sorting 100 numbers?
+- 8 million pixels, 60 times per second?
+
+: Zeit: 5 Minuten (Block 6, Speicher und Transfer)
+: Antwort: Bei 100 Zahlen dauert das Kopieren länger als das Rechnen auf der CPU. Bei 8 Mio. Pixeln 60-mal pro Sekunde lohnt sich die GPU.
+: Apple Silicon hat Unified Memory, dort entfällt das Kopieren weitgehend.
+
+* Memory hierarchy on the GPU
+
+- *Registers:* per thread, fastest
+- *Shared* *memory:* per block of threads, fast. Threads of a block can cooperate here.
+- *Global* *memory* *(VRAM):* for all threads, slow
+- Caches in between
+
+: Nur als Überblick. Shared Memory ist der Ort, an dem Threads doch zusammenarbeiten können, z. B. für Reduktionen.
+
+* Matrix multiplication: the perfect GPU problem
+
+- Every element of C is a dot product of a row of A and a column of B
+- 2D Parallel For: one thread for every (row, column)
+
+#lang c
+
+    // body for the element (row, col)
+    float sum = 0.0f;
+    for (int k = 0; k < n; k++) {
+        sum += A[row][k] * B[k][col];
+    }
+    C[row][col] = sum;
+
+- Every thread does exactly the same amount of work: no waiting in the warp
+- Neural networks and LLMs are mostly matrix multiplications ⮕ GPUs
+
+: Zeit: 5 Minuten (Block 7, KI-Bezug)
+: Kontrast zum Primzahl-Beispiel: Hier gibt es keine Divergenz, alle Threads laufen gleich lang.
+
+* Shaders: a pure function per pixel
+
+#lang glsl
+
+    color = f(x, y, time)
+
+- No state, no side effects. The same input always gives the same color.
+- A *map* over all pixels (see the lecture Functional Programming)
+
+Other kinds of shaders (only briefly):
+
+- *Vertex* *shader:* runs for every corner of a triangle
+- *Fragment* *shader:* runs for every pixel. Shadertoy is a fragment shader.
+- *Compute* *shader:* the general Parallel For
+
+: Zeit: 5 Minuten (Block 8, Shader als reine Funktion)
+
+* CUDA: a 2D Parallel For
+
+#lang cpp
+
+    __global__ void gradient(Image image, int width, int height) {
+        int x = blockIdx.x * blockDim.x + threadIdx.x;
+        int y = blockIdx.y * blockDim.y + threadIdx.y;
+        if (x >= width || y >= height) return;
+
+        float r = (float)x / width;
+        float g = (float)y / height;
+        writePixel(image, x, y, r, g, 0.0f);
+    }
+
+    dim3 block(16, 16);
+    dim3 grid((width + 15) / 16, (height + 15) / 16);
+    gradient<<<grid, block>>>(image, width, height);
+
+- One thread for every pixel. Every thread computes its own (x, y).
+- Shadertoy hides all of this. You only write the body.
+
+: Zeit: 5 Minuten (Block 9, Brücke zu Shadertoy)
+: Achtung: Code nicht kompiliert (kein nvcc auf dem Mac). Image und writePixel sind Platzhalter.
+: writePixel ist bewusst ein Platzhalter: Die Berechnung des 1D-Index ist eine Frage in der Übung.
+
+* GLSL: the language of Shadertoy
+
+- C-like, statically and strongly typed
+- No implicit conversions:
+
+#lang glsl
+
+    float f = 1;      // error: cannot convert from 'const int' to 'highp float'
+    float f = 1.0;    // ok
+    float g = float(i);
+
+- No recursion
+- Built-in vector types: *vec2*, *vec3*, *vec4*
+
+: Zeit: 15 Minuten (Block 10, GLSL-Einstieg mit Live-Demo)
+: Bezug zur Vorlesung 2: strong typing. Die Fehlermeldung ist echt (WebGL2).
+
+* GLSL: Vectors
+
+#lang glsl
+
+    vec2 uv = fragCoord / iResolution.xy;  // component-wise division
+    vec3 color = vec3(uv, 0.5);            // build from smaller vectors
+    vec2 rg = color.rg;                    // swizzling: pick components
+    vec3 bgr = color.bgr;                  // ... in any order
+    vec4 result = vec4(color, 1.0);
+
+- Operators work component-wise
+- *.xyzw* and *.rgba* name the same components
+
+* GLSL: min, max, step and mix instead of if
+
+#lang glsl
+
+    // with if
+    if (d < 0.5) {
+        color = vec3(1.0);
+    } else {
+        color = vec3(0.0);
+    }
+
+    // without if
+    color = vec3(step(d, 0.5));
+
+- Prefer min/max/step/mix: branch-free and readable.
+- Avoid divergent branches with expensive work.
+- Built-in: min, max, clamp, step, mix, smoothstep, length, dot, ...
+
+: Nuance: Ein if, das für alle Pixel gleich ausgeht, ist billig. Teuer sind Zweige, die sich innerhalb eines Warps unterscheiden und viel Arbeit enthalten.
+
+* Live: Shadertoy
+
+.link https://www.shadertoy.com/new
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.xy;
+        fragColor = vec4(uv, 0.0, 1.0);
+    }
+
+- *fragCoord:* the pixel coordinate. (0, 0) is at the bottom left.
+- *iResolution:* the size of the image
+- *fragColor:* the color of this pixel (red, green, blue, alpha)
+
+: Live vorführen. Vorher fragen: Wie wird das Bild aussehen?
+
+* Live: A circle
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
+        float radius = 0.3 + 0.1 * sin(iTime);
+        float d = length(uv);
+        float circle = 1.0 - smoothstep(radius, radius + 0.01, d);
+        fragColor = vec4(vec3(circle), 1.0);
+    }
+
+- Every pixel asks: How far am I from the center?
+- *smoothstep* gives smooth edges, *iTime* animates the radius
+
+: Live vorführen. Schrittweise: erst ohne smoothstep (step), dann mit, dann mit iTime.
+
+* Guess: How does this work on the GPU?
+
+- How do you compute the sum of all pixels of an image?
+- Can you use recursion in GLSL?
+- How do you draw a line from A to B in Shadertoy?
+
+: Zeit: 8 Minuten (Block 11, Ratefragen), überspringbar, falls die Zeit knapp ist.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Guess: How does this work on the GPU? The answer
+
+- *Sum:* no communication between threads. A reduction in several steps, e.g. as a tree.
+- *Recursion:* not allowed in GLSL. The compiler rejects it.
+- *Line:* a pixel can only write its own color. So every pixel asks: Am I on the line? (gather instead of scatter)
+
+: Die Rekursions-Fehlermeldung (WebGL2): "Recursive function call in the following call chain".
+: Compute Shader dürfen dagegen an beliebige Stellen schreiben (Scatter).
+
+* Languages for the GPU
+
+- *Shading* *languages:* GLSL (OpenGL, WebGL), HLSL (DirectX), Metal (Apple), WGSL (WebGPU)
+- *Compute:* CUDA (NVIDIA)
+- *SPIR-V:* a portable intermediate code for GPUs, similar to WebAssembly for the browser
+- *High* *level:* Triton, PyTorch. You describe tensor operations, the compiler generates the kernels.
+
+: Zeit: 3 Minuten (Block 12, Sprachlandschaft), überspringbar, falls die Zeit knapp ist.
+
+* Exercise
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/ExerciseGPU.md
+
+- Explore Shadertoy
+- Prime numbers on the GPU
+- Mandelbrot
+
+: Zeit: 1 Minute (Block 13, Überleitung zur Übung)
+
+* Links
+
+- Shadertoy
+.link https://www.shadertoy.com
+
+- The Book of Shaders
+.link https://thebookofshaders.com
+
+- compute.toys: Shadertoy for compute shaders (WebGPU)
+.link https://compute.toys
+
+- GPU Puzzles: learn CUDA with small puzzles
+.link https://github.com/srush/GPU-Puzzles

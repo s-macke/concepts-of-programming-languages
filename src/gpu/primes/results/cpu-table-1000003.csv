@@ -1,0 +1,9 @@
+# cores=12, prime=1000003, fastest of 100 runs, os=Mac OS X, arch=aarch64
+elements,ms
+1,0.529292
+2,0.5125
+11,0.609
+12,0.61525
+13,1.0755
+24,1.172208
+25,1.638125

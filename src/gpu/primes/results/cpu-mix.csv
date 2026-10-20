@@ -1,0 +1,6 @@
+# cores=12, elements=10000, os=Mac OS X, arch=aarch64
+variant,ms
+all 1000003,526.226625
+5% 2000003 (random),555.026291
+5% 2000003 (together),540.868166
+all 2000003,1056.707084
