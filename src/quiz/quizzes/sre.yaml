@@ -1,0 +1,218 @@
+title: Site Reliability Engineering
+description: SRE recap. SLOs, error budgets, toil, incident response, postmortems and resilience.
+
+questions:
+  - type: single
+    text: Which sentence describes Site Reliability Engineering best?
+    options:
+      - {id: a, text: "A team that keeps servers running 24/7 by hand"}
+      - {id: b, text: "What happens when you treat operations as a software problem"}
+      - {id: c, text: "A testing discipline that guarantees 100% uptime"}
+      - {id: d, text: "Another name for the IT help desk"}
+    answer: b
+    explanation: >-
+      SRE solves reliability problems with a software engineering mindset:
+      measure, automate and design instead of heroics. The mission at Google in
+      2003 was simply "keep the site up".
+
+  - type: truefalse
+    text: For an important service, the right SLO target is 100% availability.
+    answer: "false"
+    explanation: >-
+      More reliability costs more, financially and in feature velocity. 100% is
+      impossible anyway (think cosmic rays). The gap to 100% is the error
+      budget, which you can spend on risky changes like fast rollouts.
+
+  - type: single
+    text: Which term matches the definition "an agreement for what happens when the target is not met"?
+    options:
+      - {id: a, text: "SLI (service level indicator)"}
+      - {id: b, text: "SLO (service level objective)"}
+      - {id: c, text: "SLA (service level agreement)"}
+      - {id: d, text: "Error budget"}
+    answer: c
+    explanation: >-
+      The SLI measures (good events / total events), the SLO is the target for
+      the SLI (e.g. 99.9%), and the SLA states the consequences of missing it,
+      usually a financial penalty for the provider.
+
+  - type: text
+    points: 2
+    text: >-
+      Your availability SLO is 99.9% over a 30-day window. How many minutes of
+      downtime does the error budget allow? Answer with the number only.
+    answer: ["43.2", "43,2", "43.2 minutes", "43,2 minuten"]
+    explanation: >-
+      30 days × 24 h × 60 min = 43,200 minutes. 0.1% of that is 43.2 minutes.
+      With four nines it would be just 4.32 minutes.
+
+  - type: single
+    text: Your service is burning its error budget at a burn rate of 1. What does that mean?
+    options:
+      - {id: a, text: "The budget is already used up"}
+      - {id: b, text: "The budget will last exactly until the end of the SLO window"}
+      - {id: c, text: "One error per second is occurring"}
+      - {id: d, text: "The service is at 1% availability"}
+    answer: b
+    explanation: >-
+      Burn rate is the speed of budget consumption relative to the window. A
+      higher burn rate means you run out early. At Google a fast burn (2% of
+      the budget in one hour) pages the on-call, a slow burn (10% in three days)
+      only creates a ticket.
+
+  - type: single
+    text: Which of these is a correctly formulated latency SLO?
+    options:
+      - {id: a, text: "The average latency is below 100 ms"}
+      - {id: b, text: "The maximum latency is 100 ms"}
+      - {id: c, text: "99% of valid requests complete in less than 100 ms"}
+      - {id: d, text: "The latency is as low as possible"}
+    answer: c
+    explanation: >-
+      Like every SLO, a latency SLO counts good events (faster than the
+      threshold) against total events. Averages hide the slow tail that users
+      actually notice.
+
+  - type: single
+    text: Who should decide on the SLO target of a service?
+    options:
+      - {id: a, text: "The SRE team alone, because it runs the service"}
+      - {id: b, text: "The developers alone, because they wrote the code"}
+      - {id: c, text: "A cross-functional group with business, product, engineering and operations"}
+      - {id: d, text: "Nobody, you simply measure the current performance"}
+    answer: c
+    explanation: >-
+      Somewhat paradoxically, it is not engineering that decides. SLOs describe
+      what customers should experience and have direct business implications.
+      Codifying today's performance avoids exactly that discussion.
+
+  - type: single
+    text: >-
+      Google SRE once took the lock service Chubby down on purpose, although it
+      was running fine. Why?
+    options:
+      - {id: a, text: "To save energy at night"}
+      - {id: b, text: "To test the backup power"}
+      - {id: c, text: "To keep it at its SLO, so nobody depends on a higher reliability than promised"}
+      - {id: d, text: "To punish teams that used it too much"}
+    answer: c
+    explanation: >-
+      The reliability you actually deliver becomes an implicit SLO. Hidalgo's
+      corollary to Hyrum's law: the reliability level is also an observable
+      behavior of the system, and somebody will depend on it.
+
+  - type: multiple
+    text: Which of these are toil?
+    options:
+      - {id: a, text: "Rerunning the CI pipeline again and again because of a known flaky test"}
+      - {id: b, text: "Manually restarting a process that crashes every few days"}
+      - {id: c, text: "Writing an integration test after an outage"}
+      - {id: d, text: "Logging into every new region to allocate resources by hand"}
+      - {id: e, text: "Setting up a tedious but important new security policy"}
+    answer: [a, b, d]
+    explanation: >-
+      Toil is manual, repetitive, automatable, tactical, has no enduring value
+      and scales linearly with the service. It is not simply work you do not
+      like. The test and the security policy are engineering work with lasting
+      value.
+
+  - type: single
+    text: What is the upper limit Google SRE sets for operational work such as tickets and pages?
+    options:
+      - {id: a, text: "10%"}
+      - {id: b, text: "25%"}
+      - {id: c, text: "50%"}
+      - {id: d, text: "90%"}
+    answer: c
+    explanation: >-
+      At most 50% operational work, so at least half of the time remains for
+      engineering. It is a threshold, not a target. In practice teams aim much
+      lower.
+
+  - type: single
+    text: What is the key insight of Bainbridge's "Ironies of Automation"?
+    options:
+      - {id: a, text: "Automation always removes all human work"}
+      - {id: b, text: "Automation creates new, often harder work and lets operator skills atrophy"}
+      - {id: c, text: "Automation is only worth it for tasks that run daily"}
+      - {id: d, text: "Automation makes systems simpler by definition"}
+    answer: b
+    explanation: >-
+      Someone has to monitor and repair the automation, which is often harder
+      than the original task. Skills decay when they are not used. That is no
+      reason not to automate, but it has to be considered.
+
+  - type: single
+    text: In Google's incident management (IMAG), which is NOT one of the three primary roles?
+    options:
+      - {id: a, text: "Incident commander"}
+      - {id: b, text: "Communications lead"}
+      - {id: c, text: "Operations lead"}
+      - {id: d, text: "Root cause lead"}
+    answer: d
+    explanation: >-
+      IMAG is adapted from the Incident Command System of emergency services.
+      The incident commander owns all roles until they are delegated.
+
+  - type: single
+    text: A release went out and the error rate jumps. What should the responders do first?
+    options:
+      - {id: a, text: "Find the root cause in the code before touching anything"}
+      - {id: b, text: "Mitigate, e.g. roll back the release, and investigate afterwards"}
+      - {id: c, text: "Write the postmortem while the memory is fresh"}
+      - {id: d, text: "Wait until all facts are known"}
+    answer: b
+    explanation: >-
+      Mitigation takes priority over in-depth diagnosis. Generic mitigations
+      such as rollbacks, traffic shifts or more capacity work without a full
+      understanding of the problem.
+
+  - type: truefalse
+    text: The more people join an incident call, the better the incident is managed.
+    answer: "false"
+    explanation: >-
+      This is called "incident theater". The response should be as large as it
+      has to be and as small as it can be. Every extra person adds coordination
+      cost.
+
+  - type: single
+    text: Which question fits a blameless postmortem?
+    options:
+      - {id: a, text: "Why did you think it was okay to deploy this code?"}
+      - {id: b, text: "Who approved this change?"}
+      - {id: c, text: "What about the situation made deploying the code seem like the best course of action?"}
+      - {id: d, text: "How do we make sure this person never deploys again?"}
+    answer: c
+    explanation: >-
+      Blameless analysis looks at the system that made a decision seem right at
+      the time and avoids hindsight and outcome bias. People stay accountable by
+      helping to fix the system (restorative accountability).
+
+  - type: multiple
+    text: Which client behaviors help a server that is overloaded?
+    options:
+      - {id: a, text: "Retry with exponential backoff"}
+      - {id: b, text: "Add random jitter to the backoff"}
+      - {id: c, text: "Retry immediately in a tight loop until it works"}
+      - {id: d, text: "Let every layer in the call chain retry independently"}
+      - {id: e, text: "Adaptive throttling: send fewer requests when many recent ones failed"}
+    answer: [a, b, e]
+    explanation: >-
+      Backoff and jitter spread the load over time, and throttling reduces it.
+      Tight retry loops and retries on every layer multiply the traffic and
+      cause cascading failures.
+
+  - type: single
+    text: >-
+      The profile picture service of a social network is down. Pages still
+      load, just without profile pictures. What is this called?
+    options:
+      - {id: a, text: "Load shedding"}
+      - {id: b, text: "Graceful degradation"}
+      - {id: c, text: "Failover"}
+      - {id: d, text: "Cascading failure"}
+    answer: b
+    explanation: >-
+      Graceful degradation serves a reduced response instead of none. Load
+      shedding instead rejects some requests right away, so the remaining ones
+      can be fully served.
