@@ -15,11 +15,6 @@ https://www.qaware.de
 - Pointer
 - Unit Tests
 
-* Last Exercise
-- Let's look at an example implementation
-
-: Ergebnisse der Übungen zeigen.
-
 * Error Handling
 .image ./img/error_meme.jpg 400 _
 
@@ -517,6 +512,11 @@ Composition and inheritance are two ways to achieve code reuse and design modula
     }
 
 When I run 3 tasks with RunCounter.runAll, what value does *count* have?
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
 
 * The issue with inheritance: The answer
 
