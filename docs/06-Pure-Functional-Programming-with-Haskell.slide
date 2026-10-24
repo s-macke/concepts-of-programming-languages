@@ -38,9 +38,12 @@ Advantages
 The most prominent characteristics of functional programming are as follows
 
 - Functional programming languages are designed on the concept of mathematical functions that use conditional expressions and recursion to perform computation.
-- Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
-  Hence, the declarative approach is prevalent rather than the imperative approach.
-- Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
+- Pure functional languages have no loops and no mutable variables. Instead of loops, they use recursion and higher-order functions like map and filter.
+  Even if-else is an expression that returns a value. Hence, the declarative approach is prevalent rather than the imperative approach.
+- Like OOP, functional programming languages can support concepts such as Abstraction, Encapsulation and Polymorphism
+
+: Haskell hat if-then-else und case, aber als Ausdruck mit Rückgabewert, nicht als Anweisung.
+: Vererbung gibt es in funktionalen Sprachen meist nicht. Haskell hat Typklassen, die Polymorphie ermöglichen.
 
 * Recap: Functional programming offers the following advantages
 

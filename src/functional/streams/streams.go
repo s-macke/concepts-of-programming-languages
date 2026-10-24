@@ -18,7 +18,7 @@ package streams
 
 // EXERCISE 5.3 START OMIT
 
-// Predicate function returns true if a given element should be filtered.
+// Predicate function returns true if a given element should be kept.
 type Predicate func(any) bool
 
 // Mapper function maps a value to another value.

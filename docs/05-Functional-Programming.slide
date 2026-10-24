@@ -11,10 +11,11 @@ https://www.qaware.de
 : https://www.digicomp.ch/blog/2015/10/20/einfuehrung-in-die-funktionale-programmierung
 
 * Last lecture
-- Exception Handling. Error return codes vs. Exceptions
+- Error handling: error return values, defer, panic and recover
 - Object Oriented Programming without class hierarchy
-- Embedding
-- Implicit satisfied interfaces with Polymorphism
+- Value receiver vs. pointer receiver
+- Embedding instead of inheritance
+- Implicitly satisfied interfaces with Polymorphism
 
 : Ergebnisse der Übungen zeigen.
 
@@ -22,16 +23,136 @@ https://www.qaware.de
 - Functional programming is a programming paradigm where functions can not only be defined and applied. Like data, functions can be linked together, used as parameters, and occur as function results.
 - In short: Functions are treated as first-class citizens.
 
+* Your guess: When did these languages get functions as first-class citizens?
+
+- Java
+- LISP
+- Go
+- C++
+- JavaScript
+- Rust
+- C#
+
+: Raten lassen, dann weiterklicken. Gemeint sind Lambdas bzw. anonyme Funktionen.
+: Frage ans Publikum: Wer hat schon funktional programmiert, z. B. Lambdas in Java, in einer anderen Vorlesung? Darauf später verweisen.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
 * History
 Functional programming is old, but some major languages have adapted them quite recently
 
-- LISP in 1950. Introduced functional paradigm in its programming language
+- LISP in 1958. Introduced functional paradigm in its programming language
 - JavaScript 1995 (original idea was to embed Scheme into HTML, a functional language)
-- C# in 2008
-- C++ in 2011
+- C# 3.0 in 2007
+- Go 2009
+- C++ 11 in 2011
 - Java 8 in 2014
 - Rust 2015
-- Go 2009
+
+: LISP: John McCarthy, 1958 am MIT.
+: C# 3.0 erschien im November 2007 mit Lambda-Ausdrücken (für LINQ). C# 2.0 (2005) hatte bereits anonyme Methoden.
+: Go hatte Funktionsliterale und Closures von Anfang an.
+
+* Function as variable
+- Similar to a normal function, but the function is not accessible outside of main.
+
+.play ../src/functional/basics/variable/main.go /func main/,
+
+- Function variable can be copied.
+
+#lang go
+
+    ANOTHERADD := ADD
+    ANOTHERADD(1, 2)
+
+- The function doesn't need to be bound to a variable (Anonymous Function)
+.play ../src/functional/basics/notbound/main.go /func main/,
+
+* Function as parameter.
+
+- Perform a function x times
+
+.play ../src/functional/basics/argument/main.go /func do/,
+
+: Frage: Welche Algorithmen kennt ihr noch, in denen eine Funktion eingebettet werden kann. Sortierung, Suche, ForEach, Streams Filter, Web-API Aufrufe, Threads
+: Problem: sort kann nicht wissen, wie ihr vergleichen wollt. Java brauchte dafür eine ganze Comparator-Klasse für a < b.
+
+* Function as return value.
+
+.play ../src/functional/basics/return/main.go /type/,
+
+: Beispiele aus der Praxis: makeMultiplier(3), Middleware withLogging(handler).
+
+* Why functional programming is better - Even Number Filter
+
+- With imperative programming. Generate a new array and copy only the even values.
+.play ../src/functional/genericstreams/filter/classic/main.go /array/,/fmt.Println/
+
+- With functional declarative programming. Filter the array via a stream.
+.play ../src/functional/genericstreams/filter/stream/main.go /array/,/fmt.Println/
+
+: Problem: Immer wieder dieselbe Schleife (gerade Zahlen, nach Name, nach Datum), nur die Bedingung ist anders. Lösung: Die Bedingung als Funktion übergeben.
+
+* Why functional programming is better - Sorting
+- A sorting algorithm needs to be able to compare two elements. This is done via a comparator function.
+- Before functional programming was a thing in Java, we had to provide a Comparator implementation via inheritance.
+Java (unlearn this):
+.play ../src/functional/genericstreams/sort/SortDemo.java /class/,
+
+* Why functional programming is better - Sorting
+- With functional programming, we can use a lambda expression to provide a comparator function.
+.play ../src/functional/genericstreams/sort/stream/main.go /array/,/fmt.Println/
+
+* Why is it better? Two core ideas
+
+*1.* *Behavior* *as* *a* *parameter*
+
+- The library owns the loop, you only say *what* should happen
+- So the library can change *how* it happens: sequentially, in parallel, lazily, distributed
+
+*2.* *Pure* *functions*
+
+- The result depends only on the arguments
+- You can understand, test, cache and parallelize a function on its own, without knowing the rest of the program
+
+: Die erste Idee haben wir gerade gesehen (Filter, Sortieren). Die zweite Idee kommt im Teil "Pure Functions".
+
+* Why now?
+
+Why did all major languages add lambdas between 2007 and 2015?
+
+- *Multicore:* Since about 2005, CPUs no longer get faster, they get more cores ("The free lunch is over"). Shared mutable state on many cores leads to race conditions.
+- *Big* *data:* Google's MapReduce (2004) distributes pure map and reduce functions to thousands of machines
+- *Collections:* C# LINQ (2007), Java Streams (2014): you describe *what*, the library decides *how*, e.g. in parallel
+- *Web* *and* *UI:* Event handlers and callbacks everywhere, e.g. in JavaScript
+
+: "The Free Lunch Is Over" - Herb Sutter, 2005. Die Taktfrequenzen stagnieren seit etwa 2004 bei 3-4 GHz.
+: Am Ende der Vorlesung kommen wir mit Word Count und dem parallelen Reduce wieder hierher zurück.
+
+* Your guess: Where have you already passed a function as an argument?
+
+: Raten lassen, dann weiterklicken. Sammeln, z. B. an der Tafel.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Where is functional programming used?
+
+Wherever a library controls the flow, and you provide the behavior:
+
+- *Sorting* *and* *collections:* comparators, Java Streams, C# LINQ, Python list comprehensions
+- *Events* *and* *callbacks:* button handlers, `setTimeout`, promises
+- *Web* *servers:* HTTP handlers and middleware, e.g. `http.HandleFunc` in Go
+- *Configuration:* functional options in Go, e.g. `NewServer(WithPort(8080))`
+- *UI:* React describes the UI as a function of the state: UI = f(state)
+- *Data* *processing:* MapReduce, Apache Spark
+- *Spreadsheets:* Excel formulas are pure functions of other cells
+
+: Excel gilt als die meistgenutzte funktionale Sprache der Welt (Simon Peyton Jones). Seit LAMBDA (2021) kann man dort auch eigene Funktionen definieren.
+: Reine funktionale Sprachen in der Industrie: WhatsApp (Erlang), Jane Street (OCaml), Facebook Spam-Filter Sigma (Haskell).
 
 * Functional programming languages are categorized into two groups
 - *Pure* Functional Languages
@@ -42,77 +163,47 @@ These types of functional languages support the functional paradigms and imperat
 
 * Impure Functional Languages
 
-* Function as variable
-- Similar to a normal function, but the function is not accessible outside of main.
-
-.play ../src/functional/basics/variable.go /func main/,
-
-- Function variable can be copied.
-
-#lang go
-
-    ANOTHERADD := ADD;
-    ANOTHERADD(1, 2);
-
-- The function doesn't need to be bound to a variable (Anonymous Function)
-.play ../src/functional/basics/notbound.go /func main/,
-
-* Function as parameter.
-
-- Perform a function x times
-
-.play ../src/functional/basics/argument.go /func do/,
-
-: Frage: Welche Algorithmen kennt ihr noch, in denen eine Funktion eingebettet werden kann. Sortierung, Suche, ForEach, Streams Filter, Web-API Aufrufe, Threads
-
-* Function as return value.
-
-.play ../src/functional/basics/return.go /type/,
-
-* Why functional programming is better - Odd Number Filter
-
-- With imperative programming. Generate a new array and copy only the odd values.
-.play ../src/functional/genericstreams/filter/classic.go /array/,/fmt.Println/
-
-- With functional declarative programming. Filter the array via a stream.
-.play ../src/functional/genericstreams/filter/main.go /array/,/fmt.Println/
-
-* Why functional programming is better - Sorting
-- A sorting algorithm needs to be able to compare two elements. This is done via a comparator function.
-- Before functional programming was a thing in Java, we had to provide a Comparator implementation via inheritance.
-Java (unlearn this):
-.play ../src/functional/genericstreams/sort/SortDemo.java /class/,
-
-* Why functional programming is better - Sorting
-- With functional programming, we can use a lambda expression to provide a comparator function.
-.play ../src/functional/genericstreams/sort/main.go /array/,/fmt.Println/
-
 * Closures
 - Function gets access to its context (e. g. variables) at creation time.
-.play ../src/functional/clojures/main.go /intSeq/,/EOF OMIT/
+- Guess first: What does the program print?
+.play ../src/functional/closures/main.go /intSeq/,/EOF OMIT/
 
+: Problem: nextId() braucht Zustand, der zwischen den Aufrufen erhalten bleibt. Eine globale Variable kann jeder ändern, eine Klasse ist schwergewichtig.
+: Antwort: 1, 2, 1. Jeder Aufruf von intSeq erzeugt ein eigenes i.
 : Closure/Funktionsabschluss: Eine anonyme Funktion, die Zugriffe auf ihren Erstellungskontext enthält. Beim Aufruf greift die Funktion dann auf diesen Erstellungskontext zu. Dieser Kontext (Speicherbereich, Zustand) ist außerhalb der Funktion nicht referenzierbar, d. h. nicht sichtbar.
 : Go erlaubt aber auch globale variablen in anonymen Funktionen. Diese sind also einsehbar.
 
 * Closures II
 
 Access array outside of the function for sorting
-.play ../src/functional/basics/sort.go /func main/,
+.play ../src/functional/basics/sort/main.go /func main/,
 
 In functional programming, closures encapsulate data, allowing functions to access necessary values without relying on global state or explicit access control.
 
-* Exercise 5.1 - Warm Up
-This is a Bubble Sort algorithm for ints.
+* What does this print?
 
-.play ../src/functional/sort/simple/sort.go /func BubbleSort/,
+.play ../src/functional/closures/loop/main.go /func main/,
 
-Rewrite it, so that the Bubble Sort algorithm takes a comparison function as input
+: Raten lassen, dann weiterklicken.
 
-#lang go
+*
 
-	BubbleSort(data, func(i, j int) bool {return data[i] > data[j]})
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
 
-* Closures in JavaScript
+* What does this print? The answer
+
+    0 1 2      (since Go 1.22)
+    3 3 3      (up to Go 1.21)
+
+- A closure captures the *variable*, not its value
+- Up to Go 1.21, all three closures shared the same loop variable `i`. After the loop it is 3.
+- Since Go 1.22, every iteration gets a new variable `i`
+- A language changed the semantics of its loops, because this bug was so common
+
+: Die Go-Version im go.mod entscheidet. Mit "go 1.21" im go.mod gibt das Programm 3 3 3 aus.
+: JavaScript hat dasselbe Problem mit var. Mit let bekommt jede Iteration eine eigene Variable.
+
+* JavaScript: this is not captured
 
 #lang javascript
 
@@ -125,7 +216,7 @@ Rewrite it, so that the Bubble Sort algorithm takes a comparison function as inp
     };
 
     console.log(object1.prop)  // 42
-    console.log(object1.func())  // 42  // At creation time, this points to test.prop
+    console.log(object1.func())  // 42  // At call time, this points to object1
 
     const object2 = {
         prop: 43,
@@ -138,11 +229,41 @@ Rewrite it, so that the Bubble Sort algorithm takes a comparison function as inp
 : https://onecompiler.com/javascript
 : object1.func = object1.func.bind(object1);
 
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* JavaScript: this is not captured. The answer
+
+    43
+
+- `this` is not part of the closure. It is bound at *call* time to the object before the dot.
+- A classic bug: pass a method as callback, and `this` is lost
+
+#lang javascript
+
+    setTimeout(object1.func, 100)            // this is not object1
+    setTimeout(object1.func.bind(object1), 100) // fixed with bind
+    setTimeout(() => object1.func(), 100)       // fixed with an arrow function
+
+- Arrow functions do not have their own `this`. They capture it from the surrounding code like a variable.
+
+* Exercise 5.1 - Warm Up
+This is a Bubble Sort algorithm for ints.
+
+.play ../src/functional/sort/simple/sort.go /func BubbleSort/,
+
+Rewrite it, so that the Bubble Sort algorithm takes a comparison function as input
+
+#lang go
+
+	BubbleSort(data, func(i, j int) bool {return data[i] > data[j]})
+
 * Pure Functions
 
 * What is a pure function?
 
-- Its return value always the same for the same arguments
+- Its return value is always the same for the same arguments
 - The evaluation has no side effects (no mutation of data outside of the function)
 - In other words: After calling a pure function, the rest of the program will be in the same state it was before calling
 
@@ -153,6 +274,43 @@ Advantages
 - Reading and understanding is simpler
 - Easier to test
 - Are less prone to error in general
+
+: Problem: Der Test für increment() schlägt fehl, wenn vorher ein anderer Test gelaufen ist, weil sich die globale Variable count geändert hat.
+: Kosten: Der Zustand muss durchgereicht werden, IO wird umständlich.
+
+* Your guess: Which of these functions are pure?
+
+#lang go
+
+    math.Max(a, b)
+    time.Now()
+    fmt.Println(s)
+    strings.ToUpper(s)
+    sort.Ints(data)
+    append(slice, 1)
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Which of these functions are pure? The answer
+
+- *Pure:* `math.Max`, `strings.ToUpper`
+- *Impure:* `time.Now()` returns a different value on every call
+- *Impure:* `fmt.Println` writes to the console (side effect)
+- *Impure:* `sort.Ints` changes its argument
+- *Impure:* `append` can write into an array that is shared with other slices
+
+#lang go
+
+    a := make([]int, 3, 10)
+    b := append(a, 1)
+    c := append(a, 2)
+    fmt.Println(b[3], c[3]) // 2 2
+
+: append schreibt in das gemeinsame Backing-Array, solange die Kapazität reicht (Vorlesung 2). Danach zeigen b und c auf denselben Speicher.
 
 * Every Function can be made pure
 
@@ -174,20 +332,44 @@ Advantages
         return count + 1 // This function is pure because it does not modify external state
     }
 
-- Often functions are "pure enough" in the practical sense.
+- Often functions are "pure enough" in the practical sense, e.g. a function that only writes a log message.
+
 #lang go
 
-	var array []int
-	newarray := append(array, 1)
+    func area(w, h int) int {
+        log.Println("area called")
+        return w * h
+    }
 
-- Question: How to make a pseudo random() function pure?
-- Question: How to make a real random() function pure?
+* Question: How to make random() pure?
+
+- How to make a pseudo random() function pure?
+- How to make a real random() function pure?
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* How to make random() pure? The answer
+
+- *Pseudo* *random:* Pass the state (seed) in and return the new state
+
+#lang go
+
+    func next(seed uint32) (value uint32, newSeed uint32) {
+        newSeed = seed*1664525 + 1013904223
+        return newSeed >> 16, newSeed
+    }
+
+    v1, s := next(42) // next(42) always returns the same value
+    v2, _ := next(s)
+
+- *Real* *random:* Pass the "state of the world" in and return a new world
+- Haskell does this with the IO type ← Next lecture
 
 : "An interactive program is a pure function that takes the current 'state of the world' as its arg and produces a modified world as result" - unknown Twitter user
-: Question: How to make a real random() function pure?
-: How to make a quasi-random number pure?
-: newarray := append(array, 1)
-: TODO: separate slide maybe?
 
 * Pure Functional Languages
 
@@ -203,30 +385,36 @@ Advantages
 The most prominent characteristics of functional programming are as follows
 
 - Functional programming languages are designed on the concept of mathematical functions that use conditional expressions and recursion to perform computation.
-- Functional programming languages don’t support flow Controls like loop statements and conditional statements like If-Else and Switch Statements. They directly use the functions and functional calls.
-  Hence, the declarative approach is prevalent rather than the imperative approach.
-- Like OOP, functional programming languages can support popular concepts such as Abstraction, Encapsulation, Inheritance, and Polymorphism
+- Pure functional languages have no loops and no mutable variables. Instead of loops, they use recursion and higher-order functions like map and filter.
+  Even if-else is an expression that returns a value. Hence, the declarative approach is prevalent rather than the imperative approach.
+- Like OOP, functional programming languages can support concepts such as Abstraction, Encapsulation and Polymorphism
+
+How do you program without loops and mutable variables? ← Next lecture (Haskell)
+
+: Haskell hat if-then-else und case, aber als Ausdruck mit Rückgabewert, nicht als Anweisung.
+: Vererbung gibt es in funktionalen Sprachen meist nicht. Haskell hat Typklassen, die Polymorphie ermöglichen.
 
 * Functional programming offers the following advantages
 
-- Bugs-Free Code
+- Fewer bugs
 
-Functional programming does not support state, so there are no side-effect results and we can write error-free codes.
+Pure functions have no side effects. A whole class of bugs caused by shared mutable state disappears.
 
 - Efficiency
 
 Functional programs consist of independent units that can *run* *concurrently*. As a result, such programs can be more efficient.
 
-- Lazy Evaluation 
+- Lazy Evaluation
 
 Functional programming supports *lazy* *evaluation* like Lazy Lists, Lazy Maps, etc.
 
-- Distribution 
-Functional programming supports distributed computing
+- Distribution
+Pure functions without shared state are easy to distribute to many machines (e.g. Map/Reduce)
 
 : Bug-free: Formal verification is also much easier
+: Fehlerfrei wird Code dadurch nicht. Logikfehler bleiben möglich.
 
-* Many Functional Languages only support Single Argument Functions 
+* Many Functional Languages only support Single Argument Functions
 - Currying : Converting a function with n arguments in n functions with one argument
 
 #lang go
@@ -235,7 +423,7 @@ Functional programming supports distributed computing
     ADD := func(x, y int) int {
         return x + y
     }
- 
+
     ADD(1,2) -> 3
 
 #lang go
@@ -248,7 +436,12 @@ Functional programming supports distributed computing
 	}
     ADDC(1)(2) -> 3
 
+- Question: What does `ADDC(1)` return?
+- In Haskell, every function is curried ← Next lecture
+
+: Nur kurz erwähnen, die Details kommen in der Haskell-Vorlesung (Partial Applications).
 : Benannt nach Haskell Brooks Curry (1900-1982, USA)
+: Problem: map erwartet eine Funktion mit einem Argument, add hat zwei. ADDC(1) ist genau das, was map braucht.
 
 * Currying allows for Partial Application
 
@@ -260,9 +453,12 @@ Functional programming supports distributed computing
 			return x + y
 		}
 	}
-    partialApplicatedFunction := ADDC(1)
+    partiallyAppliedFunction := ADDC(1)
     .... Do something else
-    partialApplicatedFunction(3) -> 4
+    partiallyAppliedFunction(3) -> 4
+
+- `ADDC(1)` returns a function, that adds 1 to its argument
+- Configure once, use many times, e.g. `logError` `:=` `logWithLevel("ERROR")`
 
 : * Currying allows for Partial Application
 
@@ -272,6 +468,9 @@ Functional programming supports distributed computing
 
 * Functional Composition
 Functions can be composed to new functions
+
+#lang text
+
     g(f(x)) -> (g ◦ f)(x)
 
 #lang go
@@ -293,6 +492,8 @@ Functions can be composed to new functions
 
     fmt.Printf("%v\n", gf(2)) // --> 5
 
+: Problem: Eine Pipeline trim → lower → validate, statt überall validate(lower(trim(s))) zu schreiben.
+
 : * Exercise 5.3 - Functional Composition (g◦f)(x)
 : - Write a Go function to compose two unknown unary functions (one argument and one return value)
 : - The functions to compose should be arguments
@@ -313,7 +514,33 @@ Functions can be composed to new functions
 
 Functions can be composed with functions as parameters
 
-.play ../src/functional/composition/compose2.go
+.play ../src/functional/composition/compose2/main.go
+
+* Your guess: Does the order matter?
+
+#lang go
+
+    square := func(x int) int { return x * x }
+    inc := func(x int) int { return x + 1 }
+
+    compose(square, inc)(3) // ?
+    compose(inc, square)(3) // ?
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Does the order matter? The answer
+
+#lang go
+
+    compose(square, inc)(3) // square(inc(3)) = 16
+    compose(inc, square)(3) // inc(square(3)) = 10
+
+- Composition is not commutative
+- `compose(g,` `f)` reads from right to left like (g ◦ f): first f, then g
 
 * Famous Functional Languages
 - Haskell ([[https://www.youtube.com/watch?v=1jZ7j21g028][Introduction]]) ← Next lecture
@@ -326,6 +553,12 @@ Functions can be composed with functions as parameters
 
 : https://news.ycombinator.com/item?id=45678511
 
+* History: The Lambda Calculus
+.image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
+- What is it?
+- Why is it useful?
+- Where did it come from?
+.link https://www.youtube.com/watch?v=eis11j_iGMs Professor Graham Hutton explains the Lambda Calculus (Cool Stuff :-)
 
 * Motivation
 
@@ -340,13 +573,7 @@ Church’s goal was to:
 - Create a minimal, formal language that captures the essence of computation through functions and function application.
 "What does it mean for something to be computable?"
 
-
-* History: The Lambda Calculus
-.image https://upload.wikimedia.org/wikipedia/en/thumb/4/4d/Knights_of_the_Lambda_Calculus.svg/316px-Knights_of_the_Lambda_Calculus.svg.png 200 200
-- What is it?
-- Why is it useful?
-- Where did it come from?
-.link https://www.youtube.com/watch?v=eis11j_iGMs Professor Graham Hutton explains the Lambda Calculus (Cool Stuff :-)
+: Lambda-Kalkül ist das Kernmodell hinter jeder funktionalen Sprache.
 
 * The Lambda Calculus
 
@@ -445,13 +672,39 @@ _(λx.x)_ _a_ _=_ _a_
 
 : - Lambda Calculus is present in most major programming languages
 
+* Your turn: Evaluate these expressions
+
+    (λx.x) a          = ?
+    (λx.a) b          = ?
+    (λx.λy.y) a b     = ?
+    (λx.λy.x) a b     = ?
+
+: Auf Papier rechnen lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Evaluate these expressions. The answer
+
+    (λx.x) a          = a
+    (λx.a) b          = a
+    (λx.λy.y) a b     = (λy.y) b = b
+    (λx.λy.x) a b     = (λy.a) b = a
+
+- `λx.λy.x` takes two arguments and returns the first one
+- `λx.λy.y` takes two arguments and returns the second one
+- We call them TRUE and FALSE
+
 * Lambda calculus to the extreme
 
 .link https://github.com/woodrush/lambda-8cc
 
-* Lambda Calculus in Go - All functional languages are measured by their correspondence to the lambda calculus
+* Lambda Calculus in Go
 
-* Lambda Calculus in Go: Combinators
+: Alle funktionalen Sprachen lassen sich auf den Lambda-Kalkül zurückführen.
+
+* Lambda Calculus in Go: Church Booleans
 : .image ./img/04-lambda.png 200 350
 :    type fnf func(fnf) fnf
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /Combinators/,/COMB OMIT/
@@ -467,6 +720,34 @@ _(λx.x)_ _a_ _=_ _a_
 
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /NAMER START OMIT/,/NAMER END OMIT/
 
+* Your turn: Boolean logic with functions
+
+    TRUE  := λa.λb.a
+    FALSE := λa.λb.b
+    NOT   := λp.(p FALSE TRUE)
+
+- What is `NOT` `TRUE`?
+- How would you write `AND`?
+
+: Auf Papier rechnen lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Boolean logic with functions. The answer
+
+    NOT TRUE = TRUE FALSE TRUE = FALSE
+
+    AND := λp.λq.(p q p)
+
+    AND TRUE  FALSE = TRUE  FALSE TRUE  = FALSE
+    AND FALSE TRUE  = FALSE TRUE  FALSE = FALSE
+    AND TRUE  TRUE  = TRUE  TRUE  TRUE  = TRUE
+
+- If p is TRUE, the result is q. If p is FALSE, the result is p (FALSE).
+
+: Alternative: AND := λp.λq.(p q FALSE)
 
 * Lambda Calculus in Go: Boolean Logic
 : .code ../src/functional/lambdacalculus/mockingbird/main.go /Boolean/,/BOOL OMIT/
@@ -499,17 +780,34 @@ _(λx.x)_ _a_ _=_ _a_
 
 .link https://www.youtube.com/watch?v=3VQ382QG-y4 Fundamentals of Lambda Calculus & Functional Programming in JavaScript
 
-* Exercise
+* Lambda Calculus: Why did we do this?
 
-* Functions as First Class Citizens in Go
+- With functions alone, we built TRUE, FALSE, NOT, AND and OR
+- With functions alone, you can also build numbers, recursion and every computation (Church-Turing thesis)
+- Every lambda in Go, Java or JavaScript is a λ from 1936
+- Haskell is, at its core, lambda calculus with types ← Next lecture
+
+: Lambda-Kalkül und Turingmaschine können genau dasselbe berechnen. Die Turingmaschine ist das Modell für imperative Sprachen (Zustand, Speicher), der Lambda-Kalkül für funktionale (nur Funktionen).
+
+* Exercise 5.5 - Lambda Calculus
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-55---lambda-calculus Exercise 5.5
+
+- Evaluate `NOT` `FALSE` and `OR` `FALSE` `TRUE` on paper
+- Write `XOR` as a lambda expression
+- Check your results in the JavaScript console of your browser
+
+* Back to Go: Functional Programming in Practice
+
+* Recap: Functions as First Class Citizens in Go
 - Go supports functions as 1st Class Citizens: Closures and Lambdas
 - Functions can be assigned to variables
-- Functions can be used as function parameters and return values (High Order Functions)
+- Functions can be used as function parameters and return values (Higher-Order Functions)
 - Functions can be created inside functions
 - The Go standard library uses functional constructs
 
 * Sample from the Go Standard Library
-- strings.map
+- strings.Map
 
 #lang go
 
@@ -528,13 +826,42 @@ _(λx.x)_ _a_ _=_ _a_
     }, s)
     fmt.Println(s) // --> Ifmmp-!xpsme"
 
-* Go does not have an API similar to Java Streams
+* Map, Filter and Reduce
+
+The three most important higher-order functions. Each takes a function as argument.
+
+#lang text
+
+    [1, 2, 3, 4]
+        │  Map(x => x * x)         apply a function to every element
+        ▼
+    [1, 4, 9, 16]
+        │  Filter(x => x is even)  keep only the elements that match
+        ▼
+    [4, 16]
+        │  Reduce((a, b) => a + b) combine all elements into one value
+        ▼
+    20
+
+- No loop, no index, no mutable variable in your code. The loop is in the library.
+
+* Exercise 5.2 - Filter, Map and Reduce
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-52a---filter Exercise 5.2
+
+- Write the functions `Filter`, `Map` and `Reduce` for a slice of strings
+- Each takes a function as argument
+- What type must this function have?
+
+* The Go standard library has no API similar to Java Streams
+- But libraries exist, e.g. gostream from the Even Number Filter at the beginning
+- Since Go 1.23 there are iterators (`iter.Seq`, `slices.Collect`, `maps.Keys`)
 - It is possible to build such an API in Go
 .code ../src/functional/streams/streams_test.go /array/,/MFR END/
 
-* Exercise 5.2 - Map / Filter / Reduce
+* Exercise 5.3 - Map / Filter / Reduce
 
-.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-53---map--filter--reduce Exercise 5.2
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-53---map--filter--reduce Exercise 5.3
 Map/Reduce is a famous functional construct implemented in many parallel and distributed collection frameworks like Hadoop, Apache Spark, Java Streams (not distributed but parallel), C# Linq
 
 - Implement a custom M/R API with the following interface:
@@ -550,17 +877,50 @@ Map/Reduce is a famous functional construct implemented in many parallel and dis
 - What is the type of Mapper, Predicate and Accumulator?
 - How can you make the types generic, so they work for any type, not only for string?
 
-* Generic Mapper, Predicate and Accumulator
+* Mapper, Predicate and Accumulator with any
 
 .code ../src/functional/streams/streams.go /EXERCISE 5.3 START OMIT/,/EXERCISE 5.3 END OMIT/
 
-* Exercise 5.2 - Word Count (WC)
+- Works for every type, but needs type assertions like `o.(string)` at runtime
+
+* Mapper, Predicate and Accumulator with Generics
+
+Since Go 1.18, the types can be generic. The compiler checks the types.
+
+#lang go
+
+    // Mapper function maps a value of type T to a value of type U.
+    type Mapper[T, U any] func(T) U
+
+    // Predicate function returns true if a given element should be kept.
+    type Predicate[T any] func(T) bool
+
+    // Accumulator function returns a combined element.
+    type Accumulator[T any] func(T, T) T
+
+- Limitation: Methods in Go cannot have their own type parameters. `Map` from `T` to `U` must be a function, not a method of `Stream[T]`.
+
+* The problem: Count the words of the whole web
+
+- Google in 2004: Billions of web pages, thousands of machines
+- How often does each word occur?
+- With one shared map: every machine writes into the same map. It must be locked, and the machines wait for each other.
+- Idea: Every machine counts its part on its own with pure functions. At the end, the partial results are combined.
+- This is MapReduce, the "Why now?" from the beginning of the lecture
+
+: Problem zuerst, dann die Übung. Die Lösung mit Map und Reduce ist Übung 5.4.
+
+* Exercise 5.4 - Word Count (WC)
+
+.link https://github.com/s-macke/concepts-of-programming-languages/blob/master/docs/exercises/Exercise5.md#exercise-54---word-count-wc Exercise 5.4
 
 Word Count is a famous algorithm for demonstrating the power of distributed collections and functional programming. Word Count counts how often a word (string) occurs in a collection. It is easy to address that problem with shared state (a map), but this solution does not scale well. The question here is how to use a pure functional algorithm to enable parallel and distributed execution.
 
 After running Word Count, you should get the following result:
 
-    INPUT:  []Any{"a", "a", "b", "b", "D", "a"}
+#lang text
+
+    INPUT:  []any{"a", "a", "b", "b", "D", "a"}
     OUTPUT: "a:3, b:2, D:1, "
 
 Questions
@@ -571,13 +931,60 @@ Questions
 * Classic Word Count Sample
 .code ../src/functional/streams/streams_test.go /wordcount/,/ENDWC OMIT/
 
-* Questions
-- How can you implement parallel execution for our API?
-- How can you implement distributed execution for our API?
+* Your guess: Which accumulators can run in parallel?
+
+Reduce splits the data into parts, reduces each part on its own core and combines the results.
+
+#lang go
+
+    sum := func(a, b int) int { return a + b }
+    max := func(a, b int) int { if a > b { return a }; return b }
+    sub := func(a, b int) int { return a - b }
+    concat := func(a, b string) string { return a + "," + b }
+
+: Raten lassen, dann weiterklicken.
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Which accumulators can run in parallel? The answer
+
+- `sum`, `max`, `concat`: yes, they are *associative*: (a+b)+c = a+(b+c)
+- `sub`: no. (8-4)-2 = 2, but 8-(4-2) = 6
+- `concat` is not commutative: the parts must be combined in the right order
+- An associative accumulator without shared state is the key for parallel and distributed execution
+
+: Überleitung zu den Abschlussfragen und zu Vorlesung Concurrent Programming.
+
+* When not to use it? The costs
+
+- *Performance:* Every Map and Filter step creates a new slice. Calls through a function value are hard to inline for the compiler.
+- *Debugging:* Long chains of anonymous functions give unreadable stack traces. Where do you set the breakpoint?
+- *Readability:* Deeply nested closures are harder to read than a simple loop
+- *Hidden* *state:* Closures are not automatically pure. `intSeq` has hidden state.
+
+The Go way: Use functions as parameters where they configure behavior (sort, handlers, options). For simple processing of a slice, write a loop.
+
+: Rob Pike hat mit robpike/filter Map/Filter/Reduce für Go gebaut. Im README steht sinngemäß: Ich habe es nie benutzt, ich nehme einfach for-Schleifen. Ihr solltet es auch nicht benutzen.
+: https://github.com/robpike/filter
+: Das ist auch der Grund, warum die Standardbibliothek keine Streams-API hat.
+
+* Summary
+
+- Functions are values: they can be stored, passed and returned
+- Closures capture variables, not values
+- Pure functions depend only on their arguments and have no side effects
+- Two core ideas: behavior as a parameter, and pure functions. Together they make parallel and distributed execution possible (MapReduce).
+- Lambda calculus: everything can be built from functions alone
+- In Go: use it for behavior (sort, handlers, options), use loops for simple processing
+
+Today: Functional programming as a tool in an impure language.
+Next lecture: Haskell, a language where every function is pure.
 
 : * Summary
 : - You can do functional programming with Go
-: - Generics and type inference for functions are missing, but will be implemented in Go 1.18
+: - Generics and type inference for functions exist since Go 1.18
 : - Type definitions for functions make code readable
 : - You can use functional patterns and generic programming with extra casting (type assertions)
 : - Functional patterns like Map/Filter/Reduce are easy to implement in Go
