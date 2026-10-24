@@ -1,0 +1,184 @@
+title: Error Handling and OOP in Go
+description: Lecture 3 recap. defer, panic, encapsulation, receivers, embedding and interfaces.
+
+questions:
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        for i := 0; i < 3; i++ {
+            defer fmt.Print(i)
+        }
+    options:
+      - {id: a, text: "012"}
+      - {id: b, text: "210"}
+      - {id: c, text: "333"}
+    answer: b
+    explanation: >-
+      Deferred calls run in reverse order (last in, first out), when the
+      function returns. The argument i is evaluated immediately, when the
+      defer statement runs.
+
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        x := 1
+        defer fmt.Println(x)
+        x = 2
+    options:
+      - {id: a, text: "1"}
+      - {id: b, text: "2"}
+      - {id: c, text: "Nothing"}
+    answer: a
+    explanation: >-
+      The arguments of a deferred call are evaluated immediately, when the
+      defer statement runs. Only the call itself is delayed until the function
+      returns.
+
+  - type: truefalse
+    text: If a file does not exist, os.Open should panic.
+    answer: "false"
+    explanation: >-
+      A missing file is an expected error and is returned as an error value.
+      panic is for bugs, e.g. an index out of range.
+
+  - type: multiple
+    text: Which principles of object oriented programming does Go support?
+    options:
+      - {id: a, text: "Encapsulation"}
+      - {id: b, text: "Abstraction"}
+      - {id: c, text: "Inheritance"}
+      - {id: d, text: "Polymorphism"}
+    answer: [a, b, d]
+    explanation: >-
+      Encapsulation via packages and capitalization, abstraction and
+      polymorphism via interfaces. Instead of inheritance, Go has embedding.
+
+  - type: text
+    text: A struct field starts with a lowercase letter. Where is it visible? Answer with one word.
+    answer: ["package", "the package", "in the package"]
+    explanation: >-
+      Lowercase identifiers are visible in the whole package, not only inside
+      the type. There is no private per type as in Java.
+
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        type Counter struct{ n int }
+
+        func (c Counter) Inc() { c.n++ }
+
+        c := Counter{}
+        c.Inc()
+        c.Inc()
+        fmt.Println(c.n)
+    options:
+      - {id: a, text: "0"}
+      - {id: b, text: "2"}
+      - {id: c, text: "It does not compile"}
+    answer: a
+    explanation: >-
+      The receiver is a normal parameter and is copied. Inc changes the copy.
+      With a pointer receiver func (c *Counter) Inc() it prints 2.
+
+  - type: truefalse
+    text: This compiles, although c is not a pointer.
+    code:
+      lang: go
+      source: |
+        type Counter struct{ n int }
+
+        func (c *Counter) Inc() { c.n++ }
+
+        c := Counter{}
+        c.Inc()
+    answer: "true"
+    explanation: >-
+      c is an addressable variable, so Go automatically calls (&c).Inc().
+
+  - type: truefalse
+    text: This compiles.
+    points: 2
+    code:
+      lang: go
+      source: |
+        type OpenCloser interface {
+            Open()
+            Close()
+        }
+
+        type Door struct{}
+
+        func (d *Door) Open()  {}
+        func (d *Door) Close() {}
+
+        var s OpenCloser = Door{}
+    answer: "false"
+    explanation: >-
+      The methods are defined for *Door, not for Door. Door does not implement
+      OpenCloser. var s OpenCloser = &Door{} works.
+
+  - type: truefalse
+    text: This compiles.
+    code:
+      lang: go
+      source: |
+        type Point struct{ x, y int }
+
+        type ColorPoint struct {
+            Point
+            c int
+        }
+
+        var p Point = ColorPoint{}
+    answer: "false"
+    explanation: >-
+      Embedding is not inheritance. A ColorPoint is not a Point. You can write
+      p = cp.Point, or use an interface for polymorphism.
+
+  - type: truefalse
+    text: In Go, a type has to declare which interfaces it implements.
+    answer: "false"
+    explanation: >-
+      Go interfaces are satisfied implicitly. A type with the right methods
+      implements the interface, even if the interface was written later in
+      another package.
+
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        type Temp float64
+
+        func (t Temp) String() string {
+            return fmt.Sprintf("%.1f°C", float64(t))
+        }
+
+        fmt.Println(Temp(21.5))
+    options:
+      - {id: a, text: "21.5"}
+      - {id: b, text: "21.5°C"}
+      - {id: c, text: "It does not compile, float64 cannot have methods"}
+    answer: b
+    explanation: >-
+      Methods can be defined on any named type, not only on structs. fmt
+      detects the Stringer interface at runtime and calls String().
+
+  - type: single
+    text: A coding agent translates a Java class hierarchy (abstract class Shape with subclasses) to Go. What is the typical mistake to look for?
+    options:
+      - {id: a, text: "It uses interfaces for the shapes"}
+      - {id: b, text: "It embeds a Shape struct and expects the shapes to override its methods"}
+      - {id: c, text: "It uses lowercase field names"}
+      - {id: d, text: "It writes a constructor function NewCircle"}
+    answer: b
+    explanation: >-
+      Embedding looks like inheritance, but there is no virtual dispatch. A
+      method of the embedded Shape never calls the method of the outer type.
+      Use an interface for the polymorphic methods.
