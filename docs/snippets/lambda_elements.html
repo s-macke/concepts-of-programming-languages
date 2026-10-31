@@ -1,0 +1,69 @@
+<style>
+    div.lambda-elements {
+        display: flex;
+        gap: 18px;
+        margin-top: 10px;
+        font-size: 22px;
+        line-height: 1.35;
+    }
+    div.lambda-elements div.card {
+        flex: 1;
+        border-radius: 10px;
+        border-top: 8px solid;
+        padding: 10px 16px 14px 16px;
+    }
+    div.lambda-elements h4 {
+        margin: 0 0 8px 0;
+        font-size: 26px;
+    }
+    div.lambda-elements div.term {
+        font-family: monospace;
+        font-size: 34px;
+        font-weight: bold;
+        text-align: center;
+        background: white;
+        border-radius: 6px;
+        padding: 8px 0;
+        margin-bottom: 10px;
+    }
+    div.lambda-elements ul {
+        margin: 0;
+        padding-left: 22px;
+    }
+    div.lambda-elements div.var { border-top-color: darkgreen; background: #e8f5e9; }
+    div.lambda-elements div.fun { border-top-color: rebeccapurple; background: #f1eafa; }
+    div.lambda-elements div.app { border-top-color: darkorange; background: #fff3e0; }
+    div.lambda-elements .var h4 { color: darkgreen; }
+    div.lambda-elements .fun h4 { color: rebeccapurple; }
+    div.lambda-elements .app h4 { color: darkorange; }
+    div.lambda-elements .l { color: rebeccapurple; }
+    div.lambda-elements .i { color: darkgreen; }
+    div.lambda-elements .o { color: darkorange; }
+</style>
+<div class="lambda-elements">
+    <div class="card var">
+        <h4>1. Variables</h4>
+        <div class="term"><span class="i">x</span></div>
+        <ul>
+            <li>A variable can itself be a function</li>
+            <li>No data types: no numbers, no booleans</li>
+        </ul>
+    </div>
+    <div class="card fun">
+        <h4>2. Functions</h4>
+        <div class="term"><span class="l">λ</span><span class="i">x</span><span class="l">.</span><span class="o">x</span></div>
+        <ul>
+            <li>Here: the identity function</li>
+            <li>Functions have no internal state</li>
+        </ul>
+    </div>
+    <div class="card app">
+        <h4>3. Applications</h4>
+        <div class="term">(<span class="l">λ</span><span class="i">x</span><span class="l">.</span><span class="o">x</span>) <span class="i">a</span> = <span class="o">a</span></div>
+        <ul>
+            <li>Apply the identity function to <span class="i">a</span>, the result is <span class="o">a</span></li>
+            <li><span class="i">a</span> can also be a function</li>
+            <li>Parentheses avoid ambiguity</li>
+        </ul>
+    </div>
+</div>
