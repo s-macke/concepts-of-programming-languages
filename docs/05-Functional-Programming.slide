@@ -103,7 +103,14 @@ Java (unlearn this):
 
 * Why functional programming is better - Sorting
 - With functional programming, we can use a lambda expression to provide a comparator function.
+
+Java (since Java 8):
+.play ../src/functional/genericstreams/sort/SortLambdaDemo.java /Integer\[\]/,/println/
+
+Go:
 .play ../src/functional/genericstreams/sort/stream/main.go /array/,/fmt.Println/
+
+: Gleicher Code wie auf der vorherigen Folie, nur die Klasse IntComparator ist weg. Die Vergleichslogik wird direkt als Lambda übergeben.
 
 * Why is it better? Two core ideas
 
@@ -887,30 +894,12 @@ Map/Reduce is a famous functional construct implemented in many parallel and dis
     }
 
 - What is the type of Mapper, Predicate and Accumulator?
-- How can you make the types generic, so they work for any type, not only for string?
 
 * Mapper, Predicate and Accumulator with any
 
 .code ../src/functional/streams/streams.go /EXERCISE 5.3 START OMIT/,/EXERCISE 5.3 END OMIT/
 
 - Works for every type, but needs type assertions like `o.(string)` at runtime
-
-* Mapper, Predicate and Accumulator with Generics
-
-Since Go 1.18, the types can be generic. The compiler checks the types.
-
-#lang go
-
-    // Mapper function maps a value of type T to a value of type U.
-    type Mapper[T, U any] func(T) U
-
-    // Predicate function returns true if a given element should be kept.
-    type Predicate[T any] func(T) bool
-
-    // Accumulator function returns a combined element.
-    type Accumulator[T any] func(T, T) T
-
-- Limitation: Methods in Go cannot have their own type parameters. `Map` from `T` to `U` must be a function, not a method of `Stream[T]`.
 
 * The problem: Count the words of the whole web
 
@@ -996,7 +985,6 @@ Next lecture: Haskell, a language where every function is pure.
 
 : * Summary
 : - You can do functional programming with Go
-: - Generics and type inference for functions exist since Go 1.18
 : - Type definitions for functions make code readable
 : - You can use functional patterns and generic programming with extra casting (type assertions)
 : - Functional patterns like Map/Filter/Reduce are easy to implement in Go

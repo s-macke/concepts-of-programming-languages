@@ -42,19 +42,6 @@ Do this part without a coding agent.
 - Then implement `BubbleSort` with the comparison function.
 - The comparison function gets two *indices*, not two values. Where do the values come from? What is the name of this concept?
 
-### Part B - With a coding agent: Generic version
-
-Let a coding agent write a generic version:
-
-```go
-func BubbleSort[T any](data []T, less func(a, b T) bool)
-```
-
-Compare it with your version and with the standard library:
-
-- `sort.Slice(x any, less func(i, j int) bool)` gets indices. `slices.SortFunc(x []E, cmp func(a, b E) int)` gets values. Why did `sort.Slice` have to use indices? Hint: `sort.Slice` is older than Go 1.18.
-- Does your test from Part A still work with the generic version?
-
 ## Exercise 5.2a - Filter
 
 Given a list of strings, write a function `Filter` which takes a 
@@ -114,7 +101,6 @@ Answer these yourself, before you write or generate any code:
 - Write down the function types for `Filter`, `Map` and `Reduce`.
 - Is your `Map` pure? Does it change the input slice, or does it return a new one?
 - What should `Reduce` return for an empty slice?
-- Make the functions generic, e.g. `func Map[T, U any](data []T, f func(T) U) []U`. Predict: What does `Map([]string{"a", "bb", "ccc"}, func(s string) int { return len(s) })` return? Which type does it have?
 
 ## Exercise 5.3 - Map / Filter / Reduce
 
@@ -152,14 +138,6 @@ The usage of the interface should be like this:
 
 *Question*
 - What is the type of Mapper, Predicate and Accumulator?
-- How can you make the types generic, so they work for any type, not only for string?
-
-### Generics
-
-Let a coding agent convert your stream to generics (`Stream[T]`). Then check:
-
-- How did the agent solve `Map` from `T` to `U`? Go methods cannot have their own type parameters. Is `Map` still a method?
-- Which type assertions like `o.(string)` are gone?
 
 ### Is this a bug?
 
@@ -184,7 +162,7 @@ fmt.Println(result, data)
 
 - Then run it. Is this a bug? Is `Map` pure?
 - Fix it and write a test that fails with the old version.
-- Does your own stream from 5.3 have the same problem? Does the stream of the coding agent?
+- Does your own stream from 5.3 have the same problem?
 - Bonus: The stream computes every step immediately for all elements. How would you make it *lazy*, so that `Map` only runs for the elements that `Filter` keeps? Haskell, the next lecture, is lazy by default.
 
 ## Exercise 5.4 - Word Count (WC)
