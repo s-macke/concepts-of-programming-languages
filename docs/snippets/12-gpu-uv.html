@@ -1,0 +1,46 @@
+<!-- How uv is computed, for a window of 800 x 450 pixels. Third panel: step(length(uv), 0.3). -->
+<style>
+    svg.uv { margin: 4px 0; }
+    svg.uv text { font-family: 'Droid Sans Mono', 'Courier New', monospace; }
+    svg.uv text.cap { font-size: 17px; fill: #222; }
+    svg.uv text.sub { font-family: inherit; font-size: 15px; fill: #666; }
+    svg.uv text.lbl { font-size: 14px; fill: #333; }
+</style>
+<svg class="uv" width="860" height="220" viewBox="0 0 860 220" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="uv-ax" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e53935"/></marker>
+<marker id="uv-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker>
+</defs>
+<text x="120.0" y="18" class="cap" text-anchor="middle">fragCoord</text>
+<text x="120.0" y="38" class="sub" text-anchor="middle">pixels, (0, 0) bottom left</text>
+<rect x="10" y="68" width="220" height="124" fill="#f7f7f7" stroke="#666" stroke-width="1.5"/>
+<line x1="10" y1="192" x2="70" y2="192" stroke="#e53935" stroke-width="2.5" marker-end="url(#uv-ax)"/>
+<line x1="10" y1="192" x2="10" y2="142" stroke="#e53935" stroke-width="2.5" marker-end="url(#uv-ax)"/>
+<circle cx="10" cy="192" r="4.5" fill="#e53935"/>
+<circle cx="120.0" cy="130.0" r="4.5" fill="#1e88e5"/>
+<text x="126.0" y="123.0" class="lbl" fill="#1e88e5">(400, 225)</text>
+<text x="230" y="62" class="lbl" text-anchor="end">(800, 450)</text>
+<text x="10" y="210" class="lbl">(0, 0)</text>
+<line x1="242" y1="130.0" x2="308" y2="130.0" stroke="#888" stroke-width="3" marker-end="url(#uv-ar)"/>
+<text x="430.0" y="18" class="cap" text-anchor="middle">− 0.5 * iResolution.xy</text>
+<text x="430.0" y="38" class="sub" text-anchor="middle">move the center to (0, 0)</text>
+<rect x="320" y="68" width="220" height="124" fill="#f7f7f7" stroke="#666" stroke-width="1.5"/>
+<line x1="320" y1="130.0" x2="540" y2="130.0" stroke="#e53935" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="430.0" y1="68" x2="430.0" y2="192" stroke="#e53935" stroke-width="1.5" stroke-dasharray="4,3"/>
+<circle cx="430.0" cy="130.0" r="4.5" fill="#e53935"/>
+<text x="436.0" y="123.0" class="lbl" fill="#e53935">(0, 0)</text>
+<text x="540" y="62" class="lbl" text-anchor="end">(400, 225)</text>
+<text x="320" y="210" class="lbl">(−400, −225)</text>
+<line x1="552" y1="130.0" x2="618" y2="130.0" stroke="#888" stroke-width="3" marker-end="url(#uv-ar)"/>
+<text x="740.0" y="18" class="cap" text-anchor="middle">/ iResolution.y</text>
+<text x="740.0" y="38" class="sub" text-anchor="middle">height is now 1.0</text>
+<rect x="630" y="68" width="220" height="124" fill="#111" stroke="#666" stroke-width="1.5"/>
+<circle cx="740.0" cy="130.0" r="37.2" fill="#fff"/>
+<line x1="630" y1="130.0" x2="850" y2="130.0" stroke="#e53935" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="740.0" y1="68" x2="740.0" y2="192" stroke="#e53935" stroke-width="1.5" stroke-dasharray="4,3"/>
+<circle cx="740.0" cy="130.0" r="4.5" fill="#e53935"/>
+<line x1="740.0" y1="130.0" x2="777.2" y2="130.0" stroke="#1e88e5" stroke-width="2.5"/>
+<text x="758.6" y="148.0" class="lbl" text-anchor="middle" fill="#1e88e5">0.3</text>
+<text x="850" y="62" class="lbl" text-anchor="end">(0.89, 0.5)</text>
+<text x="630" y="210" class="lbl">(−0.89, −0.5)</text>
+</svg>

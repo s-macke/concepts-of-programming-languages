@@ -1,0 +1,79 @@
+<!-- GLSL swizzling with color names: vec3 color = (0.2, 0.5, 0.9) -->
+<style>
+    svg.swizzle { margin: 6px 0; }
+    svg.swizzle text { font-family: inherit; }
+    svg.swizzle text.code { font-family: 'Droid Sans Mono', 'Courier New', monospace; font-size: 19px; fill: #222; }
+    svg.swizzle text.var { font-family: 'Droid Sans Mono', 'Courier New', monospace; font-size: 17px; fill: #444; }
+    svg.swizzle text.val { font-size: 18px; text-anchor: middle; fill: #222; }
+    svg.swizzle text.lbl { font-family: 'Droid Sans Mono', 'Courier New', monospace; font-size: 12px; text-anchor: middle; fill: #555; }
+</style>
+
+<svg class="swizzle" width="860" height="440" viewBox="0 0 860 440" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="ah-0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e53935"/></marker><marker id="ah-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#43a047"/></marker><marker id="ah-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1e88e5"/></marker><marker id="ah-lit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#888888"/></marker></defs>
+<line x1="430" y1="5" x2="430" y2="435" stroke="#ddd"/>
+<line x1="5" y1="218" x2="855" y2="218" stroke="#ddd"/>
+<g transform="translate(0,0)">
+<text x="10" y="20" class="code">vec3 color = vec3(0.2, 0.5, 0.9);</text>
+<text x="10" y="44" class="code">vec3 bgr = color.bgr;</text>
+<text x="80" y="98" class="var" text-anchor="end">color</text>
+<rect x="90" y="70" width="60" height="44" rx="4" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/><text x="120.0" y="84" class="lbl">.r</text><text x="120.0" y="106" class="val">0.2</text>
+<rect x="160" y="70" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="84" class="lbl">.g</text><text x="190.0" y="106" class="val">0.5</text>
+<rect x="230" y="70" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="260.0" y="84" class="lbl">.b</text><text x="260.0" y="106" class="val">0.9</text>
+<text x="80" y="188" class="var" text-anchor="end">bgr</text>
+<line x1="260.0" y1="116" x2="120.0" y2="154" stroke="#1e88e5" stroke-width="2.5" marker-end="url(#ah-2)"/>
+<rect x="90" y="160" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="120.0" y="189" class="val">0.9</text>
+<line x1="190.0" y1="116" x2="190.0" y2="154" stroke="#43a047" stroke-width="2.5" marker-end="url(#ah-1)"/>
+<rect x="160" y="160" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="189" class="val">0.5</text>
+<line x1="120.0" y1="116" x2="260.0" y2="154" stroke="#e53935" stroke-width="2.5" marker-end="url(#ah-0)"/>
+<rect x="230" y="160" width="60" height="44" rx="4" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/><text x="260.0" y="189" class="val">0.2</text>
+</g>
+<g transform="translate(440,0)">
+<text x="10" y="20" class="code">vec3 color = vec3(0.2, 0.5, 0.9);</text>
+<text x="10" y="44" class="code">vec3 gray = color.ggg;</text>
+<text x="80" y="98" class="var" text-anchor="end">color</text>
+<rect x="90" y="70" width="60" height="44" rx="4" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/><text x="120.0" y="84" class="lbl">.r</text><text x="120.0" y="106" class="val">0.2</text>
+<rect x="160" y="70" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="84" class="lbl">.g</text><text x="190.0" y="106" class="val">0.5</text>
+<rect x="230" y="70" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="260.0" y="84" class="lbl">.b</text><text x="260.0" y="106" class="val">0.9</text>
+<text x="80" y="188" class="var" text-anchor="end">gray</text>
+<line x1="190.0" y1="116" x2="120.0" y2="154" stroke="#43a047" stroke-width="2.5" marker-end="url(#ah-1)"/>
+<rect x="90" y="160" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="120.0" y="189" class="val">0.5</text>
+<line x1="190.0" y1="116" x2="190.0" y2="154" stroke="#43a047" stroke-width="2.5" marker-end="url(#ah-1)"/>
+<rect x="160" y="160" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="189" class="val">0.5</text>
+<line x1="190.0" y1="116" x2="260.0" y2="154" stroke="#43a047" stroke-width="2.5" marker-end="url(#ah-1)"/>
+<rect x="230" y="160" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="260.0" y="189" class="val">0.5</text>
+</g>
+<g transform="translate(0,225)">
+<text x="10" y="20" class="code">vec3 color = vec3(0.2, 0.5, 0.9);</text>
+<text x="10" y="44" class="code">vec3 c = vec3(1.0, color.gb);</text>
+<text x="80" y="98" class="var" text-anchor="end">color</text>
+<rect x="90" y="70" width="60" height="44" rx="4" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/><text x="120.0" y="84" class="lbl">.r</text><text x="120.0" y="106" class="val">0.2</text>
+<rect x="160" y="70" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="84" class="lbl">.g</text><text x="190.0" y="106" class="val">0.5</text>
+<rect x="230" y="70" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="260.0" y="84" class="lbl">.b</text><text x="260.0" y="106" class="val">0.9</text>
+<rect x="310" y="70" width="60" height="44" rx="4" fill="#eeeeee" stroke="#888888" stroke-width="2" stroke-dasharray="5,3"/><text x="340.0" y="84" class="lbl">new</text><text x="340.0" y="106" class="val">1.0</text>
+<text x="80" y="188" class="var" text-anchor="end">c</text>
+<line x1="340.0" y1="116" x2="120.0" y2="154" stroke="#888888" stroke-width="2.5" marker-end="url(#ah-lit)"/>
+<rect x="90" y="160" width="60" height="44" rx="4" fill="#eeeeee" stroke="#888888" stroke-width="2"/><text x="120.0" y="189" class="val">1.0</text>
+<line x1="190.0" y1="116" x2="190.0" y2="154" stroke="#43a047" stroke-width="2.5" marker-end="url(#ah-1)"/>
+<rect x="160" y="160" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="189" class="val">0.5</text>
+<line x1="260.0" y1="116" x2="260.0" y2="154" stroke="#1e88e5" stroke-width="2.5" marker-end="url(#ah-2)"/>
+<rect x="230" y="160" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="260.0" y="189" class="val">0.9</text>
+</g>
+<g transform="translate(440,225)">
+<text x="10" y="20" class="code">vec3 color = vec3(0.2, 0.5, 0.9);</text>
+<text x="10" y="44" class="code">vec4 rgba = vec4(color, 0.5);</text>
+<text x="80" y="98" class="var" text-anchor="end">color</text>
+<rect x="90" y="70" width="60" height="44" rx="4" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/><text x="120.0" y="84" class="lbl">.r</text><text x="120.0" y="106" class="val">0.2</text>
+<rect x="160" y="70" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="84" class="lbl">.g</text><text x="190.0" y="106" class="val">0.5</text>
+<rect x="230" y="70" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="260.0" y="84" class="lbl">.b</text><text x="260.0" y="106" class="val">0.9</text>
+<rect x="310" y="70" width="60" height="44" rx="4" fill="#eeeeee" stroke="#888888" stroke-width="2" stroke-dasharray="5,3"/><text x="340.0" y="84" class="lbl">new</text><text x="340.0" y="106" class="val">0.5</text>
+<text x="80" y="188" class="var" text-anchor="end">rgba</text>
+<line x1="120.0" y1="116" x2="120.0" y2="154" stroke="#e53935" stroke-width="2.5" marker-end="url(#ah-0)"/>
+<rect x="90" y="160" width="60" height="44" rx="4" fill="#ffcdd2" stroke="#e53935" stroke-width="2"/><text x="120.0" y="189" class="val">0.2</text>
+<line x1="190.0" y1="116" x2="190.0" y2="154" stroke="#43a047" stroke-width="2.5" marker-end="url(#ah-1)"/>
+<rect x="160" y="160" width="60" height="44" rx="4" fill="#c8e6c9" stroke="#43a047" stroke-width="2"/><text x="190.0" y="189" class="val">0.5</text>
+<line x1="260.0" y1="116" x2="260.0" y2="154" stroke="#1e88e5" stroke-width="2.5" marker-end="url(#ah-2)"/>
+<rect x="230" y="160" width="60" height="44" rx="4" fill="#bbdefb" stroke="#1e88e5" stroke-width="2"/><text x="260.0" y="189" class="val">0.9</text>
+<line x1="340.0" y1="116" x2="330.0" y2="154" stroke="#888888" stroke-width="2.5" marker-end="url(#ah-lit)"/>
+<rect x="300" y="160" width="60" height="44" rx="4" fill="#eeeeee" stroke="#888888" stroke-width="2"/><text x="330.0" y="189" class="val">0.5</text>
+</g>
+</svg>

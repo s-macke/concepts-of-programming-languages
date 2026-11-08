@@ -14,10 +14,8 @@ https://www.qaware.de
 : - History: Which problems made GPUs important?
 : - The programming model: Parallel For
 : - Example: Prime numbers on CPU and GPU
-: - Memory
-: - Matrix multiplication and AI
-: - Shaders as pure functions
-: - CUDA and GLSL
+: - Memory and matrix multiplication
+: - Shaders and GLSL
 : - Exercise in Shadertoy
 
 * Why GPUs?
@@ -32,14 +30,14 @@ Why? What is so special about a graphics card?
 : Kurz sammeln lassen: Wer hat eine Grafikkarte? Wofür?
 : Quelle: CNN, 2025-10-29: https://www.cnn.com/2025/10/29/tech/nvidia-5-trillion-valuation-ai
 
+* History: Which problems made GPUs important?
+
 * History: My youth
 
 - *1989,* *Stunt* *Car* *Racer* *(C64):* filled 3D graphics with about 5 to 6 frames per second
 - *1993,* *Doom* *on* *a* *386* *DX-25:* 4.6 frames per second
-- *1996,* *Quake* *on* *a* *386* *DX-40* (with math coprocessor): 2 frames per second
-- *Quake* *on* *a* *486* *DX2/66:* 8 frames per second
+- *1996,* *Quake* *on* *a* *486* *DX2/66:* 8 frames per second
 - *Quake* *on* *a* *486* *DX4/100:* 11 frames per second
-- *Quake* *on* *a* *Pentium* *100:* 27 frames per second
 
 Every pixel is computed by the CPU, and that at only 320 × 200 pixels.
 
@@ -52,8 +50,6 @@ Every pixel is computed by the CPU, and that at only 320 × 200 pixels.
 : Quelle: VOGONS, "A brief comparison of Voodoo-Quake results on a 486": https://www.vogons.org/viewtopic.php?f=46&t=42880
 : Doom auf einem 386 DX-25: 4,6 fps (Timedemo demo3, Doom 1.9 Shareware, Standardeinstellungen). 386 SX-25: 3,4 fps.
 : Quake-Zahlen (Timedemo, 320 x 200, ohne Sound): i486 DX2/66 7,8 fps, i486 DX4/100 11,2 fps, Pentium 75 20,0 fps, Pentium 100 26,7 fps.
-: Quake braucht einen Mathe-Koprozessor (FPU), offiziell einen Pentium 75. Auf einem 386 läuft es nur mit 387-Koprozessor: 386 DX-40 mit 387 etwa 1,7 bis 2 fps (Quake-Timedemo).
-: Quelle: VOGONS, "386 Rig running quake, amazing 1.5 frames per second": https://www.vogons.org/viewtopic.php?t=100318
 : Quelle: thandor.net, Doom-Benchmark (i386 DX25: 4,60 fps): https://thandor.net/benchmark/32
 : Quelle: thandor.net, Quake-Benchmark: https://thandor.net/benchmark/33
 : Quelle: Blue's News, The Guide: Quake (Systemanforderungen): https://www.bluesnews.com/guide/quake.htm
@@ -170,27 +166,7 @@ If a game crashed, the graphics card was in an undefined state. Sometimes you ha
 : Quelle: NVIDIA Fermi Whitepaper: https://www.nvidia.com/content/pdf/fermi_white_papers/nvidia_fermi_compute_architecture_whitepaper.pdf
 : Quelle: NVIDIA Blog, "What Is a Multi-Instance GPU?": https://blogs.nvidia.com/blog/multi-instance-gpus/
 
-* History: The clock speed wall
-
-- Until about 2005, CPUs became faster mainly by a higher clock speed
-- Then Dennard scaling ended: chips became too hot (power wall)
-- Since then, clock speeds have stagnated at about 4 to 6 GHz
-- More performance only through more cores: parallelism instead of speed
-
-*Problem:* *the* *clock* *speed* *does* *not* *grow* *anymore* ⮕ parallelism is the only way
-
-: Bezug zur Vorlesung Concurrent Programming (Moore's Law).
-: Beispiel: Intel stoppte 2004 ein 4-GHz-Projekt wegen der Leistungsdichte.
-: Quelle: Wikipedia "Dennard scaling": https://en.wikipedia.org/wiki/Dennard_scaling
-
-* History: Today
-
-- July 2025: NVIDIA is worth 4 trillion US dollars, October 2025: 5 trillion
-- The most valuable company in the world
-- A company that started with graphics cards for games
-
-: Quelle: CNBC, 2025-07-09: https://www.cnbc.com/2025/07/09/nvidia-4-trillion.html
-: Quelle: CNN, 2025-10-29: https://www.cnn.com/2025/10/29/tech/nvidia-5-trillion-valuation-ai
+* The programming model: Parallel For
 
 * The GPU programming model: a Parallel For
 
@@ -225,7 +201,12 @@ On the GPU, you *only* *write* *the* *body*. The GPU runs it for every *i*.
 
 - You write the body
 - The GPU gives you the index: *i*, or *x*, *y*, or *x*, *y*, *z*
-- Shadertoy is a 2D Parallel For: one call of your function for every pixel
+- The GPU computes *blockwise*: it groups the indices into blocks, e.g. 256 indices per block. For 2D and 3D, the blocks are usually 2D and 3D too, e.g. 16 × 16 pixels.
+- This is the *only* paradigm the GPU supports. You have to map every problem onto it.
+- If a problem does not fit into a Parallel For, it will not run well on the GPU.
+
+: Blöcke heißen in CUDA "thread blocks", in OpenCL "work-groups". Die GPU verteilt die Blöcke auf ihre Recheneinheiten.
+: Warum 2D-Blöcke bei Bildern: Benachbarte Pixel brauchen oft dieselben Daten. Ein 16 x 16 Block liest einen zusammenhängenden Ausschnitt, das nutzt Cache und Shared Memory besser als eine lange Zeile.
 
 * There is no outer loop
 
@@ -242,8 +223,10 @@ On the GPU, there is no "before". You only write the body:
 
 #lang go
 
-    table := buildTable()   // for every element again!
-    result[i] = lookup(table, data[i])
+    // for i := range data {        ← done by the GPU, in parallel
+        table := buildTable()   // for every element again!
+        result[i] = lookup(table, data[i])
+    // }
 
 - Setup code runs for every element again
 - Maybe the compiler optimizes it. Maybe not.
@@ -267,7 +250,7 @@ On the GPU, there is no "before". You only write the body:
 
     // C
     for i := 1; i < len(data); i++ {
-        data[i] = data[i-1] + 1
+        data[i] = f(data[i-1])   // f: e.g. one step of a simulation
     }
 
 : Raten lassen, dann weiterklicken.
@@ -282,14 +265,52 @@ On the GPU, there is no "before". You only write the body:
 - *B:* not directly. All iterations write to the same *sum* (reduction).
 - *C:* no. Every iteration needs the result of the previous one.
 
-Three rules of the GPU Parallel For:
+Two rules of the GPU Parallel For:
 
 - *No* *order:* the iterations run in any order
-- *No* *communication:* one iteration cannot wait for the result of another
-- *Lockstep:* groups of 32 iterations (a *warp*) execute the same instruction at the same time
+- *No* *communication:* one iteration cannot wait for the result of another. Exception: threads in one block, see memory.
 
-: B geht mit einer Reduktion in mehreren Schritten (Baum). Das ist auf der GPU aufwendig.
-: Warp ist der NVIDIA-Begriff (32 Threads). AMD spricht von Wavefronts.
+: Wie B doch geht: nächste Folien.
+: Ausnahme Block: Threads eines Blocks teilen sich Shared Memory und können mit einer Barriere (__syncthreads) aufeinander warten. Kommt beim Speicher.
+: C mit beliebigem f ist echt sequentiell. Ist f eine Addition, z. B. data[i] = data[i-1] + data[i] (Präfixsumme), geht es doch parallel mit einem Scan in log2(n) Schritten.
+
+* B on the GPU: atomic add
+
+#lang go
+
+    // for i := range data {        ← done by the GPU, in parallel
+        atomic.AddInt64(&sum, data[i])   // CUDA: atomicAdd(&sum, data[i])
+    // }
+
+- One Parallel For, and the result is correct
+- But all threads write to the *same* memory location. The hardware executes these writes one after the other.
+- So the additions are sequential again, plus the cost of the atomics
+- With *float*, the result changes from run to run: the order of the additions is different every time
+
+: atomic.AddInt64 kennen die Studierenden aus der Vorlesung Concurrent Programming.
+: Float: Gleitkomma-Addition ist nicht assoziativ, (a+b)+c ist nicht immer a+(b+c). Bezug zu Vorlesung 5 (paralleles Reduce).
+
+* B on the GPU: a tree
+
+#lang go
+
+    for stride := n / 2; stride > 0; stride /= 2 {   // on the CPU: log2(n) steps
+        // for i := 0; i < stride; i++ {            ← done by the GPU, in parallel
+            data[i] += data[i+stride]
+        // }
+    }
+    // the sum is in data[0]
+
+.html snippets/12-gpu-reduction-tree.html
+
+- Not one Parallel For, but log2(n) of them. 1 million elements: 20 steps.
+- Only works if the operation is *associative* and *commutative*: +, min, max, but not − (see Functional Programming)
+
+: In der Praxis kombiniert man beides: Jeder Block reduziert seine Elemente als Baum im Shared Memory, danach macht jeder Block ein einziges atomicAdd. Aus einer Million Atomics werden so etwa 4000.
+: Kommutativ, weil dieses Muster [0] mit [4] verbindet, nicht mit [1]. Für String-Konkatenation bräuchte man benachbarte Paare (data[2i] und data[2i+1]).
+: Jeder Schritt ist hier ein eigener Kernel-Aufruf. Dazwischen müssen alle Threads fertig sein, sonst liest ein Thread einen Wert, der noch nicht addiert ist.
+
+* Example: Prime numbers on CPU and GPU
 
 * Example: Prime numbers
 
@@ -300,7 +321,7 @@ How do you test whether a number is prime?
 : Gemeinsam mit den Studierenden entwickeln, nicht vorgeben: Probedivision, Abbruch bei sqrt(n), gerade Zahlen.
 : Wichtig: Bei einer geraden Zahl ist man sofort fertig, bei einer großen Primzahl läuft die Schleife bis sqrt(n).
 
-* Prime numbers in Java
+* Prime numbers in Java (CPU)
 
 .code ../src/gpu/primes/Primes.java /START1 OMIT/,/END1 OMIT/
 
@@ -316,13 +337,30 @@ How do you test whether a number is prime?
 : Der Test ist bewusst naiv (Teiler bis n, nicht bis Wurzel n): Die Schleife läuft etwa 1 000 000 Mal pro Element, und die Arbeit wächst linear mit n. Schlagen die Studierenden die Wurzel vor: richtig, aber für das Experiment brauchen wir viel Arbeit pro Element.
 : Alles in 32 Bit, damit derselbe Test auch auf der GPU läuft. Alle Messungen, Grafiken und Tabellen: src/gpu/primes/run.sh (für Apple M3 Max eingestellt)
 
-* Prime numbers: Java and CUDA
+* Prime numbers in CUDA (GPU): the body
 
-: TODO Dozent: der gemeinsam entwickelte Primzahltest in Java (Parallel For) und in CUDA nebeneinander.
+.code ../src/gpu/primes/primes.cu /START1 OMIT/,/END1 OMIT/
+
+- `isPrime` is the same code as in Java
+- `__global__` marks the body of the Parallel For, `i` is the index
+
 : Botschaft: gleicher Code, anderes Ausführungsmodell.
+: blockIdx.x * blockDim.x + threadIdx.x ist der Index i aus dem Parallel For. Die GPU kennt nur Blöcke und Threads im Block.
+: Die Arrays sind hier nur als Kommentar skizziert. Für die Initialisierung den echten CUDA-Code auf der nächsten Folie zeigen (cudaMallocManaged, src/gpu/primes/primes.cu).
+
+* Prime numbers in CUDA (GPU): the start
+
+.code ../src/gpu/primes/primes.cu /START2 OMIT/,/END2 OMIT/
+
+- `<<<blocks,` `threads>>>` starts the Parallel For on the GPU
+- The GPU starts whole blocks of 256 threads. So there can be more threads than elements: `if` `(i` `>=` `count)` `return`
+
+: cudaMallocManaged: Speicher, den CPU und GPU sehen. Das Kopieren zwischen den Speichern kommt später beim Thema Memory.
+: Ausführbar nur mit NVIDIA-GPU: cd src/gpu/primes && nvcc -O2 -o primes primes.cu && ./primes 10000. Die Messungen auf den nächsten Folien stammen von Metal (Benchmark.swift), der Kernel ist derselbe.
 
 * Prime numbers on the CPU
 
+- Measured on an Apple M3 Max with 12 performance cores (Java, 12 threads)
 - Every element of the array: the same prime number 1,000,003
 - How long does it take for 1, 2, 11, 12, 13, 24, 25 elements?
 
@@ -427,15 +465,6 @@ The same array with the same prime number 1,000,003. How long does the GPU take?
 : Es laufen mehr Threads gleichzeitig (10 240) als es Rechenwerke gibt (5 120): Während ein Thread auf Speicher wartet, rechnet ein anderer.
 : Die 128 Rechenwerke pro Apple-GPU-Kern sind aus der üblichen Angabe zu Apple-GPUs abgeleitet (M1: 8 Kerne, 1 024 Rechenwerke). Apple veröffentlicht das für den M3 Max nicht explizit.
 
-* A word of honesty
-
-- GPUs are extremely complex: schedulers, caches, clock boosting, drivers, compilers
-- Some of my own measurements, I cannot fully explain either
-- Rules of thumb help. But in practice: *measure,* *don't* *guess*
-
-: Zeit: 2 Minuten (Block 5, Disclaimer)
-: Steht direkt nach der ersten GPU-Grafik, weil dort schon die ersten Artefakte in den Messungen auftreten.
-
 * CPU and GPU in comparison
 
 .image img/12-gpu-cpu-vs-gpu.svg _ 680
@@ -524,6 +553,7 @@ Why?
 - *Large* *array:* every warp with one large number is slow. With 5 % randomly distributed, this is 1 − 0.95³² ≈ 81 % of all warps.
 - *CPU:* a free thread simply takes the next element
 
+: Warp ist der NVIDIA-Begriff (32 Threads). AMD spricht von Wavefronts.
 : Fall 1 ist der kritische Pfad, das wäre auch bei einer CPU mit 5000 Kernen so.
 : Fall 2 ist der eigentliche SIMT-Effekt: Die 31 wartenden Lanes können keine andere Arbeit übernehmen.
 
@@ -572,6 +602,17 @@ Why?
 
 : Überleitung zur Regel: den Algorithmus so umformulieren, dass alle Threads gleich viel arbeiten.
 
+* Lockstep: a model, not a guarantee
+
+- *Until* *2017:* one instruction pointer per warp, exactly as shown
+- *Since* *2017* *(NVIDIA* *Volta):* every thread has its own instruction pointer (independent thread scheduling)
+- Why? With one instruction pointer, a spin lock inside a warp can deadlock: the thread holding the lock is switched off, the others spin forever.
+- *The* *cost* *stays* *the* *same:* divergent branches still run one after the other
+- Do not rely on lockstep for correctness. Synchronize explicitly, e.g. with *__syncwarp()*.
+
+: Für die Performance bleibt das Bild vom Warp mit einem Befehlszeiger richtig. Für die Korrektheit darf man sich seit Volta nicht mehr darauf verlassen.
+: Quelle: NVIDIA Developer Blog, "Inside Volta: The World's Most Advanced Data Center GPU" (2017): https://developer.nvidia.com/blog/inside-volta/
+
 * What if the large numbers are next to each other? Guess!
 
 - Again 5 % large prime numbers
@@ -618,6 +659,8 @@ Why?
 : Miller-Rabin mit den Basen 2, 7 und 61 ist für alle n < 4 759 123 141 deterministisch, deckt also alle 32-Bit-Zahlen ab.
 : Quelle: Wikipedia "Miller–Rabin primality test", Abschnitt "Testing against small sets of bases": https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
 
+* Memory and matrix multiplication
+
 * Memory: The data has to get to the GPU first
 
 - A graphics card has its own memory (VRAM)
@@ -662,47 +705,80 @@ Guess: Is the GPU worth it for ...
 : Zeit: 5 Minuten (Block 7, KI-Bezug)
 : Kontrast zum Primzahl-Beispiel: Hier gibt es keine Divergenz, alle Threads laufen gleich lang.
 
-* Shaders: a pure function per pixel
+* Shaders and GLSL
+
+* Shaders: small programs on the GPU
+
+A shader is a small program that the GPU runs for every element of a pipeline step.
+The name comes from "shading": computing light and color.
+
+The graphics pipeline, step by step:
+
+- *Vertex* *shader:* runs for every corner of a triangle. Moves, rotates and projects it onto the screen.
+- *Rasterization* (fixed, not programmable): which pixels does a triangle cover?
+- *Fragment* *shader* (pixel shader): runs for every pixel of a triangle. Computes its color.
+
+Outside of the graphics pipeline:
+
+- *Compute* *shader:* the general Parallel For, no triangles, no pixels
+
+: Zeit: 5 Minuten (Block 8, Shader als reine Funktion)
+: Weitere Shader-Arten nur auf Nachfrage: Geometry und Tessellation Shader (zwischen Vertex und Rasterisierung), Mesh Shader (moderner Ersatz für Vertex und Geometry), Ray-Tracing-Shader.
+: Bezug: Die Folie "History: Developers want their own effects" (2001, programmierbare Vertex- und Pixel-Shader).
+
+* In this lecture: a pure function per pixel
+
+We only use the fragment shader, in its simplest form:
 
 #lang glsl
 
     color = f(x, y, time)
 
+- You never see a triangle or a vertex shader: for you, the image is one big area of pixels
 - No state, no side effects. The same input always gives the same color.
 - A *map* over all pixels (see the lecture Functional Programming)
+- Shadertoy is exactly this: you only write *f*
 
-Other kinds of shaders (only briefly):
+: Die Vereinfachung bewusst ansprechen: echte Spiele haben Millionen Dreiecke, Texturen und mehrere Durchläufe. Für das Programmiermodell reicht uns die eine Funktion pro Pixel.
 
-- *Vertex* *shader:* runs for every corner of a triangle
-- *Fragment* *shader:* runs for every pixel. Shadertoy is a fragment shader.
-- *Compute* *shader:* the general Parallel For
+* Live: Shadertoy
 
-: Zeit: 5 Minuten (Block 8, Shader als reine Funktion)
+.link https://www.shadertoy.com/new
 
-* CUDA: a 2D Parallel For
+#lang glsl
 
-#lang cpp
-
-    __global__ void gradient(Image image, int width, int height) {
-        int x = blockIdx.x * blockDim.x + threadIdx.x;
-        int y = blockIdx.y * blockDim.y + threadIdx.y;
-        if (x >= width || y >= height) return;
-
-        float r = (float)x / width;
-        float g = (float)y / height;
-        writePixel(image, x, y, r, g, 0.0f);
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.xy;
+        fragColor = vec4(uv, 0.0, 1.0);
     }
 
-    dim3 block(16, 16);
-    dim3 grid((width + 15) / 16, (height + 15) / 16);
-    gradient<<<grid, block>>>(image, width, height);
+- *fragCoord:* the pixel coordinate. (0, 0) is at the bottom left.
+- *iResolution:* the size of the image
+- *fragColor:* the color of this pixel (red, green, blue, alpha)
 
-- One thread for every pixel. Every thread computes its own (x, y).
-- Shadertoy hides all of this. You only write the body.
+: Live vorführen. Vorher fragen: Wie wird das Bild aussehen?
 
-: Zeit: 5 Minuten (Block 9, Brücke zu Shadertoy)
-: Achtung: Code nicht kompiliert (kein nvcc auf dem Mac). Image und writePixel sind Platzhalter.
-: writePixel ist bewusst ein Platzhalter: Die Berechnung des 1D-Index ist eine Frage in der Übung.
+* How does Shadertoy work?
+
+Shadertoy does not compute. It *draws*:
+
+- It draws triangles that cover the whole image
+- The GPU finds all pixels inside the triangles (rasterization)
+- For every pixel, it calls the fragment shader. Shadertoy wraps your *mainImage* (simplified):
+
+#lang glsl
+
+    void main() {
+        mainImage(outColor, gl_FragCoord.xy);
+    }
+
+⮕ It looks like a 2D Parallel For over an array of pixels, just like a compute shader
+
+- *fragCoord* is the center of the pixel: (0.5, 0.5), (1.5, 0.5), ...
+
+: Grafik-Pipeline: Vertex Shader (hier trivial, nur die Ecken) -> Rasterisierung -> Fragment Shader pro Pixel.
+: Ob Shadertoy ein Rechteck aus zwei Dreiecken oder ein großes Dreieck zeichnet, ist für das Prinzip egal. Nicht verifiziert, die Shadertoy-Quellen sind nicht öffentlich abrufbar.
+: Unterschiede zum echten Compute Shader: Ein Fragment darf nur sein eigenes Pixel schreiben (kommt bei den Ratefragen), kein Shared Memory, und die GPU rechnet Pixel in 2x2-Blöcken (für Ableitungen wie dFdx und Texturfilterung).
 
 * GLSL: the language of Shadertoy
 
@@ -721,18 +797,50 @@ Other kinds of shaders (only briefly):
 : Zeit: 15 Minuten (Block 10, GLSL-Einstieg mit Live-Demo)
 : Bezug zur Vorlesung 2: strong typing. Die Fehlermeldung ist echt (WebGL2).
 
-* GLSL: Vectors
+* GLSL: Vectors are small structs
 
-#lang glsl
+A typical vector type looks like this:
 
-    vec2 uv = fragCoord / iResolution.xy;  // component-wise division
-    vec3 color = vec3(uv, 0.5);            // build from smaller vectors
-    vec2 rg = color.rg;                    // swizzling: pick components
-    vec3 bgr = color.bgr;                  // ... in any order
-    vec4 result = vec4(color, 1.0);
+#lang c
 
-- Operators work component-wise
-- *.xyzw* and *.rgba* name the same components
+    // a position or direction in 3D (w = 1: point, w = 0: direction)
+    struct Vec4 {
+        float x, y, z, w;
+    };
+
+    // a color with transparency (alpha)
+    struct Vec4 {
+        float r, g, b, a;
+    };
+
+- Both are just 4 floats, only the names differ
+- In GLSL, *vec4* is both at once, and you can do more with it
+
+: Zeit: 3 Minuten.
+: In GLSL sind .xyzw und .rgba (und .stpq für Texturkoordinaten) nur andere Namen für dieselben vier floats.
+: Die GPU-Hardware rechnet historisch genau mit solchen 4er-Vektoren (Position, Farbe). Deshalb sind sie in der Sprache eingebaut.
+
+* GLSL: Swizzling with positions
+
+.html snippets/12-gpu-swizzle-xyz.html
+
+- Swizzling: pick components by name, in any order
+- The result is a new vector of any size from 1 to 4
+
+: Die Pfeile zeigen, welche Komponente wohin kopiert wird.
+: p.xz: typisch für die Bodenebene (Höhe y weglassen).
+: vec4(p, 1.0): Bezug zur vorherigen Folie, w = 1 macht aus p einen Punkt.
+
+* GLSL: Swizzling with colors
+
+.html snippets/12-gpu-swizzle-rgb.html
+
+- *.rgba* are the same components as *.xyzw*: `color.r` is `color.x`
+- Operators work component-wise, e.g. `fragCoord / iResolution.xy`
+
+: color.ggg: einfaches Grau aus einem Kanal. Komponenten dürfen beim Lesen wiederholt werden.
+: vec3(1.0, color.gb): Konstruktoren nehmen beliebige Mischungen aus Zahlen und Vektoren, Hauptsache die Summe der Komponenten passt.
+: Namen mischen ist verboten: color.xg ist ein Fehler.
 
 * GLSL: min, max, step and mix instead of if
 
@@ -754,24 +862,29 @@ Other kinds of shaders (only briefly):
 
 : Nuance: Ein if, das für alle Pixel gleich ausgeht, ist billig. Teuer sind Zweige, die sich innerhalb eines Warps unterscheiden und viel Arbeit enthalten.
 
-* Live: Shadertoy
-
-.link https://www.shadertoy.com/new
+* Live: A circle
 
 #lang glsl
 
     void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-        vec2 uv = fragCoord / iResolution.xy;
-        fragColor = vec4(uv, 0.0, 1.0);
+        vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
+        float d = length(uv);
+        float circle = step(d, 0.3);
+        fragColor = vec4(vec3(circle), 1.0);
     }
 
-- *fragCoord:* the pixel coordinate. (0, 0) is at the bottom left.
-- *iResolution:* the size of the image
-- *fragColor:* the color of this pixel (red, green, blue, alpha)
+.html snippets/12-gpu-uv.html
 
-: Live vorführen. Vorher fragen: Wie wird das Bild aussehen?
+: Live vorführen.
+: Beispiel im Bild: Fenster mit 800 x 450 Pixeln. 0.5 * iResolution.xy = (400, 225) ist die Mitte.
+: Jeder Pixel fragt: Wie weit bin ich von der Mitte entfernt? Näher als 0.3: weiß, sonst schwarz.
+: fragCoord ist die Pixelposition, (0, 0) unten links. iResolution ist die Fenstergröße in Pixeln.
+: Würde man x durch die Breite und y durch die Höhe teilen, liefen beide von -0.5 bis 0.5, aber der Kreis wäre in einem breiten Fenster eine Ellipse.
+: Die Grenze in x hängt vom Seitenverhältnis ab: bei 16:9 ist sie 0.89, bei einem quadratischen Fenster 0.5.
+: Genau genommen liegt fragCoord in der Pixelmitte: (0.5, 0.5) bis (799.5, 449.5).
+: step(d, 0.3) ist 1.0, wenn d <= 0.3, sonst 0.0. Wie auf der vorherigen Folie, ohne if.
 
-* Live: A circle
+* Live: An animated circle
 
 #lang glsl
 
@@ -779,14 +892,14 @@ Other kinds of shaders (only briefly):
         vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
         float radius = 0.3 + 0.1 * sin(iTime);
         float d = length(uv);
-        float circle = 1.0 - smoothstep(radius, radius + 0.01, d);
+        float circle = step(d, radius);
         fragColor = vec4(vec3(circle), 1.0);
     }
 
-- Every pixel asks: How far am I from the center?
-- *smoothstep* gives smooth edges, *iTime* animates the radius
+- *iTime:* the time in seconds since the start, the same for every pixel
+- The radius changes between 0.2 and 0.4
 
-: Live vorführen. Schrittweise: erst ohne smoothstep (step), dann mit, dann mit iTime.
+: Live vorführen. iTime ist eine Uniform: Sie kommt von außen und ist für alle Pixel gleich.
 
 * Guess: How does this work on the GPU?
 
