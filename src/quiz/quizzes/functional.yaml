@@ -1,0 +1,168 @@
+title: Functional Programming
+description: Lecture 5 recap. Closures, pure functions, currying, lambda calculus and Map/Filter/Reduce.
+
+questions:
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        func counter() func() int {
+            i := 0
+            return func() int {
+                i++
+                return i
+            }
+        }
+
+        next := counter()
+        fmt.Println(next(), next(), next())
+    options:
+      - {id: a, text: "1 1 1"}
+      - {id: b, text: "1 2 3"}
+      - {id: c, text: "0 1 2"}
+      - {id: d, text: "It does not compile, i is out of scope"}
+    answer: b
+    explanation: >-
+      The returned function captures the variable i. It lives on after counter
+      has returned, and every call of next increments the same i.
+
+  - type: text
+    text: >-
+      The comparison function only gets two indices, not two values. It still
+      can read data. What is this concept called? Answer with one word.
+    code:
+      lang: go
+      source: |
+        data := []int{27, 15, 8, 9, 12}
+        BubbleSort(data, func(i, j int) bool {
+            return data[i] > data[j]
+        })
+    answer: ["closure", "closures", "a closure"]
+    explanation: >-
+      The anonymous function captures the variable data from its surrounding
+      scope. BubbleSort does not need to know the element type, it only swaps
+      positions.
+
+  - type: truefalse
+    text: Every closure is a pure function.
+    answer: "false"
+    explanation: >-
+      A closure can hide mutable state. The counter function from the lecture
+      returns a different value on every call, so it is not pure.
+
+  - type: multiple
+    text: Which of these functions are pure?
+    points: 2
+    options:
+      - {id: a, text: "strings.ToLower(s)"}
+      - {id: b, text: "strconv.Itoa(n)"}
+      - {id: c, text: "time.Now()"}
+      - {id: d, text: "os.Getenv(key)"}
+      - {id: e, text: "slices.Sort(data)"}
+    answer: [a, b]
+    explanation: >-
+      A pure function depends only on its arguments and has no side effects.
+      time.Now and os.Getenv read the state of the world, slices.Sort changes
+      its argument.
+
+  - type: single
+    text: What is the type of ADDC(1)?
+    code:
+      lang: go
+      source: |
+        ADDC := func(x int) func(int) int {
+            return func(y int) int {
+                return x + y
+            }
+        }
+    options:
+      - {id: a, text: "int"}
+      - {id: b, text: "func(int) int"}
+      - {id: c, text: "func(int, int) int"}
+      - {id: d, text: "func(int) func(int) int"}
+    answer: b
+    explanation: >-
+      ADDC is the curried version of ADD. ADDC(1) is a partial application: it
+      returns a function that adds 1 to its argument. ADDC(1)(2) is 3.
+
+  - type: single
+    text: What does this print?
+    code:
+      lang: go
+      source: |
+        s := strings.Map(func(r rune) rune {
+            if r == 'l' {
+                return -1
+            }
+            return unicode.ToUpper(r)
+        }, "hello")
+        fmt.Println(s)
+    options:
+      - {id: a, text: "HELLO"}
+      - {id: b, text: "HEO"}
+      - {id: c, text: "heo"}
+      - {id: d, text: "It panics, -1 is not a valid rune"}
+    answer: b
+    explanation: >-
+      strings.Map applies the function to every character. If the function
+      returns a negative value, the character is dropped.
+
+  - type: single
+    text: Which boolean function is F?
+    code:
+      lang: text
+      source: |
+        TRUE  := λa.λb.a
+        FALSE := λa.λb.b
+        F     := λp.λq.(p TRUE q)
+    options:
+      - {id: a, text: "AND"}
+      - {id: b, text: "OR"}
+      - {id: c, text: "XOR"}
+      - {id: d, text: "NOT"}
+    answer: b
+    explanation: >-
+      A Church boolean selects one of two arguments. If p is TRUE, the result
+      is TRUE. If p is FALSE, the result is q. That is OR.
+
+  - type: single
+    text: "JavaScript: What does the last line print?"
+    code:
+      lang: javascript
+      source: |
+        const object1 = {
+            prop: 42,
+            func: function () { return this.prop; },
+        };
+        const object2 = {
+            prop: 43,
+            func: object1.func,
+        };
+        console.log(object2.func());
+    options:
+      - {id: a, text: "42"}
+      - {id: b, text: "43"}
+      - {id: c, text: "undefined"}
+    answer: b
+    explanation: >-
+      this is not part of the closure. It is bound at call time to the object
+      before the dot, here object2. Arrow functions are different: they capture
+      this from the surrounding code.
+
+  - type: text
+    text: What is the result? Answer with a number.
+    code:
+      lang: text
+      source: |
+        [1, 2, 3, 4, 5]
+            │  Filter(x => x is odd)
+            │  Map(x => x * 10)
+            │  Reduce((a, b) => a + b)
+            ▼
+            ?
+    answer: ["90"]
+    explanation: >-
+      Filter keeps [1, 3, 5], Map makes [10, 30, 50], Reduce adds them up to 90.
+      No loop, no index and no mutable variable in your code. The loop is in
+      the library.
