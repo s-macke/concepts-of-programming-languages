@@ -836,7 +836,7 @@ A typical vector type looks like this:
 .html snippets/12-gpu-swizzle-rgb.html
 
 - *.rgba* are the same components as *.xyzw*: `color.r` is `color.x`
-- Operators work component-wise, e.g. `fragCoord / iResolution.xy`
+- Operators work component-wise, e.g. `fragCoord` `/` `iResolution.xy`
 
 : color.ggg: einfaches Grau aus einem Kanal. Komponenten dürfen beim Lesen wiederholt werden.
 : vec3(1.0, color.gb): Konstruktoren nehmen beliebige Mischungen aus Zahlen und Vektoren, Hauptsache die Summe der Komponenten passt.
@@ -861,6 +861,23 @@ A typical vector type looks like this:
 - Built-in: min, max, clamp, step, mix, smoothstep, length, dot, ...
 
 : Nuance: Ein if, das für alle Pixel gleich ausgeht, ist billig. Teuer sind Zweige, die sich innerhalb eines Warps unterscheiden und viel Arbeit enthalten.
+
+* Live: The position as a color
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.xy;
+        fragColor = vec4(uv, 0.0, 1.0);
+    }
+
+- *uv* runs from (0, 0) bottom left to (1, 1) top right
+- x becomes red, y becomes green: black bottom left, red bottom right, green top left, yellow top right
+- Every pixel computes only its own color. There is no loop over the pixels.
+
+: Live vorführen. Das ist fast das Standard-Template von Shadertoy (dort noch mit iTime).
+: Gute Frage an die Studierenden: Welche Farbe hat die Mitte? (0.5, 0.5, 0.0): ein dunkles Gelb.
+: Auf der nächsten Folie verschieben wir (0, 0) in die Mitte, damit wir einen Kreis zeichnen können.
 
 * Live: A circle
 
@@ -901,6 +918,66 @@ A typical vector type looks like this:
 
 : Live vorführen. iTime ist eine Uniform: Sie kommt von außen und ist für alle Pixel gleich.
 
+* Live: A circle follows the mouse
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
+        vec2 m  = (iMouse.xy - 0.5 * iResolution.xy) / iResolution.y;
+        float d = length(uv - m);
+        float circle = step(d, 0.1);
+        fragColor = vec4(vec3(circle), 1.0);
+    }
+
+- *iMouse.xy:* the mouse position in pixels, like *fragCoord*
+- So it gets the same conversion as *uv*
+- *uv* *-* *m:* the distance to the mouse instead of the distance to the center
+
+: Live vorführen. Mit gedrückter Maustaste über das Bild ziehen.
+: iMouse ist wieder eine Uniform, wie iTime. Vor dem ersten Klick ist iMouse (0, 0), der Kreis sitzt dann unten links.
+: iMouse.zw enthält die Position des letzten Klicks, brauchen wir hier nicht.
+
+* Live: A checkerboard
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.y;
+        vec2 cell = floor(uv * 8.0);
+        float checker = mod(cell.x + cell.y, 2.0);
+        fragColor = vec4(vec3(checker), 1.0);
+    }
+
+- *uv* *×* *8:* 8 cells per height
+- *floor:* the number of the cell, e.g. (3.0, 5.0)
+- *mod(x* *+* *y,* *2):* even sum: black, odd sum: white
+- No loop, no if
+
+: Live vorführen.
+: Division durch die Höhe für beide Achsen, damit die Felder quadratisch sind (wie beim Kreis).
+: Frage: Wie bekommt man größere Felder? Kleinere Zahl statt 8.0.
+
+* Live: Many circles
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = fragCoord / iResolution.y;
+        vec2 local = fract(uv * 5.0) - 0.5;
+        float d = length(local);
+        float circle = step(d, 0.3);
+        fragColor = vec4(vec3(circle), 1.0);
+    }
+
+- *floor* gives the cell, *fract* gives the position *inside* the cell (0 to 1)
+- *-* *0.5:* (0, 0) is the center of every cell
+- Then the same circle as before, in every cell at once
+
+: Live vorführen. Die Pointe: Eine Zeile mehr, und aus einem Kreis werden viele. Ohne Schleife.
+: fract(x) = x - floor(x). Zusammen mit der Schachbrett-Folie: floor sagt, in welcher Zelle ich bin, fract, wo in der Zelle.
+: Variation zum Ausprobieren: Radius pro Zelle mit floor(uv * 5.0) und iTime ändern.
+
 * Guess: How does this work on the GPU?
 
 - How do you compute the sum of all pixels of an image?
@@ -921,6 +998,75 @@ A typical vector type looks like this:
 
 : Die Rekursions-Fehlermeldung (WebGL2): "Recursive function call in the following call chain".
 : Compute Shader dürfen dagegen an beliebige Stellen schreiben (Scatter).
+
+* Live: A line from A to B
+
+#lang glsl
+
+    float segment(vec2 p, vec2 a, vec2 b) {
+        vec2 pa = p - a;
+        vec2 ba = b - a;
+        float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+        return length(pa - ba * h);
+    }
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
+        float d = segment(uv, vec2(-0.5, -0.2), vec2(0.4, 0.3));
+        float line = step(d, 0.01);
+        fragColor = vec4(vec3(line), 1.0);
+    }
+
+- Every pixel asks: How far am I from the line? (gather)
+- *h:* the closest point on the line, from 0.0 (at A) to 1.0 (at B)
+- *clamp:* the line ends at A and B
+
+: Live vorführen. Auflösung der Ratefrage: Nicht die Linie malt Pixel, sondern jeder Pixel prüft, ob er auf der Linie liegt.
+: h ist die Projektion von p auf die Gerade durch A und B. Ohne clamp wäre es eine unendliche Gerade.
+: Die Dicke der Linie ist 2 x 0.01, gemessen in Bildhöhen.
+
+* Live: 3D with raytracing. The camera
+
+.html snippets/12-gpu-camera.html
+
+- Every pixel shoots a *ray* from the camera through its own point on the image plane
+- `ray` `=` `normalize(vec3(uv,` `1.0))`: the image plane is 1.0 in front of the camera
+- Rays fan out: things far away cover fewer pixels. That is perspective.
+
+: Seitenansicht (y nach oben, z nach rechts). Die Treffpunkte sind berechnet, nicht von Hand gezeichnet.
+: Die Bildebene ist eine Bildhöhe hoch (uv.y von -0.5 bis 0.5) und 1.0 entfernt. Das ergibt einen vertikalen Bildwinkel von 2 * atan(0.5), etwa 53 Grad.
+: Frage: Was passiert mit vec3(uv, 2.0)? Die Bildebene rückt weiter weg, der Bildwinkel wird kleiner: Zoom (Teleobjektiv).
+: Die oberen und unteren Strahlen verfehlen die Kugel. Diese Pixel bleiben schwarz.
+
+* Live: 3D with raytracing. A sphere
+
+#lang glsl
+
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+        vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
+        vec3 camera = vec3(0.0, 0.0, -3.0);
+        vec3 ray = normalize(vec3(uv, 1.0));
+
+        // where does camera + t * ray hit the sphere (radius 1)?
+        float b = dot(camera, ray);
+        float c = dot(camera, camera) - 1.0;
+        float h = b * b - c;
+        float hit = step(0.0, h);
+        float t = -b - sqrt(max(h, 0.0));
+
+        vec3 p = camera + ray * t;
+        vec3 normal = normalize(p);
+        vec3 light = normalize(vec3(1.0, 1.0, -1.0));
+        float brightness = 0.1 + 0.9 * max(dot(normal, light), 0.0);
+        fragColor = vec4(vec3(brightness * hit), 1.0);
+    }
+
+: Live vorführen. 3D ist auch nur eine Funktion pro Pixel. Keine Dreiecke, keine 3D-Modelle.
+: Schnittpunkt: |camera + t * ray| = 1 ist eine quadratische Gleichung in t: t² + 2bt + c = 0, also t = -b ± sqrt(b² - c). Das Minus gibt den vorderen Treffpunkt.
+: h < 0: keine Lösung, der Strahl verfehlt die Kugel. step(0.0, h) macht daraus 0 oder 1, ohne if.
+: Normale einer Kugel im Ursprung: einfach normalize(p). Helligkeit: Winkel zwischen Normale und Licht (dot), 0.1 ist ein wenig Grundlicht.
+: Variation: Licht mit iTime drehen, z. B. vec3(sin(iTime), 1.0, -1.0).
+: Ausblick: Für komplexe Szenen nutzt Shadertoy meist Raymarching mit Distanzfunktionen. Dann braucht man nicht für jede Form eine eigene Schnittformel.
 
 * Languages for the GPU
 

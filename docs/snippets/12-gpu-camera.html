@@ -1,0 +1,41 @@
+<!-- Side view of the camera: ray = normalize(vec3(uv, 1.0)). Hit points are computed, not drawn by hand. -->
+<style>
+    svg.cam { margin: 4px 0; }
+    svg.cam text { font-family: inherit; }
+    svg.cam text.cap { font-size: 17px; fill: #222; }
+    svg.cam text.lbl { font-family: 'Droid Sans Mono', 'Courier New', monospace; font-size: 14px; fill: #333; stroke: #fff; stroke-width: 5px; paint-order: stroke; }
+</style>
+<svg class="cam" width="860" height="350" viewBox="0 0 860 350" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="cm-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#666"/></marker></defs>
+<circle cx="415.0" cy="185" r="115.0" fill="#e3f2fd" stroke="#1e88e5" stroke-width="2"/>
+<text x="415.0" y="190" class="lbl" text-anchor="middle" fill="#1e88e5">sphere, radius 1</text>
+<text x="415.0" y="208" class="lbl" text-anchor="middle" fill="#1e88e5">at (0, 0, 0)</text>
+<line x1="70.0" y1="185.0" x2="368.3" y2="35.9" stroke="#999" stroke-width="2" stroke-dasharray="6,4"/>
+<text x="376.3" y="40.9" class="lbl" fill="#777">miss: black</text>
+<circle cx="185.0" cy="127.5" r="3.5" fill="#333"/>
+<line x1="70.0" y1="185.0" x2="318.2" y2="123.0" stroke="#e53935" stroke-width="2"/>
+<circle cx="318.2" cy="123.0" r="5" fill="#e53935"/>
+<circle cx="185.0" cy="156.25" r="3.5" fill="#333"/>
+<line x1="70.0" y1="185.0" x2="300.0" y2="185.0" stroke="#e53935" stroke-width="2"/>
+<circle cx="300.0" cy="185.0" r="5" fill="#e53935"/>
+<circle cx="185.0" cy="185.0" r="3.5" fill="#333"/>
+<line x1="70.0" y1="185.0" x2="318.2" y2="247.0" stroke="#e53935" stroke-width="2"/>
+<circle cx="318.2" cy="247.0" r="5" fill="#e53935"/>
+<circle cx="185.0" cy="213.75" r="3.5" fill="#333"/>
+<line x1="70.0" y1="185.0" x2="368.3" y2="334.1" stroke="#999" stroke-width="2" stroke-dasharray="6,4"/>
+<text x="376.3" y="339.1" class="lbl" fill="#777">miss: black</text>
+<circle cx="185.0" cy="242.5" r="3.5" fill="#333"/>
+<line x1="185.0" y1="127.5" x2="185.0" y2="242.5" stroke="#333" stroke-width="4"/>
+<text x="177.0" y="121.5" class="lbl" text-anchor="end">uv.y = 0.5</text>
+<text x="177.0" y="258.5" class="lbl" text-anchor="end">uv.y = −0.5</text>
+<text x="185.0" y="286.5" class="cap" text-anchor="middle">image plane</text>
+<text x="185.0" y="304.5" class="lbl" text-anchor="middle">one dot = one pixel</text>
+<circle cx="70.0" cy="185" r="7" fill="#333"/>
+<text x="70.0" y="215" class="cap" text-anchor="middle">camera</text>
+<text x="70.0" y="233" class="lbl" text-anchor="middle">(0, 0, −3)</text>
+<line x1="70.0" y1="75.5" x2="185.0" y2="75.5" stroke="#666" stroke-width="1.5" marker-start="url(#cm-a)" marker-end="url(#cm-a)"/>
+<text x="127.5" y="67.5" class="lbl" text-anchor="middle">1.0</text>
+<line x1="760" y1="330" x2="810" y2="330" stroke="#666" stroke-width="1.5" marker-end="url(#cm-a)"/>
+<line x1="760" y1="330" x2="760" y2="280" stroke="#666" stroke-width="1.5" marker-end="url(#cm-a)"/>
+<text x="816" y="335" class="lbl">z</text><text x="756" y="274" class="lbl">y</text>
+</svg>
