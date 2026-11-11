@@ -434,6 +434,17 @@ The same array with the same prime number 1,000,003. How long does the GPU take?
 
 .html snippets/12-gpu-compare-table-1.html
 
+: Nur der erste Wert: Ein Element braucht auf der GPU 60 ms, über 100-mal so lange wie auf der CPU.
+: Jetzt noch einmal raten lassen: Wie lange brauchen 2, 13 oder 25 Elemente?
+
+*
+
+: Leere Folie, damit die Lösung nicht schon am Rand zu sehen ist.
+
+* Prime numbers on the GPU: Measured
+
+.html snippets/12-gpu-compare-table-2.html
+
 : Gemessen auf dem Mac (Apple M3 Max GPU, Metal): src/gpu/primes, swift Benchmark.swift results, dann uv run plot.py. Schnellster von 20 Läufen, nur die Rechenzeit auf der GPU.
 : Botschaft: Ein Element ist auf der GPU etwa 100-mal langsamer als auf der CPU (niedriger Takt, teure Ganzzahl-Division). Aber die Zeit bleibt fast gleich, egal wie viele Elemente.
 
